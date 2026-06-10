@@ -26,3 +26,14 @@ right after the push (SPEC §2.1).
   engineered-FTO-in == measured-FTO-out makes the money shot self-validating. Real demo
   timestamps are 0:18/0:50 (spec's 0:14/0:41 were placeholders — demo copy updates in Block 11).
 
+## Block 2 — Money-shot surface (PULLED FORWARD from Day 2) · Jun 10, 21:40–22:10 IST · box 2h, used ~30m
+- push: "money shot v0: audio + clickable timestamp table seeking"
+- **What now exists:** `/shot` page over the same local server — sticky player, stat chips
+  (median/p90/barge-ins/laggy), the failure table with rows that seek to 1.5s before the moment
+  and play, transcript with live turn highlight (both speakers light up during the overlap).
+  `/signals.json` recomputes from rubric.yaml per request — edit rubric, refresh, table updates.
+- **What we learned:** the stdlib server needed HTTP Range (206) support — without it Chrome
+  marks audio non-seekable and silently swallows currentTime writes. Caught by a programmatic
+  click-test in the preview browser; would otherwise have died on stage. **Demo exists
+  end-to-end on night one** (spec target was Day 2 ~hour 7).
+

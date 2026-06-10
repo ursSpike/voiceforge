@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VoiceForge — the call, judged</title>
+<style>
+  :root {
+    --bg: #09090b; --card: #18181b; --border: #27272a; --text: #e4e4e7;
+    --muted: #8b8b94; --accent: #34d399; --red: #f87171;
+    --mono: ui-monospace, "SF Mono", Menlo, monospace;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text);
+         font: 15px/1.55 -apple-system, "Segoe UI", Inter, sans-serif; }
+  .wrap { max-width: 820px; margin: 0 auto; padding: 26px 20px 80px; }
+  header { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  h1 { font-size: 20px; margin: 0; }
+  h1 b { color: var(--accent); font-weight: 650; }
+  .chip { font: 11.5px var(--mono); padding: 2px 9px; border-radius: 99px;
+          border: 1px solid var(--border); color: var(--muted); }
+  .sub { color: var(--muted); font-size: 13px; margin: 4px 0 16px; }
+  .player { position: sticky; top: 0; z-index: 5; background: rgba(9,9,11,.92);
+            backdrop-filter: blur(8px); padding: 12px 0; border-bottom: 1px solid var(--border); }
+  .player audio { width: 100%; height: 40px; }
+  .stats { display: flex; gap: 8px; flex-wrap: wrap; margin: 14px 0 22px; }
+  .stat { background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+          padding: 8px 12px; }
+  .stat .k { font: 11px var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: .4px; }
+  .stat .v { font: 600 16px var(--mono); }
+  .stat .v.bad { color: var(--red); }
+  h2 { font-size: 13px; font-weight: 600; color: var(--muted); text-transform: uppercase;
+       letter-spacing: .6px; margin: 22px 0 10px; }
+  .ftable { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .frow { display: flex; gap: 14px; align-items: center; padding: 14px 16px; cursor: pointer;
+          border-left: 3px solid var(--red); background: var(--card);
+          border-bottom: 1px solid var(--border); transition: background .12s; }
+  .frow:last-child { border-bottom: none; }
+  .frow:hover { background: #1f1f23; }
+  .frow.active { background: #2a1215; }
+  .frow .t { font: 700 17px var(--mono); color: var(--red); min-width: 56px; }
+  .frow .label { font-weight: 650; min-width: 150px; }
+  .frow .detail { font: 600 15px var(--mono); }
+  .frow .ev { margin-left: auto; font: 11.5px var(--mono); color: var(--muted); }
+  .frow .play { color: var(--muted); font-size: 12px; }
+  .empty { padding: 16px; color: var(--muted); }
+  .turn { display: flex; gap: 12px; padding: 10px 12px; border-radius: 10px; cursor: pointer; }
+  .turn:hover { background: var(--card); }
+  .turn.now { background: var(--card); outline: 1px solid var(--accent); }
+  .turn .t { font: 12px var(--mono); color: var(--muted); min-width: 44px; padding-top: 2px; }
+  .turn .who { font: 11px var(--mono); min-width: 52px; padding-top: 3px; text-transform: uppercase; }
+  .turn.agent .who { color: #93c5fd; }
+  .turn.user .who { color: var(--accent); }
+  .turn .tx { flex: 1; }
+  footer { margin-top: 26px; color: var(--muted); font-size: 12.5px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Voice<b>Forge</b> — the call, judged</h1>
+    <span class="chip" id="callid">…</span>
+    <span class="chip">constructed demo scenario · timestamps from assembly</span>
+  </header>
+  <div class="sub">Click a failure row — the player seeks to just before the moment and plays.
+  The numbers are measurements on the conversation trace, not vibe scores.</div>
+
+  <div class="player"><audio id="audio" controls preload="auto" src="/hero.wav"></audio></div>
+
+  <div class="stats" id="stats"></div>
+
+  <h2>Failure table — deterministic timing signals</h2>
+  <div class="ftable" id="ftable"></div>
+
+  <h2>Transcript — conversation trace</h2>
+  <div id="turns"></div>
+
+  <footer>Deterministic dims from <span style="font-family:var(--mono)">rubric.yaml</span>
+  thresholds (edit → refresh → table recomputes). Judge dims with reasons land with the full
+  pipeline. See docs/limitations.md.</footer>
+</div>
+<script>
+const $ = id => document.getElementById(id);
+const mmss = ms => `${Math.floor(ms / 60000)}:${String(Math.floor((ms % 60000) / 1000)).padStart(2, "0")}`;
+const audio = $("audio");
+let CALL = null, SIG = null;
+const LEAD_MS = 1500;   // seek a beat early so the failure plays in context
+
+function seek(ms) {
+  audio.currentTime = Math.max(0, (ms - LEAD_MS) / 1000);
+  audio.play().catch(() => {});   // autoplay-policy safety; the seek itself still lands
+}
+
+function render() {
+  $("callid").textContent = `${CALL.call_id} · ${CALL.language} · ${CALL.stress_profile}`;
+
+  const lat = SIG.latency, dur = CALL.turns[CALL.turns.length - 1].end_ms;
+  const stats = [
+    ["duration", mmss(dur)],
+    ["turns", CALL.turns.length],
+    ["latency median", lat.median_gap_ms + "ms"],
+    ["latency p90", lat.p90_gap_ms + "ms"],
+    ["barge-ins", SIG.barge_ins.length, SIG.barge_ins.length > 0],
+    [`laggy >${lat.laggy_threshold_ms}ms`, lat.n_laggy, lat.n_laggy > 0],
+  ];
+  $("stats").innerHTML = stats.map(([k, v, bad]) =>
+    `<div class="stat"><div class="k">${k}</div><div class="v ${bad ? "bad" : ""}">${v}</div></div>`).join("");
+
+  $("ftable").innerHTML = SIG.failures.length ? SIG.failures.map((f, i) =>
+    `<div class="frow" data-ms="${f.at_ms}" id="f${i}">
+       <span class="t">${mmss(f.at_ms)}</span>
+       <span class="label">${f.label}</span>
+       <span class="detail">${f.detail}</span>
+       <span class="ev">${f.evidence_turn_ids.join("→")}</span>
+       <span class="play">▶</span>
+     </div>`).join("")
+    : `<div class="empty">no timing failures detected</div>`;
+
+  $("turns").innerHTML = CALL.turns.map(t =>
+    `<div class="turn ${t.speaker}" data-ms="${t.start_ms}" id="turn-${t.turn_id}">
+       <span class="t">${mmss(t.start_ms)}</span>
+       <span class="who">${t.speaker}</span>
+       <span class="tx">${t.text}</span>
+     </div>`).join("");
+
+  document.querySelectorAll("[data-ms]").forEach(el =>
+    el.addEventListener("click", () => seek(+el.dataset.ms)));
+}
+
+audio.addEventListener("timeupdate", () => {
+  if (!CALL) return;
+  const t = audio.currentTime * 1000;
+  CALL.turns.forEach(x => $("turn-" + x.turn_id).classList.toggle(
+    "now", t >= x.start_ms && t < x.end_ms));        // during the barge-in BOTH rows light up
+  SIG.failures.forEach((f, i) => $("f" + i).classList.toggle(
+    "active", Math.abs(t - f.at_ms) < 1800));
+});
+
+(async () => {
+  [CALL, SIG] = await Promise.all([
+    fetch("/turns.json").then(r => r.json()),
+    fetch("/signals.json").then(r => r.json()),
+  ]);
+  render();
+})();
+</script>
+</body>
+</html>

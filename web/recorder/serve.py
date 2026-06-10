@@ -7,7 +7,10 @@
 
 Routes:
   GET  /                 booth UI
+  GET  /shot             money-shot page (web/shot.html): audio + clickable failure table
   GET  /timeline.json    data/hero/timeline.json
+  GET  /turns.json       data/hero/turns.json (ground-truth call_log, written by assembler)
+  GET  /signals.json     FTO analysis computed LIVE from turns.json + rubric.yaml
   GET  /state            {"saved": ["t2", ...]} — user turns already on disk
   GET  /audio/<file>     agent clips from data/hero/raw/
   GET  /hero.wav         assembled call (404 until assembled)
@@ -28,6 +31,7 @@ ROOT = Path(__file__).resolve().parent.parent.parent
 HERE = Path(__file__).resolve().parent
 HERO = ROOT / "data" / "hero"
 RAW = HERO / "raw"
+sys.path.insert(0, str(ROOT / "pipeline"))
 
 EXT = {"audio/mp4": ".m4a", "audio/webm": ".webm", "audio/ogg": ".ogg",
        "audio/mpeg": ".mp3", "audio/wav": ".wav"}
@@ -42,7 +46,49 @@ class Booth(BaseHTTPRequestHandler):
         self.send_header("Content-Length", str(len(body)))
         self.send_header("Cache-Control", "no-store")
         self.end_headers()
-        self.wfile.write(body)
+        try:
+            self.wfile.write(body)
+        except (BrokenPipeError, ConnectionResetError):
+            pass
+
+    def _send_media(self, path, ctype):
+        """Media with HTTP Range support — without 206 responses Chrome marks the file
+        non-seekable (seekable=[0,0]) and silently ignores currentTime assignments,
+        which would break click-to-seek on the failure table."""
+        data = path.read_bytes()
+        n = len(data)
+        start, end, code = 0, n - 1, 200
+        rng = self.headers.get("Range", "")
+        if rng.startswith("bytes="):
+            spec = rng.split("=", 1)[1].split(",")[0].strip()
+            s, _, e = spec.partition("-")
+            try:
+                if s == "":
+                    start, end = max(0, n - int(e)), n - 1
+                else:
+                    start, end = int(s), (int(e) if e else n - 1)
+                end = min(end, n - 1)
+                code = 206
+            except ValueError:
+                start, end, code = 0, n - 1, 200
+            if start > end or start >= n:
+                self.send_response(416)
+                self.send_header("Content-Range", f"bytes */{n}")
+                self.end_headers()
+                return
+        chunk = data[start:end + 1]
+        self.send_response(code)
+        self.send_header("Content-Type", ctype)
+        self.send_header("Accept-Ranges", "bytes")
+        if code == 206:
+            self.send_header("Content-Range", f"bytes {start}-{end}/{n}")
+        self.send_header("Content-Length", str(len(chunk)))
+        self.send_header("Cache-Control", "no-store")
+        self.end_headers()
+        try:
+            self.wfile.write(chunk)
+        except (BrokenPipeError, ConnectionResetError):
+            pass
 
     def do_GET(self):
         p = urlparse(self.path).path
@@ -50,6 +96,19 @@ class Booth(BaseHTTPRequestHandler):
             return self._send(200, (HERE / "index.html").read_bytes(), "text/html; charset=utf-8")
         if p == "/timeline.json":
             return self._send(200, (HERO / "timeline.json").read_bytes(), "application/json")
+        if p == "/shot":
+            return self._send(200, (ROOT / "web" / "shot.html").read_bytes(), "text/html; charset=utf-8")
+        if p == "/turns.json":
+            if not (HERO / "turns.json").exists():
+                return self._send(404, "not assembled yet")
+            return self._send(200, (HERO / "turns.json").read_bytes(), "application/json")
+        if p == "/signals.json":
+            if not (HERO / "turns.json").exists():
+                return self._send(404, "not assembled yet")
+            import signals  # pipeline/ is on sys.path; recomputed per request -> rubric edits show on refresh
+            call = json.loads((HERO / "turns.json").read_text())
+            res = signals.analyze(call["turns"], signals.load_rubric())
+            return self._send(200, json.dumps(res), "application/json")
         if p == "/state":
             saved = sorted({f.stem.split("_", 1)[1] for f in RAW.glob("user_t*.*") if f.is_file()})
             return self._send(200, json.dumps({"saved": saved}), "application/json")
@@ -57,12 +116,12 @@ class Booth(BaseHTTPRequestHandler):
             tl = json.loads((HERO / "timeline.json").read_text())
             w = HERO / f"{tl['call_id']}.wav"
             if w.exists():
-                return self._send(200, w.read_bytes(), "audio/wav")
+                return self._send_media(w, "audio/wav")
             return self._send(404, "not assembled yet")
         if p.startswith("/audio/"):
             f = RAW / Path(p).name  # .name strips any traversal
             if f.is_file():
-                return self._send(200, f.read_bytes(), "audio/mpeg")
+                return self._send_media(f, "audio/mpeg")
             return self._send(404, "missing")
         if p == "/favicon.ico":
             return self._send(204)
