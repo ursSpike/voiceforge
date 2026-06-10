@@ -9,7 +9,14 @@
       "Bash(printenv)",
       "Bash(python3 -m venv .venv)",
       "Bash(.venv/bin/pip install *)",
-      "Bash(.venv/bin/python -c \"import google.genai, yaml; print\\('deps ok:', google.genai.__version__\\)\")"
+      "Bash(.venv/bin/python -c \"import google.genai, yaml; print\\('deps ok:', google.genai.__version__\\)\")",
+      "Bash(gh repo *)",
+      "Bash(awk '{print $NF, \"exists\"}')",
+      "Bash(.venv/bin/python pipeline/judge.py --smoke)",
+      "Bash(.venv/bin/edge-tts --list-voices)",
+      "Bash(git add *)",
+      "Bash(git commit -q -m 'block 0 green: gemini smoke passed — live call + cache hit, judge contract verified *)",
+      "Bash(git push *)"
     ]
   }
 }
