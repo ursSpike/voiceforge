@@ -12,7 +12,7 @@
   }
   * { box-sizing: border-box; }
   body { margin: 0; background: var(--bg); color: var(--text);
-         font: 15px/1.5 -apple-system, "Segoe UI", Inter, sans-serif; padding-bottom: 140px; }
+         font: 15px/1.5 -apple-system, "Segoe UI", Inter, sans-serif; padding-bottom: 170px; }
   .wrap { max-width: 760px; margin: 0 auto; padding: 28px 20px; }
   header { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 6px; }
   h1 { font-size: 19px; margin: 0; letter-spacing: .2px; }
@@ -21,14 +21,18 @@
   .chip { font: 12px var(--mono); padding: 2px 9px; border-radius: 99px;
           border: 1px solid var(--border); color: var(--muted); }
   .chip.ok { color: var(--accent); border-color: var(--accent); }
-  .toolbar { display: flex; gap: 10px; align-items: center; margin: 14px 0 22px; flex-wrap: wrap; }
+  .toolbar { display: flex; gap: 10px; align-items: center; margin: 14px 0 8px; flex-wrap: wrap; }
   button { font: 600 14px/1 inherit; border-radius: 9px; border: 1px solid var(--border);
            background: var(--card); color: var(--text); padding: 11px 16px; cursor: pointer; }
   button:hover { border-color: #3f3f46; }
   button:disabled { opacity: .45; cursor: default; }
   button.primary { background: var(--accent); border-color: var(--accent); color: #052e22; }
   button.danger  { background: var(--red); border-color: var(--red); color: #fff; }
-  .hint { color: var(--muted); font-size: 12.5px; }
+  .hint { color: var(--muted); font-size: 12.5px; margin-bottom: 16px; }
+  .flowstate { font: 600 13px var(--mono); color: var(--accent); }
+  .vu { width: 120px; height: 8px; border-radius: 99px; background: var(--card2);
+        overflow: hidden; display: none; }
+  .vu i { display: block; height: 100%; width: 0%; background: var(--accent); transition: width .06s linear; }
   .turn { border: 1px solid var(--border); background: var(--card); border-radius: 12px;
           padding: 14px 16px; margin-bottom: 10px; transition: border-color .15s, box-shadow .15s; }
   .turn.active { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
@@ -51,11 +55,10 @@
   .bar .wrap { padding: 14px 20px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
   .progress { font: 13px var(--mono); color: var(--muted); }
   #log { display: none; white-space: pre-wrap; background: #0c0c0f; border: 1px solid var(--border);
-         border-radius: 10px; padding: 14px; font: 12.5px var(--mono); margin-top: 16px;
-         max-height: 300px; overflow: auto; }
-  #finalwrap { display: none; margin-top: 14px; }
-  #finalwrap audio { width: 100%; }
-  .flowstate { font: 13px var(--mono); color: var(--accent); }
+         border-radius: 10px; padding: 14px; font: 12.5px var(--mono); margin-top: 12px;
+         max-height: 260px; overflow: auto; }
+  #donebar { display: none; gap: 10px; align-items: center; margin-top: 12px; }
+  #donebar a { color: var(--accent); font-weight: 600; }
 </style>
 </head>
 <body>
@@ -65,34 +68,39 @@
     <span class="chip" id="micchip">mic: not requested</span>
     <span class="chip" id="savechip">0/6 lines saved</span>
   </header>
-  <div class="sub">You're the caller — slightly distracted customer, not an actor. Headphones on
-  (so Neerja doesn't leak into your mic). Agent lines auto-play; when it's your turn the card
-  lights up and recording starts — speak, then hit <b>space</b> (or Stop) when done. Re-record
-  any line individually after. Takes overwrite; last one wins.</div>
+  <div class="sub">One take, hands-free: press record once and just have the call.
+  Neerja speaks, then you speak — when you go quiet, it advances on its own (it knows to wait
+  through your scripted t2 pause). At the end it assembles automatically. Headphones on.</div>
   <div class="toolbar">
-    <button class="primary" id="flowbtn">▶ Run the conversation</button>
-    <button id="stopflow" style="display:none">✕ Exit flow</button>
+    <button class="primary" id="flowbtn">⏺ Record the call — one take</button>
+    <button id="stopflow" style="display:none">✕ abort take</button>
+    <span class="vu" id="vu"><i></i></span>
     <span class="flowstate" id="flowstate"></span>
   </div>
+  <div class="hint">Space or the red button = manual override if it ever mishears a pause.
+  Each card below also re-records just that line (click ● then ◼ yourself).</div>
   <div id="turns"></div>
 </div>
 <div class="bar">
   <div class="wrap">
     <span class="progress" id="progress">…</span>
     <button class="primary" id="assemble">⚙ Assemble → failure table</button>
-    <span class="hint" id="astatus"></span>
+    <span class="hint" id="astatus" style="margin:0"></span>
   </div>
   <div class="wrap" style="padding-top:0; display:block">
     <pre id="log"></pre>
-    <div id="finalwrap"><div class="hint" style="margin:6px 0">assembled call:</div>
-      <audio id="final" controls></audio></div>
+    <div id="donebar"><span class="chip ok">assembled ✓</span>
+      <a href="/shot" target="_blank">open the call page →</a>
+      <audio id="final" controls style="height:32px"></audio></div>
   </div>
 </div>
 <script>
 let TL = null, saved = new Set(), stream = null, rec = null, recTurn = null;
 let flowing = false, flowAbort = false, stopResolve = null, timerIv = null;
+let AC = null, analyser = null, ambient = 0.008;
 
 const $ = id => document.getElementById(id);
+const sleep = ms => new Promise(r => setTimeout(r, ms));
 
 function mimeChoice() {
   for (const m of ["audio/mp4", "audio/webm;codecs=opus", "audio/webm"])
@@ -101,18 +109,43 @@ function mimeChoice() {
 }
 
 async function ensureMic() {
-  if (stream) return stream;
+  if (stream) { if (AC && AC.state === "suspended") await AC.resume(); return; }
   stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+  AC = new (window.AudioContext || window.webkitAudioContext)();
+  const src = AC.createMediaStreamSource(stream);
+  analyser = AC.createAnalyser();
+  analyser.fftSize = 2048;
+  src.connect(analyser);
+  if (AC.state === "suspended") await AC.resume();
   $("micchip").textContent = "mic: live"; $("micchip").classList.add("ok");
-  return stream;
 }
+
+function rms() {
+  const buf = new Float32Array(analyser.fftSize);
+  analyser.getFloatTimeDomainData(buf);
+  let s = 0;
+  for (let i = 0; i < buf.length; i++) s += buf[i] * buf[i];
+  return Math.sqrt(s / buf.length);
+}
+
+async function calibrate() {
+  $("flowstate").textContent = "calibrating room (stay quiet)…";
+  const vals = [];
+  for (let i = 0; i < 14; i++) { vals.push(rms()); await sleep(45); }
+  vals.sort((a, b) => a - b);
+  ambient = vals[Math.floor(vals.length / 2)];
+  $("micchip").textContent = `mic: live · room ${ambient.toFixed(4)}`;
+}
+
+const ONSET = () => Math.max(0.025, ambient * 4);
+const SILENCE = () => Math.max(0.015, ambient * 2.2);
 
 function userTurns() { return TL.turns.filter(t => t.speaker === "user"); }
 
 function refreshProgress() {
   const n = userTurns().length;
   $("savechip").textContent = `${saved.size}/${n} lines saved`;
-  if (saved.size === n) $("savechip").classList.add("ok"); else $("savechip").classList.remove("ok");
+  $("savechip").classList.toggle("ok", saved.size === n);
   $("progress").textContent = saved.size === n
     ? "all lines on disk — assemble when ready"
     : `${saved.size}/${n} caller lines saved`;
@@ -181,16 +214,21 @@ function stopTimer(id) {
   $("timer-" + id).style.display = "none"; $("dot-" + id).style.display = "none";
 }
 
-async function recordTurn(turnId) {
+/* core recorder. auto=true adds the VAD loop: arm on speech onset, stop after
+   hold_ms of sustained silence. Manual stop (button/space) always wins. */
+async function recordTurn(turnId, { auto = false, holdMs = 1900 } = {}) {
   await ensureMic();
-  return new Promise(async (resolve, reject) => {
+  return new Promise((resolve, reject) => {
     const mime = mimeChoice();
     rec = new MediaRecorder(stream, mime ? { mimeType: mime } : undefined);
     recTurn = turnId;
     const chunks = [];
+    let vadStop = false;
     rec.ondataavailable = e => chunks.push(e.data);
     rec.onstop = async () => {
+      vadStop = true;
       stopTimer(turnId); recTurn = null;
+      $("vu").style.display = "none";
       try {
         const blob = new Blob(chunks, { type: rec.mimeType });
         const r = await fetch("/save?turn=" + turnId,
@@ -205,6 +243,25 @@ async function recordTurn(turnId) {
     setActive(turnId); startTimer(turnId);
     rec.start();
     stopResolve = () => { if (rec && rec.state === "recording") rec.stop(); };
+
+    if (auto) {
+      $("vu").style.display = "inline-block";
+      const t0 = performance.now();
+      let spokeMs = 0, spoke = false, silentSince = null;
+      const loop = setInterval(() => {
+        if (vadStop || !rec || rec.state !== "recording") { clearInterval(loop); return; }
+        const v = rms(), now = performance.now();
+        $("vu").firstElementChild.style.width = Math.min(100, v * 900) + "%";
+        if (!spoke) {
+          spokeMs = v > ONSET() ? spokeMs + 50 : 0;
+          if (spokeMs >= 150) { spoke = true; $("flowstate").textContent = "🎙 got you — speak away"; }
+        } else if (v < SILENCE()) {
+          silentSince = silentSince || now;
+          if (now - silentSince >= holdMs) { clearInterval(loop); stopResolve(); }
+        } else silentSince = null;
+        if (now - t0 > 30000) { clearInterval(loop); stopResolve(); }   // hard cap
+      }, 50);
+    }
   });
 }
 
@@ -219,6 +276,7 @@ async function runFlow() {
   $("flowbtn").disabled = true; $("stopflow").style.display = "inline-block";
   try {
     await ensureMic();
+    await calibrate();
     for (const t of TL.turns) {
       if (flowAbort) break;
       setActive(t.turn_id);
@@ -226,24 +284,22 @@ async function runFlow() {
         $("flowstate").textContent = "agent speaking…";
         await playAgent(t.file);
       } else {
-        $("flowstate").textContent = "YOUR LINE — space to stop";
-        await recordTurn(t.turn_id);
+        $("flowstate").textContent = "🎙 your line — just speak";
+        await recordTurn(t.turn_id, { auto: true, holdMs: t.vad_hold_ms || 1900 });
       }
     }
-    $("flowstate").textContent = flowAbort ? "flow exited" : "done — all lines captured. Assemble!";
+    if (!flowAbort) {
+      $("flowstate").textContent = "take complete — assembling…";
+      setActive(null);
+      await assembleNow();
+      $("flowstate").textContent = "done. listen below or open the call page.";
+    } else $("flowstate").textContent = "take aborted";
   } catch (e) { $("flowstate").textContent = "flow error: " + e.message; }
   setActive(null);
   flowing = false; $("flowbtn").disabled = false; $("stopflow").style.display = "none";
 }
 
-$("flowbtn").onclick = runFlow;
-$("stopflow").onclick = () => { flowAbort = true; if (agentAudio) agentAudio.pause();
-                                if (rec && rec.state === "recording") stopResolve(); };
-document.addEventListener("keydown", e => {
-  if (e.code === "Space" && rec && rec.state === "recording") { e.preventDefault(); stopResolve(); }
-});
-
-$("assemble").onclick = async () => {
+async function assembleNow() {
   $("assemble").disabled = true; $("astatus").textContent = "assembling… (~20s)";
   try {
     const r = await fetch("/assemble", { method: "POST" });
@@ -251,12 +307,20 @@ $("assemble").onclick = async () => {
     $("log").style.display = "block"; $("log").textContent = text;
     $("astatus").textContent = r.ok ? "done ✓" : "failed — see output";
     if (r.ok) {
-      $("finalwrap").style.display = "block";
+      $("donebar").style.display = "flex";
       $("final").src = "/hero.wav?ts=" + Date.now();
     }
   } catch (e) { $("astatus").textContent = "error: " + e.message; }
   $("assemble").disabled = false;
-};
+}
+
+$("flowbtn").onclick = runFlow;
+$("stopflow").onclick = () => { flowAbort = true; if (agentAudio) agentAudio.pause();
+                                if (rec && rec.state === "recording") stopResolve(); };
+$("assemble").onclick = assembleNow;
+document.addEventListener("keydown", e => {
+  if (e.code === "Space" && rec && rec.state === "recording") { e.preventDefault(); stopResolve(); }
+});
 
 (async function init() {
   TL = await (await fetch("/timeline.json")).json();

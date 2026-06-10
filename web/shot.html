@@ -6,52 +6,88 @@
 <title>VoiceForge — the call, judged</title>
 <style>
   :root {
-    --bg: #09090b; --card: #18181b; --border: #27272a; --text: #e4e4e7;
-    --muted: #8b8b94; --accent: #34d399; --red: #f87171;
-    --mono: ui-monospace, "SF Mono", Menlo, monospace;
+    --bg: #09090b; --card: #18181b; --card2: #1f1f23; --border: #27272a;
+    --text: #e4e4e7; --muted: #8b8b94; --accent: #34d399; --blue: #93c5fd;
+    --red: #f87171; --mono: ui-monospace, "SF Mono", Menlo, monospace;
   }
   * { box-sizing: border-box; }
   body { margin: 0; background: var(--bg); color: var(--text);
          font: 15px/1.55 -apple-system, "Segoe UI", Inter, sans-serif; }
-  .wrap { max-width: 820px; margin: 0 auto; padding: 26px 20px 80px; }
-  header { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .wrap { max-width: 780px; margin: 0 auto; padding: 26px 20px 90px; }
+  header { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
   h1 { font-size: 20px; margin: 0; }
   h1 b { color: var(--accent); font-weight: 650; }
   .chip { font: 11.5px var(--mono); padding: 2px 9px; border-radius: 99px;
           border: 1px solid var(--border); color: var(--muted); }
-  .sub { color: var(--muted); font-size: 13px; margin: 4px 0 16px; }
-  .player { position: sticky; top: 0; z-index: 5; background: rgba(9,9,11,.92);
-            backdrop-filter: blur(8px); padding: 12px 0; border-bottom: 1px solid var(--border); }
-  .player audio { width: 100%; height: 40px; }
-  .stats { display: flex; gap: 8px; flex-wrap: wrap; margin: 14px 0 22px; }
+  .sub { color: var(--muted); font-size: 13px; margin: 6px 0 18px; }
+
+  /* ---- transport ---- */
+  .playerwrap { position: sticky; top: 0; z-index: 5; padding: 10px 0;
+                background: linear-gradient(var(--bg) 75%, transparent); }
+  .player { background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+            padding: 14px 16px; display: flex; align-items: center; gap: 14px;
+            box-shadow: 0 6px 24px rgba(0,0,0,.35); }
+  .pp { width: 46px; height: 46px; min-width: 46px; border-radius: 50%; border: none;
+        background: var(--accent); color: #052e22; font-size: 17px; cursor: pointer;
+        display: flex; align-items: center; justify-content: center; }
+  .pp:hover { filter: brightness(1.08); }
+  .tcol { flex: 1; }
+  .times { display: flex; justify-content: space-between; font: 11.5px var(--mono);
+           color: var(--muted); margin-bottom: 7px; }
+  .times .cur { color: var(--text); font-weight: 600; }
+  .seekbar { position: relative; height: 22px; cursor: pointer; }
+  .seekbar .track { position: absolute; top: 8px; left: 0; right: 0; height: 6px;
+                    border-radius: 99px; background: var(--card2); }
+  .seekbar .fill { position: absolute; top: 8px; left: 0; height: 6px; width: 0%;
+                   border-radius: 99px; background: var(--accent); }
+  .seekbar .head { position: absolute; top: 4px; width: 14px; height: 14px; border-radius: 50%;
+                   background: #fff; margin-left: -7px; left: 0%;
+                   box-shadow: 0 1px 4px rgba(0,0,0,.6); }
+  .tick { position: absolute; top: 2px; width: 4px; height: 18px; margin-left: -2px;
+          border-radius: 2px; background: var(--red); cursor: pointer; z-index: 2; }
+  .tick:hover { transform: scaleY(1.15); filter: brightness(1.2); }
+
+  /* ---- stats + table ---- */
+  .stats { display: flex; gap: 8px; flex-wrap: wrap; margin: 16px 0 22px; }
   .stat { background: var(--card); border: 1px solid var(--border); border-radius: 10px;
           padding: 8px 12px; }
   .stat .k { font: 11px var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: .4px; }
   .stat .v { font: 600 16px var(--mono); }
   .stat .v.bad { color: var(--red); }
   h2 { font-size: 13px; font-weight: 600; color: var(--muted); text-transform: uppercase;
-       letter-spacing: .6px; margin: 22px 0 10px; }
+       letter-spacing: .6px; margin: 24px 0 10px; }
   .ftable { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
   .frow { display: flex; gap: 14px; align-items: center; padding: 14px 16px; cursor: pointer;
           border-left: 3px solid var(--red); background: var(--card);
           border-bottom: 1px solid var(--border); transition: background .12s; }
   .frow:last-child { border-bottom: none; }
-  .frow:hover { background: #1f1f23; }
+  .frow:hover { background: var(--card2); }
   .frow.active { background: #2a1215; }
   .frow .t { font: 700 17px var(--mono); color: var(--red); min-width: 56px; }
   .frow .label { font-weight: 650; min-width: 150px; }
   .frow .detail { font: 600 15px var(--mono); }
   .frow .ev { margin-left: auto; font: 11.5px var(--mono); color: var(--muted); }
-  .frow .play { color: var(--muted); font-size: 12px; }
-  .empty { padding: 16px; color: var(--muted); }
-  .turn { display: flex; gap: 12px; padding: 10px 12px; border-radius: 10px; cursor: pointer; }
-  .turn:hover { background: var(--card); }
-  .turn.now { background: var(--card); outline: 1px solid var(--accent); }
-  .turn .t { font: 12px var(--mono); color: var(--muted); min-width: 44px; padding-top: 2px; }
-  .turn .who { font: 11px var(--mono); min-width: 52px; padding-top: 3px; text-transform: uppercase; }
-  .turn.agent .who { color: #93c5fd; }
-  .turn.user .who { color: var(--accent); }
-  .turn .tx { flex: 1; }
+
+  /* ---- conversation ---- */
+  .convo { display: flex; flex-direction: column; gap: 10px; }
+  .msg { max-width: 78%; cursor: pointer; }
+  .msg .meta { font: 11px var(--mono); color: var(--muted); margin: 0 6px 3px; }
+  .msg .bubble { padding: 10px 14px; border-radius: 16px; background: var(--card);
+                 border: 1px solid var(--border); transition: background .12s; }
+  .msg:hover .bubble { background: var(--card2); }
+  .msg.agent { align-self: flex-start; }
+  .msg.agent .bubble { border-bottom-left-radius: 5px; border-left: 2px solid #3b5b80; }
+  .msg.agent .meta b { color: var(--blue); font-weight: 600; }
+  .msg.user { align-self: flex-end; text-align: right; }
+  .msg.user .bubble { border-bottom-right-radius: 5px; border-right: 2px solid #1d6b50;
+                      text-align: left; }
+  .msg.user .meta b { color: var(--accent); font-weight: 600; }
+  .msg.now .bubble { background: var(--card2); outline: 1px solid var(--accent); }
+  .fstrip { align-self: center; display: flex; gap: 10px; align-items: center; cursor: pointer;
+            font: 600 12.5px var(--mono); color: var(--red); background: #1d0e10;
+            border: 1px solid #4c1d1d; border-radius: 99px; padding: 6px 14px; }
+  .fstrip:hover { background: #2a1215; }
+  .fstrip.active { outline: 1px solid var(--red); }
   footer { margin-top: 26px; color: var(--muted); font-size: 12.5px; }
 </style>
 </head>
@@ -62,41 +98,62 @@
     <span class="chip" id="callid">…</span>
     <span class="chip">constructed demo scenario · timestamps from assembly</span>
   </header>
-  <div class="sub">Click a failure row — the player seeks to just before the moment and plays.
-  The numbers are measurements on the conversation trace, not vibe scores.</div>
+  <div class="sub">One conversation, start to finish. Red marks are measured failures —
+  click any mark, row, or bubble and the call plays from that moment.</div>
 
-  <div class="player"><audio id="audio" controls preload="auto" src="/hero.wav"></audio></div>
+  <div class="playerwrap"><div class="player">
+    <button class="pp" id="pp">▶</button>
+    <div class="tcol">
+      <div class="times"><span class="cur" id="cur">0:00</span><span id="dur">–:––</span></div>
+      <div class="seekbar" id="seekbar">
+        <div class="track"></div><div class="fill" id="fill"></div>
+        <div class="head" id="head"></div>
+      </div>
+    </div>
+  </div></div>
+  <audio id="audio" preload="auto" src="/hero.wav"></audio>
 
   <div class="stats" id="stats"></div>
 
   <h2>Failure table — deterministic timing signals</h2>
   <div class="ftable" id="ftable"></div>
 
-  <h2>Transcript — conversation trace</h2>
-  <div id="turns"></div>
+  <h2>The conversation</h2>
+  <div class="convo" id="convo"></div>
 
   <footer>Deterministic dims from <span style="font-family:var(--mono)">rubric.yaml</span>
-  thresholds (edit → refresh → table recomputes). Judge dims with reasons land with the full
-  pipeline. See docs/limitations.md.</footer>
+  thresholds (edit → refresh → everything recomputes). Judge dims with reasons land with the
+  full pipeline. See docs/limitations.md.</footer>
 </div>
 <script>
 const $ = id => document.getElementById(id);
 const mmss = ms => `${Math.floor(ms / 60000)}:${String(Math.floor((ms % 60000) / 1000)).padStart(2, "0")}`;
 const audio = $("audio");
-let CALL = null, SIG = null;
-const LEAD_MS = 1500;   // seek a beat early so the failure plays in context
+let CALL = null, SIG = null, DUR = 1;
+const LEAD_MS = 1500;
 
-function seek(ms) {
-  audio.currentTime = Math.max(0, (ms - LEAD_MS) / 1000);
-  audio.play().catch(() => {});   // autoplay-policy safety; the seek itself still lands
+function seek(ms, lead = LEAD_MS) {
+  audio.currentTime = Math.max(0, (ms - lead) / 1000);
+  audio.play().catch(() => {});
 }
 
 function render() {
   $("callid").textContent = `${CALL.call_id} · ${CALL.language} · ${CALL.stress_profile}`;
+  DUR = CALL.turns[CALL.turns.length - 1].end_ms;
+  $("dur").textContent = mmss(DUR);
 
-  const lat = SIG.latency, dur = CALL.turns[CALL.turns.length - 1].end_ms;
+  // failure ticks on the seekbar
+  for (const [i, f] of SIG.failures.entries()) {
+    const tk = document.createElement("div");
+    tk.className = "tick"; tk.style.left = (f.at_ms / DUR * 100) + "%";
+    tk.title = `${mmss(f.at_ms)} — ${f.label} — ${f.detail}`;
+    tk.addEventListener("click", e => { e.stopPropagation(); seek(f.at_ms); });
+    $("seekbar").appendChild(tk);
+  }
+
+  const lat = SIG.latency;
   const stats = [
-    ["duration", mmss(dur)],
+    ["duration", mmss(DUR)],
     ["turns", CALL.turns.length],
     ["latency median", lat.median_gap_ms + "ms"],
     ["latency p90", lat.p90_gap_ms + "ms"],
@@ -112,28 +169,50 @@ function render() {
        <span class="label">${f.label}</span>
        <span class="detail">${f.detail}</span>
        <span class="ev">${f.evidence_turn_ids.join("→")}</span>
-       <span class="play">▶</span>
      </div>`).join("")
     : `<div class="empty">no timing failures detected</div>`;
 
-  $("turns").innerHTML = CALL.turns.map(t =>
-    `<div class="turn ${t.speaker}" data-ms="${t.start_ms}" id="turn-${t.turn_id}">
-       <span class="t">${mmss(t.start_ms)}</span>
-       <span class="who">${t.speaker}</span>
-       <span class="tx">${t.text}</span>
-     </div>`).join("");
+  // conversation with failures inline: a strip sits before the turn it strikes at
+  const strikes = {};
+  SIG.failures.forEach((f, i) => {
+    const tid = f.evidence_turn_ids[1] || f.evidence_turn_ids[0];
+    (strikes[tid] = strikes[tid] || []).push([f, i]);
+  });
+  $("convo").innerHTML = CALL.turns.map(t => {
+    const pre = (strikes[t.turn_id] || []).map(([f, i]) =>
+      `<div class="fstrip" data-ms="${f.at_ms}" id="fs${i}">⚡ ${mmss(f.at_ms)} · ${f.label} · ${f.detail}</div>`).join("");
+    const who = t.speaker === "agent" ? "agent · Neerja" : "caller";
+    return `${pre}<div class="msg ${t.speaker}" data-ms="${t.start_ms}" id="turn-${t.turn_id}">
+        <div class="meta"><b>${who}</b> · ${mmss(t.start_ms)}</div>
+        <div class="bubble">${t.text}</div>
+      </div>`;
+  }).join("");
 
   document.querySelectorAll("[data-ms]").forEach(el =>
     el.addEventListener("click", () => seek(+el.dataset.ms)));
 }
 
+/* transport */
+$("pp").onclick = () => audio.paused ? audio.play().catch(() => {}) : audio.pause();
+audio.addEventListener("play",  () => $("pp").textContent = "❚❚");
+audio.addEventListener("pause", () => $("pp").textContent = "▶");
+$("seekbar").addEventListener("click", e => {
+  const r = $("seekbar").getBoundingClientRect();
+  seek(((e.clientX - r.left) / r.width) * DUR, 0);
+});
+
 audio.addEventListener("timeupdate", () => {
   if (!CALL) return;
-  const t = audio.currentTime * 1000;
+  const t = audio.currentTime * 1000, pc = Math.min(100, t / DUR * 100) + "%";
+  $("fill").style.width = pc; $("head").style.left = pc;
+  $("cur").textContent = mmss(t);
   CALL.turns.forEach(x => $("turn-" + x.turn_id).classList.toggle(
-    "now", t >= x.start_ms && t < x.end_ms));        // during the barge-in BOTH rows light up
-  SIG.failures.forEach((f, i) => $("f" + i).classList.toggle(
-    "active", Math.abs(t - f.at_ms) < 1800));
+    "now", t >= x.start_ms && t < x.end_ms));      // both bubbles glow during the overlap
+  SIG.failures.forEach((f, i) => {
+    const on = Math.abs(t - f.at_ms) < 1800;
+    $("f" + i).classList.toggle("active", on);
+    const fs = $("fs" + i); if (fs) fs.classList.toggle("active", on);
+  });
 });
 
 (async () => {

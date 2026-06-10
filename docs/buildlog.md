@@ -26,7 +26,11 @@ right after the push (SPEC §2.1).
   engineered-FTO-in == measured-FTO-out makes the money shot self-validating. Real demo
   timestamps are 0:18/0:50 (spec's 0:14/0:41 were placeholders — demo copy updates in Block 11).
 
-## Block 2 — Money-shot surface (PULLED FORWARD from Day 2) · Jun 10, 21:40–22:10 IST · box 2h, used ~30m
+## Block 2 — Money-shot surface (PULLED FORWARD from Day 2) · Jun 10, 21:25–22:10 IST · box 2h, used ~45m
+*(second pass at Spike's request: hands-free one-take booth flow — VAD auto-advance with
+per-turn silence hold, t2's scripted pause protected — + player upgraded to custom transport
+with failure ticks on the seekbar + chat-bubble conversation with inline failure strips;
+all five seek paths re-verified programmatically, consoles clean)*
 - push: "money shot v0: audio + clickable timestamp table seeking"
 - **What now exists:** `/shot` page over the same local server — sticky player, stat chips
   (median/p90/barge-ins/laggy), the failure table with rows that seek to 1.5s before the moment
