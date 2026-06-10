@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git --version)",
+      "Bash(gh --version)",
+      "Bash(gh auth *)",
+      "Bash(uv --version)",
+      "Bash(ffmpeg -version)",
+      "Bash(printenv)",
+      "Bash(python3 -m venv .venv)",
+      "Bash(.venv/bin/pip install *)",
+      "Bash(.venv/bin/python -c \"import google.genai, yaml; print\\('deps ok:', google.genai.__version__\\)\")"
+    ]
+  }
+}

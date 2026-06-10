@@ -1,0 +1,19 @@
+# VoiceForge rubric v0 — THE config (SPEC §7.B).
+# The pipeline reads ONLY this file for dimensions, weights, and thresholds.
+# Edit → rerun → every scorecard and the dashboard update. Live-editable on demo day.
+
+version: 0
+
+judge:
+  provider: gemini          # AI Studio key; disclosed as the judge in the demo
+  model: gemini-2.5-flash
+  temperature: 0
+  # every judge dimension must return: {score, reason, evidence_turn_ids}
+
+dimensions:
+  barge_in:        {type: deterministic, weight: 0.20, threshold_overlap_ms: 100}  # <=100ms = backchannel, ignored
+  latency_gap:     {type: deterministic, weight: 0.20, laggy_ms: 800}              # <=300 snappy, <=800 ok, >800 laggy
+  task_completion: {type: deterministic, weight: 0.20}                             # from required-field checklist
+  language_match:  {type: judge, weight: 0.15}   # the multilingual slot; populated 'en' this sprint
+  faithfulness:    {type: judge, weight: 0.15}
+  repair_quality:  {type: judge, weight: 0.10}   # clarification handling

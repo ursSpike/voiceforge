@@ -1,0 +1,20 @@
+# secrets
+.env
+
+# python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# node / next (web/, Block 9)
+node_modules/
+.next/
+
+# os
+.DS_Store
+
+# large raw corpora — downloaded locally, never committed
+# (normalized per-call JSON in data/normalized/ IS committed)
+data/spokenwoz/
+data/ami/
