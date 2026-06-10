@@ -1,124 +1,68 @@
-# Learning curriculum — DRAFT v1 for discussion (mark this file up in Cursor)
+# VoiceForge University — the ladder (v2, CANONICAL — agreed before any generation)
 
-Audience: one student. Strong daily Python/numpy/scientific-computing (protein docking,
-benchmarking at Fujitsu). Assume ZERO on: ML/DL practice, NLP, LLMs, audio, speech, RL,
-voice agents, eval methodology, post-training. IIT-KGP CSE math exists but is rusty —
-re-derive everything, fast, never skip a step silently.
+31 books, 00–30. One atomic idea each. Spoon-feeding is correct. Nothing assumes prior knowledge.
 
-## Global design rules (apply to every book)
-1. **From absolute zero**: every term defined at first use; no "as you know".
-2. **Predict → run → read the plot → explain back.** Every plot comes with a "what do you
-   see / what would change if…" prompt. No cell runs un-predicted.
-3. **Real anchors**: wherever possible cells run on OUR artifacts (hero call, 11-call pool,
-   rubric, judge cache). Toy data only where the real thing is too big to see through.
-4. Each book: 20–40 min · one concept cluster · ends with 3–5 self-checks (answers collapsed)
-   + one "gotcha" an expert would probe.
-5. Spoon-feeding is a feature. Repetition across books is deliberate (spaced re-encounter).
+## The fixed skeleton (every book, same ritual)
+1. **What is this** — plain language, baby intuition first
+2. **Why does it exist** — the problem it solves
+3. **How it works** — tiny runnable example, toy first, real repo data second
+4. **Break it / change it** — modify one variable, watch behavior flip (no break-it = no learning)
+5. **Where it fails** — the limits serious engineers probe
+6. **How VoiceForge uses it** — connect back to the build
+7. **Teach-back** — 3 self-check questions + 3 hackathon defense questions, answers collapsed
 
-## The books
+Every code cell: PREDICT out loud → run → explain the output in one sentence before moving.
+Code style: heavily commented, every line earns its place, no clever one-liners.
+Exit test per book: close it and explain the concept 2 minutes, no looking — what/why/how/where-it-fails/how-VF-uses-it. Can't? The book gets rewritten, not skimmed.
+Each book ends with its **clean sentence** — the one you'd say in the room.
 
-### Part A — Bedrock statistics (fast lane for you, but complete)
-- **A1 · Distributions, tails, and why means lie** — from "what is a histogram" to reading
-  skewed latency data; mean/median/p90 on real response gaps. *(anchor: corpus gap data)*
-- **A2 · Uncertainty from scratch** — sampling error, what a confidence interval actually
-  claims, bootstrap built by hand, watching CIs shrink with n. *(anchor: used later for kappa)*
-- **A3 · Two measurers, one truth** — comparing raters/instruments; raw agreement, chance
-  agreement, Cohen's kappa derived by hand; prevalence paradox. *(anchor: judge-vs-human, but
-  taught generic — same math as replicate agreement in any lab)*
+## Tier 1 — Survival (00–09): the vocabulary of the project
+- **00 · What is VoiceForge?** — in: messy call; out: outcomes, scores, failure tags, costs, improvement pairs. *"VoiceForge is the layer after the call ends."*
+- **01 · What is a call log?** — turns, speakers, timestamps, metadata; trace vs transcript. *"We judge the conversation trace, not just the transcript."*
+- **02 · JSON, schemas, data contracts** — ugly dict → clean normalized_call; why structure is non-negotiable. *"One schema in, every tool downstream works."*
+- **03 · Python/pandas for call data** — calls as rows; group, count, filter. *"A DataFrame lets me treat calls like benchmark rows."*
+- **04 · Turns, gaps, overlap, latency** — FTO (one number per handoff); barge-in vs backchannel (the 100ms line); laggy (the 800ms line); p50/p90 not mean. *"Voice failures are measurable in milliseconds, not just judgeable from text."*
+- **05 · ASR / LLM / TTS — the voice stack** — the relay, simulated with strings; where latency is born. *"Every turn is a three-model relay under a time budget."*
+- **06 · Task success** — required fields; the polite call that failed. *"A call can sound great and still not do the job."*
+- **07 · Failure tags & stress profiles** — taxonomy (language mismatch, interruption, KB gap…); scenario difficulty classes; failure distribution chart. *"Raw chaos becomes engineering signal through categories."*
+- **08 · Cost per successful call** — unit costs × turns; failed calls shrink the denominator. *"Voice quality is a money number, not a feelings number."*
+- **09 · Language conditions** — same task in EN / Hinglish / Tenglish = different error profiles. *"Multilinguality is an eval dimension, not a checkbox."*
 
-### Part B — Machine learning from zero (only what this lane needs)
-- **B1 · What "learning" is** — loss, gradient, learning rate; fit a line by gradient descent
-  in raw numpy; convergence plots; divergence when lr too big.
-- **B2 · Classification end-to-end** — logits → softmax → cross-entropy; train a tiny 2-feature
-  classifier; decision boundary plots; train/val split; overfitting seen with eyes.
-- **B3 · Words as vectors** — one-hot → co-occurrence → embeddings; cosine similarity;
-  PCA plot of a tiny corpus; why "meaning as geometry" unlocked NLP.
-- **B4 · A neural net in 100 lines** — MLP forward/backward in numpy on B2's data; depth vs
-  width; why DL scaled. *(no frameworks — concepts only; frameworks are a tool decision later)*
+## Tier 2 — The measurement engine (10–19)
+- **10 · LLM-as-judge from zero** — fake judge first, then Gemini; PLUS the reliability contract: temperature 0, JSON output, response caching. *"A judge you can rerun and get the same answer is an instrument; anything else is a mood."*
+- **11 · Evidence-based scoring** — no naked scores; reason + turn references or it didn't happen. *"A score you can't audit is a vibe."*
+- **12 · Calibration: why human labels** — the circularity problem; why labels must be BLIND (label before seeing the judge). *"Human labels break the circle the judge can't break itself."*
+- **13 · Confusion matrix, accuracy, precision, recall** — the four cells in plain words; which error type kills a failure-detector. *"Knowing WHICH way it's wrong matters more than how often."*
+- **14 · Cohen's kappa from scratch** — chance agreement, the lazy-judge demo; PLUS the prevalence trap; PLUS a bootstrap CI so the number carries error bars. *"Kappa asks: better than luck — and the interval decides what I may claim."*
+- **15 · Pilot calibration, said honestly** — presenting a mediocre number without fraud or shame; Landis–Koch bands; claim rules. *"Small sample, honest framing, disagreements shown proudly."*
+- **16 · Improvement examples** — failure → better response → why; PLUS which failures are trainable vs config-fixable (dead air ≠ token choice). *"Every agent-side failure can propose its own fix."*
+- **17 · Preference pairs** — chosen vs rejected; the single-axis diff rule (change one thing, like an ablation). *"A clean pair teaches one lesson; a messy pair teaches confusion."*
+- **18 · DPO in baby language** — human example first, format second, name last; JSONL only, no training tonight. *"DPO teaches a model to prefer chosen over rejected — VoiceForge mines those pairs from real failures."*
+- **19 · RLHF / RLAIF without mythology** — feedback-based alignment in plain words; why VoiceForge doesn't train live. *"VoiceForge builds the dataset layer for safe offline optimization."*
 
-### Part C — Language models and LLMs (the biggest gap, taken slowly)
-- **C1 · Language modeling = next-token prediction** — build a character/word Markov model on a
-  small corpus; SAMPLE from it; perplexity intuition; temperature implemented by hand on logits
-  → why temp 0 = deterministic argmax (this is literally our judge setting).
-- **C2 · Tokens, context windows, cost** — what a token is (BPE walkthrough by example);
-  count tokens via the real Gemini API; context window limits; why prompts cost money.
-- **C3 · From autocomplete to assistant** — pretraining vs instruction tuning (SFT) vs RLHF at
-  concept level; chat format (system/user/assistant role arrays — the exact shape inside our
-  DPO files); experiment: same question under 3 system prompts, watch behavior change. *(live API)*
-- **C4 · Sampling, determinism, structured output** — temp/top-p experiments (same prompt ×10 at
-  temp 0 vs 1, diversity plotted); JSON mode; why eval pipelines pin temperature 0.
-- **C5 · How LLMs fail** — hallucination, sycophancy, verbosity preference, position bias —
-  each elicited live with a tiny designed experiment. *(this is judge-bias bedrock)*
+## Tier 3 — System & defense (20–30)
+- **20 · The A/B loop** — same turns, v1 vs v2 policy, rescored; demo evidence vs statistical evidence. *"One closed-loop demonstration, not statistical proof — the shape is the point."*
+- **21 · rubric.yaml & config-driven evals** — change the config, rerun, everything updates. *"What 'good' means lives in one editable file."*
+- **22 · User simulators** — caller personas (hesitant, angry, code-switching); sim vs real logs. *"Simulation buys coverage, never validity."*
+- **23 · Dataset hierarchy** — hero (theater) / public (validity) / synthetic (coverage) / provider logs (production). *"Each data source has a job; disclosure makes them all legitimate."*
+- **24 · Annotation & ground truth** — assembly-as-truth, hand-verified timestamps, disclosure ethics. *"Annotation isn't cheating if you say exactly how the numbers were made."*
+- **25 · Charts that matter** — the five demo charts; reading each aloud. *"A chart you can't narrate is decoration."*
+- **26 · Dashboard mental model** — call list / detail / analytics / queue mapped to founder, engineer, ML person. *"Every view exists for a specific person's question."*
+- **27 · Provider adapters** — mock Bolna-ish + Cartesia-ish inputs → one schema. *"Provider-neutral is an architecture fact, not a slide claim."*
+- **28 · Talking like an engineer, not a bluffer** — the honest lines, drilled; sharp-question practice. *"I tested where the judge agrees with humans — and where it fails."*
+- **29 · The 3-minute demo** — rehearsal: failure → timestamp → scorecard → better response → pair → chart → calibration → close.
+- **30 · Post-hackathon path** — the side-project roadmap; what makes this a lane, not a weekend.
 
-### Part D — Audio and speech from zero
-- **D1 · Sound as numbers** — sample rate, amplitude, frames; load the hero WAV; zoom from 90s
-  to 10ms; hear it vs see it; RMS energy. *(anchor: your own voice)*
-- **D2 · "Is someone talking?"** — energy VAD built by hand; endpointing; the hold-time knife
-  edge; reproduce the booth's auto-advance; watch it cut your t2 pause when tuned wrong.
-- **D3 · How machines hear: spectrograms and ASR** — frequencies without scary math; spectrogram
-  of the hero call; why accents/code-switching/garbled entities happen; **WER computed from
-  scratch via edit distance** (a DP kata for you) on a real garbled SpokenWOZ line.
-- **D4 · Making machines speak: TTS and the latency budget** — TTS pipeline conceptually;
-  synthesize lines live with edge-tts; TTFA measured crudely; assemble the full
-  STT→LLM→TTS per-turn latency budget; where 82ms TTS claims fit.
+## Build order (sprints, not all tonight)
+- **Sprint 1 (first build): 00–05.** The minimum language of the project.
+- Sprint 2: 06–09 + 10–11. Sprint 3: 12–15. Sprint 4: 16–19. Sprint 5: 20–27. Pre-demo: 28–30.
 
-### Part E — Conversation science and voice agents
-- **E1 · Turn-taking: the physics of conversation** — floors, handoffs, FTO; barge-in vs
-  backchannel; the 100ms and 800ms lines; hero-call timeline plot, sins found by eye then by code.
-- **E2 · The corpus lab** — all 11 calls; stress profiles as workload classes; stratified
-  selection (and why it isn't cherry-picking); cross-cut tables; dirty-data honesty
-  (9.4s "overlaps", missing end_ms rule).
-- **E3 · Anatomy of a voice agent** — the full relay; endpointing tradeoff; which failure
-  classes originate where; fix depth: config vs prompt vs weights (one table you'll reuse
-  in every hackathon conversation).
+## Deltas vs the GPT-5.5 draft (deliberate, small)
+1. pandas now taught (03) instead of avoided.
+2. Percentiles + both thresholds folded into 04 (one timing book, complete).
+3. 10 absorbs the determinism/caching contract; 14 absorbs prevalence trap + bootstrap CI; 17 absorbs the single-axis rule; 16 absorbs trainable-vs-config-fixable.
+4. Stress profiles land in 07 with failure tags (scenario vs performance distinction).
 
-### Part F — Evals and judging (the lane itself)
-- **F1 · Deterministic first** — measurement vs judgment doctrine; re-derive the failure table
-  from raw turns yourself (rebuild signals.py's core in 20 lines).
-- **F2 · LLM-as-judge** — why, the contract (temp 0 / JSON / score+reason+evidence), anchored
-  scales vs 1–10, caching; judge real pool calls; break the rubric deliberately and read the wreckage.
-- **F3 · Calibrating the judge** — blind protocol; kappa + bootstrap CI (now trivial — A2/A3
-  did the math); confusion matrix; disagreement mining as the credibility move; honest-claim rules.
-- **F4 · Outcomes and money** — required-fields checklists from SpokenWOZ goals; task success;
-  estimated cost per successful call; build a first business-value chart from our pool.
-  *(directly feeds Build Blocks 4/7/8)*
-
-### Part G — Post-training and improvement data
-- **G1 · The training ladder** — pretraining → SFT → preference tuning; what data each stage
-  eats; where a (chosen, rejected) pair enters the machinery.
-- **G2 · DPO from first principles** — Bradley–Terry "probability A beats B" on toy numbers;
-  the DPO objective computed BY HAND in numpy on toy log-probs; β as the leash to the reference
-  model; loss-vs-margin plots. No GPU, no framework, fully transparent.
-- **G3 · Authoring improvement data** — single-axis rule (your ablation instinct); trainable vs
-  config-fixable failures; TRL + OpenAI formats; author real pairs from the pool; needs_human_review.
-
-### Part H — The room
-- **H1 · The industry map and honest claims** — Bolna, Cartesia, Coval/Hamming/Cekura, Roark,
-  Langfuse/Braintrust, Leaping; the verified cite-card; the two locked lines; Q&A playbook.
-- **H2 · Capstone exam** — the full oral quiz (Claude grades, harshly); "explain VoiceForge to a
-  founder / an ML engineer / your mom" drill; teach-back of the three hardest concepts.
-
-**Count: 28.**
-
-## Sequencing against the hackathon (the honest arithmetic)
-28 books ≈ 12–15 study hours — that does NOT fit before Saturday alongside ~20h of build.
-Two tracks:
-- **Critical core before demo day (≈ 8–9 books, ~5h):** D1 → D2 → E1 → E2 → E3 → F1 → F2 → F3
-  (+ G3 light). These make you fluent in everything the demo claims.
-- **Full foundations (A, B, C, D3-4, G1-2, F4 deep):** the permanent asset; continue after
-  June 13 at leisure. The existing 6 notebooks get absorbed/expanded into E1/E2/F2/F3/G3/H1 —
-  nothing thrown away.
-
-## Decisions (Spike, Jun 11 ~00:20)
-1. **Tools:** has RUN PyTorch training without understanding internals; matplotlib/pandas
-   effectively new. → Every first-of-its-kind plot gets a "how to read this" walkthrough;
-   NO pandas anywhere (dicts/lists/numpy only); Part B stays framework-free, and B4 ends by
-   connecting the numpy net to "what PyTorch was automating for you at work".
-2. **Math:** one refresher cell for derivatives/chain rule, then move.
-3. **Audio:** read-level on spectrograms/FFT (use, don't derive).
-4. **Order: BUILD SET ASIDE ENTIRELY for now.** Strict foundations order A1 → H2. The goal is
-   genuinely reaching do-this-project-for-real level, not demo cramming. Build resumes only
-   when Spike says so (docs/RESUME.md unchanged, still accurate). Copilot flags the calendar
-   decision point — by Jun 12 ~09:00 IST the remaining Definition-of-Done core (~10h: judge+score,
-   blind labels, DPO export, kappa, business chart, package+submit) must either start or be
-   consciously dropped — Spike's call, made explicit, no sleepwalking into it.
+## Already-built material (don't read now, nothing wasted)
+- notebooks A1–A3, B1–B4 → **optional deep-dive appendix** (stats + ML-from-scratch beneath books 13/14/18 — for when you want the math under the floorboards).
+- old notebooks 00–06 → quarry material; absorbed into 04/10/14/17/18/28 as those get built, then retired.
