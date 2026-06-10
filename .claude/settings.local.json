@@ -16,7 +16,9 @@
       "Bash(.venv/bin/edge-tts --list-voices)",
       "Bash(git add *)",
       "Bash(git commit -q -m 'block 0 green: gemini smoke passed — live call + cache hit, judge contract verified *)",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "Bash(.venv/bin/python pipeline/assemble_hero.py tts)",
+      "Bash(git commit -q -m 'hero call wip: timeline \\(engineered sins -800ms/+1620ms\\) + script/recording sheet + self-checking assembler + agent TTS \\(en-IN Neerja\\) *)"
     ]
   }
 }
