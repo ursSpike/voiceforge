@@ -30,12 +30,22 @@ The t3 over-demand ("complete address with pincode...") doubles as the DPO **rej
 (Note t11: agent "confirms" without ever resolving the address — that's the task_outcome
 gap: `full_address.captured = false`.)
 
-## Recording sheet — 6 voice memos, ~10 minutes
+## Recording — the booth (primary path)
 
-Quiet room · phone ~20cm from mouth · **one Voice Memo per line** · natural pace, you're a
-slightly distracted customer, not an actor. Record **in this order**, AirDrop all six to the
-Mac, done — they get renamed and trimmed automatically (leading/trailing silence is removed,
-so don't worry about gaps around your words).
+```bash
+.venv/bin/python web/recorder/serve.py     # then open http://localhost:7861 (Chrome)
+```
+
+Headphones on, quiet room. Hit **▶ Run the conversation**: Neerja's lines auto-play, your
+card lights up with the text + direction, recording starts — speak, press **space** when done,
+it auto-saves to `data/hero/raw/` and moves on. Re-record any single line from its card after.
+Takes overwrite; last one wins. Then hit **⚙ Assemble** in the bottom bar — the failure table
+prints right there. Lead/tail silence is trimmed automatically; internal pauses are preserved.
+
+### Fallback: phone voice memos
+
+One memo per line in turn order, AirDrop all six to the Mac — they get renamed/trimmed at
+assembly. The lines and directions:
 
 1. **(t2 — THE important one.)** "haan hello... area ante..." → **full silent stop, count
    one-thousand-one, one-thousand-two** → "Madhapur side anukunta... near the, er... metro

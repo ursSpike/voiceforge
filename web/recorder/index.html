@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VoiceForge — Hero Call Booth</title>
+<style>
+  :root {
+    --bg: #09090b; --card: #18181b; --card2: #1f1f23; --border: #27272a;
+    --text: #e4e4e7; --muted: #8b8b94; --accent: #34d399;
+    --red: #ef4444; --mono: ui-monospace, "SF Mono", Menlo, monospace;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text);
+         font: 15px/1.5 -apple-system, "Segoe UI", Inter, sans-serif; padding-bottom: 140px; }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 28px 20px; }
+  header { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 6px; }
+  h1 { font-size: 19px; margin: 0; letter-spacing: .2px; }
+  h1 b { color: var(--accent); font-weight: 650; }
+  .sub { color: var(--muted); font-size: 13px; margin-bottom: 18px; }
+  .chip { font: 12px var(--mono); padding: 2px 9px; border-radius: 99px;
+          border: 1px solid var(--border); color: var(--muted); }
+  .chip.ok { color: var(--accent); border-color: var(--accent); }
+  .toolbar { display: flex; gap: 10px; align-items: center; margin: 14px 0 22px; flex-wrap: wrap; }
+  button { font: 600 14px/1 inherit; border-radius: 9px; border: 1px solid var(--border);
+           background: var(--card); color: var(--text); padding: 11px 16px; cursor: pointer; }
+  button:hover { border-color: #3f3f46; }
+  button:disabled { opacity: .45; cursor: default; }
+  button.primary { background: var(--accent); border-color: var(--accent); color: #052e22; }
+  button.danger  { background: var(--red); border-color: var(--red); color: #fff; }
+  .hint { color: var(--muted); font-size: 12.5px; }
+  .turn { border: 1px solid var(--border); background: var(--card); border-radius: 12px;
+          padding: 14px 16px; margin-bottom: 10px; transition: border-color .15s, box-shadow .15s; }
+  .turn.active { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+  .turn .meta { display: flex; align-items: center; gap: 8px; font: 12px var(--mono);
+                color: var(--muted); margin-bottom: 6px; }
+  .turn .meta .who-agent { color: #93c5fd; }
+  .turn .meta .who-user  { color: var(--accent); }
+  .line { font-size: 16px; }
+  .turn.user .line { font-size: 19px; font-weight: 550; }
+  .direction { color: var(--muted); font-size: 13px; margin-top: 6px; font-style: italic; }
+  .controls { display: flex; gap: 8px; align-items: center; margin-top: 12px; flex-wrap: wrap; }
+  .controls audio { height: 32px; max-width: 240px; }
+  .timer { font: 600 14px var(--mono); color: var(--red); min-width: 52px; display: none; }
+  .recdot { width: 9px; height: 9px; border-radius: 50%; background: var(--red);
+            display: none; animation: blink 1s infinite; }
+  @keyframes blink { 50% { opacity: .25; } }
+  .saved { color: var(--accent); font: 12px var(--mono); display: none; }
+  .bar { position: fixed; left: 0; right: 0; bottom: 0; background: rgba(9,9,11,.92);
+         border-top: 1px solid var(--border); backdrop-filter: blur(8px); }
+  .bar .wrap { padding: 14px 20px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+  .progress { font: 13px var(--mono); color: var(--muted); }
+  #log { display: none; white-space: pre-wrap; background: #0c0c0f; border: 1px solid var(--border);
+         border-radius: 10px; padding: 14px; font: 12.5px var(--mono); margin-top: 16px;
+         max-height: 300px; overflow: auto; }
+  #finalwrap { display: none; margin-top: 14px; }
+  #finalwrap audio { width: 100%; }
+  .flowstate { font: 13px var(--mono); color: var(--accent); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Voice<b>Forge</b> — hero call booth</h1>
+    <span class="chip" id="micchip">mic: not requested</span>
+    <span class="chip" id="savechip">0/6 lines saved</span>
+  </header>
+  <div class="sub">You're the caller — slightly distracted customer, not an actor. Headphones on
+  (so Neerja doesn't leak into your mic). Agent lines auto-play; when it's your turn the card
+  lights up and recording starts — speak, then hit <b>space</b> (or Stop) when done. Re-record
+  any line individually after. Takes overwrite; last one wins.</div>
+  <div class="toolbar">
+    <button class="primary" id="flowbtn">▶ Run the conversation</button>
+    <button id="stopflow" style="display:none">✕ Exit flow</button>
+    <span class="flowstate" id="flowstate"></span>
+  </div>
+  <div id="turns"></div>
+</div>
+<div class="bar">
+  <div class="wrap">
+    <span class="progress" id="progress">…</span>
+    <button class="primary" id="assemble">⚙ Assemble → failure table</button>
+    <span class="hint" id="astatus"></span>
+  </div>
+  <div class="wrap" style="padding-top:0; display:block">
+    <pre id="log"></pre>
+    <div id="finalwrap"><div class="hint" style="margin:6px 0">assembled call:</div>
+      <audio id="final" controls></audio></div>
+  </div>
+</div>
+<script>
+let TL = null, saved = new Set(), stream = null, rec = null, recTurn = null;
+let flowing = false, flowAbort = false, stopResolve = null, timerIv = null;
+
+const $ = id => document.getElementById(id);
+
+function mimeChoice() {
+  for (const m of ["audio/mp4", "audio/webm;codecs=opus", "audio/webm"])
+    if (window.MediaRecorder && MediaRecorder.isTypeSupported(m)) return m;
+  return "";
+}
+
+async function ensureMic() {
+  if (stream) return stream;
+  stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+  $("micchip").textContent = "mic: live"; $("micchip").classList.add("ok");
+  return stream;
+}
+
+function userTurns() { return TL.turns.filter(t => t.speaker === "user"); }
+
+function refreshProgress() {
+  const n = userTurns().length;
+  $("savechip").textContent = `${saved.size}/${n} lines saved`;
+  if (saved.size === n) $("savechip").classList.add("ok"); else $("savechip").classList.remove("ok");
+  $("progress").textContent = saved.size === n
+    ? "all lines on disk — assemble when ready"
+    : `${saved.size}/${n} caller lines saved`;
+  TL.turns.forEach(t => {
+    if (t.speaker === "user")
+      $(`saved-${t.turn_id}`).style.display = saved.has(t.turn_id) ? "inline" : "none";
+  });
+}
+
+function render() {
+  const box = $("turns");
+  box.innerHTML = "";
+  for (const t of TL.turns) {
+    const d = document.createElement("div");
+    d.className = "turn " + t.speaker; d.id = "card-" + t.turn_id;
+    const who = t.speaker === "agent" ? `<span class="who-agent">agent · Neerja</span>` :
+                                        `<span class="who-user">YOU</span>`;
+    let controls = "";
+    if (t.speaker === "agent") {
+      controls = `<div class="controls"><button data-play="${t.file}">▶ play</button></div>`;
+    } else {
+      controls = `<div class="controls">
+          <button class="danger" data-rec="${t.turn_id}">● record</button>
+          <span class="recdot" id="dot-${t.turn_id}"></span>
+          <span class="timer" id="timer-${t.turn_id}">0.0s</span>
+          <span class="saved" id="saved-${t.turn_id}">saved ✓</span>
+          <audio controls id="prev-${t.turn_id}" style="display:none"></audio>
+        </div>`;
+    }
+    d.innerHTML = `<div class="meta"><span>${t.turn_id}</span>${who}</div>
+      <div class="line">${t.text}</div>
+      ${t.direction ? `<div class="direction">${t.direction}</div>` : ""}
+      ${controls}`;
+    box.appendChild(d);
+  }
+  box.addEventListener("click", e => {
+    const b = e.target.closest("button"); if (!b) return;
+    if (b.dataset.play) playAgent(b.dataset.play);
+    if (b.dataset.rec) toggleRecord(b.dataset.rec);
+  });
+}
+
+let agentAudio = null;
+function playAgent(file) {
+  return new Promise((res, rej) => {
+    if (agentAudio) agentAudio.pause();
+    agentAudio = new Audio("/audio/" + file);
+    agentAudio.onended = res; agentAudio.onerror = () => rej(new Error("audio failed: " + file));
+    agentAudio.play().catch(rej);
+  });
+}
+
+function setActive(id) {
+  document.querySelectorAll(".turn.active").forEach(x => x.classList.remove("active"));
+  if (id) { const c = $("card-" + id); c.classList.add("active");
+            c.scrollIntoView({ behavior: "smooth", block: "center" }); }
+}
+
+function startTimer(id) {
+  const el = $("timer-" + id), t0 = performance.now();
+  el.style.display = "inline"; $("dot-" + id).style.display = "inline-block";
+  timerIv = setInterval(() => el.textContent = ((performance.now() - t0) / 1000).toFixed(1) + "s", 100);
+}
+function stopTimer(id) {
+  clearInterval(timerIv);
+  $("timer-" + id).style.display = "none"; $("dot-" + id).style.display = "none";
+}
+
+async function recordTurn(turnId) {
+  await ensureMic();
+  return new Promise(async (resolve, reject) => {
+    const mime = mimeChoice();
+    rec = new MediaRecorder(stream, mime ? { mimeType: mime } : undefined);
+    recTurn = turnId;
+    const chunks = [];
+    rec.ondataavailable = e => chunks.push(e.data);
+    rec.onstop = async () => {
+      stopTimer(turnId); recTurn = null;
+      try {
+        const blob = new Blob(chunks, { type: rec.mimeType });
+        const r = await fetch("/save?turn=" + turnId,
+          { method: "POST", headers: { "Content-Type": rec.mimeType }, body: blob });
+        if (!r.ok) throw new Error(await r.text());
+        saved.add(turnId); refreshProgress();
+        const prev = $("prev-" + turnId);
+        prev.src = URL.createObjectURL(blob); prev.style.display = "inline";
+        resolve();
+      } catch (err) { reject(err); }
+    };
+    setActive(turnId); startTimer(turnId);
+    rec.start();
+    stopResolve = () => { if (rec && rec.state === "recording") rec.stop(); };
+  });
+}
+
+function toggleRecord(turnId) {
+  if (rec && rec.state === "recording") { if (recTurn === turnId) stopResolve(); return; }
+  recordTurn(turnId).catch(e => alert("record failed: " + e.message));
+}
+
+async function runFlow() {
+  if (flowing) return;
+  flowing = true; flowAbort = false;
+  $("flowbtn").disabled = true; $("stopflow").style.display = "inline-block";
+  try {
+    await ensureMic();
+    for (const t of TL.turns) {
+      if (flowAbort) break;
+      setActive(t.turn_id);
+      if (t.speaker === "agent") {
+        $("flowstate").textContent = "agent speaking…";
+        await playAgent(t.file);
+      } else {
+        $("flowstate").textContent = "YOUR LINE — space to stop";
+        await recordTurn(t.turn_id);
+      }
+    }
+    $("flowstate").textContent = flowAbort ? "flow exited" : "done — all lines captured. Assemble!";
+  } catch (e) { $("flowstate").textContent = "flow error: " + e.message; }
+  setActive(null);
+  flowing = false; $("flowbtn").disabled = false; $("stopflow").style.display = "none";
+}
+
+$("flowbtn").onclick = runFlow;
+$("stopflow").onclick = () => { flowAbort = true; if (agentAudio) agentAudio.pause();
+                                if (rec && rec.state === "recording") stopResolve(); };
+document.addEventListener("keydown", e => {
+  if (e.code === "Space" && rec && rec.state === "recording") { e.preventDefault(); stopResolve(); }
+});
+
+$("assemble").onclick = async () => {
+  $("assemble").disabled = true; $("astatus").textContent = "assembling… (~20s)";
+  try {
+    const r = await fetch("/assemble", { method: "POST" });
+    const text = await r.text();
+    $("log").style.display = "block"; $("log").textContent = text;
+    $("astatus").textContent = r.ok ? "done ✓" : "failed — see output";
+    if (r.ok) {
+      $("finalwrap").style.display = "block";
+      $("final").src = "/hero.wav?ts=" + Date.now();
+    }
+  } catch (e) { $("astatus").textContent = "error: " + e.message; }
+  $("assemble").disabled = false;
+};
+
+(async function init() {
+  TL = await (await fetch("/timeline.json")).json();
+  const st = await (await fetch("/state")).json();
+  saved = new Set(st.saved);
+  render(); refreshProgress();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "booth",
+      "runtimeExecutable": ".venv/bin/python",
+      "runtimeArgs": ["web/recorder/serve.py"],
+      "port": 7861,
+      "autoPort": true
+    }
+  ]
+}
