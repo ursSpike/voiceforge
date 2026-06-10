@@ -1,0 +1,280 @@
+{
+  "call_id": "swz_MUL0056",
+  "source": "spokenwoz",
+  "language": "en",
+  "stress_profile": "interruption",
+  "workflow_type": "attraction+profile+restaurant",
+  "turns": [
+    {
+      "turn_id": "t1",
+      "speaker": "user",
+      "text": "good day .",
+      "start_ms": 3810,
+      "end_ms": 4960
+    },
+    {
+      "turn_id": "t2",
+      "speaker": "agent",
+      "text": "hi customer service on my system .",
+      "start_ms": 5710,
+      "end_ms": 8040
+    },
+    {
+      "turn_id": "t3",
+      "speaker": "user",
+      "text": "i can help .  could you please me in finding a .  is to dive .",
+      "start_ms": 6200,
+      "end_ms": 11930
+    },
+    {
+      "turn_id": "t4",
+      "speaker": "agent",
+      "text": "okay , no problem . any . particular place that you're thinking of or particular requirements .",
+      "start_ms": 13460,
+      "end_ms": 21300
+    },
+    {
+      "turn_id": "t5",
+      "speaker": "user",
+      "text": "yes . uh , it should serve some thai food and being a moderate price range .",
+      "start_ms": 21760,
+      "end_ms": 28080
+    },
+    {
+      "turn_id": "t6",
+      "speaker": "agent",
+      "text": "the case is . okay , you see a thai food and moderate price range . just give me a second . i'll look on the system .",
+      "start_ms": 30020,
+      "end_ms": 37010
+    },
+    {
+      "turn_id": "t7",
+      "speaker": "user",
+      "text": "yes .  okay , another problem .",
+      "start_ms": 34820,
+      "end_ms": 39020
+    },
+    {
+      "turn_id": "t8",
+      "speaker": "agent",
+      "text": "um . okay , from what i can see on the system here . i can't find one with with those two requirements .",
+      "start_ms": 40740,
+      "end_ms": 51320
+    },
+    {
+      "turn_id": "t9",
+      "speaker": "user",
+      "text": "okay . could you please try to look for one that i has .  that also serves .  the british food .",
+      "start_ms": 51910,
+      "end_ms": 60770
+    },
+    {
+      "turn_id": "t10",
+      "speaker": "agent",
+      "text": "okay , let me change from tie to british and look on the system .",
+      "start_ms": 63030,
+      "end_ms": 67340
+    },
+    {
+      "turn_id": "t11",
+      "speaker": "user",
+      "text": "okay , i know the problem .",
+      "start_ms": 69240,
+      "end_ms": 71110
+    },
+    {
+      "turn_id": "t12",
+      "speaker": "agent",
+      "text": "okay , i have found one . okay . i found one which is . the copper kettle , how can help .",
+      "start_ms": 69380,
+      "end_ms": 79230
+    },
+    {
+      "turn_id": "t13",
+      "speaker": "user",
+      "text": "um .  where could you be good for me and the six of my other friends , please .",
+      "start_ms": 79600,
+      "end_ms": 86330
+    },
+    {
+      "turn_id": "t14",
+      "speaker": "agent",
+      "text": "no problem . okay . so to make the reservation , mike , please have your name .",
+      "start_ms": 89110,
+      "end_ms": 93790
+    },
+    {
+      "turn_id": "t15",
+      "speaker": "user",
+      "text": "um .  my name is canadian .",
+      "start_ms": 94770,
+      "end_ms": 99560
+    },
+    {
+      "turn_id": "t16",
+      "speaker": "agent",
+      "text": "okay . how would you spell your last name , please .",
+      "start_ms": 102840,
+      "end_ms": 105590
+    },
+    {
+      "turn_id": "t17",
+      "speaker": "user",
+      "text": "pr en ne r .",
+      "start_ms": 105800,
+      "end_ms": 107077
+    },
+    {
+      "turn_id": "t18",
+      "speaker": "agent",
+      "text": "okay , so to confirm that is brenner .",
+      "start_ms": 112440,
+      "end_ms": 118040
+    },
+    {
+      "turn_id": "t19",
+      "speaker": "user",
+      "text": "yes , i'm not very worried .",
+      "start_ms": 118580,
+      "end_ms": 120940
+    },
+    {
+      "turn_id": "t20",
+      "speaker": "agent",
+      "text": "okay , i so make a booking for you and , um . as you mentioned to us for . um . for you and just confirm the number again , it was for you and i mean , other people .",
+      "start_ms": 122210,
+      "end_ms": 136070
+    },
+    {
+      "turn_id": "t21",
+      "speaker": "user",
+      "text": "uh , it's for me . well , it's basically for six people . um , you can just make for six people .",
+      "start_ms": 136110,
+      "end_ms": 142990
+    },
+    {
+      "turn_id": "t22",
+      "speaker": "agent",
+      "text": "oh , okay . okay , no problem . okay . and also can i then confirm . for which day and what time .",
+      "start_ms": 141770,
+      "end_ms": 151080
+    },
+    {
+      "turn_id": "t23",
+      "speaker": "user",
+      "text": "um it's it's for the day at 2 pm .",
+      "start_ms": 151440,
+      "end_ms": 156129
+    },
+    {
+      "turn_id": "t24",
+      "speaker": "agent",
+      "text": "okay , thursday 14:00 . okay , done . made that booking for you . anything else i can help you with .",
+      "start_ms": 157400,
+      "end_ms": 164340
+    },
+    {
+      "turn_id": "t25",
+      "speaker": "user",
+      "text": "yes . um , since i'm relatively new , uh , at the space in cambridge .  um can you please help me out in looking for places to go to in town .",
+      "start_ms": 164290,
+      "end_ms": 176150
+    },
+    {
+      "turn_id": "t26",
+      "speaker": "agent",
+      "text": "no problem in any particular area or type that you're thinking of .",
+      "start_ms": 177630,
+      "end_ms": 183620
+    },
+    {
+      "turn_id": "t27",
+      "speaker": "user",
+      "text": "um it should be a place somewhere in the central part of town .  and that's probably about that .",
+      "start_ms": 183650,
+      "end_ms": 193810
+    },
+    {
+      "turn_id": "t28",
+      "speaker": "agent",
+      "text": "okay , so some way in the centre part centre part , let me take a look for you . um . okay , i found some good options . one can be . adc theatre .",
+      "start_ms": 195470,
+      "end_ms": 209760
+    },
+    {
+      "turn_id": "t29",
+      "speaker": "user",
+      "text": "okay . um , that's really fine . yeah , please get the open hours , please .  okay .",
+      "start_ms": 211030,
+      "end_ms": 218010
+    },
+    {
+      "turn_id": "t30",
+      "speaker": "agent",
+      "text": "no problem . uh , let's see open . okay , open hours . okay , unfortunately , on the system , they do not list what time the theater opens .",
+      "start_ms": 218950,
+      "end_ms": 230880
+    },
+    {
+      "turn_id": "t31",
+      "speaker": "user",
+      "text": "okay , that's so fine . no problem with that .",
+      "start_ms": 231310,
+      "end_ms": 234780
+    },
+    {
+      "turn_id": "t32",
+      "speaker": "agent",
+      "text": "and since you've made a booking with booking here , would you like me to use your email for you to receive your order .",
+      "start_ms": 236720,
+      "end_ms": 243830
+    },
+    {
+      "turn_id": "t33",
+      "speaker": "user",
+      "text": "i know thank you very much about i prefer not to receive emails .",
+      "start_ms": 244280,
+      "end_ms": 249250
+    },
+    {
+      "turn_id": "t34",
+      "speaker": "agent",
+      "text": "okay , no problem . i said thank you for calling and hope you have a good day .",
+      "start_ms": 251280,
+      "end_ms": 256310
+    }
+  ],
+  "audio_path": null,
+  "metadata": {
+    "license": "CC BY-NC 4.0 (eval use)",
+    "speaker_source": "tag field (channel ids do not separate speakers)",
+    "skipped_unwordtimed_turns": 0,
+    "n_plausible_overlaps": 4,
+    "n_long_intra_pauses": 0,
+    "goal": {
+      "attraction": {
+        "info": {},
+        "reqt": [
+          "openhours"
+        ]
+      },
+      "profile": {
+        "info": {
+          "name": "ken brenner"
+        }
+      },
+      "restaurant": {
+        "book": {
+          "day": "thursday",
+          "people": "6",
+          "time": "14:00"
+        },
+        "info": {
+          "food": "british",
+          "pricerange": "moderate"
+        }
+      }
+    },
+    "selection_bucket": "interruption"
+  }
+}

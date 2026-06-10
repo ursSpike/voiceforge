@@ -27,3 +27,8 @@ blocks the demo.
 
 ## Ideas dumped mid-sprint
 *(append below, one line each, keep building)*
+- Live-agent sandbox (Spike, Jun 10): host a deliberately-flawed LIVE voice agent (streaming
+  STT→LLM→TTS, Bolna-style) so anyone can call it, generate organic failures, and watch
+  VoiceForge mine their own call — self-serve demo loop. Post-hackathon: it's a multi-week
+  build and adjacent to what Bolna already sells; in-sprint, the same itch is covered by
+  Block 6 (live Gemini-as-agent replay) + Block 10 (real Bolna call ingest if credits land).

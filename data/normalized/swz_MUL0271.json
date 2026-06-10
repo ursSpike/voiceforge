@@ -1,0 +1,271 @@
+{
+  "call_id": "swz_MUL0271",
+  "source": "spokenwoz",
+  "language": "en",
+  "stress_profile": "clean",
+  "workflow_type": "profile+restaurant+train",
+  "turns": [
+    {
+      "turn_id": "t1",
+      "speaker": "user",
+      "text": "hi , where you are speaking to wechat .",
+      "start_ms": 1970,
+      "end_ms": 4700
+    },
+    {
+      "turn_id": "t2",
+      "speaker": "agent",
+      "text": "hi , richard . how you doing .",
+      "start_ms": 4940,
+      "end_ms": 6740
+    },
+    {
+      "turn_id": "t3",
+      "speaker": "user",
+      "text": "i'm great . thanks in yourself .",
+      "start_ms": 7060,
+      "end_ms": 8970
+    },
+    {
+      "turn_id": "t4",
+      "speaker": "agent",
+      "text": "i'm great . thank you .",
+      "start_ms": 9020,
+      "end_ms": 10550
+    },
+    {
+      "turn_id": "t5",
+      "speaker": "user",
+      "text": "i'm traveling to cambridge and i was wondering if you can assist me with finding some information that i need about the city .",
+      "start_ms": 11180,
+      "end_ms": 17980
+    },
+    {
+      "turn_id": "t6",
+      "speaker": "agent",
+      "text": "yes , i will be i will be happy to assist you with information on cambridge and .",
+      "start_ms": 18620,
+      "end_ms": 22860
+    },
+    {
+      "turn_id": "t7",
+      "speaker": "user",
+      "text": "okay . so first thing that i'm looking for is for a place to dine that should be located somewhere . i can access other places .",
+      "start_ms": 23210,
+      "end_ms": 32370
+    },
+    {
+      "turn_id": "t8",
+      "speaker": "agent",
+      "text": "okay , i can check and see what restaurants we have in the center of the city .",
+      "start_ms": 32800,
+      "end_ms": 37000
+    },
+    {
+      "turn_id": "t9",
+      "speaker": "user",
+      "text": "okay , the restaurant should also be in the cheap price range .",
+      "start_ms": 37510,
+      "end_ms": 42010
+    },
+    {
+      "turn_id": "t10",
+      "speaker": "agent",
+      "text": "okay , alright , um what i can offer you is rice house . it's in the center of the city and it's actually a price range .",
+      "start_ms": 42800,
+      "end_ms": 53070
+    },
+    {
+      "turn_id": "t11",
+      "speaker": "user",
+      "text": "all right , perfect . thank you so much . could you please tell me what type of food they serve at that restaurant .",
+      "start_ms": 54000,
+      "end_ms": 59920
+    },
+    {
+      "turn_id": "t12",
+      "speaker": "agent",
+      "text": "yes , certainly they serve chinese food .",
+      "start_ms": 60500,
+      "end_ms": 63650
+    },
+    {
+      "turn_id": "t13",
+      "speaker": "user",
+      "text": "thank you . and also can you give me your phone number .",
+      "start_ms": 64760,
+      "end_ms": 68480
+    },
+    {
+      "turn_id": "t14",
+      "speaker": "agent",
+      "text": "yes , sure . their phone number is 1223367755 .",
+      "start_ms": 69110,
+      "end_ms": 75530
+    },
+    {
+      "turn_id": "t15",
+      "speaker": "user",
+      "text": "thank you for that . and lastly , if you can also give me the restaurant address .",
+      "start_ms": 76250,
+      "end_ms": 81190
+    },
+    {
+      "turn_id": "t16",
+      "speaker": "agent",
+      "text": "yes , their address is 88 mill road , city center .",
+      "start_ms": 81810,
+      "end_ms": 86030
+    },
+    {
+      "turn_id": "t17",
+      "speaker": "user",
+      "text": "perfect . thank you so much for that . i also need help finding information on train . is this something that you can assist with .",
+      "start_ms": 86630,
+      "end_ms": 94290
+    },
+    {
+      "turn_id": "t18",
+      "speaker": "agent",
+      "text": "yes , i'll be happy to assist with information on trains .",
+      "start_ms": 94570,
+      "end_ms": 98280
+    },
+    {
+      "turn_id": "t19",
+      "speaker": "user",
+      "text": "okay , so i'm interested in a train that departs from cambridge , going to bishop stortford .",
+      "start_ms": 98410,
+      "end_ms": 105050
+    },
+    {
+      "turn_id": "t20",
+      "speaker": "agent",
+      "text": "okay , i can switch our database and see what we .",
+      "start_ms": 105290,
+      "end_ms": 108270
+    },
+    {
+      "turn_id": "t21",
+      "speaker": "user",
+      "text": "okay , perfect , right . so the train should leave cambridge on a thursday and we're hoping to arrive in bishop southport by 1030 a . m. .",
+      "start_ms": 108820,
+      "end_ms": 119120
+    },
+    {
+      "turn_id": "t22",
+      "speaker": "agent",
+      "text": "okay , on thursday . what i can offer you is a train that arrives in bishop's road for at 10:07 . will that break for you .",
+      "start_ms": 119840,
+      "end_ms": 127840
+    },
+    {
+      "turn_id": "t23",
+      "speaker": "user",
+      "text": "yes , that works perfectly . can you please give me the ticket price on that train .",
+      "start_ms": 128330,
+      "end_ms": 133880
+    },
+    {
+      "turn_id": "t24",
+      "speaker": "agent",
+      "text": "um that route will cost you 10.10 pounds .",
+      "start_ms": 134620,
+      "end_ms": 140010
+    },
+    {
+      "turn_id": "t25",
+      "speaker": "user",
+      "text": "thank you . and what is the total travel time on the train .",
+      "start_ms": 140620,
+      "end_ms": 144260
+    },
+    {
+      "turn_id": "t26",
+      "speaker": "agent",
+      "text": "the total travel time is 38 minutes .",
+      "start_ms": 144430,
+      "end_ms": 147170
+    },
+    {
+      "turn_id": "t27",
+      "speaker": "user",
+      "text": "awesome . and if you can also tell me what the train id is .",
+      "start_ms": 147790,
+      "end_ms": 151960
+    },
+    {
+      "turn_id": "t28",
+      "speaker": "agent",
+      "text": "yes , certainly the train id tr4260 .",
+      "start_ms": 152410,
+      "end_ms": 157120
+    },
+    {
+      "turn_id": "t29",
+      "speaker": "user",
+      "text": "okay , thank you so much for that information .",
+      "start_ms": 157680,
+      "end_ms": 160520
+    },
+    {
+      "turn_id": "t30",
+      "speaker": "agent",
+      "text": "is your most welcome , is there anything else that i can assist you with .",
+      "start_ms": 160530,
+      "end_ms": 163840
+    },
+    {
+      "turn_id": "t31",
+      "speaker": "user",
+      "text": "that was all i needed help with today . thank you .",
+      "start_ms": 164230,
+      "end_ms": 167640
+    },
+    {
+      "turn_id": "t32",
+      "speaker": "agent",
+      "text": "okay , thank you for calling .",
+      "start_ms": 167600,
+      "end_ms": 169450
+    }
+  ],
+  "audio_path": null,
+  "metadata": {
+    "license": "CC BY-NC 4.0 (eval use)",
+    "speaker_source": "tag field (channel ids do not separate speakers)",
+    "skipped_unwordtimed_turns": 0,
+    "n_plausible_overlaps": 0,
+    "n_long_intra_pauses": 0,
+    "goal": {
+      "profile": {
+        "info": {}
+      },
+      "restaurant": {
+        "info": {
+          "area": "centre",
+          "pricerange": "cheap"
+        },
+        "reqt": [
+          "phone",
+          "address",
+          "food"
+        ]
+      },
+      "train": {
+        "info": {
+          "arriveBy": "10:30",
+          "day": "thursday",
+          "departure": "cambridge",
+          "destination": "bishops stortford"
+        },
+        "reqt": [
+          "price",
+          "trainID",
+          "duration"
+        ]
+      }
+    },
+    "selection_bucket": "clean_quiet"
+  }
+}

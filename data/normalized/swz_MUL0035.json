@@ -1,0 +1,241 @@
+{
+  "call_id": "swz_MUL0035",
+  "source": "spokenwoz",
+  "language": "en",
+  "stress_profile": "interruption",
+  "workflow_type": "attraction+profile+train",
+  "turns": [
+    {
+      "turn_id": "t1",
+      "speaker": "user",
+      "text": "yeah .",
+      "start_ms": 5520,
+      "end_ms": 6400
+    },
+    {
+      "turn_id": "t2",
+      "speaker": "agent",
+      "text": "i customer service and my sister .",
+      "start_ms": 6880,
+      "end_ms": 9470
+    },
+    {
+      "turn_id": "t3",
+      "speaker": "user",
+      "text": "i i think .  uh , could you please assist me in looking for a train , please .",
+      "start_ms": 7250,
+      "end_ms": 13410
+    },
+    {
+      "turn_id": "t4",
+      "speaker": "agent",
+      "text": "no problem . where are you departing from , where are you going to .",
+      "start_ms": 14100,
+      "end_ms": 18660
+    },
+    {
+      "turn_id": "t5",
+      "speaker": "user",
+      "text": "um it should head to lift and should depart from courage .",
+      "start_ms": 18460,
+      "end_ms": 22920
+    },
+    {
+      "turn_id": "t6",
+      "speaker": "agent",
+      "text": "the problem cambridge and on any particular day or time .",
+      "start_ms": 23770,
+      "end_ms": 28050
+    },
+    {
+      "turn_id": "t7",
+      "speaker": "user",
+      "text": "um it should leave on thursday and should arrive .  roughly brief .  15 minutes of the um , 9 30 pm .",
+      "start_ms": 28270,
+      "end_ms": 42150
+    },
+    {
+      "turn_id": "t8",
+      "speaker": "agent",
+      "text": "okay . and 21 . okay , let me check a look on the system . give me a second .",
+      "start_ms": 43900,
+      "end_ms": 51900
+    },
+    {
+      "turn_id": "t9",
+      "speaker": "user",
+      "text": "okay , not a problem .",
+      "start_ms": 51610,
+      "end_ms": 53700
+    },
+    {
+      "turn_id": "t10",
+      "speaker": "agent",
+      "text": "okay . is it around 21 . um okay , this one option we should be doing . 20 r 0 folder how much is this .",
+      "start_ms": 55110,
+      "end_ms": 63570
+    },
+    {
+      "turn_id": "t11",
+      "speaker": "user",
+      "text": "okay . um , could you please assist me um with making a booking for me and to my other friends .",
+      "start_ms": 63850,
+      "end_ms": 73040
+    },
+    {
+      "turn_id": "t12",
+      "speaker": "agent",
+      "text": "okay , no problem . or i don't . just to complete the booking , i will need your id number , please .",
+      "start_ms": 73840,
+      "end_ms": 79600
+    },
+    {
+      "turn_id": "t13",
+      "speaker": "user",
+      "text": "okay . um , it's 1 0 , 8 .  8 1 7 0 2 5 .",
+      "start_ms": 79790,
+      "end_ms": 87220
+    },
+    {
+      "turn_id": "t14",
+      "speaker": "agent",
+      "text": "okay , so that is 1 0 , 8 , 8 1 . 7 0 2 5 going .",
+      "start_ms": 87930,
+      "end_ms": 94780
+    },
+    {
+      "turn_id": "t15",
+      "speaker": "user",
+      "text": "and then afterwards followed , followed by 2 0 . 5 , 6 0 , 0 , 6 .",
+      "start_ms": 94380,
+      "end_ms": 99200
+    },
+    {
+      "turn_id": "t16",
+      "speaker": "agent",
+      "text": "okay , that's 2 0 . 5 , 7 0 0 6 all right , got it .",
+      "start_ms": 99990,
+      "end_ms": 104380
+    },
+    {
+      "turn_id": "t17",
+      "speaker": "user",
+      "text": "yes .",
+      "start_ms": 104220,
+      "end_ms": 105200
+    },
+    {
+      "turn_id": "t18",
+      "speaker": "agent",
+      "text": "3 .",
+      "start_ms": 104620,
+      "end_ms": 110420
+    },
+    {
+      "turn_id": "t19",
+      "speaker": "user",
+      "text": "um could you also let me in looking for places to go to mint ali .",
+      "start_ms": 111480,
+      "end_ms": 116100
+    },
+    {
+      "turn_id": "t20",
+      "speaker": "agent",
+      "text": "okay , no prompt anything in specific you're looking at .",
+      "start_ms": 116480,
+      "end_ms": 120380
+    },
+    {
+      "turn_id": "t21",
+      "speaker": "user",
+      "text": "um it should be in a type of a college and should be located in the central part of .",
+      "start_ms": 120490,
+      "end_ms": 128730
+    },
+    {
+      "turn_id": "t22",
+      "speaker": "agent",
+      "text": "college there . okay . um . okay , i think i found a good option , which would be the . downing college .",
+      "start_ms": 129600,
+      "end_ms": 138640
+    },
+    {
+      "turn_id": "t23",
+      "speaker": "user",
+      "text": "okay , that's totally fine . can you please provide me with a poisoned , please .",
+      "start_ms": 139270,
+      "end_ms": 144670
+    },
+    {
+      "turn_id": "t24",
+      "speaker": "agent",
+      "text": "okay , the post code for downloading college . c b2 1 dk a dq sorry .",
+      "start_ms": 145880,
+      "end_ms": 153430
+    },
+    {
+      "turn_id": "t25",
+      "speaker": "user",
+      "text": "okay . um thank you very much for that .",
+      "start_ms": 153450,
+      "end_ms": 156500
+    },
+    {
+      "turn_id": "t26",
+      "speaker": "agent",
+      "text": "okay , no problem . anything else i can help you .",
+      "start_ms": 157450,
+      "end_ms": 160190
+    },
+    {
+      "turn_id": "t27",
+      "speaker": "user",
+      "text": "i know that will be all for me . thank you very .",
+      "start_ms": 160080,
+      "end_ms": 163490
+    },
+    {
+      "turn_id": "t28",
+      "speaker": "agent",
+      "text": "again , i said think of all in every day .",
+      "start_ms": 163900,
+      "end_ms": 166510
+    }
+  ],
+  "audio_path": null,
+  "metadata": {
+    "license": "CC BY-NC 4.0 (eval use)",
+    "speaker_source": "tag field (channel ids do not separate speakers)",
+    "skipped_unwordtimed_turns": 0,
+    "n_plausible_overlaps": 7,
+    "n_long_intra_pauses": 0,
+    "goal": {
+      "attraction": {
+        "info": {
+          "area": "centre",
+          "type": "college"
+        },
+        "reqt": [
+          "postcode"
+        ]
+      },
+      "profile": {
+        "info": {
+          "idnumber": "1088170252057006"
+        }
+      },
+      "train": {
+        "book": {
+          "people": "3"
+        },
+        "info": {
+          "arriveBy": "21:45",
+          "day": "thursday",
+          "departure": "cambridge",
+          "destination": "leicester"
+        }
+      }
+    },
+    "selection_bucket": "interruption"
+  }
+}

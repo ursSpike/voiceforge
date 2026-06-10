@@ -1,0 +1,227 @@
+{
+  "call_id": "swz_MUL1552",
+  "source": "spokenwoz",
+  "language": "en",
+  "stress_profile": "pause_heavy",
+  "workflow_type": "attraction+profile+restaurant",
+  "turns": [
+    {
+      "turn_id": "t1",
+      "speaker": "user",
+      "text": "hello , i'm looking for a restaurant .",
+      "start_ms": 2310,
+      "end_ms": 5210
+    },
+    {
+      "turn_id": "t2",
+      "speaker": "agent",
+      "text": "alright , what kind of a restaurant .",
+      "start_ms": 6150,
+      "end_ms": 8580
+    },
+    {
+      "turn_id": "t3",
+      "speaker": "user",
+      "text": "the restaurant should be an expensive price range and should win the wave and the restaurant should serve indian food .",
+      "start_ms": 8720,
+      "end_ms": 16000
+    },
+    {
+      "turn_id": "t4",
+      "speaker": "agent",
+      "text": "okay , let me search a database . okay , there is such a restaurant . it is called tandoori palace .",
+      "start_ms": 17190,
+      "end_ms": 39200
+    },
+    {
+      "turn_id": "t5",
+      "speaker": "user",
+      "text": "okay , i would like to book a table for 8 people at half an hour past 11 on friday .",
+      "start_ms": 40280,
+      "end_ms": 47130
+    },
+    {
+      "turn_id": "t6",
+      "speaker": "agent",
+      "text": "alright , till sort that out . is there anything .",
+      "start_ms": 48300,
+      "end_ms": 53590
+    },
+    {
+      "turn_id": "t7",
+      "speaker": "user",
+      "text": "i'm also looking for a place to go in town . the attraction should be in the same area as the restaurant .",
+      "start_ms": 54510,
+      "end_ms": 60290
+    },
+    {
+      "turn_id": "t8",
+      "speaker": "agent",
+      "text": "okay , let me search our database . alright , there is such a place um it is called the cambridge and county folk museum .",
+      "start_ms": 61840,
+      "end_ms": 84460
+    },
+    {
+      "turn_id": "t9",
+      "speaker": "user",
+      "text": "okay . what type of an attraction is .",
+      "start_ms": 85630,
+      "end_ms": 87830
+    },
+    {
+      "turn_id": "t10",
+      "speaker": "agent",
+      "text": "gram it is a museum .",
+      "start_ms": 88520,
+      "end_ms": 90520
+    },
+    {
+      "turn_id": "t11",
+      "speaker": "user",
+      "text": "okay , thank you , sir .",
+      "start_ms": 90990,
+      "end_ms": 92870
+    },
+    {
+      "turn_id": "t12",
+      "speaker": "agent",
+      "text": "okay . may i please have your name for the restaurant booking .",
+      "start_ms": 93650,
+      "end_ms": 97710
+    },
+    {
+      "turn_id": "t13",
+      "speaker": "user",
+      "text": "it's cannes cumin .",
+      "start_ms": 98410,
+      "end_ms": 100500
+    },
+    {
+      "turn_id": "t14",
+      "speaker": "agent",
+      "text": "all right , maybe please buy your first name and love me .",
+      "start_ms": 101370,
+      "end_ms": 105400
+    },
+    {
+      "turn_id": "t15",
+      "speaker": "user",
+      "text": "it's k e n t .",
+      "start_ms": 105820,
+      "end_ms": 107910
+    },
+    {
+      "turn_id": "t16",
+      "speaker": "agent",
+      "text": "kent .",
+      "start_ms": 108550,
+      "end_ms": 110360
+    },
+    {
+      "turn_id": "t17",
+      "speaker": "user",
+      "text": "scuba is s c h m .",
+      "start_ms": 110760,
+      "end_ms": 113950
+    },
+    {
+      "turn_id": "t18",
+      "speaker": "agent",
+      "text": "schn .",
+      "start_ms": 113840,
+      "end_ms": 115710
+    },
+    {
+      "turn_id": "t19",
+      "speaker": "user",
+      "text": "double e m .",
+      "start_ms": 118020,
+      "end_ms": 120190
+    },
+    {
+      "turn_id": "t20",
+      "speaker": "agent",
+      "text": "kent schneeman .",
+      "start_ms": 120970,
+      "end_ms": 123820
+    },
+    {
+      "turn_id": "t21",
+      "speaker": "user",
+      "text": "yes .",
+      "start_ms": 123910,
+      "end_ms": 124780
+    },
+    {
+      "turn_id": "t22",
+      "speaker": "agent",
+      "text": "alright , and would you like to receive an email confirmation for your booking .",
+      "start_ms": 125450,
+      "end_ms": 129820
+    },
+    {
+      "turn_id": "t23",
+      "speaker": "user",
+      "text": "no thanks .",
+      "start_ms": 129800,
+      "end_ms": 131140
+    },
+    {
+      "turn_id": "t24",
+      "speaker": "agent",
+      "text": "alright , do you do anything else .",
+      "start_ms": 131750,
+      "end_ms": 133980
+    },
+    {
+      "turn_id": "t25",
+      "speaker": "user",
+      "text": "no , thanks for everything .",
+      "start_ms": 133930,
+      "end_ms": 135580
+    },
+    {
+      "turn_id": "t26",
+      "speaker": "agent",
+      "text": "okay , thank you for your call . enjoy the rest of your day .",
+      "start_ms": 136170,
+      "end_ms": 139600
+    }
+  ],
+  "audio_path": null,
+  "metadata": {
+    "license": "CC BY-NC 4.0 (eval use)",
+    "speaker_source": "tag field (channel ids do not separate speakers)",
+    "skipped_unwordtimed_turns": 0,
+    "n_plausible_overlaps": 1,
+    "n_long_intra_pauses": 3,
+    "goal": {
+      "attraction": {
+        "info": {
+          "area": "west"
+        },
+        "reqt": [
+          "type"
+        ]
+      },
+      "profile": {
+        "info": {
+          "name": "kent schneeman"
+        }
+      },
+      "restaurant": {
+        "book": {
+          "day": "friday",
+          "people": "8",
+          "time": "11:30"
+        },
+        "info": {
+          "area": "west",
+          "food": "indian",
+          "pricerange": "expensive"
+        }
+      }
+    },
+    "selection_bucket": "pause_heavy"
+  }
+}

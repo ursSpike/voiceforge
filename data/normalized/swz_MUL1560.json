@@ -1,0 +1,225 @@
+{
+  "call_id": "swz_MUL1560",
+  "source": "spokenwoz",
+  "language": "en",
+  "stress_profile": "pause_heavy",
+  "workflow_type": "attraction+profile+restaurant",
+  "turns": [
+    {
+      "turn_id": "t1",
+      "speaker": "user",
+      "text": "hello .",
+      "start_ms": 4980,
+      "end_ms": 6150
+    },
+    {
+      "turn_id": "t2",
+      "speaker": "agent",
+      "text": "hello .",
+      "start_ms": 7370,
+      "end_ms": 8420
+    },
+    {
+      "turn_id": "t3",
+      "speaker": "user",
+      "text": "i am looking for a place to dine .",
+      "start_ms": 7590,
+      "end_ms": 10150
+    },
+    {
+      "turn_id": "t4",
+      "speaker": "agent",
+      "text": "alright , what kind of a restaurant .",
+      "start_ms": 11080,
+      "end_ms": 13420
+    },
+    {
+      "turn_id": "t5",
+      "speaker": "user",
+      "text": "the restaurant should serve mediterranean food .  and should be in a moderate price range .",
+      "start_ms": 13520,
+      "end_ms": 19290
+    },
+    {
+      "turn_id": "t6",
+      "speaker": "agent",
+      "text": "moderate , let me search our database . moderate , unfortunately . i'm not finding such a restaurant . do you have a second choice .",
+      "start_ms": 20760,
+      "end_ms": 41730
+    },
+    {
+      "turn_id": "t7",
+      "speaker": "user",
+      "text": "how about one that serves fish and chips .",
+      "start_ms": 41900,
+      "end_ms": 44480
+    },
+    {
+      "turn_id": "t8",
+      "speaker": "agent",
+      "text": "okay , let me just set a better base . okay , there is a restaurant available . it is called restaurant two two .",
+      "start_ms": 45790,
+      "end_ms": 65240
+    },
+    {
+      "turn_id": "t9",
+      "speaker": "user",
+      "text": "may please provide me with that drift .",
+      "start_ms": 66070,
+      "end_ms": 68170
+    },
+    {
+      "turn_id": "t10",
+      "speaker": "agent",
+      "text": "patricia de via university arms , regent street city center .",
+      "start_ms": 69200,
+      "end_ms": 75070
+    },
+    {
+      "turn_id": "t11",
+      "speaker": "user",
+      "text": "in which areas is situated .",
+      "start_ms": 75350,
+      "end_ms": 77500
+    },
+    {
+      "turn_id": "t12",
+      "speaker": "agent",
+      "text": "it is in the centre of town .",
+      "start_ms": 77970,
+      "end_ms": 80060
+    },
+    {
+      "turn_id": "t13",
+      "speaker": "user",
+      "text": "may i please have the postcode .",
+      "start_ms": 80530,
+      "end_ms": 82370
+    },
+    {
+      "turn_id": "t14",
+      "speaker": "agent",
+      "text": "post code cb21ab .",
+      "start_ms": 83040,
+      "end_ms": 86440
+    },
+    {
+      "turn_id": "t15",
+      "speaker": "user",
+      "text": "okay , i am also looking for a place to go in town .",
+      "start_ms": 87510,
+      "end_ms": 91000
+    },
+    {
+      "turn_id": "t16",
+      "speaker": "agent",
+      "text": "alright , what kind of a plate .",
+      "start_ms": 91910,
+      "end_ms": 94520
+    },
+    {
+      "turn_id": "t17",
+      "speaker": "user",
+      "text": "the attraction should be in the top of a building .  with historical or cultural interest that is stolen .",
+      "start_ms": 95200,
+      "end_ms": 102480
+    },
+    {
+      "turn_id": "t18",
+      "speaker": "agent",
+      "text": "alright , let me search our database . okay , a place that's available is called cambridge contemporary art .",
+      "start_ms": 103340,
+      "end_ms": 123700
+    },
+    {
+      "turn_id": "t19",
+      "speaker": "user",
+      "text": "may i please have the phone number .",
+      "start_ms": 124060,
+      "end_ms": 126030
+    },
+    {
+      "turn_id": "t20",
+      "speaker": "agent",
+      "text": "122332422 .",
+      "start_ms": 126840,
+      "end_ms": 131750
+    },
+    {
+      "turn_id": "t21",
+      "speaker": "user",
+      "text": "may i please have that drive .",
+      "start_ms": 133250,
+      "end_ms": 134900
+    },
+    {
+      "turn_id": "t22",
+      "speaker": "agent",
+      "text": "addresses 6 trinity street .",
+      "start_ms": 135950,
+      "end_ms": 138960
+    },
+    {
+      "turn_id": "t23",
+      "speaker": "user",
+      "text": "okay , thank you very much , sir .",
+      "start_ms": 140150,
+      "end_ms": 142220
+    },
+    {
+      "turn_id": "t24",
+      "speaker": "agent",
+      "text": "alright , is there anything else .",
+      "start_ms": 142760,
+      "end_ms": 144950
+    },
+    {
+      "turn_id": "t25",
+      "speaker": "user",
+      "text": "no thing .",
+      "start_ms": 144920,
+      "end_ms": 146020
+    },
+    {
+      "turn_id": "t26",
+      "speaker": "agent",
+      "text": "okay , thank you for your call . enjoy the rest of your day .",
+      "start_ms": 146610,
+      "end_ms": 150240
+    }
+  ],
+  "audio_path": null,
+  "metadata": {
+    "license": "CC BY-NC 4.0 (eval use)",
+    "speaker_source": "tag field (channel ids do not separate speakers)",
+    "skipped_unwordtimed_turns": 0,
+    "n_plausible_overlaps": 1,
+    "n_long_intra_pauses": 3,
+    "goal": {
+      "attraction": {
+        "info": {
+          "type": "museum"
+        },
+        "reqt": [
+          "phone",
+          "address"
+        ]
+      },
+      "profile": {
+        "info": {}
+      },
+      "restaurant": {
+        "info": {
+          "food": "british",
+          "pricerange": "moderate"
+        },
+        "reqt": [
+          "address",
+          "area",
+          "postcode"
+        ]
+      }
+    },
+    "selection_bucket": "pause_heavy"
+  }
+}

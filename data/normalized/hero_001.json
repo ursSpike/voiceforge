@@ -1,0 +1,100 @@
+{
+  "call_id": "hero_001",
+  "source": "hero",
+  "language": "te-en",
+  "stress_profile": "interruption",
+  "workflow_type": "appliance_service_booking",
+  "turns": [
+    {
+      "turn_id": "t1",
+      "speaker": "agent",
+      "text": "Hi, this is the service desk for QuickCool appliance care. I can help you book a technician visit. May I know which area you're calling from?",
+      "start_ms": 0,
+      "end_ms": 10347
+    },
+    {
+      "turn_id": "t2",
+      "speaker": "user",
+      "text": "haan hello... area ante... Madhapur side anukunta... near the, er... metro station.",
+      "start_ms": 10947,
+      "end_ms": 18949
+    },
+    {
+      "turn_id": "t3",
+      "speaker": "agent",
+      "text": "I need your complete address with pincode, landmark and door number before we can proceed any further with this booking request.",
+      "start_ms": 18149,
+      "end_ms": 25912
+    },
+    {
+      "turn_id": "t4",
+      "speaker": "user",
+      "text": "ayyo okay okay... full address kavala? it's plot 42, ante... near metro pillar number... I don't remember exactly ya.",
+      "start_ms": 26412,
+      "end_ms": 37656
+    },
+    {
+      "turn_id": "t5",
+      "speaker": "agent",
+      "text": "Thank you. And what appliance needs servicing today?",
+      "start_ms": 38056,
+      "end_ms": 42107
+    },
+    {
+      "turn_id": "t6",
+      "speaker": "user",
+      "text": "AC unit... cooling sariga ledu, very weak airflow vastundi.",
+      "start_ms": 42607,
+      "end_ms": 52253
+    },
+    {
+      "turn_id": "t7",
+      "speaker": "agent",
+      "text": "Got it \u2014 an AC cooling issue. Would you prefer a morning or an evening visit tomorrow?",
+      "start_ms": 53873,
+      "end_ms": 60085
+    },
+    {
+      "turn_id": "t8",
+      "speaker": "user",
+      "text": "morning better... around ten ayite manchidi.",
+      "start_ms": 60535,
+      "end_ms": 64238
+    },
+    {
+      "turn_id": "t9",
+      "speaker": "agent",
+      "text": "Perfect, tomorrow morning around ten AM. Could I get a callback number?",
+      "start_ms": 64588,
+      "end_ms": 70210
+    },
+    {
+      "turn_id": "t10",
+      "speaker": "user",
+      "text": "nine eight four nine two... double five... zero three one.",
+      "start_ms": 70760,
+      "end_ms": 77553
+    },
+    {
+      "turn_id": "t11",
+      "speaker": "agent",
+      "text": "Thank you. Your booking is confirmed for tomorrow at ten AM in Madhapur. The technician will call you before arriving.",
+      "start_ms": 77953,
+      "end_ms": 86965
+    },
+    {
+      "turn_id": "t12",
+      "speaker": "user",
+      "text": "sare, thanks ya.",
+      "start_ms": 87465,
+      "end_ms": 90885
+    }
+  ],
+  "audio_path": "data/hero/hero_001.wav",
+  "metadata": {
+    "constructed": true,
+    "timestamps_from": "assembly_timeline",
+    "agent_voice": "en-IN-NeerjaNeural",
+    "disclosure": "constructed demo scenario; see docs/limitations.md"
+  }
+}

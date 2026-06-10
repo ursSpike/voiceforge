@@ -1,0 +1,312 @@
+{
+  "call_id": "swz_MUL0043",
+  "source": "spokenwoz",
+  "language": "en",
+  "stress_profile": "interruption",
+  "workflow_type": "hotel+profile+train",
+  "turns": [
+    {
+      "turn_id": "t1",
+      "speaker": "user",
+      "text": "hi . is your customer service .",
+      "start_ms": 1150,
+      "end_ms": 3210
+    },
+    {
+      "turn_id": "t2",
+      "speaker": "agent",
+      "text": "yes , anything i can help you .",
+      "start_ms": 3030,
+      "end_ms": 4940
+    },
+    {
+      "turn_id": "t3",
+      "speaker": "user",
+      "text": "i'm working for a particular hotel in cambridge .",
+      "start_ms": 4900,
+      "end_ms": 8110
+    },
+    {
+      "turn_id": "t4",
+      "speaker": "agent",
+      "text": "sure . may i know your name , please .",
+      "start_ms": 7960,
+      "end_ms": 10150
+    },
+    {
+      "turn_id": "t5",
+      "speaker": "user",
+      "text": "the name is called the landfilled hotel .",
+      "start_ms": 10390,
+      "end_ms": 13620
+    },
+    {
+      "turn_id": "t6",
+      "speaker": "agent",
+      "text": "okay , please wait , let me check . i got it for you .",
+      "start_ms": 13680,
+      "end_ms": 19130
+    },
+    {
+      "turn_id": "t7",
+      "speaker": "user",
+      "text": "okay , i want to know a few details . first is the hotel type .",
+      "start_ms": 19510,
+      "end_ms": 24220
+    },
+    {
+      "turn_id": "t8",
+      "speaker": "agent",
+      "text": "the hotel type is hotel .",
+      "start_ms": 24742,
+      "end_ms": 27140
+    },
+    {
+      "turn_id": "t9",
+      "speaker": "user",
+      "text": "okay . and which area does the hotel located .",
+      "start_ms": 27350,
+      "end_ms": 30970
+    },
+    {
+      "turn_id": "t10",
+      "speaker": "agent",
+      "text": "it's in south .",
+      "start_ms": 31605,
+      "end_ms": 33360
+    },
+    {
+      "turn_id": "t11",
+      "speaker": "user",
+      "text": "okay . and may i also know the address of the hotel .",
+      "start_ms": 33950,
+      "end_ms": 37210
+    },
+    {
+      "turn_id": "t12",
+      "speaker": "agent",
+      "text": "sure , the address is 53 to 57 length of road .",
+      "start_ms": 37240,
+      "end_ms": 42190
+    },
+    {
+      "turn_id": "t13",
+      "speaker": "user",
+      "text": "ah okay , then i'll make the reservation myself .",
+      "start_ms": 42700,
+      "end_ms": 46110
+    },
+    {
+      "turn_id": "t14",
+      "speaker": "agent",
+      "text": "sure , no problem .",
+      "start_ms": 46010,
+      "end_ms": 47560
+    },
+    {
+      "turn_id": "t15",
+      "speaker": "user",
+      "text": "um .  i'm also looking for a train to go to pittsburgh .",
+      "start_ms": 47960,
+      "end_ms": 52790
+    },
+    {
+      "turn_id": "t16",
+      "speaker": "agent",
+      "text": "okay , sure . maybe . and may i know more detail , please .",
+      "start_ms": 53100,
+      "end_ms": 56250
+    },
+    {
+      "turn_id": "t17",
+      "speaker": "user",
+      "text": "okay , i i want to depart from cambridge in the coming weekend .",
+      "start_ms": 56720,
+      "end_ms": 61760
+    },
+    {
+      "turn_id": "t18",
+      "speaker": "agent",
+      "text": "mhm .",
+      "start_ms": 61510,
+      "end_ms": 62340
+    },
+    {
+      "turn_id": "t19",
+      "speaker": "user",
+      "text": "and i want to try to arrive peter broth by five thirty p m .",
+      "start_ms": 62710,
+      "end_ms": 67560
+    },
+    {
+      "turn_id": "t20",
+      "speaker": "agent",
+      "text": "okay , sure . so may i know that whether you prefer living on sunday or saturday .",
+      "start_ms": 67720,
+      "end_ms": 75350
+    },
+    {
+      "turn_id": "t21",
+      "speaker": "user",
+      "text": "uh , sunday .",
+      "start_ms": 75620,
+      "end_ms": 77210
+    },
+    {
+      "turn_id": "t22",
+      "speaker": "agent",
+      "text": "okay , sure . so i go . an option for you , which is the train will abide by . 17:24 is that okay for you .",
+      "start_ms": 77220,
+      "end_ms": 88800
+    },
+    {
+      "turn_id": "t23",
+      "speaker": "user",
+      "text": "um that's totally fun .",
+      "start_ms": 89090,
+      "end_ms": 90810
+    },
+    {
+      "turn_id": "t24",
+      "speaker": "agent",
+      "text": "okay , great .",
+      "start_ms": 90590,
+      "end_ms": 91830
+    },
+    {
+      "turn_id": "t25",
+      "speaker": "user",
+      "text": "um so may i know the train id .",
+      "start_ms": 92180,
+      "end_ms": 94800
+    },
+    {
+      "turn_id": "t26",
+      "speaker": "agent",
+      "text": "sure , the train i d is tr6063 .",
+      "start_ms": 94700,
+      "end_ms": 98940
+    },
+    {
+      "turn_id": "t27",
+      "speaker": "user",
+      "text": "okay , got it . and how about the travel time .",
+      "start_ms": 99830,
+      "end_ms": 102500
+    },
+    {
+      "turn_id": "t28",
+      "speaker": "agent",
+      "text": "it takes 15 minutes .",
+      "start_ms": 102640,
+      "end_ms": 105240
+    },
+    {
+      "turn_id": "t29",
+      "speaker": "user",
+      "text": "okay . and lastly , i want to know the price of the train ticket .",
+      "start_ms": 105830,
+      "end_ms": 110190
+    },
+    {
+      "turn_id": "t30",
+      "speaker": "agent",
+      "text": "sure , the private 13.2 pounds .",
+      "start_ms": 110110,
+      "end_ms": 113900
+    },
+    {
+      "turn_id": "t31",
+      "speaker": "user",
+      "text": "uh , okay , uh . by the train turkeys myself , thank you .",
+      "start_ms": 114530,
+      "end_ms": 118460
+    },
+    {
+      "turn_id": "t32",
+      "speaker": "agent",
+      "text": "sure . no problem . so , is there any other thing i can help .",
+      "start_ms": 118080,
+      "end_ms": 122060
+    },
+    {
+      "turn_id": "t33",
+      "speaker": "user",
+      "text": "uh , that's all for .",
+      "start_ms": 122210,
+      "end_ms": 123910
+    },
+    {
+      "turn_id": "t34",
+      "speaker": "agent",
+      "text": "thank you for your call .",
+      "start_ms": 124420,
+      "end_ms": 125820
+    },
+    {
+      "turn_id": "t35",
+      "speaker": "user",
+      "text": "thank you for your help .",
+      "start_ms": 125780,
+      "end_ms": 127190
+    },
+    {
+      "turn_id": "t36",
+      "speaker": "agent",
+      "text": "you're welcome .",
+      "start_ms": 127010,
+      "end_ms": 128620
+    },
+    {
+      "turn_id": "t37",
+      "speaker": "user",
+      "text": "bye bye .",
+      "start_ms": 128130,
+      "end_ms": 129410
+    },
+    {
+      "turn_id": "t38",
+      "speaker": "agent",
+      "text": "bye .",
+      "start_ms": 129100,
+      "end_ms": 130340
+    }
+  ],
+  "audio_path": null,
+  "metadata": {
+    "license": "CC BY-NC 4.0 (eval use)",
+    "speaker_source": "tag field (channel ids do not separate speakers)",
+    "skipped_unwordtimed_turns": 0,
+    "n_plausible_overlaps": 8,
+    "n_long_intra_pauses": 1,
+    "goal": {
+      "hotel": {
+        "info": {
+          "name": "the lensfield hotel"
+        },
+        "reqt": [
+          "type",
+          "area",
+          "address"
+        ]
+      },
+      "profile": {
+        "info": {}
+      },
+      "train": {
+        "info": {
+          "arriveBy": "17:30",
+          "day": "sunday",
+          "departure": "cambridge",
+          "destination": "peterborough"
+        },
+        "reqt": [
+          "trainID",
+          "duration",
+          "price"
+        ]
+      }
+    },
+    "selection_bucket": "interruption"
+  }
+}
