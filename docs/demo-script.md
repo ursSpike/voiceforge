@@ -9,8 +9,9 @@ until the room has heard the failure.
 1. **(15s) Hook.** "Voice agents demo great and fail quietly in production. Teams can't see
    why calls fail, what they cost, or how failures become the next version. Listen to this."
 2. **(45s) MONEY SHOT.** Hero call plays aloud — the room hears the barge-in and the dead air.
-   Failure table flags `0:14 · agent barge-in · 800ms overlap` and `0:41 · response latency ·
-   1,620ms gap`. Scorecard reason → corrected response → **the preference pair appears on
+   Failure table flags `0:15 · agent barge-in · 800ms overlap` and `0:48 · response latency ·
+   1,620ms gap` (live numbers from `data/hero/turns.json`; canonical source). Scorecard reason →
+   corrected response → **the preference pair appears on
    screen.** "Every call is unlabeled preference data. We label it automatically."
 3. **(30s) A/B.** Before/after panel. Verbatim honesty line: "This is one scenario replay, not
    statistical evidence. VoiceForge caught the failure, proposed the fix, and the same evaluator

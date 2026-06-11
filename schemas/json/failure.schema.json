@@ -2,10 +2,9 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "failure.schema.json",
   "title": "failure",
-  "description": "One detected failure on a call. Emitted by signals.py (deterministic) or judge (semantic). `cluster` groups failures across calls for the Failure Clusters view.",
+  "description": "One detected failure on a call. Emitted by signals.py (deterministic) or judge (semantic). `cluster` groups failures across calls for the Failure Clusters view. call_id optional (implied when embedded; injected at assembly for clusters).",
   "type": "object",
   "required": [
-    "call_id",
     "dimension",
     "label",
     "detail",

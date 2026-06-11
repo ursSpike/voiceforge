@@ -123,13 +123,17 @@ IMPROVEMENT = {
 }
 
 # ---------------------------------------------------------------- failure (NEW — for failure clusters)
+# call_id is OPTIONAL: when embedded under a call_record.failures[] the parent implies it; the
+# standalone Failure-Clusters builder (score.py/crosscut.py) injects call_id so a cluster row can
+# point back to its call. signals.py emits context-free failures (no call_id) — assembly adds it.
 FAILURE = {
     "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "failure.schema.json",
     "title": "failure",
     "description": "One detected failure on a call. Emitted by signals.py (deterministic) or judge "
-                   "(semantic). `cluster` groups failures across calls for the Failure Clusters view.",
+                   "(semantic). `cluster` groups failures across calls for the Failure Clusters view. "
+                   "call_id optional (implied when embedded; injected at assembly for clusters).",
     "type": "object",
-    "required": ["call_id", "dimension", "label", "detail", "evidence_turn_ids"],
+    "required": ["dimension", "label", "detail", "evidence_turn_ids"],
     "properties": {
         "call_id": {"type": "string"},
         "dimension": {"type": "string"},
@@ -144,20 +148,33 @@ FAILURE = {
 }
 
 # ---------------------------------------------------------------- call_record (merged — the out/calls.json unit)
+def _embed(schema):
+    """An embedded copy of a schema with call_id dropped from required (the parent implies it).
+    Used so call_record validates the SHAPE of its nested outcome/scorecard/cost, not just 'object'."""
+    s = json.loads(json.dumps({k: v for k, v in schema.items()
+                               if k not in ("$schema", "$id", "title", "description")}))
+    s["required"] = [r for r in s.get("required", []) if r != "call_id"]
+    s.setdefault("type", "object")
+    return s
+
+
 CALL_RECORD = {
     "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "call_record.schema.json",
     "title": "call_record",
-    "description": "The dashboard's per-call unit in out/calls.json: the call_log plus its outcome, "
-                   "scorecard, cost, and failures. The ONLY shape the dashboard consumes.",
+    "description": "The dashboard's per-call unit in out/calls.json: the call_log PLUS its outcome, "
+                   "scorecard, cost, failures, and signals — each shape-validated. The ONLY shape "
+                   "the dashboard consumes. outcome/scorecard/cost/failures are required for a fully "
+                   "scored record (Batch 3 output); signals optional.",
     "type": "object",
-    "required": ["call_id", "source", "language", "stress_profile", "workflow_type", "turns"],
+    "required": ["call_id", "source", "language", "stress_profile", "workflow_type", "turns",
+                 "outcome", "scorecard", "cost", "failures"],
     "properties": {
         **CALL_LOG["properties"],
-        "outcome": {"type": ["object", "null"]},        # task_outcome (call_id implied)
-        "scorecard": {"type": ["object", "null"]},      # scorecard (call_id implied)
-        "cost": {"type": ["object", "null"]},           # cost (call_id implied)
-        "failures": {"type": "array", "items": {"type": "object"}},
-        "signals": {"type": ["object", "null"]},        # raw signals.analyze() summary
+        "outcome": _embed(TASK_OUTCOME),                 # task_outcome shape, call_id implied
+        "scorecard": _embed(SCORECARD),                  # scorecard shape (dimensions[], overall)
+        "cost": _embed(COST),                            # cost shape
+        "failures": {"type": "array", "items": _embed(FAILURE)},
+        "signals": {"type": ["object", "null"]},         # raw signals.analyze() summary
     },
 }
 
@@ -216,6 +233,24 @@ def main():
             bad += 1
             print(f"  INVALID {p.name}: {e.message} (at {list(e.path)})")
     print(f"pool validated against call_log: {ok} valid, {bad} invalid")
+
+    # call_record contract self-test: a well-formed record passes, a missing-scorecard one fails
+    sample = {"call_id": "x", "source": "hero", "language": "en", "stress_profile": "clean",
+              "workflow_type": "t", "turns": [{"turn_id": "t1", "speaker": "agent", "text": "hi", "start_ms": 0}],
+              "outcome": {"task_completed": True, "required_fields": []},
+              "scorecard": {"dimensions": [{"name": "barge_in", "type": "deterministic", "score": 1.0,
+                                            "reason": "no overlap", "evidence_turn_ids": []}], "overall": 1.0},
+              "cost": {"call_id": "x", "duration_s": 1.0, "turn_count": 1, "est_cost_total": 0.0,
+                       "est_cost_per_success_note": "estimated, prototype"},
+              "failures": [{"dimension": "latency_gap", "label": "response latency", "detail": "900ms gap",
+                            "evidence_turn_ids": ["t1"]}]}
+    validate(sample, "call_record")
+    try:
+        bad_sample = {k: v for k, v in sample.items() if k != "scorecard"}
+        validate(bad_sample, "call_record")
+        print("  call_record self-test FAILED: missing scorecard wrongly accepted"); bad += 1
+    except jsonschema.ValidationError:
+        print("call_record contract self-test: well-formed PASS, missing-scorecard correctly REJECTED")
     sys.exit(1 if bad else 0)
 
 

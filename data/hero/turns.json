@@ -94,7 +94,8 @@
   "metadata": {
     "constructed": true,
     "timestamps_from": "assembly_timeline",
-    "agent_voice": "en-IN-NeerjaNeural",
+    "agent_voice": "cartesia/Devansh",
+    "voice_provider": "cartesia",
     "disclosure": "constructed demo scenario; see docs/limitations.md"
   }
 }

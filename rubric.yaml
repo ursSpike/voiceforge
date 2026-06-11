@@ -10,10 +10,15 @@ judge:
   temperature: 0
   # every judge dimension must return: {score, reason, evidence_turn_ids}
 
+# RULING (Jun 11, yes/+2/yes): timing/interruption/silence/task stay DETERMINISTIC (measured, the
+# differentiator); judge is semantic only. The +2 (conciseness, user_frustration) are declared here
+# now to settle the dimension set; judge.py wires them in at Batch 4. Weights sum to 1.00.
 dimensions:
-  barge_in:        {type: deterministic, weight: 0.20, threshold_overlap_ms: 100}  # <=100ms = backchannel, ignored
-  latency_gap:     {type: deterministic, weight: 0.20, laggy_ms: 800}              # <=300 snappy, <=800 ok, >800 laggy
-  task_completion: {type: deterministic, weight: 0.20}                             # from required-field checklist
-  language_match:  {type: judge, weight: 0.15}   # the multilingual slot; populated 'en' this sprint
-  faithfulness:    {type: judge, weight: 0.15}
-  repair_quality:  {type: judge, weight: 0.10}   # clarification handling
+  barge_in:        {type: deterministic, weight: 0.18, threshold_overlap_ms: 100}  # <=100ms = backchannel, ignored
+  latency_gap:     {type: deterministic, weight: 0.18, laggy_ms: 800}              # <=300 snappy, <=800 ok, >800 laggy
+  task_completion: {type: deterministic, weight: 0.18}                             # from required-field checklist
+  language_match:  {type: judge, weight: 0.12}   # the multilingual slot; populated 'en' this sprint
+  faithfulness:    {type: judge, weight: 0.12}   # groundedness / hallucination risk
+  repair_quality:  {type: judge, weight: 0.08}   # clarification handling
+  conciseness:      {type: judge, weight: 0.07}  # +2 (Batch 4): is the agent unnecessarily verbose?
+  user_frustration: {type: judge, weight: 0.07}  # +2 (Batch 4): does the caller show frustration/repair-loops?

@@ -77,3 +77,38 @@ row ("real clean Bolna call" vs the failing hero call).
 eval core → out/calls.json). STOP here per the leash.
 
 ---
+
+## BATCH 1.5 — Repair pass (GPT review fixes) · Jun 11 ~19:10 IST
+
+**Objective:** clear every blocker + warning from GPT's audit before advancing to Batch 2, so the
+output contract is solid and the repo is internally consistent.
+
+**Blockers fixed:**
+- `call_record.schema.json` was too loose → tightened: now REQUIRES + shape-validates nested
+  `outcome`/`scorecard`/`cost`/`failures` (via `_embed`, dropping the implied `call_id`).
+  Self-test added: well-formed record PASSES, missing-scorecard correctly REJECTED.
+- `failure` schema required `call_id` but signals.py emits context-free failures → made `call_id`
+  OPTIONAL (implied when embedded; injected at assembly for the clusters view). Documented.
+- `preflight.py scored()` read `dimensions` at call root → fixed to `scorecard.dimensions`
+  (matches the call_record contract; future out/calls.json audits correctly now).
+- `dpo_export.py` had stray pasted prose after the TODO → restored to a clean valid stub.
+
+**Warnings fixed:**
+- `requirements.txt` now lists `jsonschema`.
+- Hero provenance reconciled: assembler records the ACTUAL voice (`metadata.voice_provider:
+  cartesia`, `agent_voice: cartesia/Devansh`); re-assembled idempotently (same Cartesia clips →
+  same 0:15/0:48 timestamps); `data/normalized/hero_001.json` regenerated from turns.json (now
+  byte-identical). demo-script + current_state updated to 0:15/0:48; turns.json declared canonical.
+- `current_state.md` de-staled (pool 11→12, out/ contents, rubric 8 dims).
+- Rubric settled: `conciseness` + `user_frustration` added (8 dims, 3 det + 5 judge, weights sum 1.0;
+  judge.py wires the +2 at Batch 4). (Caught+fixed a YAML-spacing typo this introduced.)
+- `pipeline/cartesia_tts_smoke.py` (proves the mandatory Cartesia *synthesis* path) committed, not stray.
+
+**Result:** preflight clean (hero/Bolna/pool/cartesia all PASS); pool 12/12 valid; call_record
+self-test passes; no untracked files; rubric loads, weights = 1.0.
+
+**Broke:** rubric YAML spacing typo (`key:{` → `key: {`) — caught by the verification run, fixed.
+
+**Next:** Batch 2 + 3 now safe to proceed on a solid contract — awaiting GPT approval.
+
+---

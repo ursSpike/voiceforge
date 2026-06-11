@@ -12,7 +12,7 @@ constitution.** Where GPT's plan used different names, the mapping table reconci
 | deterministic signals | `pipeline/signals.py` (FTO core: barge-in, latency, p50/p90, failure table) | works, notebook-referenced |
 | LLM judge | `pipeline/judge.py` (Gemini, temp 0, JSON, {score,reason,evidence_turn_ids}, disk cache) | works (smoke + cache) |
 | rubric | `rubric.yaml` (6 dims: 3 deterministic, 3 judge) | live config |
-| normalized pool | `data/normalized/*.json` | **11 calls** (hero + 10 SpokenWOZ) |
+| normalized pool | `data/normalized/*.json` | **12 calls** (hero + 10 SpokenWOZ + 1 real Bolna, Batch 1) |
 | public data | `data/spokenwoz/data.json` (246MB, 4700 dialogues, word-level ms) | **already downloaded** — slice, don't re-fetch |
 | hero call | `data/hero/hero_001.wav` (Cartesia Devansh) + `turns.json` | failures 0:15 barge-in 800ms / 0:48 gap 1620ms |
 | money-shot UI | `web/shot.html` + `web/recorder/serve.py` (stdlib server, :7861) | click-to-seek verified |
@@ -23,7 +23,8 @@ constitution.** Where GPT's plan used different names, the mapping table reconci
 
 ## Stubs (not yet built — these are the batch targets)
 `pipeline/score.py`, `pipeline/costs.py`, `pipeline/crosscut.py`, `pipeline/dpo_export.py`,
-`eval/kappa.py` — all `raise SystemExit("TODO …")`. `out/` is empty.
+`eval/kappa.py` — all `raise SystemExit("TODO …")`. `out/` currently holds only
+`provider_ingest_report.json` (Batch 1); `out/calls.json` + `out/analytics.json` arrive in Batch 3.
 
 ## Name-mapping table (GPT plan's names → repo constitution)
 | GPT plan name | repo (canonical) | note |
@@ -48,5 +49,14 @@ failure_clusters). Dashboard shows real fields or "unknown" — never fabricated
 ## Judge dimensions (ruling: yes / +2 / yes)
 Deterministic (signals.py, never judged): `barge_in`, `latency_gap`, `task_completion`.
 Judge (semantic only): `language_match`, `faithfulness`, `repair_quality`, **+ `conciseness`,
-`user_frustration`** (the +2). Encoded in `rubric.yaml` when Batch 4 lands. Timing/interruption/
-silence/turn-count/slots stay measured — that's the differentiator.
+`user_frustration`** (the +2). **Now settled in `rubric.yaml`: 8 dims (3 deterministic + 5 judge),
+weights sum to 1.00.** `judge.py` wires the two new judge dims at Batch 4; until then they're
+declared config. Timing/interruption/silence/turn-count/slots stay measured — that's the differentiator.
+
+## Hero provenance (single source of truth)
+`data/hero/turns.json` is canonical (the `/shot` page reads it live). After the Cartesia re-voice:
+voice = **Cartesia Devansh** (`metadata.voice_provider: cartesia`), failures **0:15 barge-in 800ms /
+0:48 latency 1,620ms**. `data/normalized/hero_001.json` is regenerated from it (now byte-identical
+turns). `timeline.json` keeps `agent_voice` (edge-tts) only as the documented fallback; the active
+voice is the `cartesia` block. Historical buildlog/RESUME entries may quote pre-re-voice numbers
+(0:18/0:53, 0:14/0:41) as dated records — turns.json is the live truth.

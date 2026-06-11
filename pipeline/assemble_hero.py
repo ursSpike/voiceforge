@@ -176,7 +176,10 @@ def assemble():
                    "start_ms": p["start"], "end_ms": p["end"]} for p in placed],
         "audio_path": f"data/hero/{wav.name}",
         "metadata": {"constructed": True, "timestamps_from": "assembly_timeline",
-                     "agent_voice": tl["agent_voice"],
+                     # record the voice ACTUALLY used: Cartesia when the call was re-voiced, else edge-tts
+                     "agent_voice": (f"cartesia/{(tl.get('cartesia') or {}).get('voice')}"
+                                     if tl.get("cartesia") else tl["agent_voice"]),
+                     "voice_provider": "cartesia" if tl.get("cartesia") else "edge-tts",
                      "disclosure": "constructed demo scenario; see docs/limitations.md"},
     }
     (HERO / "turns.json").write_text(json.dumps(call, indent=2))

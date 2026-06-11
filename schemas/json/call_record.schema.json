@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "call_record.schema.json",
   "title": "call_record",
-  "description": "The dashboard's per-call unit in out/calls.json: the call_log plus its outcome, scorecard, cost, and failures. The ONLY shape the dashboard consumes.",
+  "description": "The dashboard's per-call unit in out/calls.json: the call_log PLUS its outcome, scorecard, cost, failures, and signals \u2014 each shape-validated. The ONLY shape the dashboard consumes. outcome/scorecard/cost/failures are required for a fully scored record (Batch 3 output); signals optional.",
   "type": "object",
   "required": [
     "call_id",
@@ -10,7 +10,11 @@
     "language",
     "stress_profile",
     "workflow_type",
-    "turns"
+    "turns",
+    "outcome",
+    "scorecard",
+    "cost",
+    "failures"
   ],
   "properties": {
     "call_id": {
@@ -86,27 +90,188 @@
       "type": "object"
     },
     "outcome": {
-      "type": [
-        "object",
-        "null"
-      ]
+      "type": "object",
+      "required": [
+        "task_completed",
+        "required_fields"
+      ],
+      "properties": {
+        "call_id": {
+          "type": "string"
+        },
+        "task_completed": {
+          "type": "boolean"
+        },
+        "required_fields": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "name",
+              "captured"
+            ],
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "captured": {
+                "type": "boolean"
+              },
+              "value": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          }
+        },
+        "escalation_needed": {
+          "type": "boolean"
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
     },
     "scorecard": {
-      "type": [
-        "object",
-        "null"
-      ]
+      "type": "object",
+      "required": [
+        "dimensions",
+        "overall"
+      ],
+      "properties": {
+        "call_id": {
+          "type": "string"
+        },
+        "dimensions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "name",
+              "type",
+              "score",
+              "reason",
+              "evidence_turn_ids"
+            ],
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "type": {
+                "enum": [
+                  "deterministic",
+                  "judge"
+                ]
+              },
+              "score": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "reason": {
+                "type": "string"
+              },
+              "evidence_turn_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "overall": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
     },
     "cost": {
-      "type": [
-        "object",
-        "null"
-      ]
+      "type": "object",
+      "required": [
+        "duration_s",
+        "turn_count",
+        "est_cost_total",
+        "est_cost_per_success_note"
+      ],
+      "properties": {
+        "call_id": {
+          "type": "string"
+        },
+        "duration_s": {
+          "type": "number"
+        },
+        "turn_count": {
+          "type": "integer"
+        },
+        "est_llm_calls": {
+          "type": "integer"
+        },
+        "est_cost_total": {
+          "type": "number"
+        },
+        "est_cost_per_success_note": {
+          "type": "string"
+        }
+      }
     },
     "failures": {
       "type": "array",
       "items": {
-        "type": "object"
+        "type": "object",
+        "required": [
+          "dimension",
+          "label",
+          "detail",
+          "evidence_turn_ids"
+        ],
+        "properties": {
+          "call_id": {
+            "type": "string"
+          },
+          "dimension": {
+            "type": "string"
+          },
+          "at_ms": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "label": {
+            "type": "string"
+          },
+          "detail": {
+            "type": "string"
+          },
+          "evidence_turn_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "severity": {
+            "enum": [
+              "low",
+              "medium",
+              "high"
+            ]
+          },
+          "cluster": {
+            "type": "string"
+          },
+          "origin": {
+            "enum": [
+              "deterministic",
+              "judge"
+            ]
+          }
+        }
       }
     },
     "signals": {

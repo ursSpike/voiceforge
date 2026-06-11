@@ -67,7 +67,8 @@ def scored():
         n = len(items)
         missing_reason = 0
         for c in items:
-            for d in c.get("dimensions", []):
+            # dimensions live under the nested scorecard per the call_record contract
+            for d in (c.get("scorecard") or {}).get("dimensions", []):
                 if not d.get("reason") or "evidence_turn_ids" not in d:
                     missing_reason += 1
         ok = n >= 9 and missing_reason == 0

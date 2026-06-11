@@ -1,6 +1,7 @@
 # installed per block; this file lists the full sprint set
 google-genai        # Block 0+ — judge (Gemini Flash via AI Studio key)
 pyyaml              # Block 0+ — rubric.yaml
+jsonschema          # Batch 0  — schema constitution (pipeline/schemas.py)
 edge-tts            # Block 1  — hero-call agent TTS
 datasets            # Block 3  — AMI via HuggingFace
 soundfile           # Block 3  — audio handling
