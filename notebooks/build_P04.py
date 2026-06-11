@@ -184,7 +184,7 @@ print("tip (should be 10% of total):", tip)
 C.append(md('''
 ## OBSERVE — does the output match your prediction?
 
-You predicted a tip of **41** (10% of 300). The cell printed **0.3**. It did not crash. It
+You predicted a tip of **30** (10% of 300). The cell printed **0.3**. It did not crash. It
 printed a clean, confident, *wrong* number. If you were moving fast, "0.3" might slip past —
 it is a number, it is positive, it looks like it could be a tip on something.
 

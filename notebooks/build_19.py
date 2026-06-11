@@ -577,11 +577,11 @@ once. **First**, "the AI judges" (RLAIF) is not "the AI trains itself unattended
 **still reviewed and the optimization still happens offline**. **Second**, letting an agent learn from
 its own live calls *online* is precisely the poisoned-loop disaster you just built: one bad call
 teaches the next. The next cell shows the seductive "self-improving online" version producing a worse
-agent in two steps — green the whole way.
+agent in three steps — green the whole way.
 '''))
 C.append(code('''
 # The seductive myth, made literal: an ONLINE self-improving agent that judges its OWN replies live and
-# updates immediately. We show it degrade in two steps, with zero errors - green is not safe.
+# updates immediately. We show it degrade in three steps, with zero errors - green is not safe.
 # Step 0: the agent currently (correctly) prefers to wait. But its self-judge is subtly miscalibrated:
 # it rewards LONGER replies (mistaking verbosity for helpfulness) - a realistic reward-hack.
 def self_judge_prefers_longer(a, b, texts):

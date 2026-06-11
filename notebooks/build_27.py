@@ -602,7 +602,7 @@ print("note: a huge 'overlap' of", bad[0]["overlap_ms"], "ms - pure fiction from
 '''))
 C.append(md('''
 ## Reading the failure (this is the silent kind)
-No red traceback appeared. The cell ran "green". And it reported an **8000ms overlap** — a
+No red traceback appeared. The cell ran "green". And it reported an **10000ms overlap** — a
 barge-in so violent it would dominate any scorecard — that **never happened**. It is an
 artifact of the two turns being in the wrong order. This is the failure mode the whole course
 fears: not a crash, but a *plausible wrong number*. The fix is not in `turn_metrics`; it is in

@@ -396,7 +396,7 @@ print(f"kappa = ({p_o:.3f} - {p_e:.3f}) / (1 - {p_e:.3f}) = {kappa_by_hand:.3f}"
 
 C.append(md('''
 ## EXPLAIN gate
-One sentence: this kappa (~0.4) is *lower* than the raw agreement (0.83). Say why that drop
+One sentence: this kappa (0.67) is *lower* than the raw agreement (0.83). Say why that drop
 is the formula **doing its job**, not a bug. (Hint: a chunk of that 0.83 was free.)
 '''))
 
@@ -712,7 +712,7 @@ print("note the repeats and missing indices - that variation is what the CI is b
 
 C.append(code('''
 # YOUR TURN - predict the kappa of THIS one resample before computing it.
-# (It will differ from the original 0.4-ish because the sample changed - by how much?)
+# (It will differ from the original 0.67 because the sample changed - by how much?)
 my_resample_kappa_guess = None    # <- a fraction; rough is fine, you're feeling the spread
 
 if my_resample_kappa_guess is None:

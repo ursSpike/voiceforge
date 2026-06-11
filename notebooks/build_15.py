@@ -339,7 +339,7 @@ print("match:", abs(kappa(human, judge) - kappa_by_hand) < 1e-9)
 
 C.append(md('''
 ## CHECKPOINT 2 (out loud, without scrolling up)
-1. Why did a high raw agreement (~0.87) turn into a much lower kappa here?
+1. Why did a high raw agreement (~0.83) turn into a much lower kappa here?
 2. In one sentence: what does p_e represent, and why does a high p_e shrink kappa?
 3. Which Landis–Koch band did the point estimate land in?
 '''))
@@ -615,8 +615,8 @@ C.append(md('''
 
 A pilot's value is not "did the two labelers agree?" — it is **"where, exactly, did they
 disagree, and what does each disagreement teach?"** A high kappa with no disagreements gives
-you a comfortable slide and zero leads. A moderate kappa with four annotated disagreements
-gives you four concrete improvements. The disagreements are the asset; the kappa is just the
+you a comfortable slide and zero leads. A moderate kappa with five annotated disagreements
+gives you five concrete improvements. The disagreements are the asset; the kappa is just the
 honesty gauge on top of them. Showing them **proudly** is the mature move — it signals you
 went looking for where you are weak, which is the opposite of hiding a bad number.
 '''))
