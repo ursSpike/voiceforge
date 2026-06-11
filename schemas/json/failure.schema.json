@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "failure.schema.json",
+  "title": "failure",
+  "description": "One detected failure on a call. Emitted by signals.py (deterministic) or judge (semantic). `cluster` groups failures across calls for the Failure Clusters view.",
+  "type": "object",
+  "required": [
+    "call_id",
+    "dimension",
+    "label",
+    "detail",
+    "evidence_turn_ids"
+  ],
+  "properties": {
+    "call_id": {
+      "type": "string"
+    },
+    "dimension": {
+      "type": "string"
+    },
+    "at_ms": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "label": {
+      "type": "string"
+    },
+    "detail": {
+      "type": "string"
+    },
+    "evidence_turn_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "severity": {
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ]
+    },
+    "cluster": {
+      "type": "string"
+    },
+    "origin": {
+      "enum": [
+        "deterministic",
+        "judge"
+      ]
+    }
+  }
+}

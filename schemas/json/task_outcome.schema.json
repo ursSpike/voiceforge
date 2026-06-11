@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "task_outcome.schema.json",
+  "title": "task_outcome",
+  "type": "object",
+  "required": [
+    "call_id",
+    "task_completed",
+    "required_fields"
+  ],
+  "properties": {
+    "call_id": {
+      "type": "string"
+    },
+    "task_completed": {
+      "type": "boolean"
+    },
+    "required_fields": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "captured"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "captured": {
+            "type": "boolean"
+          },
+          "value": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      }
+    },
+    "escalation_needed": {
+      "type": "boolean"
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    }
+  }
+}

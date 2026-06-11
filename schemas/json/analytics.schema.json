@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "analytics.schema.json",
+  "title": "analytics",
+  "type": "object",
+  "required": [
+    "n_calls",
+    "success_rate",
+    "failure_clusters"
+  ],
+  "properties": {
+    "n_calls": {
+      "type": "integer"
+    },
+    "success_rate": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "avg_overall": {
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "cost_per_successful_call": {
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "by_stress_profile": {
+      "type": "array"
+    },
+    "failure_clusters": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "dimension",
+          "count"
+        ],
+        "properties": {
+          "dimension": {
+            "type": "string"
+          },
+          "count": {
+            "type": "integer"
+          },
+          "example_call_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "note": {
+      "type": "string"
+    }
+  }
+}

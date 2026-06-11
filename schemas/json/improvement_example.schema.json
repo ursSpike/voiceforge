@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "improvement_example.schema.json",
+  "title": "improvement_example",
+  "type": "object",
+  "required": [
+    "call_id",
+    "failure_dimension",
+    "rejected_turn",
+    "chosen_turn",
+    "reason",
+    "needs_human_review"
+  ],
+  "properties": {
+    "call_id": {
+      "type": "string"
+    },
+    "failure_dimension": {
+      "type": "string"
+    },
+    "rejected_turn": {
+      "type": "string"
+    },
+    "chosen_turn": {
+      "type": "string"
+    },
+    "reason": {
+      "type": "string"
+    },
+    "quality_delta": {
+      "type": "number"
+    },
+    "needs_human_review": {
+      "type": "boolean"
+    }
+  }
+}

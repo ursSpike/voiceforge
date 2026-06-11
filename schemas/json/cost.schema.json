@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "cost.schema.json",
+  "title": "cost",
+  "type": "object",
+  "required": [
+    "call_id",
+    "duration_s",
+    "turn_count",
+    "est_cost_total",
+    "est_cost_per_success_note"
+  ],
+  "properties": {
+    "call_id": {
+      "type": "string"
+    },
+    "duration_s": {
+      "type": "number"
+    },
+    "turn_count": {
+      "type": "integer"
+    },
+    "est_llm_calls": {
+      "type": "integer"
+    },
+    "est_cost_total": {
+      "type": "number"
+    },
+    "est_cost_per_success_note": {
+      "type": "string"
+    }
+  }
+}

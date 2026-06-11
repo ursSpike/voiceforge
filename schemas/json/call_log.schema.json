@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "call_log.schema.json",
+  "title": "call_log",
+  "description": "Normalized record of one call. Every downstream tool reads this shape.",
+  "type": "object",
+  "required": [
+    "call_id",
+    "source",
+    "language",
+    "stress_profile",
+    "workflow_type",
+    "turns"
+  ],
+  "properties": {
+    "call_id": {
+      "type": "string"
+    },
+    "source": {
+      "enum": [
+        "spokenwoz",
+        "ami",
+        "hero",
+        "bolna"
+      ]
+    },
+    "language": {
+      "type": "string"
+    },
+    "stress_profile": {
+      "enum": [
+        "clean",
+        "pause_heavy",
+        "interruption",
+        "ambiguous",
+        "kb_gap"
+      ]
+    },
+    "workflow_type": {
+      "type": "string"
+    },
+    "turns": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "turn_id",
+          "speaker",
+          "text",
+          "start_ms"
+        ],
+        "properties": {
+          "turn_id": {
+            "type": "string"
+          },
+          "speaker": {
+            "enum": [
+              "user",
+              "agent"
+            ]
+          },
+          "text": {
+            "type": "string"
+          },
+          "start_ms": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "end_ms": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          }
+        }
+      }
+    },
+    "audio_path": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "metadata": {
+      "type": "object"
+    }
+  }
+}

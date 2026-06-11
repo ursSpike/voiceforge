@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "scorecard.schema.json",
+  "title": "scorecard",
+  "description": "Per-call eval across rubric dimensions. Every dimension carries a reason + evidence. type=deterministic for measured signals (timing/task), type=judge for semantic LLM dims.",
+  "type": "object",
+  "required": [
+    "call_id",
+    "dimensions",
+    "overall"
+  ],
+  "properties": {
+    "call_id": {
+      "type": "string"
+    },
+    "dimensions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "type",
+          "score",
+          "reason",
+          "evidence_turn_ids"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "enum": [
+              "deterministic",
+              "judge"
+            ]
+          },
+          "score": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "reason": {
+            "type": "string"
+          },
+          "evidence_turn_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "overall": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    }
+  }
+}
