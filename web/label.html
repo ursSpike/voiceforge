@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VoiceForge — blind labeling</title>
+<style>
+  :root {
+    --bg: #09090b; --card: #18181b; --card2: #1f1f23; --border: #27272a; --text: #e4e4e7;
+    --muted: #8b8b94; --green: #34d399; --red: #f87171; --blue: #93c5fd; --amber: #fbbf24;
+    --mono: ui-monospace, "SF Mono", Menlo, monospace;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text);
+         font: 15px/1.55 -apple-system, "Segoe UI", Inter, sans-serif; }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 22px 20px 120px; }
+  header { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  h1 { font-size: 19px; margin: 0; } h1 b { color: var(--green); font-weight: 650; }
+  .blindbar { margin: 12px 0 8px; padding: 10px 14px; border: 1px solid #3f3f1a; background: #1a1a0c;
+              border-radius: 10px; color: var(--amber); font-size: 13px; }
+  .prog { display: flex; align-items: center; gap: 12px; margin: 10px 0 18px; }
+  .bar { flex: 1; height: 8px; background: var(--card2); border-radius: 99px; overflow: hidden; }
+  .bar i { display: block; height: 100%; width: 0%; background: var(--green); transition: width .2s; }
+  .progtext { font: 12.5px var(--mono); color: var(--muted); white-space: nowrap; }
+  .meta { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+  .chip { font: 11.5px var(--mono); padding: 2px 9px; border-radius: 99px;
+          border: 1px solid var(--border); color: var(--muted); }
+  .task { background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+          padding: 10px 14px; margin-bottom: 14px; font-size: 14px; }
+  .task b { color: var(--blue); }
+  .convo { display: flex; flex-direction: column; gap: 9px; }
+  .msg { max-width: 80%; } .msg .who { font: 11px var(--mono); color: var(--muted); margin: 0 6px 3px; }
+  .msg .bub { padding: 9px 13px; border-radius: 14px; background: var(--card); border: 1px solid var(--border); }
+  .msg.agent { align-self: flex-start; } .msg.agent .bub { border-bottom-left-radius: 4px; border-left: 2px solid #3b5b80; }
+  .msg.agent .who b { color: var(--blue); }
+  .msg.user { align-self: flex-end; text-align: right; } .msg.user .bub { border-bottom-right-radius: 4px; border-right: 2px solid #1d6b50; text-align: left; }
+  .msg.user .who b { color: var(--green); }
+  .actions { position: fixed; left: 0; right: 0; bottom: 0; background: rgba(9,9,11,.94);
+             backdrop-filter: blur(8px); border-top: 1px solid var(--border); }
+  .actions .wrap { padding: 14px 20px; display: flex; gap: 10px; align-items: center; }
+  button { font: 600 15px/1 inherit; border-radius: 10px; border: 1px solid var(--border);
+           background: var(--card); color: var(--text); padding: 13px 18px; cursor: pointer; }
+  button:hover { filter: brightness(1.12); }
+  button.yes { background: var(--green); border-color: var(--green); color: #052e22; flex: 1; }
+  button.no { background: var(--red); border-color: var(--red); color: #2a0606; flex: 1; }
+  button.skip { color: var(--muted); }
+  .q { font-size: 16px; font-weight: 550; margin: 4px 0 2px; }
+  .done { text-align: center; padding: 40px 0; }
+  .done h2 { color: var(--green); } kbd { font: 11px var(--mono); border: 1px solid var(--border);
+            border-radius: 4px; padding: 1px 5px; color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header><h1>Voice<b>Forge</b> — blind labeling</h1></header>
+  <div class="blindbar">🔒 You're seeing only the raw conversation — <b>no scores, no failure flags, no judge output</b>.
+    Label what <i>you</i> think happened. The judge gets compared to you afterward; if you peek, the calibration is void.</div>
+  <div class="prog"><div class="bar"><i id="fill"></i></div><span class="progtext" id="progtext">…</span></div>
+  <div id="card"></div>
+</div>
+<div class="actions"><div class="wrap" id="actionbar"></div></div>
+<script>
+const $ = id => document.getElementById(id);
+let CALLS = [], labeled = {}, order = [], cur = 0, TARGET = 40;
+
+function stratifiedOrder(calls, done) {
+  // interleave stress profiles so a mix gets labeled even if you stop early; unlabeled first
+  const byProf = {};
+  for (const c of calls) (byProf[c.stress_profile] = byProf[c.stress_profile] || []).push(c);
+  const profs = Object.keys(byProf), out = [];
+  let added = true;
+  while (added) { added = false;
+    for (const p of profs) { if (byProf[p].length) { out.push(byProf[p].shift()); added = true; } } }
+  // unlabeled first, then already-labeled (so you can revise)
+  return [...out.filter(c => !(c.call_id in done)), ...out.filter(c => c.call_id in done)];
+}
+
+function taskHint(c) {
+  const w = c.workflow_type.replace(/_/g, " ");
+  return `Task: <b>${w}</b> · language ${c.language} · ${c.turns.length} turns. ` +
+         `Did the caller get what they came for?`;
+}
+
+function render() {
+  const n = Object.keys(labeled).length;
+  $("fill").style.width = Math.min(100, n / TARGET * 100) + "%";
+  $("progtext").textContent = `${n} labeled · target ≥${TARGET} of ${CALLS.length}`;
+  if (cur >= order.length) {
+    $("card").innerHTML = `<div class="done"><h2>✓ ${n} calls labeled</h2>
+      <p>${n >= TARGET ? "Past the ≥40 floor — calibration can run." : `${TARGET - n} more to reach the floor.`}
+      Saved to <code>eval/labels_spike.csv</code>. You can re-open any call to revise.</p></div>`;
+    $("actionbar").innerHTML = `<button onclick="cur=0;render()">↻ review from start</button>`;
+    return;
+  }
+  const c = order[cur];
+  const prev = labeled[c.call_id];
+  $("card").innerHTML = `
+    <div class="meta"><span class="chip">${c.call_id}</span><span class="chip">${c.source}</span>
+      <span class="chip">${cur + 1} / ${order.length}</span>
+      ${prev ? `<span class="chip" style="color:var(--amber)">your label: ${prev}</span>` : ""}</div>
+    <div class="task">${taskHint(c)}</div>
+    <div class="q">Did this call succeed at its task?</div>
+    <div class="convo">${c.turns.map(t => `
+      <div class="msg ${t.speaker}"><div class="who"><b>${t.speaker === "agent" ? "agent" : "caller"}</b></div>
+        <div class="bub">${t.text || "<i>(silence)</i>"}</div></div>`).join("")}</div>`;
+  $("actionbar").innerHTML =
+    `<button class="yes" onclick="label('success')">✓ Succeeded <kbd>1</kbd></button>
+     <button class="no" onclick="label('fail')">✗ Failed <kbd>2</kbd></button>
+     <button class="skip" onclick="label('skip')">unsure <kbd>3</kbd></button>`;
+}
+
+async function label(val) {
+  const c = order[cur];
+  await fetch(`/label/save?call_id=${c.call_id}&label=${val}`, { method: "POST" });
+  if (val !== "skip") labeled[c.call_id] = val;
+  cur++; render();
+  window.scrollTo(0, 0);
+}
+
+document.addEventListener("keydown", e => {
+  if (cur >= order.length) return;
+  if (e.key === "1") label("success");
+  else if (e.key === "2") label("fail");
+  else if (e.key === "3") label("skip");
+});
+
+(async () => {
+  CALLS = await (await fetch("/label/calls")).json();
+  labeled = (await (await fetch("/label/state")).json()).labeled || {};
+  order = stratifiedOrder(CALLS, labeled);
+  render();
+})();
+</script>
+</body>
+</html>

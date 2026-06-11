@@ -123,12 +123,56 @@ class Booth(BaseHTTPRequestHandler):
             if f.is_file():
                 return self._send_media(f, "audio/mpeg")
             return self._send(404, "missing")
+        if p == "/label":
+            return self._send(200, (ROOT / "web" / "label.html").read_bytes(), "text/html; charset=utf-8")
+        if p == "/label/calls":
+            # BLIND BY CONSTRUCTION: serve ONLY raw call_logs (data/normalized), stripped to
+            # non-eval fields. No scorecard / outcome / failures / out/ data ever reaches the
+            # labeling surface, so a label can never be anchored to a judge/score.
+            calls = []
+            for f in sorted((ROOT / "data" / "normalized").glob("*.json")):
+                c = json.loads(f.read_text())
+                calls.append({"call_id": c["call_id"], "source": c["source"],
+                              "language": c["language"], "stress_profile": c["stress_profile"],
+                              "workflow_type": c["workflow_type"],
+                              "turns": [{"turn_id": t["turn_id"], "speaker": t["speaker"], "text": t["text"]}
+                                        for t in c["turns"]]})
+            return self._send(200, json.dumps(calls), "application/json")
+        if p == "/label/state":
+            f = ROOT / "eval" / "labels_spike.csv"
+            done = {}
+            if f.exists():
+                for line in f.read_text().splitlines()[1:]:
+                    if line.strip():
+                        parts = line.split(",")
+                        done[parts[0]] = parts[1]
+            return self._send(200, json.dumps({"labeled": done}), "application/json")
         if p == "/favicon.ico":
             return self._send(204)
         return self._send(404, "?")
 
     def do_POST(self):
         u = urlparse(self.path)
+        if u.path == "/label/save":
+            q = parse_qs(u.query)
+            cid = q.get("call_id", [""])[0]
+            label = q.get("label", [""])[0]
+            if not re.fullmatch(r"[A-Za-z0-9_]+", cid) or label not in ("success", "fail", "skip"):
+                return self._send(400, "bad call_id/label")
+            from datetime import datetime
+            f = ROOT / "eval" / "labels_spike.csv"
+            f.parent.mkdir(parents=True, exist_ok=True)
+            prof = ""
+            nf = ROOT / "data" / "normalized" / f"{cid}.json"
+            if nf.exists():
+                prof = json.loads(nf.read_text()).get("stress_profile", "")
+            lines = f.read_text().splitlines() if f.exists() else ["call_id,label,stress_profile,timestamp"]
+            header = lines[0]
+            rows = [l for l in lines[1:] if l.strip() and not l.startswith(cid + ",")]  # last label wins
+            rows.append(f"{cid},{label},{prof},{datetime.now().isoformat(timespec='seconds')}")
+            f.write_text(header + "\n" + "\n".join(rows) + "\n")
+            print(f"  label {cid} = {label}  ({len(rows)} total)", flush=True)
+            return self._send(200, json.dumps({"saved": cid, "label": label, "n": len(rows)}), "application/json")
         if u.path == "/save":
             turn = parse_qs(u.query).get("turn", [""])[0]
             if not re.fullmatch(r"t\d{1,3}", turn):

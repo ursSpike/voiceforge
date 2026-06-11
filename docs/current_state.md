@@ -17,7 +17,8 @@ constitution.** Where GPT's plan used different names, the mapping table reconci
 | deterministic signals | `pipeline/signals.py` (FTO core: barge-in, latency, p50/p90, failure table) | works, notebook-referenced |
 | LLM judge | `pipeline/judge.py` (Gemini, temp 0, JSON, {score,reason,evidence_turn_ids}, disk cache) | works (smoke + cache) |
 | rubric | `rubric.yaml` (8 dims: 3 deterministic, 5 judge; weights sum 1.0) | live config |
-| normalized pool | `data/normalized/*.json` | **12 calls** (hero + 10 SpokenWOZ + 1 real Bolna, Batch 1) |
+| normalized pool | `data/normalized/*.json` | **46 calls** (44 SpokenWOZ + hero + Bolna, Batch 2) |
+| eval core | `pipeline/score.py` → `out/calls.json` (46 call_records) + `out/analytics.json` | **DONE, Batch 3**; 46/46 valid |
 | public data | `data/spokenwoz/data.json` (246MB, 4700 dialogues, word-level ms) | **already downloaded** — slice, don't re-fetch |
 | hero call | `data/hero/hero_001.wav` (Cartesia Devansh) + `turns.json` | failures 0:15 barge-in 800ms / 0:48 gap 1620ms |
 | money-shot UI | `web/shot.html` + `web/recorder/serve.py` (stdlib server, :7861) | click-to-seek verified |
@@ -27,9 +28,11 @@ constitution.** Where GPT's plan used different names, the mapping table reconci
 | learning | `notebooks/` 36 books (P00–P04, 00–30), all gate+review clean | reference the schema field names below |
 
 ## Stubs (not yet built — these are the batch targets)
-`pipeline/score.py`, `pipeline/costs.py`, `pipeline/crosscut.py`, `pipeline/dpo_export.py`,
-`eval/kappa.py` — all `raise SystemExit("TODO …")`. `out/` currently holds only
-`provider_ingest_report.json` (Batch 1); `out/calls.json` + `out/analytics.json` arrive in Batch 3.
+`pipeline/dpo_export.py` (needs labels), `eval/kappa.py` (needs labels) — `raise SystemExit`.
+`pipeline/costs.py` + `pipeline/crosscut.py` are **absorbed into `score.py`** (cost = `build_cost()`,
+analytics/clusters = `build_analytics()`); their stubs now just point to `score.py` as the canonical
+eval-core entrypoint. Chart *images* (from analytics) are Batch 8.
+`out/` holds: `calls.json` (46 records) + 46 `call_<id>.json` + `analytics.json` + `provider_ingest_report.json`.
 
 ## Name-mapping table (GPT plan's names → repo constitution)
 | GPT plan name | repo (canonical) | note |
