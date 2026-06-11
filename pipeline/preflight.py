@@ -105,11 +105,17 @@ def dpo():
 def calibration():
     lab = ROOT / "eval/labels_spike.csv"
     if lab.exists():
-        rows = [l for l in lab.read_text().splitlines()[1:] if l.strip()]
-        check("labels: >=40 blind human labels", "PASS" if len(rows) >= 40 else "FAIL",
-              f"{len(rows)} rows")
+        import csv as _csv
+        usable = set()   # distinct call_ids with a binary primary (unsure excluded; csv-parsed, not line-counted)
+        with lab.open(newline="") as f:
+            for row in _csv.DictReader(f):
+                if row.get("primary_label") in ("success", "fail"):
+                    usable.add(row["call_id"])
+        n = len(usable)
+        check("labels: >=40 usable binary (excl unsure)", "PASS" if n >= 40 else "FAIL",
+              f"{n} usable success/fail")
     else:
-        check("labels: >=40 blind human labels", "FAIL", "not collected (Block 4 — HIS task, blind!)")
+        check("labels: >=40 usable binary (excl unsure)", "FAIL", "not collected (Block 4 — HIS task, blind!)")
     kp = next(iter((ROOT / "out").glob("kappa*.json")), None) or next(iter((ROOT / "reports").glob("kappa*")), None)
     if kp:
         check("kappa: number + CI + disagreements", "PASS", kp.name)

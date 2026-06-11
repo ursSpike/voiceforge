@@ -189,11 +189,22 @@ class Booth(BaseHTTPRequestHandler):
                                 for t in c["turns"]]}
                      for i, c in enumerate(order)]
             return self._send(200, json.dumps({"calls": calls, "total": len(calls)}), "application/json")
+        if p == "/label/tags":
+            import schemas   # single source of the allowlists -> client fetches, no duplication/drift
+            return self._send(200, json.dumps({"positive": schemas.PHENO_POSITIVE,
+                "negative": schemas.PHENO_NEGATIVE, "context": schemas.PHENO_CONTEXT}), "application/json")
         if p == "/label/state":
             order = label_order()
             ref_of = {c["call_id"]: i for i, c in enumerate(order)}
-            labeled = {ref_of[cid]: row["primary_label"] for cid, row in read_labels().items()
-                       if cid in ref_of}
+            split = lambda s: [t for t in (s or "").split("|") if t]
+            labeled = {}
+            for cid, row in read_labels().items():   # FULL prior annotation, so revision preserves it
+                if cid in ref_of:
+                    labeled[ref_of[cid]] = {"primary_label": row.get("primary_label", ""),
+                        "confidence": row.get("confidence", ""), "note": row.get("note", ""),
+                        "positive_tags": split(row.get("positive_tags")),
+                        "negative_tags": split(row.get("negative_tags")),
+                        "context_tags": split(row.get("context_tags"))}
             return self._send(200, json.dumps({"labeled": labeled}), "application/json")
         if p == "/favicon.ico":
             return self._send(204)
@@ -213,25 +224,25 @@ class Booth(BaseHTTPRequestHandler):
             if not isinstance(ref, int) or not (0 <= ref < len(order)):
                 return self._send(400, "bad ref")
             cid = order[ref]["call_id"]
-            primary = body.get("primary_label")
-            conf = body.get("confidence")
-            if primary not in ("success", "fail", "unsure") or conf not in ("high", "medium", "low"):
-                return self._send(400, "primary_label and confidence required")
-            # validate every tag against the fixed server-side allowlists; reject unknowns
-            allow = {"positive_tags": set(schemas.PHENO_POSITIVE), "negative_tags": set(schemas.PHENO_NEGATIVE),
-                     "context_tags": set(schemas.PHENO_CONTEXT)}
-            tags = {}
-            for col, ok in allow.items():
-                vals = body.get(col) or []
-                if not isinstance(vals, list) or any(t not in ok for t in vals):
-                    return self._send(400, f"invalid {col}")
-                tags[col] = "|".join(vals)
-            row = {"call_id": cid, "primary_label": primary, "confidence": conf,
-                   "note": str(body.get("note", ""))[:1000],
-                   "timestamp": datetime.now().isoformat(timespec="seconds"), **tags}
-            total = write_label(row)
-            print(f"  label ref{ref} ({cid}) = {primary}/{conf} +{sum(len(t.split('|')) if t else 0 for t in tags.values())} tags  ({total} total)", flush=True)
-            return self._send(200, json.dumps({"saved": ref, "primary": primary, "n": total}), "application/json")
+            # validate against the phenotype_label schema (single source: enforces enums + tag allowlists)
+            import jsonschema
+            record = {"call_id": cid, "primary_label": body.get("primary_label"),
+                      "confidence": body.get("confidence"),
+                      "positive_tags": body.get("positive_tags") or [],
+                      "negative_tags": body.get("negative_tags") or [],
+                      "context_tags": body.get("context_tags") or [],
+                      "note": str(body.get("note", ""))[:1000],
+                      "timestamp": datetime.now().isoformat(timespec="seconds")}
+            try:
+                schemas.validate(record, "phenotype_label")
+            except jsonschema.ValidationError as e:
+                return self._send(400, f"invalid: {e.message}")
+            csv_row = {**record, "positive_tags": "|".join(record["positive_tags"]),
+                       "negative_tags": "|".join(record["negative_tags"]),
+                       "context_tags": "|".join(record["context_tags"])}
+            total = write_label(csv_row)
+            print(f"  label ref{ref} ({cid}) = {record['primary_label']}/{record['confidence']}  ({total} total)", flush=True)
+            return self._send(200, json.dumps({"saved": ref, "primary": record["primary_label"], "n": total}), "application/json")
         if u.path == "/save":
             turn = parse_qs(u.query).get("turn", [""])[0]
             if not re.fullmatch(r"t\d{1,3}", turn):

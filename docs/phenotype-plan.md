@@ -51,6 +51,10 @@ Columns: `call_id, primary_label, confidence, positive_tags, negative_tags, cont
 - POST **JSON** body (not query params). Server validates `primary_label`, `confidence`, and every
   tag against fixed allowlists; rejects unknowns.
 - Server-side deterministic stratified order → stable `ref`→`call_id` mapping across requests.
+  ⚠️ Refs are stable ONLY while `data/normalized/` is frozen — do NOT add/remove pool calls during a
+  labeling session (would re-map refs). Pool is set; labeling can proceed.
+- Failed/network saves must NOT advance (show retryable error); guard double-submit; taxonomy served
+  from `/label/tags` (no client duplication); save validated against the `phenotype_label` schema.
 - Target the **existing 46 calls**, floor **40 usable binary** labels. Do NOT claim 60 unless more
   calls are added before labeling.
 - Don't tune the sample after seeing labels; don't force class balance; label truthfully.

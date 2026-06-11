@@ -37,6 +37,7 @@
   .q { font-size: 15px; font-weight: 550; margin: 2px 0; }
   .hint { font-size: 12px; color: var(--muted); margin: 2px 0 8px; line-height: 1.5; }
   .hint b { color: var(--amber); font-weight: 600; }
+  .err { color: var(--red); font-size: 13px; margin-bottom: 6px; display: none; }
   .row { display: flex; gap: 8px; flex-wrap: wrap; margin: 6px 0; }
   button { font: 600 14px/1 inherit; border-radius: 9px; border: 1px solid var(--border);
            background: var(--card); color: var(--text); padding: 11px 15px; cursor: pointer; }
@@ -71,42 +72,46 @@
 <div class="dock"><div class="wrap" id="dock"></div></div>
 <script>
 const $ = id => document.getElementById(id);
-let CALLS = [], labeledRefs = {}, cur = 0, TARGET = 40;
-let sel = null;  // current selection: {primary, confidence, pos:Set, neg:Set, ctx:Set, note}
-
-const POS = ["clear_and_concise","good_clarification_or_repair","appropriate_language_adaptation","recovered_after_confusion","user_expressed_satisfaction","good_handoff_or_next_step","good_closing"];
-const NEG = ["language_mismatch","code_switching_handling_failure","register_mismatch","misunderstood_user_intent","missing_required_information","bad_clarification_or_repair","tool_or_workflow_failure","unsupported_or_hallucinated_answer","user_goal_ambiguous","user_expressed_frustration","overly_verbose_or_unclear","repeated_request_or_repair_loop"];
-const CTX = ["code_switching_present","user_hesitation_or_self_repair","multi_domain_task","transcript_quality_uncertain","explicit_external_interruption"];
+let CALLS = [], TAGS = { positive: [], negative: [], context: [] }, labeled = {}, cur = 0, saving = false;
+const TARGET = 40;
+let sel = null;
 
 function fresh() { return { primary: null, confidence: null, pos: new Set(), neg: new Set(), ctx: new Set(), note: "" }; }
+function fromRow(r) {
+  return { primary: r.primary_label || null, confidence: r.confidence || null,
+           pos: new Set(r.positive_tags || []), neg: new Set(r.negative_tags || []),
+           ctx: new Set(r.context_tags || []), note: r.note || "" };
+}
+// only success/fail count toward the >=40 floor; unsure is NOT usable for calibration
+function binaryCount() { return Object.values(labeled).filter(r => r.primary_label === "success" || r.primary_label === "fail").length; }
+const esc = s => (s || "").replace(/</g, "&lt;");
 
 function renderProgress() {
-  const n = Object.keys(labeledRefs).length;
-  $("fill").style.width = Math.min(100, n / TARGET * 100) + "%";
-  $("progtext").textContent = `${n} labeled · target ≥${TARGET} of ${CALLS.length}`;
+  const b = binaryCount(), tot = Object.keys(labeled).length;
+  $("fill").style.width = Math.min(100, b / TARGET * 100) + "%";
+  $("progtext").textContent = `${b} usable (success/fail) · ${tot} total · target ≥${TARGET} of ${CALLS.length}`;
 }
 
 function render() {
   renderProgress();
   if (cur >= CALLS.length) {
-    const n = Object.keys(labeledRefs).length;
-    $("card").innerHTML = `<div class="done"><h2>✓ ${n} calls labeled</h2>
-      <p>${n >= TARGET ? "Past the ≥40 floor — calibration can run." : `${TARGET - n} more to reach the floor.`}
-      Saved to <code>eval/labels_spike.csv</code>. Re-open any call to revise.</p></div>`;
+    const b = binaryCount();
+    $("card").innerHTML = `<div class="done"><h2>✓ ${b} usable labels</h2>
+      <p>${b >= TARGET ? "Past the ≥40 usable floor — calibration can run." : `${TARGET - b} more success/fail to reach the floor.`}
+      Saved to <code>eval/labels_spike.csv</code>. Re-open any call to revise (full annotation restored).</p></div>`;
     $("dock").innerHTML = `<button onclick="cur=0;render()">↻ review from start</button>`;
     return;
   }
   const c = CALLS[cur];
-  sel = fresh();
-  const prev = labeledRefs[c.ref];
-  if (prev) sel.primary = prev;  // show prior primary; full prior tags not reloaded (revise fresh)
+  sel = labeled[c.ref] ? fromRow(labeled[c.ref]) : fresh();   // restore FULL prior annotation on reopen
+  const prev = labeled[c.ref];
   $("card").innerHTML = `
     <div class="meta"><span class="chip">Call ${cur + 1} of ${CALLS.length}</span>
-      <span class="chip">${c.workflow_type.replace(/_/g," ")}</span><span class="chip">${c.language}</span>
-      ${prev ? `<span class="chip" style="color:var(--amber)">prior: ${prev}</span>` : ""}</div>
+      <span class="chip">${esc(c.workflow_type).replace(/_/g," ")}</span><span class="chip">${esc(c.language)}</span>
+      ${prev ? `<span class="chip" style="color:var(--amber)">prior: ${prev.primary_label}</span>` : ""}</div>
     <div class="convo">${c.turns.map(t => `
       <div class="msg ${t.speaker}"><div class="who"><b>${t.speaker === "agent" ? "agent" : "caller"}</b></div>
-        <div class="bub">${(t.text || "<i>(silence)</i>").replace(/</g,"&lt;")}</div></div>`).join("")}</div>`;
+        <div class="bub">${t.text ? esc(t.text) : "<i>(silence)</i>"}</div></div>`).join("")}</div>`;
   renderDock();
   window.scrollTo(0, 0);
 }
@@ -117,6 +122,7 @@ function chips(list, kind, set) {
 
 function renderDock() {
   $("dock").innerHTML = `
+    <div class="err" id="err"></div>
     <div class="q">Did this call succeed at its task? <span class="hint" style="display:inline">(required)</span></div>
     <div class="row">
       <button class="prim yes ${sel.primary==="success"?"on":""}" data-p="success">✓ Succeeded <kbd>1</kbd></button>
@@ -127,47 +133,57 @@ function renderDock() {
       <div class="lab">your confidence (required)</div>
       <div class="row conf">${["high","medium","low"].map(c =>
         `<button class="${sel.confidence===c?"on":""}" data-c="${c}">${c}</button>`).join("")}</div>
-      <div class="lab">what was good? (optional)</div><div class="row">${chips(POS,"pos",sel.pos)}</div>
-      <div class="lab">what went wrong? (optional)</div><div class="row">${chips(NEG,"neg",sel.neg)}</div>
-      <div class="lab">context (optional)</div><div class="row">${chips(CTX,"ctx",sel.ctx)}</div>
-      <div class="lab">note (optional)</div><textarea id="note" placeholder="anything worth remembering…">${sel.note}</textarea>
-      <button class="save" id="savebtn" ${sel.confidence?"":"disabled"} onclick="save()">✓ Save & next →</button>
+      <div class="lab">what was good? (optional)</div><div class="row">${chips(TAGS.positive,"pos",sel.pos)}</div>
+      <div class="lab">what went wrong? (optional)</div><div class="row">${chips(TAGS.negative,"neg",sel.neg)}</div>
+      <div class="lab">context (optional)</div><div class="row">${chips(TAGS.context,"ctx",sel.ctx)}</div>
+      <div class="lab">note (optional)</div><textarea id="note" placeholder="anything worth remembering…">${esc(sel.note)}</textarea>
+      <button class="save" id="savebtn" ${sel.confidence && !saving ? "" : "disabled"} onclick="save()">${saving ? "saving…" : "✓ Save & next →"}</button>
     </div>`;
   $("dock").querySelectorAll("[data-p]").forEach(b => b.onclick = () => { sel.primary = b.dataset.p; renderDock(); });
-  $("dock").querySelectorAll("[data-c]").forEach(b => b.onclick = () => { sel.confidence = b.dataset.c; syncSave(); });
+  $("dock").querySelectorAll("[data-c]").forEach(b => b.onclick = () => { sel.confidence = b.dataset.c; renderDock(); });
   $("dock").querySelectorAll("[data-k]").forEach(b => b.onclick = () => {
     const s = sel[b.dataset.k]; s.has(b.dataset.t) ? s.delete(b.dataset.t) : s.add(b.dataset.t); b.classList.toggle("on"); });
   const ta = $("note"); if (ta) ta.oninput = () => sel.note = ta.value;
 }
-function syncSave() {
-  $("dock").querySelectorAll(".conf button").forEach(b => b.classList.toggle("on", b.dataset.c === sel.confidence));
-  const s = $("savebtn"); if (s) s.disabled = !sel.confidence;
-}
+
+function showErr(msg) { const e = $("err"); if (e) { e.textContent = msg; e.style.display = "block"; } }
 
 async function save() {
-  if (!sel.primary || !sel.confidence) return;
+  if (saving || !sel.primary || !sel.confidence) return;   // guard double-submit / missing required
+  saving = true; renderDock();
   const c = CALLS[cur];
-  await fetch("/label/save", { method: "POST", headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ ref: c.ref, primary_label: sel.primary, confidence: sel.confidence,
-      positive_tags: [...sel.pos], negative_tags: [...sel.neg], context_tags: [...sel.ctx], note: sel.note }) });
-  labeledRefs[c.ref] = sel.primary;
-  cur++; render();
+  const payload = { ref: c.ref, primary_label: sel.primary, confidence: sel.confidence,
+    positive_tags: [...sel.pos], negative_tags: [...sel.neg], context_tags: [...sel.ctx], note: sel.note };
+  try {
+    const res = await fetch("/label/save", { method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload) });
+    if (!res.ok) {   // a 400/500 must NOT advance — show retryable error
+      const msg = await res.text().catch(() => "");
+      saving = false; renderDock(); showErr(`Save failed (${res.status}): ${msg} — fix and retry.`);
+      return;
+    }
+    labeled[c.ref] = { primary_label: payload.primary_label, confidence: payload.confidence,
+      positive_tags: payload.positive_tags, negative_tags: payload.negative_tags,
+      context_tags: payload.context_tags, note: payload.note };
+    saving = false; cur++; render();
+  } catch (err) {
+    saving = false; renderDock(); showErr("Network error — your label was NOT saved. Retry.");
+  }
 }
 
 document.addEventListener("keydown", e => {
-  if (cur >= CALLS.length) return;
+  if (cur >= CALLS.length || saving) return;
   if (e.key === "1" || e.key === "2" || e.key === "3") {
     sel.primary = { "1": "success", "2": "fail", "3": "unsure" }[e.key]; renderDock();
   } else if (e.key === "Enter" && sel.primary && sel.confidence) { e.preventDefault(); save(); }
 });
 
 (async () => {
-  const data = await (await fetch("/label/calls")).json();
-  CALLS = data.calls;
-  labeledRefs = (await (await fetch("/label/state")).json()).labeled || {};
-  // unlabeled first (stable order already stratified server-side)
-  const un = CALLS.filter(c => !(c.ref in labeledRefs)), done = CALLS.filter(c => c.ref in labeledRefs);
-  CALLS = [...un, ...done];
+  CALLS = (await (await fetch("/label/calls")).json()).calls;
+  TAGS = await (await fetch("/label/tags")).json();             // taxonomy from server (no client duplication)
+  labeled = (await (await fetch("/label/state")).json()).labeled || {};
+  const un = CALLS.filter(c => !(c.ref in labeled)), done = CALLS.filter(c => c.ref in labeled);
+  CALLS = [...un, ...done];   // unlabeled first (stable server-side stratified order within)
   render();
 })();
 </script>
