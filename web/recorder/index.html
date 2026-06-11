@@ -69,7 +69,7 @@
     <span class="chip" id="savechip">0/6 lines saved</span>
   </header>
   <div class="sub">One take, hands-free: press record once and just have the call.
-  Neerja speaks, then you speak — when you go quiet, it advances on its own (it knows to wait
+  The agent speaks, then you speak — when you go quiet, it advances on its own (it knows to wait
   through your scripted t2 pause). At the end it assembles automatically. Headphones on.</div>
   <div class="toolbar">
     <button class="primary" id="flowbtn">⏺ Record the call — one take</button>
@@ -161,7 +161,8 @@ function render() {
   for (const t of TL.turns) {
     const d = document.createElement("div");
     d.className = "turn " + t.speaker; d.id = "card-" + t.turn_id;
-    const who = t.speaker === "agent" ? `<span class="who-agent">agent · Neerja</span>` :
+    const agentName = (TL.cartesia && TL.cartesia.voice) || "agent";
+    const who = t.speaker === "agent" ? `<span class="who-agent">agent · ${agentName}</span>` :
                                         `<span class="who-user">YOU</span>`;
     let controls = "";
     if (t.speaker === "agent") {

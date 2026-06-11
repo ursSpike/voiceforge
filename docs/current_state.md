@@ -7,11 +7,11 @@ constitution.** Where GPT's plan used different names, the mapping table reconci
 | area | files | state |
 |---|---|---|
 | schemas (specs) | `schemas/*.md` (call_log, task_outcome, scorecard, cost, improvement_example) | authored |
-| schemas (machine-checkable) | `schemas/json/*.schema.json` (8, via `pipeline/schemas.py`) | **NEW this batch**; pool validates 11/11 |
+| schemas (machine-checkable) | `schemas/json/*.schema.json` (8, via `pipeline/schemas.py`) | **NEW this batch**; pool validates 12/12 |
 | normalize | `pipeline/normalize.py` (spokenwoz + hero adapters) | works |
 | deterministic signals | `pipeline/signals.py` (FTO core: barge-in, latency, p50/p90, failure table) | works, notebook-referenced |
 | LLM judge | `pipeline/judge.py` (Gemini, temp 0, JSON, {score,reason,evidence_turn_ids}, disk cache) | works (smoke + cache) |
-| rubric | `rubric.yaml` (6 dims: 3 deterministic, 3 judge) | live config |
+| rubric | `rubric.yaml` (8 dims: 3 deterministic, 5 judge; weights sum 1.0) | live config |
 | normalized pool | `data/normalized/*.json` | **12 calls** (hero + 10 SpokenWOZ + 1 real Bolna, Batch 1) |
 | public data | `data/spokenwoz/data.json` (246MB, 4700 dialogues, word-level ms) | **already downloaded** — slice, don't re-fetch |
 | hero call | `data/hero/hero_001.wav` (Cartesia Devansh) + `turns.json` | failures 0:15 barge-in 800ms / 0:48 gap 1620ms |

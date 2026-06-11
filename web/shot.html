@@ -181,7 +181,8 @@ function render() {
   $("convo").innerHTML = CALL.turns.map(t => {
     const pre = (strikes[t.turn_id] || []).map(([f, i]) =>
       `<div class="fstrip" data-ms="${f.at_ms}" id="fs${i}">⚡ ${mmss(f.at_ms)} · ${f.label} · ${f.detail}</div>`).join("");
-    const who = t.speaker === "agent" ? "agent · Neerja" : "caller";
+    const voiceName = ((CALL.metadata && CALL.metadata.agent_voice) || "agent").replace("cartesia/", "");
+    const who = t.speaker === "agent" ? ("agent · " + voiceName) : "caller";
     return `${pre}<div class="msg ${t.speaker}" data-ms="${t.start_ms}" id="turn-${t.turn_id}">
         <div class="meta"><b>${who}</b> · ${mmss(t.start_ms)}</div>
         <div class="bubble">${t.text}</div>

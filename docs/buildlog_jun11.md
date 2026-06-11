@@ -104,8 +104,11 @@ output contract is solid and the repo is internally consistent.
   judge.py wires the +2 at Batch 4). (Caught+fixed a YAML-spacing typo this introduced.)
 - `pipeline/cartesia_tts_smoke.py` (proves the mandatory Cartesia *synthesis* path) committed, not stray.
 
-**Result:** preflight clean (hero/Bolna/pool/cartesia all PASS); pool 12/12 valid; call_record
-self-test passes; no untracked files; rubric loads, weights = 1.0.
+**Result:** the REPAIRED SUBSET passes (preflight hero/Bolna/pool/cartesia all PASS); pool 12/12
+valid; call_record self-test passes; no untracked files; rubric loads, weights = 1.0.
+**Honest scope:** global preflight is NOT green — it still shows the expected ~6 FAILs for
+not-yet-built batches (out/calls.json, DPO, labels, kappa, analytics, fallback). Those are the
+remaining batch targets, not regressions.
 
 **Broke:** rubric YAML spacing typo (`key:{` → `key: {`) — caught by the verification run, fixed.
 

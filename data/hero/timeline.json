@@ -5,6 +5,7 @@
   "stress_profile": "interruption",
   "workflow_type": "appliance_service_booking",
   "agent_voice": "en-IN-NeerjaNeural",
+  "_voice_note": "agent_voice is the edge-tts FALLBACK only; the ACTIVE hero voice is the cartesia block below (Devansh). turns.json metadata records what was actually used.",
   "cartesia": {"voice": "Devansh", "voice_id": "1259b7e3-cb8a-43df-9446-30971a46b8b0", "model": "sonic-3", "language": "en"},
   "sample_rate": 24000,
   "_fto_ms_doc": "start of this turn relative to END of previous turn. negative = engineered overlap (barge-in), positive = gap. THE TWO SINS: t3 = -800 (agent barges in over the caller's hesitant answer), t7 = +1620 (dead air).",
