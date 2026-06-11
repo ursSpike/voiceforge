@@ -22,7 +22,7 @@ constitution.** Where GPT's plan used different names, the mapping table reconci
 | eval core | `pipeline/score.py` → `out/calls.json` (46 call_records) + `out/analytics.json` | **DONE, Batch 3**; 46/46 valid |
 | public data | `data/spokenwoz/data.json` (246MB, 4700 dialogues, word-level ms) | **already downloaded** — slice, don't re-fetch |
 | hero call | `data/hero/hero_001.wav` (Cartesia Devansh) + `turns.json` | failures 0:15 barge-in 800ms / 0:48 gap 1620ms |
-| money-shot UI | `web/shot.html` + `web/recorder/serve.py` (stdlib server, :7861) | click-to-seek verified |
+| money-shot UI + booths | `web/shot.html` + `web/recorder/serve.py` (local server :7861; validates labels via jsonschema, so not pure-stdlib) | click-to-seek verified |
 | Bolna | agent `199b03e7…` (Cartesia-voiced) + 1 completed execution `246cd9f3…` | ingest target for Batch 1 |
 | keys | `.env`: GEMINI ✓, BOLNA ✓, CARTESIA ✓ (all verified) | gitignored |
 | plan + checks | `docs/SUBMISSION-PLAN.md`, `pipeline/preflight.py` | the executable checklist |

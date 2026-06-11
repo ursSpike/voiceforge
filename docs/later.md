@@ -12,7 +12,7 @@ blocks the demo.
 - Bolna live ingest (adapter-contract slide stands in)
 - Next.js polish depth
 - A/B live re-run
-- Samples beyond 9–12 calls
+- Samples beyond the current 46 calls
 - Cross-cut chart extras
 - Second human labeler
 

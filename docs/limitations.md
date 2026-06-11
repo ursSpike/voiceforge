@@ -24,7 +24,7 @@ Validity comes from the public-data calibration, not from this call. Disclosed o
   are synthesized from word-level timestamps; hero-call bounds come from assembly.
 - Sources with single timestamps (no end times) get latency treatment only — we never fake overlap.
 - SpokenWOZ is protocol-collected: few genuine barge-ins. AMI supplies real overlap but is
-  meetings-domain, not task calls. Sample is 9–12 calls — directional, not statistical.
+  meetings-domain, not task calls. Sample is **46 calls** (44 SpokenWOZ + hero + Bolna) — directional, not statistical.
 
 ## Costs are estimates
 Cost-per-call and cost-per-successful-call use turn counts × public per-unit price estimates

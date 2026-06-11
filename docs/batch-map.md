@@ -19,7 +19,7 @@ The authoritative answer to "which batch does X." Encodes GPT's two rulings (Jun
 | — | DPO export / improvement examples | ⬜ | `out/queue.jsonl`, improvement_examples | failures (have) + labels |
 | — | kappa / calibration | ⬜ | kappa + CI + confusion + 2 disagreements | labels + judge |
 | 5 | **SF/YC DASHBOARD UI** | ⬜ **do not start yet** | Overview → Calls → Call Detail → Failure Clusters → Improvement Queue | **needs out/calls.json (✓) + failure clusters (✓) + improvement examples (✗ not yet)** |
-| 6 | **research cite-card (VERIFICATION)** | ⬜ | `docs/cite_card.md` mapping each paper → product / framing / Q&A | papers verified live |
+| 6A | **research cite-card (VERIFICATION)** | ✅ done | `docs/cite_card.md` + `docs/papers/<slug>.md` ×6 + `_decisions.md` (6/6 verified from primary sources) | papers verified live |
 | 7 | demo hardening | ⬜ | slides, screenshots, **fallback recording**, submit | everything above |
 
 ## Batch 4 — the judge (next, when approved)
@@ -34,7 +34,7 @@ bias/reliability issues — arXiv:2411.15594, 2410.02736.)
 Starts ONLY after the data spine is real AND improvement examples exist. Reads `out/calls.json` +
 `out/analytics.json` ONLY — never invents fields. Restrained SF/YC aesthetic (Linear/Vercel/OpenAI-
 evals energy), decision-support not decorative shell, drill-down (answer the next question). Five
-screens, nothing else (no auth/billing/teams/settings). Built on the existing stdlib server (no
+screens, nothing else (no auth/billing/teams/settings). Built on the existing local server (no
 Next.js, 90-min reliability cap). Missing field → "unknown", never fabricated.
 **Current blocker:** improvement examples don't exist yet → the Improvement Queue screen can't be
 real. So Batch 5 waits on the improvement/DPO step (which itself waits on labels). Overview/Calls/
@@ -50,7 +50,9 @@ Verify each paper live, then map to product / demo-framing / Q&A-armor:
 - **WildSpeech-Bench** — real-world speech-LLM eval need (Q&A).
 - **LLM-as-judge bias** (2411.15594 / 2410.02736) — justifies deterministic-primary stance (Batch 4).
 
-## Where we are (Jun 11 ~20:20)
-Batches 0–3 done; `out/calls.json` (46 validated records) + analytics exist; preflight 5 FAIL.
-Awaiting GPT verdict on path: **Batch 4 (judge machinery)** and/or **the blind-label booth** (so
-Spike can label). UI (Batch 5) deliberately held until its data is complete.
+## Where we are (Jun 11 ~22:10)
+Batches 0–3 done; `out/calls.json` (46 validated records) + analytics exist. **Blind-label booth v2
+(phenotype) COMPLETE** — human labels pending (Spike's task, 0/46). **Batch 6A (cite-card) DONE.**
+Next per audit-master plan: **Batch 8A** (one deterministic chart from analytics) → **Batch 4A**
+(judge machinery, quarantined — no real-call scoring until labels). UI (Batch 5) held until its data
+(incl. improvement examples) is complete.

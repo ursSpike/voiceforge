@@ -134,8 +134,9 @@ plus a documentation truth sweep. No downloads/APIs/model runs/UI/architecture c
 **Verified findings (quoted from each abstract):** SpokenWOZ 8 domains/203k turns/5.7k dialogues/249h
 (DST 25.65% JGA, SOTA e2e 52.1% completion) · τ-Voice voice agents retain **30–45%** of text capability
 (85% text vs 31–51% clean / 26–38% realistic; 79–90% failures agent-behavior) · VoiceAgentBench 6,000+
-queries EN+6 Indic, ≤60.6% param-filling EN, sharper Indic degradation · WildSpeech-Bench: no specialized
-e2e speech-LLM benchmark exists · LLM-judge survey: judge reliability "remains a significant challenge" ·
+queries EN+6 Indic, ≤60.6% param-filling EN, sharper Indic degradation · WildSpeech-Bench: a lack of
+specialized and comprehensive end-to-end speech-LLM benchmarks (it positions itself as the first such) ·
+LLM-judge survey: judge reliability "remains a significant challenge" ·
 Justice-or-Prejudice: 12 biases quantified (CALM framework).
 
 **Why for demo:** Q&A armor that's fact-checked. The honesty spine is explicit: SpokenWOZ is a real

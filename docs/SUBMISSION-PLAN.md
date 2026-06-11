@@ -25,7 +25,7 @@ hero call (Cartesia Devansh, self-check OK, failures 0:15/0:48) · money-shot pa
 | 4 | B5 | **DPO export**: 10–20 pairs, single-axis diffs → `out/queue.jsonl` + OpenAI mirror | 1.5h | me |
 | 5 | B7 | **Kappa**: judge-vs-Spike + bootstrap CI + confusion matrix + 2 disagreement cases | 1h | me |
 | 6 | B8 | **Business-value chart** + stress cross-cut → `out/analytics.json` + `reports/charts/` | 1.5h | me |
-| 7 | B9 | **Dashboard**: extend existing stdlib server — call list + scorecard view over `out/`. /shot already exists. 90-min cap, then it ships as-is. NO Next.js. | 1.5h | me |
+| 7 | B9 | **Dashboard**: extend existing local server — call list + scorecard view over `out/`. /shot already exists. 90-min cap, then it ships as-is. NO Next.js. | 1.5h | me |
 | 8 | B11 | **Package + SUBMIT**: slides (§9 order), screenshots, fallback recording of money shot (real catch), limitations slide, submit, FREEZE | 1.5h | both |
 | — | B6 | A/B loop: ONLY if ≥2h ahead at 15:00 Jun 12; otherwise the loop-shape slide (pre-authorized) | (3h cap) | me |
 

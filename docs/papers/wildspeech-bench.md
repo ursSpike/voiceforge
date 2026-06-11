@@ -23,7 +23,7 @@ Note: the abstract is qualitative — it reports no single headline numeric stat
 
 ## What VoiceForge can use from this paper
 
-- A peer-reviewed-style framing that text-adapted benchmarks miss speech-specific phenomena (prosody, homophones, stuttering, differing user expectations) — this motivates *why* a real-world speech-LLM evaluation harness is worth building at all.
+- A preprint framing that text-adapted benchmarks miss speech-specific phenomena (prosody, homophones, stuttering, differing user expectations) — this motivates *why* a real-world speech-LLM evaluation harness is worth building at all.
 - The paper's "query-aware evaluation" idea (customized checklists/prompts per query) is conceptual support for VoiceForge's deterministic-first + per-scenario evaluation stance — as inspiration only, not as a method VoiceForge reimplements.
 - Evidence that mainstream speech models differ significantly across speech scenarios, supporting the general argument that scenario-stratified evaluation matters.
 

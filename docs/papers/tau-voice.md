@@ -27,7 +27,7 @@ The benchmark spans **278 tasks** and extends τ²-bench into a full-duplex voic
 setting with a controllable, non-real-time voice user simulator.
 
 ## What VoiceForge can use from this paper
-- **The "why" for the whole product.** A peer benchmark independently measures a
+- **The "why" for the whole product.** A benchmark preprint independently measures a
   large, quantified voice-vs-text gap (retaining only 30–45% of text capability).
   That is the external evidence that evaluating voice agents *separately from
   text agents* is a real, unsolved problem — which is the premise VoiceForge is

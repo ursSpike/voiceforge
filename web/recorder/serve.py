@@ -11,7 +11,7 @@ Routes:
   GET  /                 booth UI
   GET  /label            blind-label booth v2 (web/label.html): transcript-only, binary + phenotype tags
   GET  /label/calls      stratified, ref-keyed; strips call_id/source/stress_profile/all scores
-  GET  /label/state      {"labeled": {ref: primary_label}}
+  GET  /label/state      {"labeled": {ref: {primary_label, confidence, *_tags[], note}}} (full prior annotation, for revision)
   POST /label/save       JSON {ref, primary_label, confidence, positive_tags, negative_tags, context_tags, note}
   GET  /shot             money-shot page (web/shot.html): audio + clickable failure table
   GET  /timeline.json    data/hero/timeline.json
