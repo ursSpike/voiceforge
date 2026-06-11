@@ -1,8 +1,0 @@
-{
-  "score": 0.0,
-  "reason": "The agent over-demanded a complete address instead of acknowledging the partial information provided by the user and asking a targeted follow-up.",
-  "evidence_turn_ids": [
-    "t2",
-    "t3"
-  ]
-}

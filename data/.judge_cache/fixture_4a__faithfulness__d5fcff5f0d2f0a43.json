@@ -1,8 +1,0 @@
-{
-  "score": 1.0,
-  "reason": "The agent's statement is a request for more specific information (complete address with pincode, landmark, and door number) that was not provided by the caller in the previous turn.",
-  "evidence_turn_ids": [
-    "t2",
-    "t3"
-  ]
-}

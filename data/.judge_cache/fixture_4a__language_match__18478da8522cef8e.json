@@ -1,9 +1,0 @@
-{
-  "score": 0.0,
-  "reason": "The agent fails to adapt to the user's code-switching, maintaining a formal English tone despite the user's use of Hinglish/Tenglish.",
-  "evidence_turn_ids": [
-    "t2",
-    "t3",
-    "t4"
-  ]
-}

@@ -1,8 +1,0 @@
-{
-  "score": 0.1,
-  "reason": "The agent ignored the partial information provided by the user and immediately over-demanded a complete address instead of asking a targeted follow-up.",
-  "evidence_turn_ids": [
-    "t2",
-    "t3"
-  ]
-}
