@@ -1,4 +1,4 @@
-# VoiceForge — current state (Batch 0 repo audit, Jun 11)
+# VoiceForge — current state (living doc; updated through Batch 3 + label booth, Jun 11)
 
 Snapshot of what already exists, so no batch rebuilds or forks what's here. **The repo is the
 constitution.** Where GPT's plan used different names, the mapping table reconciles them.
@@ -12,7 +12,7 @@ constitution.** Where GPT's plan used different names, the mapping table reconci
 | area | files | state |
 |---|---|---|
 | schemas (specs) | `schemas/*.md` (call_log, task_outcome, scorecard, cost, improvement_example) | authored |
-| schemas (machine-checkable) | `schemas/json/*.schema.json` (8, via `pipeline/schemas.py`) | **NEW this batch**; pool validates 12/12 |
+| schemas (machine-checkable) | `schemas/json/*.schema.json` (8, via `pipeline/schemas.py`) | pool validates **46/46** |
 | normalize | `pipeline/normalize.py` (spokenwoz + hero adapters) | works |
 | deterministic signals | `pipeline/signals.py` (FTO core: barge-in, latency, p50/p90, failure table) | works, notebook-referenced |
 | LLM judge | `pipeline/judge.py` (Gemini, temp 0, JSON, {score,reason,evidence_turn_ids}, disk cache) | works (smoke + cache) |

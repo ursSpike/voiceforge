@@ -7,6 +7,10 @@
 
 Routes:
   GET  /                 booth UI
+  GET  /label            blind-label booth (web/label.html): raw transcripts, binary labels, NO scores
+  GET  /label/calls      raw call_logs from data/normalized, stripped (no scorecard/outcome/failures)
+  GET  /label/state      {"labeled": {call_id: label}} from eval/labels_spike.csv
+  POST /label/save?call_id&label   append/overwrite a label (success|fail|skip)
   GET  /shot             money-shot page (web/shot.html): audio + clickable failure table
   GET  /timeline.json    data/hero/timeline.json
   GET  /turns.json       data/hero/turns.json (ground-truth call_log, written by assembler)
