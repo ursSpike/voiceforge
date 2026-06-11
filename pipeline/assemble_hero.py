@@ -15,6 +15,7 @@ what keeps t2's deliberate 2s hesitation intact).
 """
 import asyncio
 import json
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -75,6 +76,54 @@ def tts():
 
     asyncio.run(run())
     print("agent lines done. Record user lines per data/hero/script.md, then: assemble")
+
+
+def _cartesia_key():
+    """Load CARTESIA_API_KEY from .env (no dependency)."""
+    env = ROOT / ".env"
+    if env.exists():
+        for line in env.read_text().splitlines():
+            line = line.strip()
+            if line and not line.startswith("#") and "=" in line:
+                k, v = line.split("=", 1)
+                os.environ.setdefault(k.strip(), v.strip())
+    key = os.environ.get("CARTESIA_API_KEY")
+    if not key:
+        sys.exit("No CARTESIA_API_KEY in .env")
+    return key
+
+
+def tts_cartesia():
+    """Re-voice the agent lines with Cartesia Sonic (SPEC §7.E; mandatory hackathon requirement:
+    the build must use a Cartesia voice). Writes wav per agent turn and removes any stale edge-tts
+    file for that turn so assemble() picks the Cartesia clip."""
+    import urllib.request
+    tl = timeline()
+    RAW.mkdir(parents=True, exist_ok=True)
+    key = _cartesia_key()
+    vc = tl.get("cartesia") or {}
+    if not vc.get("voice_id"):
+        sys.exit("timeline.json has no cartesia.voice_id — add one (see pipeline/cartesia_smoke.py voice list).")
+    sr = tl.get("sample_rate", 24000)
+    hdr = {"X-API-Key": key, "Cartesia-Version": "2024-11-13", "Content-Type": "application/json"}
+
+    for t in tl["turns"]:
+        if t["speaker"] != "agent":
+            continue
+        for old in RAW.glob(Path(t["file"]).stem + ".*"):   # drop the prior edge-tts mp3 for this turn
+            old.unlink()
+        body = {"model_id": vc.get("model", "sonic-3"), "transcript": t["text"],
+                "voice": {"mode": "id", "id": vc["voice_id"]},
+                "output_format": {"container": "wav", "encoding": "pcm_s16le", "sample_rate": sr},
+                "language": vc.get("language", "en")}
+        req = urllib.request.Request("https://api.cartesia.ai/tts/bytes", headers=hdr,
+                                     data=json.dumps(body).encode(), method="POST")
+        with urllib.request.urlopen(req, timeout=60) as r:
+            audio = r.read()
+        out = RAW / (Path(t["file"]).stem + ".wav")
+        out.write_bytes(audio)
+        print(f"  {t['turn_id']} -> {out.name}  ({dur_ms(out)}ms)  [cartesia {vc.get('model','sonic-3')}/{vc.get('voice')}]")
+    print(f"agent lines re-voiced with Cartesia ({vc.get('voice')}). Now: assemble")
 
 
 def assemble():
@@ -150,6 +199,7 @@ def assemble():
 
 if __name__ == "__main__":
     mode = sys.argv[1] if len(sys.argv) > 1 else "assemble"
-    if mode not in ("tts", "assemble"):
-        sys.exit("usage: assemble_hero.py [tts|assemble]")
-    (tts if mode == "tts" else assemble)()
+    if mode not in ("tts", "cartesia", "assemble"):
+        sys.exit("usage: assemble_hero.py [tts|cartesia|assemble]   "
+                 "(tts=edge-tts agent lines · cartesia=Sonic re-voice · assemble=mix+turns+table)")
+    {"tts": tts, "cartesia": tts_cartesia, "assemble": assemble}[mode]()
