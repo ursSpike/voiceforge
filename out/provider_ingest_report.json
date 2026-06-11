@@ -1,0 +1,16 @@
+{
+  "call_id": "bolna_246cd9f3",
+  "source": "bolna",
+  "language": "hi-en",
+  "n_turns": 13,
+  "provider_cost_cents": 5.96,
+  "latency": {
+    "n_handoffs": 6,
+    "median_gap_ms": 435.5,
+    "p90_gap_ms": 656,
+    "laggy_threshold_ms": 800,
+    "n_laggy": 0
+  },
+  "barge_ins": [],
+  "failures": []
+}

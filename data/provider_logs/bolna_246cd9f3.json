@@ -1,0 +1,360 @@
+{
+  "execution": {
+    "id": "246cd9f3-8479-407d-b65b-bac1b6d4e4a7",
+    "agent_id": "199b03e7-06c6-40e5-8741-37c5c9598061",
+    "batch_id": null,
+    "scheduled_at": null,
+    "answered_by_voice_mail": null,
+    "conversation_duration": 0.0,
+    "total_cost": 5.96,
+    "transcript": "assistant: Hello from Bolna\nuser:  hello\nassistant:  Hi! How can I assist you today?\nuser:  i needed to book an appointment\nassistant:  Sure, please provide the date and time you prefer for the appointment.\nuser:  the saturday church street \u092c\u0948\u0902\u0917\u0932\u094b\u0930\nassistant:  Please confirm the date and time for your appointment at Saturday Church Street, Bangalore.\nuser:  thirteenth june five pm\nassistant:  Your appointment is set for June 13th at 5 PM on Church Street, Bangalore. Would you like me to confirm this booking?\nuser:  yeah sure thank you\nassistant:   Your appointment for June 13th at 5 PM on Church Street, Bangalore is confirmed. Is there anything else I can help you with?\nuser:  nothing else for now thank you\nassistant:  You're welcome! Have a great day!\n",
+    "usage_breakdown": {
+      "llmModel": {
+        "azure/gpt-4.1-mini": {
+          "input": 1532,
+          "output": 106
+        }
+      },
+      "voice_id": "FaqthkZu1EWxXxUFbAfb",
+      "llmTokens": 0,
+      "provider_source": {
+        "llm": "bolna",
+        "synthesizer": "bolna",
+        "transcriber": "bolna"
+      },
+      "synthesizer_model": null,
+      "transcriber_model": "nova-3",
+      "llm_usage_breakdown": {
+        "hangup": null,
+        "analytics": null,
+        "extraction": null,
+        "disposition": null,
+        "conversation": {
+          "input": 1532,
+          "model": "azure/gpt-4.1-mini",
+          "output": 106,
+          "provider": "azure",
+          "routing_target": "ptu",
+          "provider_connected": false
+        },
+        "summarization": null
+      },
+      "synthesizer_provider": "elevenlabs",
+      "transcriber_duration": 68.352,
+      "transcriber_language": "hi",
+      "transcriber_provider": "deepgram",
+      "synthesizer_characters": 483,
+      "synthesizer_usage_breakdown": {
+        "provider_connected": false,
+        "welcome_message_cache": false,
+        "conversation_characters": 483,
+        "welcome_message_characters": 0
+      },
+      "transcriber_usage_breakdown": {
+        "provider_connected": false,
+        "transcriber_duration": 68.352
+      },
+      "voicemail_detection_enabled": false,
+      "endpointing": 300,
+      "incremental_delay": 500,
+      "buffer_size": 220,
+      "hangup_after_silence": 15,
+      "check_if_user_online": true,
+      "trigger_user_online_message_after": 10
+    },
+    "cost_breakdown": {
+      "llm": 0.077,
+      "network": 0,
+      "platform": 0,
+      "synthesizer": 4.83,
+      "transcriber": 1.048,
+      "llm_breakdown": {
+        "hangup": 0,
+        "routing": 0,
+        "analytics": 0,
+        "voicemail": 0,
+        "extraction": 0,
+        "conversation": 0.077,
+        "summarization": 0
+      },
+      "synthesizer_breakdown": {
+        "conversation": 4.83,
+        "welcome_message": 0
+      },
+      "transcriber_breakdown": {
+        "analytics": 0,
+        "conversation": 1.048
+      }
+    },
+    "extracted_data": null,
+    "summary": null,
+    "error_message": null,
+    "status": "completed",
+    "agent_extraction": null,
+    "workflow_retries": null,
+    "rescheduled_at": null,
+    "custom_extractions": null,
+    "campaign_id": null,
+    "smart_status": "completed",
+    "user_number": null,
+    "agent_number": null,
+    "initiated_at": null,
+    "retry_config": null,
+    "retry_count": 0,
+    "retry_history": null,
+    "created_at": "2026-06-11T11:23:31.485653+00:00",
+    "updated_at": "2026-06-11T11:24:40.762340+00:00",
+    "lid_data": null,
+    "telephony_data": null,
+    "transfer_call_data": null,
+    "context_details": null,
+    "agent_context_details": null,
+    "batch_run_details": null,
+    "provider": "web-call",
+    "latency_data": null,
+    "tool_call_logs": []
+  },
+  "log": {
+    "data": [
+      {
+        "created_at": "2026-06-11 11:23:31.571821",
+        "component": "synthesizer",
+        "type": "request",
+        "provider": "elevenlabs",
+        "data": "Hello from Bolna"
+      },
+      {
+        "created_at": "2026-06-11 11:23:32.791930",
+        "component": "synthesizer",
+        "type": "response",
+        "provider": "elevenlabs",
+        "data": "Hello from Bolna"
+      },
+      {
+        "created_at": "2026-06-11 11:23:37.602087",
+        "component": "transcriber",
+        "type": "response",
+        "provider": "deepgram",
+        "data": " hello"
+      },
+      {
+        "created_at": "2026-06-11 11:23:37.602652",
+        "component": "llm",
+        "type": "request",
+        "provider": "azure/ptu-gpt-4-1-mini",
+        "data": "system: \n## Agent Prompt:\n\nYou are a helpful agent. You will help the customer with their queries and doubts. You will never speak more than 2 sentences. Keep your responses concise\n\n## Call information:\n\n### Variables:\nagent_id is \"199b03e7-06c6-40e5-8741-37c5c9598061\"\nexecution_id is \"246cd9f3-8479-407d-b65b-bac1b6d4e4a7\"\n\n### Today Current Date and Time:\n Thursday, June 11, 2026 at 04:23:31 AM local time in the America/Los_Angeles timezone. Use this information to ensure all time-related responses are accurate and contextually relevant based on the user's location.\n\n\n## Transcript:\n\nassistant: Hello from Bolna\nuser:  hello\n"
+      },
+      {
+        "created_at": "2026-06-11 11:23:37.954158",
+        "component": "llm",
+        "type": "response",
+        "provider": "azure/ptu-gpt-4-1-mini",
+        "data": " Hi! How can I assist you today?"
+      },
+      {
+        "created_at": "2026-06-11 11:23:37.954433",
+        "component": "synthesizer",
+        "type": "request",
+        "provider": "elevenlabs",
+        "data": "Hi! How can I assist you today?"
+      },
+      {
+        "created_at": "2026-06-11 11:23:38.201138",
+        "component": "synthesizer",
+        "type": "response",
+        "provider": "elevenlabs",
+        "data": "Hi! How can I assist you today?"
+      },
+      {
+        "created_at": "2026-06-11 11:23:44.268455",
+        "component": "transcriber",
+        "type": "response",
+        "provider": "deepgram",
+        "data": " i needed to book an appointment"
+      },
+      {
+        "created_at": "2026-06-11 11:23:44.269123",
+        "component": "llm",
+        "type": "request",
+        "provider": "azure/ptu-gpt-4-1-mini",
+        "data": "system: \n## Agent Prompt:\n\nYou are a helpful agent. You will help the customer with their queries and doubts. You will never speak more than 2 sentences. Keep your responses concise\n\n## Call information:\n\n### Variables:\nagent_id is \"199b03e7-06c6-40e5-8741-37c5c9598061\"\nexecution_id is \"246cd9f3-8479-407d-b65b-bac1b6d4e4a7\"\n\n### Today Current Date and Time:\n Thursday, June 11, 2026 at 04:23:31 AM local time in the America/Los_Angeles timezone. Use this information to ensure all time-related responses are accurate and contextually relevant based on the user's location.\n\n\n## Transcript:\n\nassistant: Hello from Bolna\nuser:  hello\nassistant:  Hi! How can I assist you today?\nuser:  i needed to book an appointment\n"
+      },
+      {
+        "created_at": "2026-06-11 11:23:44.639862",
+        "component": "llm",
+        "type": "response",
+        "provider": "azure/ptu-gpt-4-1-mini",
+        "data": " Sure, please provide the date and time you prefer for the appointment."
+      },
+      {
+        "created_at": "2026-06-11 11:23:44.640152",
+        "component": "synthesizer",
+        "type": "request",
+        "provider": "elevenlabs",
+        "data": "Sure, please provide the date and time you prefer for the appointment."
+      },
+      {
+        "created_at": "2026-06-11 11:23:44.945890",
+        "component": "synthesizer",
+        "type": "response",
+        "provider": "elevenlabs",
+        "data": "Sure, please provide the date and time you prefer for the appointment."
+      },
+      {
+        "created_at": "2026-06-11 11:23:59.359778",
+        "component": "transcriber",
+        "type": "response",
+        "provider": "deepgram",
+        "data": " the saturday church street \u092c\u0948\u0902\u0917\u0932\u094b\u0930"
+      },
+      {
+        "created_at": "2026-06-11 11:23:59.360905",
+        "component": "llm",
+        "type": "request",
+        "provider": "azure/ptu-gpt-4-1-mini",
+        "data": "system: \n## Agent Prompt:\n\nYou are a helpful agent. You will help the customer with their queries and doubts. You will never speak more than 2 sentences. Keep your responses concise\n\n## Call information:\n\n### Variables:\nagent_id is \"199b03e7-06c6-40e5-8741-37c5c9598061\"\nexecution_id is \"246cd9f3-8479-407d-b65b-bac1b6d4e4a7\"\n\n### Today Current Date and Time:\n Thursday, June 11, 2026 at 04:23:31 AM local time in the America/Los_Angeles timezone. Use this information to ensure all time-related responses are accurate and contextually relevant based on the user's location.\n\n\n## Transcript:\n\nassistant: Hello from Bolna\nuser:  hello\nassistant:  Hi! How can I assist you today?\nuser:  i needed to book an appointment\nassistant:  Sure, please provide the date and time you prefer for the appointment.\nuser:  the saturday church street \u092c\u0948\u0902\u0917\u0932\u094b\u0930\n"
+      },
+      {
+        "created_at": "2026-06-11 11:24:00.015083",
+        "component": "llm",
+        "type": "response",
+        "provider": "azure/ptu-gpt-4-1-mini",
+        "data": " Please confirm the date and time for your appointment at Saturday Church Street, Bangalore."
+      },
+      {
+        "created_at": "2026-06-11 11:24:00.015354",
+        "component": "synthesizer",
+        "type": "request",
+        "provider": "elevenlabs",
+        "data": "Please confirm the date and time for your appointment at Saturday Church Street, Bangalore."
+      },
+      {
+        "created_at": "2026-06-11 11:24:00.366602",
+        "component": "synthesizer",
+        "type": "response",
+        "provider": "elevenlabs",
+        "data": "Please confirm the date and time for your appointment at Saturday Church Street, Bangalore."
+      },
+      {
+        "created_at": "2026-06-11 11:24:01.107172",
+        "component": "llm_language_detection",
+        "type": "request",
+        "provider": "gpt-4.1-mini",
+        "data": "{\"transcripts\": [\" hello\", \" i needed to book an appointment\", \" the saturday church street \\u092c\\u0948\\u0902\\u0917\\u0932\\u094b\\u0930\"]}"
+      },
+      {
+        "created_at": "2026-06-11 11:24:01.107215",
+        "component": "llm_language_detection",
+        "type": "response",
+        "provider": "gpt-4.1-mini",
+        "data": "{\"dominant_language\": \"en\", \"confidence\": 0.8, \"reasoning\": \"User primarily uses English with a single Hindi word as a location name, indicating English is the main language.\"}"
+      },
+      {
+        "created_at": "2026-06-11 11:24:10.878625",
+        "component": "transcriber",
+        "type": "response",
+        "provider": "deepgram",
+        "data": " thirteenth june five pm"
+      },
+      {
+        "created_at": "2026-06-11 11:24:10.879424",
+        "component": "llm",
+        "type": "request",
+        "provider": "azure/ptu-gpt-4-1-mini",
+        "data": "system: \n## Agent Prompt:\n\nYou are a helpful agent. You will help the customer with their queries and doubts. You will never speak more than 2 sentences. Keep your responses concise\n\n## Call information:\n\n### Variables:\nagent_id is \"199b03e7-06c6-40e5-8741-37c5c9598061\"\nexecution_id is \"246cd9f3-8479-407d-b65b-bac1b6d4e4a7\"\n\n### Today Current Date and Time:\n Thursday, June 11, 2026 at 04:23:31 AM local time in the America/Los_Angeles timezone. Use this information to ensure all time-related responses are accurate and contextually relevant based on the user's location.\n\n\n## Transcript:\n\nassistant: Hello from Bolna\nuser:  hello\nassistant:  Hi! How can I assist you today?\nuser:  i needed to book an appointment\nassistant:  Sure, please provide the date and time you prefer for the appointment.\nuser:  the saturday church street \u092c\u0948\u0902\u0917\u0932\u094b\u0930\nassistant:  Please confirm the date and time for your appointment at Saturday Church Street, Bangalore.\nuser:  thirteenth june five pm\n"
+      },
+      {
+        "created_at": "2026-06-11 11:24:11.382794",
+        "component": "llm",
+        "type": "response",
+        "provider": "azure/ptu-gpt-4-1-mini",
+        "data": " Your appointment is set for June 13th at 5 PM on Church Street, Bangalore. Would you like me to confirm this booking?"
+      },
+      {
+        "created_at": "2026-06-11 11:24:11.383103",
+        "component": "synthesizer",
+        "type": "request",
+        "provider": "elevenlabs",
+        "data": "Your appointment is set for June 13th at 5 PM on Church Street, Bangalore. Would you like me to confirm this booking?"
+      },
+      {
+        "created_at": "2026-06-11 11:24:11.747992",
+        "component": "synthesizer",
+        "type": "response",
+        "provider": "elevenlabs",
+        "data": "Your appointment is set for June 13th at 5 PM on Church Street, Bangalore. Would you like me to confirm this booking?"
+      },
+      {
+        "created_at": "2026-06-11 11:24:23.180927",
+        "component": "transcriber",
+        "type": "response",
+        "provider": "deepgram",
+        "data": " yeah sure thank you"
+      },
+      {
+        "created_at": "2026-06-11 11:24:23.181424",
+        "component": "llm",
+        "type": "request",
+        "provider": "azure/ptu-gpt-4-1-mini",
+        "data": "system: \n## Agent Prompt:\n\nYou are a helpful agent. You will help the customer with their queries and doubts. You will never speak more than 2 sentences. Keep your responses concise\n\n## Call information:\n\n### Variables:\nagent_id is \"199b03e7-06c6-40e5-8741-37c5c9598061\"\nexecution_id is \"246cd9f3-8479-407d-b65b-bac1b6d4e4a7\"\n\n### Today Current Date and Time:\n Thursday, June 11, 2026 at 04:23:31 AM local time in the America/Los_Angeles timezone. Use this information to ensure all time-related responses are accurate and contextually relevant based on the user's location.\n\n\n## Transcript:\n\nassistant: Hello from Bolna\nuser:  hello\nassistant:  Hi! How can I assist you today?\nuser:  i needed to book an appointment\nassistant:  Sure, please provide the date and time you prefer for the appointment.\nuser:  the saturday church street \u092c\u0948\u0902\u0917\u0932\u094b\u0930\nassistant:  Please confirm the date and time for your appointment at Saturday Church Street, Bangalore.\nuser:  thirteenth june five pm\nassistant:  Your appointment is set for June 13th at 5 PM on Church Street, Bangalore. Would you like me to confirm this booking?\nuser:  yeah sure thank you\n"
+      },
+      {
+        "created_at": "2026-06-11 11:24:23.651037",
+        "component": "llm",
+        "type": "response",
+        "provider": "azure/ptu-gpt-4-1-mini",
+        "data": "  Your appointment for June 13th at 5 PM on Church Street, Bangalore is confirmed. Is there anything else I can help you with?"
+      },
+      {
+        "created_at": "2026-06-11 11:24:23.651331",
+        "component": "synthesizer",
+        "type": "request",
+        "provider": "elevenlabs",
+        "data": " Your appointment for June 13th at 5 PM on Church Street, Bangalore is confirmed. Is there anything else I can help you with?"
+      },
+      {
+        "created_at": "2026-06-11 11:24:24.066328",
+        "component": "synthesizer",
+        "type": "response",
+        "provider": "elevenlabs",
+        "data": " Your appointment for June 13th at 5 PM on Church Street, Bangalore is confirmed. Is there anything else I can help you with?"
+      },
+      {
+        "created_at": "2026-06-11 11:24:35.983309",
+        "component": "transcriber",
+        "type": "response",
+        "provider": "deepgram",
+        "data": " nothing else for now thank you"
+      },
+      {
+        "created_at": "2026-06-11 11:24:35.983890",
+        "component": "llm",
+        "type": "request",
+        "provider": "azure/ptu-gpt-4-1-mini",
+        "data": "system: \n## Agent Prompt:\n\nYou are a helpful agent. You will help the customer with their queries and doubts. You will never speak more than 2 sentences. Keep your responses concise\n\n## Call information:\n\n### Variables:\nagent_id is \"199b03e7-06c6-40e5-8741-37c5c9598061\"\nexecution_id is \"246cd9f3-8479-407d-b65b-bac1b6d4e4a7\"\n\n### Today Current Date and Time:\n Thursday, June 11, 2026 at 04:23:31 AM local time in the America/Los_Angeles timezone. Use this information to ensure all time-related responses are accurate and contextually relevant based on the user's location.\n\n\n## Transcript:\n\nassistant: Hello from Bolna\nuser:  hello\nassistant:  Hi! How can I assist you today?\nuser:  i needed to book an appointment\nassistant:  Sure, please provide the date and time you prefer for the appointment.\nuser:  the saturday church street \u092c\u0948\u0902\u0917\u0932\u094b\u0930\nassistant:  Please confirm the date and time for your appointment at Saturday Church Street, Bangalore.\nuser:  thirteenth june five pm\nassistant:  Your appointment is set for June 13th at 5 PM on Church Street, Bangalore. Would you like me to confirm this booking?\nuser:  yeah sure thank you\nassistant:   Your appointment for June 13th at 5 PM on Church Street, Bangalore is confirmed. Is there anything else I can help you with?\nuser:  nothing else for now thank you\n"
+      },
+      {
+        "created_at": "2026-06-11 11:24:36.383550",
+        "component": "llm",
+        "type": "response",
+        "provider": "azure/ptu-gpt-4-1-mini",
+        "data": " You're welcome! Have a great day!"
+      },
+      {
+        "created_at": "2026-06-11 11:24:36.384033",
+        "component": "synthesizer",
+        "type": "request",
+        "provider": "elevenlabs",
+        "data": "You're welcome! Have a great day!"
+      },
+      {
+        "created_at": "2026-06-11 11:24:36.646500",
+        "component": "synthesizer",
+        "type": "response",
+        "provider": "elevenlabs",
+        "data": "You're welcome! Have a great day!"
+      }
+    ],
+    "status": "success"
+  }
+}

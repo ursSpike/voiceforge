@@ -1,0 +1,109 @@
+{
+  "call_id": "bolna_246cd9f3",
+  "source": "bolna",
+  "language": "hi-en",
+  "stress_profile": "clean",
+  "workflow_type": "appointment_booking",
+  "turns": [
+    {
+      "turn_id": "t1",
+      "speaker": "agent",
+      "text": "Hello from Bolna",
+      "start_ms": 0,
+      "end_ms": 1220
+    },
+    {
+      "turn_id": "t2",
+      "speaker": "user",
+      "text": "hello",
+      "start_ms": 1220,
+      "end_ms": 6030
+    },
+    {
+      "turn_id": "t3",
+      "speaker": "agent",
+      "text": "Hi! How can I assist you today?",
+      "start_ms": 6382,
+      "end_ms": 6629
+    },
+    {
+      "turn_id": "t4",
+      "speaker": "user",
+      "text": "i needed to book an appointment",
+      "start_ms": 6629,
+      "end_ms": 12696
+    },
+    {
+      "turn_id": "t5",
+      "speaker": "agent",
+      "text": "Sure, please provide the date and time you prefer for the appointment.",
+      "start_ms": 13068,
+      "end_ms": 13374
+    },
+    {
+      "turn_id": "t6",
+      "speaker": "user",
+      "text": "the saturday church street \u092c\u0948\u0902\u0917\u0932\u094b\u0930",
+      "start_ms": 13374,
+      "end_ms": 27787
+    },
+    {
+      "turn_id": "t7",
+      "speaker": "agent",
+      "text": "Please confirm the date and time for your appointment at Saturday Church Street, Bangalore.",
+      "start_ms": 28443,
+      "end_ms": 28794
+    },
+    {
+      "turn_id": "t8",
+      "speaker": "user",
+      "text": "thirteenth june five pm",
+      "start_ms": 28794,
+      "end_ms": 39306
+    },
+    {
+      "turn_id": "t9",
+      "speaker": "agent",
+      "text": "Your appointment is set for June 13th at 5 PM on Church Street, Bangalore. Would you like me to confirm this booking?",
+      "start_ms": 39811,
+      "end_ms": 40176
+    },
+    {
+      "turn_id": "t10",
+      "speaker": "user",
+      "text": "yeah sure thank you",
+      "start_ms": 40176,
+      "end_ms": 51609
+    },
+    {
+      "turn_id": "t11",
+      "speaker": "agent",
+      "text": "Your appointment for June 13th at 5 PM on Church Street, Bangalore is confirmed. Is there anything else I can help you with?",
+      "start_ms": 52079,
+      "end_ms": 52494
+    },
+    {
+      "turn_id": "t12",
+      "speaker": "user",
+      "text": "nothing else for now thank you",
+      "start_ms": 52494,
+      "end_ms": 64411
+    },
+    {
+      "turn_id": "t13",
+      "speaker": "agent",
+      "text": "You're welcome! Have a great day!",
+      "start_ms": 64812,
+      "end_ms": 65074
+    }
+  ],
+  "audio_path": null,
+  "metadata": {
+    "provider": "web-call",
+    "execution_id": "246cd9f3-8479-407d-b65b-bac1b6d4e4a7",
+    "agent_id": "199b03e7-06c6-40e5-8741-37c5c9598061",
+    "total_cost_cents": 5.96,
+    "timing_source": "log component created_at diffs (SPEC \u00a77.G); overlap NOT computed (web-call)",
+    "note": "real Bolna execution; this call predates the Cartesia voice swap (synth=elevenlabs)"
+  }
+}
