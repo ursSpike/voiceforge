@@ -116,6 +116,47 @@ remaining batch targets, not regressions.
 
 ---
 
+## BATCH 6A — Research verification + documentation truth sweep · Jun 11 ~21:55 IST
+
+**Objective:** build a cite-card from PRIMARY sources only, with per-paper files + a decision log;
+plus a documentation truth sweep. No downloads/APIs/model runs/UI/architecture changes.
+
+**Inputs:** 6 arXiv abstract pages (verified live, not from memory).
+
+**Outputs:**
+- `docs/papers/<slug>.md` × 6 — one per paper (full citation, quoted finding, what VoiceForge can
+  use, demo/Q&A use, explicit non-claim). Written by 6 parallel verifier agents (one per paper).
+- `docs/cite_card.md` — consolidated card, grouped: dataset-dependency / motivation / judge-bias.
+- `docs/papers/_decisions.md` — the decision log: what each paper is FOR and why, + hard non-claims.
+
+**Commands:** Workflow (6 agents, WebFetch per paper) → synthesis. **6/6 verified from primary sources.**
+
+**Verified findings (quoted from each abstract):** SpokenWOZ 8 domains/203k turns/5.7k dialogues/249h
+(DST 25.65% JGA, SOTA e2e 52.1% completion) · τ-Voice voice agents retain **30–45%** of text capability
+(85% text vs 31–51% clean / 26–38% realistic; 79–90% failures agent-behavior) · VoiceAgentBench 6,000+
+queries EN+6 Indic, ≤60.6% param-filling EN, sharper Indic degradation · WildSpeech-Bench: no specialized
+e2e speech-LLM benchmark exists · LLM-judge survey: judge reliability "remains a significant challenge" ·
+Justice-or-Prejudice: 12 biases quantified (CALM framework).
+
+**Why for demo:** Q&A armor that's fact-checked. The honesty spine is explicit: SpokenWOZ is a real
+DEPENDENCY; the benchmark papers MOTIVATE (don't validate); the judge-bias papers JUSTIFY deterministic-first.
+
+**Documentation truth sweep (corrections, living docs only — historical logs preserved):**
+- schema count 8 → **9** (`current_state.md`) · English-"only" → English-**heavy** (hero te-en, Bolna hi-en
+  code-switch; `limitations.md`) · judge marked **smoke harness only**, 5-dim = Batch 4 (`current_state.md`)
+  · label booth marked complete, human labels pending · `serve.py` docstring fixed ("stdlib only" was false —
+  it validates via jsonschema; also now documents `/label` + blind-label role).
+
+**Non-claims locked:** VoiceForge reproduces no paper; no paper justifies its 100ms/800ms thresholds
+(those are ours); the motivation papers do not measure VoiceForge's accuracy.
+
+**Broke:** nothing.
+
+**Next (NOT started — awaiting audit):** Batch 8A (one deterministic chart from out/analytics.json),
+then Batch 4A (judge machinery, quarantined — no real-call scoring until Spike labels). STOP per the leash.
+
+---
+
 ## BATCH 2 — Public dataset slice · Jun 11 ~19:45 IST
 
 **Objective:** expand the normalized pool to ≥40 calls (blind-label calibration needs ≥40), from

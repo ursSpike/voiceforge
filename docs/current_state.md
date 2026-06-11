@@ -12,10 +12,11 @@ constitution.** Where GPT's plan used different names, the mapping table reconci
 | area | files | state |
 |---|---|---|
 | schemas (specs) | `schemas/*.md` (call_log, task_outcome, scorecard, cost, improvement_example) | authored |
-| schemas (machine-checkable) | `schemas/json/*.schema.json` (8, via `pipeline/schemas.py`) | pool validates **46/46** |
+| schemas (machine-checkable) | `schemas/json/*.schema.json` (**9**, via `pipeline/schemas.py`) | pool validates **46/46** |
 | normalize | `pipeline/normalize.py` (spokenwoz + hero adapters) | works |
 | deterministic signals | `pipeline/signals.py` (FTO core: barge-in, latency, p50/p90, failure table) | works, notebook-referenced |
-| LLM judge | `pipeline/judge.py` (Gemini, temp 0, JSON, {score,reason,evidence_turn_ids}, disk cache) | works (smoke + cache) |
+| LLM judge | `pipeline/judge.py` (Gemini, temp 0, JSON, {score,reason,evidence_turn_ids}, disk cache) | **smoke harness only** (NOT the 5-dim pipeline — that's Batch 4) |
+| label booth | `web/label.html` + `/label*` routes | **complete; human labels PENDING** (Spike's task, 0/46) |
 | rubric | `rubric.yaml` (8 dims: 3 deterministic, 5 judge; weights sum 1.0) | live config |
 | normalized pool | `data/normalized/*.json` | **46 calls** (44 SpokenWOZ + hero + Bolna, Batch 2) |
 | eval core | `pipeline/score.py` → `out/calls.json` (46 call_records) + `out/analytics.json` | **DONE, Batch 3**; 46/46 valid |

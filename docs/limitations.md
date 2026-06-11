@@ -35,11 +35,12 @@ If shown: one closed-loop replay (v1 flawed prompt → detected failures → v2 
 turns re-run → re-scored by the same pipeline). It demonstrates the loop's *shape*, not a
 statistically meaningful improvement. Production would need more logs, human review, offline training.
 
-## English-first sprint
-Pipeline, gold set, calibration, and charts are English-only this sprint. `language` is a
-schema field and `language_match` a rubric dimension (populated `en`). The one multilingual
-artifact is the hero call's code-switching caller. IndicVoices and full multilingual support
-are roadmap, not build.
+## English-heavy sprint (not strictly English-only)
+The pool is English-HEAVY: the 44 SpokenWOZ calls are `en`, but **two calls are code-switching**
+— the hero call (`te-en`, Telugu-English) and the real Bolna call (`hi-en`, Hindi-English). So the
+sprint is not strictly English-only; `language` is a real schema field carrying those values, and
+`language_match` is a rubric dimension. Full multilingual coverage (IndicVoices et al.) is roadmap,
+not build — but the demo already touches code-switching on its two most important calls.
 
 ## Licenses
 SpokenWOZ is CC BY-NC — fine for hackathon evaluation; flagged before any commercial use.

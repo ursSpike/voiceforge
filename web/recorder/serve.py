@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-"""Local recording booth + assembly trigger for the hero call. Stdlib only, localhost only.
+"""Local recording booth + blind-label booth (/label) + hero assembly trigger. Localhost only.
+Runs from the venv: the label save path validates against pipeline/schemas (jsonschema) — so this
+is NOT stdlib-only anymore. Launch with `.venv/bin/python web/recorder/serve.py`.
 
   .venv/bin/python web/recorder/serve.py [--port 7861]
   -> open http://localhost:7861 (Chrome recommended; localhost is a secure context so the
