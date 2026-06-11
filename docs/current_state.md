@@ -3,6 +3,11 @@
 Snapshot of what already exists, so no batch rebuilds or forks what's here. **The repo is the
 constitution.** Where GPT's plan used different names, the mapping table reconciles them.
 
+> **Canonical batch reference: [docs/batch-map.md](batch-map.md)** — what each batch is FOR, status,
+> and gating. Key rulings: the SF/YC product **UI is Batch 5 only** (gated on real out/calls.json +
+> clusters + improvement examples); **research is woven into Batches 2–4** (impl) and **verified in
+> Batch 6** (cite-card) — research ideas are NOT deferred to Batch 6.
+
 ## What exists and works (verified)
 | area | files | state |
 |---|---|---|
