@@ -1,0 +1,11 @@
+{
+  "name": "conciseness",
+  "type": "judge",
+  "score": 1.0,
+  "reason": "The agent's requests are direct and clearly state the required information without any unnecessary verbosity.",
+  "evidence_turn_ids": [
+    "t1",
+    "t3"
+  ],
+  "provenance": "uncalibrated"
+}

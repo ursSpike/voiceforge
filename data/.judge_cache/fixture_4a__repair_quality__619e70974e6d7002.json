@@ -1,0 +1,11 @@
+{
+  "name": "repair_quality",
+  "type": "judge",
+  "score": 0.0,
+  "reason": "The agent over-demanded a complete address rather than acknowledging the partial information and asking a targeted follow-up.",
+  "evidence_turn_ids": [
+    "t2",
+    "t3"
+  ],
+  "provenance": "uncalibrated"
+}

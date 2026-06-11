@@ -1,0 +1,10 @@
+{
+  "name": "user_frustration",
+  "type": "judge",
+  "score": 0.0,
+  "reason": "The user expresses clear frustration and annoyance at being asked for information they believe they already provided, indicating a repair loop.",
+  "evidence_turn_ids": [
+    "t4"
+  ],
+  "provenance": "uncalibrated"
+}

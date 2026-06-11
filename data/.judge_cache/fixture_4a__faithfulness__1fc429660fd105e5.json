@@ -1,0 +1,11 @@
+{
+  "name": "faithfulness",
+  "type": "judge",
+  "score": 1.0,
+  "reason": "The agent's request for a complete address is a valid requirement for booking a visit and does not misrepresent what the caller previously said.",
+  "evidence_turn_ids": [
+    "t2",
+    "t3"
+  ],
+  "provenance": "uncalibrated"
+}

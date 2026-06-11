@@ -223,6 +223,20 @@ calibration claim. Lifts only when Spike's blind labels exist.
 
 **Broke:** nothing.
 
+### 4A repair (GPT review) · Jun 12 ~00:05 IST
+Four real defects fixed before any real-call judging:
+- **Cache poisoning** — `judge_dimension` now VALIDATES BEFORE caching; an invalid response raises
+  and is never persisted (verified: a `score:1.7` response raises + leaves no cache file).
+- **Strict validation** — `validate_dim` now rejects boolean scores, non-numbers, out-of-range,
+  non-string/empty reason, non-list/non-string evidence, and the all-evidence-dropped case; dedupes
+  evidence; requires ≥1 valid unique evidence id.
+- **rubric is the source of truth** — `_check_rubric_dims()` asserts JUDGE_DIMS == rubric's judge
+  dims at startup (fails loudly on drift).
+- **Comprehensive self-test** — a mock client now covers cache-hit, no-poison-cache, transient
+  retry count, permanent no-retry, malformed-JSON no-retry, and all bad-shape rejections (offline).
+- Warning: cache key now includes **temperature** (was omitted). All re-verified; out/calls.json
+  still byte-untouched; cache holds only fixture_4a.
+
 **Next:** the quarantine lifts after **Spike labels ≥40 at /label**. Then: judge the real calls →
 merge into out/calls.json → kappa (judge vs blind labels) → DPO → Batch 5 dashboard. All held.
 
