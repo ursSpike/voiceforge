@@ -7,10 +7,10 @@
 
 Routes:
   GET  /                 booth UI
-  GET  /label            blind-label booth (web/label.html): raw transcripts, binary labels, NO scores
-  GET  /label/calls      raw call_logs from data/normalized, stripped (no scorecard/outcome/failures)
-  GET  /label/state      {"labeled": {call_id: label}} from eval/labels_spike.csv
-  POST /label/save?call_id&label   append/overwrite a label (success|fail|skip)
+  GET  /label            blind-label booth v2 (web/label.html): transcript-only, binary + phenotype tags
+  GET  /label/calls      stratified, ref-keyed; strips call_id/source/stress_profile/all scores
+  GET  /label/state      {"labeled": {ref: primary_label}}
+  POST /label/save       JSON {ref, primary_label, confidence, positive_tags, negative_tags, context_tags, note}
   GET  /shot             money-shot page (web/shot.html): audio + clickable failure table
   GET  /timeline.json    data/hero/timeline.json
   GET  /turns.json       data/hero/turns.json (ground-truth call_log, written by assembler)
@@ -22,11 +22,15 @@ Routes:
   POST /assemble         runs pipeline/assemble_hero.py assemble; returns its output
 """
 import argparse
+import csv
+import io
 import json
 import os
 import re
 import subprocess
 import sys
+from collections import OrderedDict
+from datetime import datetime
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import urlparse, parse_qs
@@ -39,6 +43,52 @@ sys.path.insert(0, str(ROOT / "pipeline"))
 
 EXT = {"audio/mp4": ".m4a", "audio/webm": ".webm", "audio/ogg": ".ogg",
        "audio/mpeg": ".mp3", "audio/wav": ".wav"}
+
+# ---------------- blind-label booth v2 (phenotype) helpers ----------------
+LABELS_CSV = ROOT / "eval" / "labels_spike.csv"
+LABEL_COLS = ["call_id", "primary_label", "confidence", "positive_tags",
+              "negative_tags", "context_tags", "note", "timestamp"]
+
+
+def label_order():
+    """Deterministic SERVER-side stratified order over data/normalized: round-robin across
+    stress_profiles, sorted call_id within each. Stable -> ref index <-> call_id is consistent
+    across requests. Returns the full call dicts in order (call_id never leaves the server for
+    display; only the ref index does)."""
+    calls = [json.loads(f.read_text()) for f in sorted((ROOT / "data" / "normalized").glob("*.json"))]
+    groups = OrderedDict()
+    for c in sorted(calls, key=lambda c: c["call_id"]):
+        groups.setdefault(c["stress_profile"], []).append(c)
+    order, profs = [], list(groups)
+    while any(groups[p] for p in profs):
+        for p in profs:
+            if groups[p]:
+                order.append(groups[p].pop(0))
+    return order
+
+
+def read_labels():
+    """call_id -> row dict from the CSV (csv module; handles quoted notes)."""
+    out = {}
+    if LABELS_CSV.exists():
+        with LABELS_CSV.open(newline="") as f:
+            for row in csv.DictReader(f):
+                out[row["call_id"]] = row
+    return out
+
+
+def write_label(row):
+    """Upsert one label row (last-label-wins by call_id) via the csv module."""
+    LABELS_CSV.parent.mkdir(parents=True, exist_ok=True)
+    rows = read_labels()
+    rows[row["call_id"]] = row
+    buf = io.StringIO()
+    w = csv.DictWriter(buf, fieldnames=LABEL_COLS)
+    w.writeheader()
+    for r in rows.values():
+        w.writerow({k: r.get(k, "") for k in LABEL_COLS})
+    LABELS_CSV.write_text(buf.getvalue())
+    return len(rows)
 
 
 class Booth(BaseHTTPRequestHandler):
@@ -130,27 +180,21 @@ class Booth(BaseHTTPRequestHandler):
         if p == "/label":
             return self._send(200, (ROOT / "web" / "label.html").read_bytes(), "text/html; charset=utf-8")
         if p == "/label/calls":
-            # BLIND BY CONSTRUCTION: serve ONLY raw call_logs (data/normalized), stripped to
-            # non-eval fields. No scorecard / outcome / failures / out/ data ever reaches the
-            # labeling surface, so a label can never be anchored to a judge/score.
-            calls = []
-            for f in sorted((ROOT / "data" / "normalized").glob("*.json")):
-                c = json.loads(f.read_text())
-                calls.append({"call_id": c["call_id"], "source": c["source"],
-                              "language": c["language"], "stress_profile": c["stress_profile"],
-                              "workflow_type": c["workflow_type"],
-                              "turns": [{"turn_id": t["turn_id"], "speaker": t["speaker"], "text": t["text"]}
-                                        for t in c["turns"]]})
-            return self._send(200, json.dumps(calls), "application/json")
+            # BLIND BY CONSTRUCTION: serve ONLY transcript-observable fields in a deterministic
+            # server-side stratified order, keyed by an opaque `ref`. call_id / source /
+            # stress_profile / any score are stripped — the annotator can't anchor to anything.
+            order = label_order()
+            calls = [{"ref": i, "language": c["language"], "workflow_type": c["workflow_type"],
+                      "turns": [{"turn_id": t["turn_id"], "speaker": t["speaker"], "text": t["text"]}
+                                for t in c["turns"]]}
+                     for i, c in enumerate(order)]
+            return self._send(200, json.dumps({"calls": calls, "total": len(calls)}), "application/json")
         if p == "/label/state":
-            f = ROOT / "eval" / "labels_spike.csv"
-            done = {}
-            if f.exists():
-                for line in f.read_text().splitlines()[1:]:
-                    if line.strip():
-                        parts = line.split(",")
-                        done[parts[0]] = parts[1]
-            return self._send(200, json.dumps({"labeled": done}), "application/json")
+            order = label_order()
+            ref_of = {c["call_id"]: i for i, c in enumerate(order)}
+            labeled = {ref_of[cid]: row["primary_label"] for cid, row in read_labels().items()
+                       if cid in ref_of}
+            return self._send(200, json.dumps({"labeled": labeled}), "application/json")
         if p == "/favicon.ico":
             return self._send(204)
         return self._send(404, "?")
@@ -158,25 +202,36 @@ class Booth(BaseHTTPRequestHandler):
     def do_POST(self):
         u = urlparse(self.path)
         if u.path == "/label/save":
-            q = parse_qs(u.query)
-            cid = q.get("call_id", [""])[0]
-            label = q.get("label", [""])[0]
-            if not re.fullmatch(r"[A-Za-z0-9_]+", cid) or label not in ("success", "fail", "skip"):
-                return self._send(400, "bad call_id/label")
-            from datetime import datetime
-            f = ROOT / "eval" / "labels_spike.csv"
-            f.parent.mkdir(parents=True, exist_ok=True)
-            prof = ""
-            nf = ROOT / "data" / "normalized" / f"{cid}.json"
-            if nf.exists():
-                prof = json.loads(nf.read_text()).get("stress_profile", "")
-            lines = f.read_text().splitlines() if f.exists() else ["call_id,label,stress_profile,timestamp"]
-            header = lines[0]
-            rows = [l for l in lines[1:] if l.strip() and not l.startswith(cid + ",")]  # last label wins
-            rows.append(f"{cid},{label},{prof},{datetime.now().isoformat(timespec='seconds')}")
-            f.write_text(header + "\n" + "\n".join(rows) + "\n")
-            print(f"  label {cid} = {label}  ({len(rows)} total)", flush=True)
-            return self._send(200, json.dumps({"saved": cid, "label": label, "n": len(rows)}), "application/json")
+            n = int(self.headers.get("Content-Length", 0))
+            try:
+                body = json.loads(self.rfile.read(n)) if 0 < n <= 1_000_000 else {}
+            except Exception:
+                return self._send(400, "bad json")
+            import schemas
+            order = label_order()
+            ref = body.get("ref")
+            if not isinstance(ref, int) or not (0 <= ref < len(order)):
+                return self._send(400, "bad ref")
+            cid = order[ref]["call_id"]
+            primary = body.get("primary_label")
+            conf = body.get("confidence")
+            if primary not in ("success", "fail", "unsure") or conf not in ("high", "medium", "low"):
+                return self._send(400, "primary_label and confidence required")
+            # validate every tag against the fixed server-side allowlists; reject unknowns
+            allow = {"positive_tags": set(schemas.PHENO_POSITIVE), "negative_tags": set(schemas.PHENO_NEGATIVE),
+                     "context_tags": set(schemas.PHENO_CONTEXT)}
+            tags = {}
+            for col, ok in allow.items():
+                vals = body.get(col) or []
+                if not isinstance(vals, list) or any(t not in ok for t in vals):
+                    return self._send(400, f"invalid {col}")
+                tags[col] = "|".join(vals)
+            row = {"call_id": cid, "primary_label": primary, "confidence": conf,
+                   "note": str(body.get("note", ""))[:1000],
+                   "timestamp": datetime.now().isoformat(timespec="seconds"), **tags}
+            total = write_label(row)
+            print(f"  label ref{ref} ({cid}) = {primary}/{conf} +{sum(len(t.split('|')) if t else 0 for t in tags.values())} tags  ({total} total)", flush=True)
+            return self._send(200, json.dumps({"saved": ref, "primary": primary, "n": total}), "application/json")
         if u.path == "/save":
             turn = parse_qs(u.query).get("turn", [""])[0]
             if not re.fullmatch(r"t\d{1,3}", turn):

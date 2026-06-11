@@ -199,9 +199,43 @@ ANALYTICS = {
     },
 }
 
+# ---------------------------------------------------------------- phenotype_label (human annotation)
+# Audit-confirmed allowlists: transcript-observable SEMANTIC tags only — no audio/timing/overlap/
+# silence/noise tags (unobservable from text and/or deterministic-duplicates). Schema stays
+# extensible for post-hackathon audio tags.
+PHENO_POSITIVE = ["clear_and_concise", "good_clarification_or_repair", "appropriate_language_adaptation",
+                  "recovered_after_confusion", "user_expressed_satisfaction", "good_handoff_or_next_step",
+                  "good_closing"]
+PHENO_NEGATIVE = ["language_mismatch", "code_switching_handling_failure", "register_mismatch",
+                  "misunderstood_user_intent", "missing_required_information", "bad_clarification_or_repair",
+                  "tool_or_workflow_failure", "unsupported_or_hallucinated_answer", "user_goal_ambiguous",
+                  "user_expressed_frustration", "overly_verbose_or_unclear", "repeated_request_or_repair_loop"]
+PHENO_CONTEXT = ["code_switching_present", "user_hesitation_or_self_repair", "multi_domain_task",
+                 "transcript_quality_uncertain", "explicit_external_interruption"]
+
+PHENOTYPE_LABEL = {
+    "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "phenotype_label.schema.json",
+    "title": "phenotype_label",
+    "description": "One blind human annotation. primary_label (binary) is the kappa spine; tags are "
+                   "single-rater EXPLORATORY transcript-observable primitives (no kappa on tags this "
+                   "sprint). Annotator never sees call_id/source/stress_profile/any score.",
+    "type": "object",
+    "required": ["call_id", "primary_label", "confidence"],
+    "properties": {
+        "call_id": {"type": "string"},
+        "primary_label": {"enum": ["success", "fail", "unsure"]},
+        "confidence": {"enum": ["high", "medium", "low"]},
+        "positive_tags": {"type": "array", "items": {"enum": PHENO_POSITIVE}},
+        "negative_tags": {"type": "array", "items": {"enum": PHENO_NEGATIVE}},
+        "context_tags": {"type": "array", "items": {"enum": PHENO_CONTEXT}},
+        "note": {"type": "string"},
+        "timestamp": {"type": "string"},
+    },
+}
+
 ALL = {"call_log": CALL_LOG, "task_outcome": TASK_OUTCOME, "scorecard": SCORECARD, "cost": COST,
        "improvement_example": IMPROVEMENT, "failure": FAILURE, "call_record": CALL_RECORD,
-       "analytics": ANALYTICS}
+       "analytics": ANALYTICS, "phenotype_label": PHENOTYPE_LABEL}
 
 
 def validate(obj, schema_name):

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>VoiceForge — blind labeling</title>
+<title>VoiceForge — blind phenotype labeling</title>
 <style>
   :root {
     --bg: #09090b; --card: #18181b; --card2: #1f1f23; --border: #27272a; --text: #e4e4e7;
@@ -13,21 +13,17 @@
   * { box-sizing: border-box; }
   body { margin: 0; background: var(--bg); color: var(--text);
          font: 15px/1.55 -apple-system, "Segoe UI", Inter, sans-serif; }
-  .wrap { max-width: 720px; margin: 0 auto; padding: 22px 20px 120px; }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 22px 20px 230px; }
   header { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
   h1 { font-size: 19px; margin: 0; } h1 b { color: var(--green); font-weight: 650; }
   .blindbar { margin: 12px 0 8px; padding: 10px 14px; border: 1px solid #3f3f1a; background: #1a1a0c;
-              border-radius: 10px; color: var(--amber); font-size: 13px; }
-  .prog { display: flex; align-items: center; gap: 12px; margin: 10px 0 18px; }
+              border-radius: 10px; color: var(--amber); font-size: 12.5px; line-height: 1.5; }
+  .prog { display: flex; align-items: center; gap: 12px; margin: 10px 0 16px; }
   .bar { flex: 1; height: 8px; background: var(--card2); border-radius: 99px; overflow: hidden; }
   .bar i { display: block; height: 100%; width: 0%; background: var(--green); transition: width .2s; }
   .progtext { font: 12.5px var(--mono); color: var(--muted); white-space: nowrap; }
   .meta { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
-  .chip { font: 11.5px var(--mono); padding: 2px 9px; border-radius: 99px;
-          border: 1px solid var(--border); color: var(--muted); }
-  .task { background: var(--card); border: 1px solid var(--border); border-radius: 10px;
-          padding: 10px 14px; margin-bottom: 14px; font-size: 14px; }
-  .task b { color: var(--blue); }
+  .chip { font: 11.5px var(--mono); padding: 2px 9px; border-radius: 99px; border: 1px solid var(--border); color: var(--muted); }
   .convo { display: flex; flex-direction: column; gap: 9px; }
   .msg { max-width: 80%; } .msg .who { font: 11px var(--mono); color: var(--muted); margin: 0 6px 3px; }
   .msg .bub { padding: 9px 13px; border-radius: 14px; background: var(--card); border: 1px solid var(--border); }
@@ -35,104 +31,143 @@
   .msg.agent .who b { color: var(--blue); }
   .msg.user { align-self: flex-end; text-align: right; } .msg.user .bub { border-bottom-right-radius: 4px; border-right: 2px solid #1d6b50; text-align: left; }
   .msg.user .who b { color: var(--green); }
-  .actions { position: fixed; left: 0; right: 0; bottom: 0; background: rgba(9,9,11,.94);
-             backdrop-filter: blur(8px); border-top: 1px solid var(--border); }
-  .actions .wrap { padding: 14px 20px; display: flex; gap: 10px; align-items: center; }
-  button { font: 600 15px/1 inherit; border-radius: 10px; border: 1px solid var(--border);
-           background: var(--card); color: var(--text); padding: 13px 18px; cursor: pointer; }
-  button:hover { filter: brightness(1.12); }
-  button.yes { background: var(--green); border-color: var(--green); color: #052e22; flex: 1; }
-  button.no { background: var(--red); border-color: var(--red); color: #2a0606; flex: 1; }
-  button.skip { color: var(--muted); }
-  .q { font-size: 16px; font-weight: 550; margin: 4px 0 2px; }
-  .hint { font-size: 12.5px; color: var(--muted); margin: 0 0 10px; line-height: 1.5; }
+  .dock { position: fixed; left: 0; right: 0; bottom: 0; background: rgba(9,9,11,.96);
+          backdrop-filter: blur(8px); border-top: 1px solid var(--border); max-height: 62vh; overflow-y: auto; }
+  .dock .wrap { padding: 12px 20px 16px; max-width: 720px; }
+  .q { font-size: 15px; font-weight: 550; margin: 2px 0; }
+  .hint { font-size: 12px; color: var(--muted); margin: 2px 0 8px; line-height: 1.5; }
   .hint b { color: var(--amber); font-weight: 600; }
-  .done { text-align: center; padding: 40px 0; }
-  .done h2 { color: var(--green); } kbd { font: 11px var(--mono); border: 1px solid var(--border);
-            border-radius: 4px; padding: 1px 5px; color: var(--muted); }
+  .row { display: flex; gap: 8px; flex-wrap: wrap; margin: 6px 0; }
+  button { font: 600 14px/1 inherit; border-radius: 9px; border: 1px solid var(--border);
+           background: var(--card); color: var(--text); padding: 11px 15px; cursor: pointer; }
+  button:hover { filter: brightness(1.12); }
+  .prim { flex: 1; } .prim.yes.on { background: var(--green); border-color: var(--green); color: #052e22; }
+  .prim.no.on { background: var(--red); border-color: var(--red); color: #2a0606; }
+  .prim.uns.on { background: var(--amber); border-color: var(--amber); color: #2a1e02; }
+  .lab { font: 11px var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: .4px; margin: 10px 0 3px; }
+  .tag { font-size: 12px; padding: 6px 10px; border-radius: 7px; }
+  .tag.pos.on { background: #0d3b2e; border-color: var(--green); color: var(--green); }
+  .tag.neg.on { background: #3a1212; border-color: var(--red); color: var(--red); }
+  .tag.ctx.on { background: #16263a; border-color: var(--blue); color: var(--blue); }
+  .conf button.on { background: var(--blue); border-color: var(--blue); color: #04263f; }
+  textarea { width: 100%; background: var(--card); border: 1px solid var(--border); border-radius: 8px;
+             color: var(--text); padding: 8px 10px; font: 13px inherit; resize: vertical; min-height: 38px; }
+  .save { width: 100%; background: var(--green); border-color: var(--green); color: #052e22; font-size: 15px; padding: 13px; margin-top: 10px; }
+  .save:disabled { opacity: .4; cursor: default; }
+  .stage2 { display: none; } .stage2.show { display: block; }
+  kbd { font: 11px var(--mono); border: 1px solid var(--border); border-radius: 4px; padding: 1px 5px; color: var(--muted); }
+  .done { text-align: center; padding: 40px 0; } .done h2 { color: var(--green); }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <header><h1>Voice<b>Forge</b> — blind labeling</h1></header>
-  <div class="blindbar">🔒 You're seeing only the raw conversation — <b>no scores, no failure flags, no judge output</b>.
-    Label what <i>you</i> think happened. The judge gets compared to you afterward; if you peek, the calibration is void.</div>
+  <header><h1>Voice<b>Forge</b> — blind phenotype labeling</h1></header>
+  <div class="blindbar">🔒 You see <b>only the raw conversation</b> — no scores, no failure flags, no call id,
+    no source. Stage 1 (success/fail) is the calibration spine. Stage 2 tags are optional, transcript-observable
+    only — <b>don't guess audio/latency/accent</b>; those are measured elsewhere. Label honestly; don't aim for any split.</div>
   <div class="prog"><div class="bar"><i id="fill"></i></div><span class="progtext" id="progtext">…</span></div>
   <div id="card"></div>
 </div>
-<div class="actions"><div class="wrap" id="actionbar"></div></div>
+<div class="dock"><div class="wrap" id="dock"></div></div>
 <script>
 const $ = id => document.getElementById(id);
-let CALLS = [], labeled = {}, order = [], cur = 0, TARGET = 40;
+let CALLS = [], labeledRefs = {}, cur = 0, TARGET = 40;
+let sel = null;  // current selection: {primary, confidence, pos:Set, neg:Set, ctx:Set, note}
 
-function stratifiedOrder(calls, done) {
-  // interleave stress profiles so a mix gets labeled even if you stop early; unlabeled first
-  const byProf = {};
-  for (const c of calls) (byProf[c.stress_profile] = byProf[c.stress_profile] || []).push(c);
-  const profs = Object.keys(byProf), out = [];
-  let added = true;
-  while (added) { added = false;
-    for (const p of profs) { if (byProf[p].length) { out.push(byProf[p].shift()); added = true; } } }
-  // unlabeled first, then already-labeled (so you can revise)
-  return [...out.filter(c => !(c.call_id in done)), ...out.filter(c => c.call_id in done)];
-}
+const POS = ["clear_and_concise","good_clarification_or_repair","appropriate_language_adaptation","recovered_after_confusion","user_expressed_satisfaction","good_handoff_or_next_step","good_closing"];
+const NEG = ["language_mismatch","code_switching_handling_failure","register_mismatch","misunderstood_user_intent","missing_required_information","bad_clarification_or_repair","tool_or_workflow_failure","unsupported_or_hallucinated_answer","user_goal_ambiguous","user_expressed_frustration","overly_verbose_or_unclear","repeated_request_or_repair_loop"];
+const CTX = ["code_switching_present","user_hesitation_or_self_repair","multi_domain_task","transcript_quality_uncertain","explicit_external_interruption"];
 
-function taskHint(c) {
-  const w = c.workflow_type.replace(/_/g, " ");
-  return `Task: <b>${w}</b> · language ${c.language} · ${c.turns.length} turns. ` +
-         `Did the caller get what they came for?`;
+function fresh() { return { primary: null, confidence: null, pos: new Set(), neg: new Set(), ctx: new Set(), note: "" }; }
+
+function renderProgress() {
+  const n = Object.keys(labeledRefs).length;
+  $("fill").style.width = Math.min(100, n / TARGET * 100) + "%";
+  $("progtext").textContent = `${n} labeled · target ≥${TARGET} of ${CALLS.length}`;
 }
 
 function render() {
-  const n = Object.keys(labeled).length;
-  $("fill").style.width = Math.min(100, n / TARGET * 100) + "%";
-  $("progtext").textContent = `${n} labeled · target ≥${TARGET} of ${CALLS.length}`;
-  if (cur >= order.length) {
+  renderProgress();
+  if (cur >= CALLS.length) {
+    const n = Object.keys(labeledRefs).length;
     $("card").innerHTML = `<div class="done"><h2>✓ ${n} calls labeled</h2>
       <p>${n >= TARGET ? "Past the ≥40 floor — calibration can run." : `${TARGET - n} more to reach the floor.`}
-      Saved to <code>eval/labels_spike.csv</code>. You can re-open any call to revise.</p></div>`;
-    $("actionbar").innerHTML = `<button onclick="cur=0;render()">↻ review from start</button>`;
+      Saved to <code>eval/labels_spike.csv</code>. Re-open any call to revise.</p></div>`;
+    $("dock").innerHTML = `<button onclick="cur=0;render()">↻ review from start</button>`;
     return;
   }
-  const c = order[cur];
-  const prev = labeled[c.call_id];
+  const c = CALLS[cur];
+  sel = fresh();
+  const prev = labeledRefs[c.ref];
+  if (prev) sel.primary = prev;  // show prior primary; full prior tags not reloaded (revise fresh)
   $("card").innerHTML = `
-    <div class="meta"><span class="chip">${c.call_id}</span><span class="chip">${c.source}</span>
-      <span class="chip">${cur + 1} / ${order.length}</span>
-      ${prev ? `<span class="chip" style="color:var(--amber)">your label: ${prev}</span>` : ""}</div>
-    <div class="task">${taskHint(c)}</div>
-    <div class="q">Did this call succeed at its task?</div>
-    <div class="hint">Judge this call on its own — don't aim for any success/fail split (the sample is
-      already balanced; forcing a ratio = fabricating). <b>Unsure</b> = the transcript genuinely
-      doesn't let you tell, not "rather not decide" (use sparingly; unsure is excluded from the math).</div>
+    <div class="meta"><span class="chip">Call ${cur + 1} of ${CALLS.length}</span>
+      <span class="chip">${c.workflow_type.replace(/_/g," ")}</span><span class="chip">${c.language}</span>
+      ${prev ? `<span class="chip" style="color:var(--amber)">prior: ${prev}</span>` : ""}</div>
     <div class="convo">${c.turns.map(t => `
       <div class="msg ${t.speaker}"><div class="who"><b>${t.speaker === "agent" ? "agent" : "caller"}</b></div>
-        <div class="bub">${t.text || "<i>(silence)</i>"}</div></div>`).join("")}</div>`;
-  $("actionbar").innerHTML =
-    `<button class="yes" onclick="label('success')">✓ Succeeded <kbd>1</kbd></button>
-     <button class="no" onclick="label('fail')">✗ Failed <kbd>2</kbd></button>
-     <button class="skip" onclick="label('skip')">unsure <kbd>3</kbd></button>`;
-}
-
-async function label(val) {
-  const c = order[cur];
-  await fetch(`/label/save?call_id=${c.call_id}&label=${val}`, { method: "POST" });
-  if (val !== "skip") labeled[c.call_id] = val;
-  cur++; render();
+        <div class="bub">${(t.text || "<i>(silence)</i>").replace(/</g,"&lt;")}</div></div>`).join("")}</div>`;
+  renderDock();
   window.scrollTo(0, 0);
 }
 
+function chips(list, kind, set) {
+  return list.map(t => `<button class="tag ${kind} ${set.has(t) ? "on" : ""}" data-k="${kind}" data-t="${t}">${t}</button>`).join("");
+}
+
+function renderDock() {
+  $("dock").innerHTML = `
+    <div class="q">Did this call succeed at its task? <span class="hint" style="display:inline">(required)</span></div>
+    <div class="row">
+      <button class="prim yes ${sel.primary==="success"?"on":""}" data-p="success">✓ Succeeded <kbd>1</kbd></button>
+      <button class="prim no ${sel.primary==="fail"?"on":""}" data-p="fail">✗ Failed <kbd>2</kbd></button>
+      <button class="prim uns ${sel.primary==="unsure"?"on":""}" data-p="unsure">unsure <kbd>3</kbd></button>
+    </div>
+    <div class="stage2 ${sel.primary?"show":""}">
+      <div class="lab">your confidence (required)</div>
+      <div class="row conf">${["high","medium","low"].map(c =>
+        `<button class="${sel.confidence===c?"on":""}" data-c="${c}">${c}</button>`).join("")}</div>
+      <div class="lab">what was good? (optional)</div><div class="row">${chips(POS,"pos",sel.pos)}</div>
+      <div class="lab">what went wrong? (optional)</div><div class="row">${chips(NEG,"neg",sel.neg)}</div>
+      <div class="lab">context (optional)</div><div class="row">${chips(CTX,"ctx",sel.ctx)}</div>
+      <div class="lab">note (optional)</div><textarea id="note" placeholder="anything worth remembering…">${sel.note}</textarea>
+      <button class="save" id="savebtn" ${sel.confidence?"":"disabled"} onclick="save()">✓ Save & next →</button>
+    </div>`;
+  $("dock").querySelectorAll("[data-p]").forEach(b => b.onclick = () => { sel.primary = b.dataset.p; renderDock(); });
+  $("dock").querySelectorAll("[data-c]").forEach(b => b.onclick = () => { sel.confidence = b.dataset.c; syncSave(); });
+  $("dock").querySelectorAll("[data-k]").forEach(b => b.onclick = () => {
+    const s = sel[b.dataset.k]; s.has(b.dataset.t) ? s.delete(b.dataset.t) : s.add(b.dataset.t); b.classList.toggle("on"); });
+  const ta = $("note"); if (ta) ta.oninput = () => sel.note = ta.value;
+}
+function syncSave() {
+  $("dock").querySelectorAll(".conf button").forEach(b => b.classList.toggle("on", b.dataset.c === sel.confidence));
+  const s = $("savebtn"); if (s) s.disabled = !sel.confidence;
+}
+
+async function save() {
+  if (!sel.primary || !sel.confidence) return;
+  const c = CALLS[cur];
+  await fetch("/label/save", { method: "POST", headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ ref: c.ref, primary_label: sel.primary, confidence: sel.confidence,
+      positive_tags: [...sel.pos], negative_tags: [...sel.neg], context_tags: [...sel.ctx], note: sel.note }) });
+  labeledRefs[c.ref] = sel.primary;
+  cur++; render();
+}
+
 document.addEventListener("keydown", e => {
-  if (cur >= order.length) return;
-  if (e.key === "1") label("success");
-  else if (e.key === "2") label("fail");
-  else if (e.key === "3") label("skip");
+  if (cur >= CALLS.length) return;
+  if (e.key === "1" || e.key === "2" || e.key === "3") {
+    sel.primary = { "1": "success", "2": "fail", "3": "unsure" }[e.key]; renderDock();
+  } else if (e.key === "Enter" && sel.primary && sel.confidence) { e.preventDefault(); save(); }
 });
 
 (async () => {
-  CALLS = await (await fetch("/label/calls")).json();
-  labeled = (await (await fetch("/label/state")).json()).labeled || {};
-  order = stratifiedOrder(CALLS, labeled);
+  const data = await (await fetch("/label/calls")).json();
+  CALLS = data.calls;
+  labeledRefs = (await (await fetch("/label/state")).json()).labeled || {};
+  // unlabeled first (stable order already stratified server-side)
+  const un = CALLS.filter(c => !(c.ref in labeledRefs)), done = CALLS.filter(c => c.ref in labeledRefs);
+  CALLS = [...un, ...done];
   render();
 })();
 </script>
