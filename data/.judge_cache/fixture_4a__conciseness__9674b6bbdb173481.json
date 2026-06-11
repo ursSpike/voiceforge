@@ -1,0 +1,8 @@
+{
+  "score": 1.0,
+  "reason": "The agent's responses are direct and clearly state the information required without unnecessary words or ambiguity.",
+  "evidence_turn_ids": [
+    "t1",
+    "t3"
+  ]
+}

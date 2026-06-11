@@ -192,6 +192,42 @@ to out/calls.json, showing any judge output, kappa/DPO/dashboard. STOP per the l
 
 ---
 
+## BATCH 4A — Judge machinery (QUARANTINED) · Jun 11 ~22:45 IST
+
+**Objective:** the 5-semantic-dim judge, fully implemented + verified, WITHOUT touching the 46 real
+calls (they're what Spike labels blind; judging them now would risk leaking judge output → void calibration).
+
+**Inputs:** `pipeline/judge.py` (Block-0 client+cache), `rubric.yaml` (the 5 judge dims).
+
+**Outputs (machinery only):** `pipeline/judge.py` extended —
+- 5 SEMANTIC dims: language_match, faithfulness, repair_quality, conciseness, user_frustration
+  (timing/overlap/slots stay DETERMINISTIC in score.py, never judged here).
+- `build_prompt` per dim; `_generate_json` with **retry on transient errors only** (rate-limit/5xx/
+  network; malformed JSON + auth surface immediately); disk cache unchanged.
+- `validate_dim`: strict shape (score∈0..1, reason, evidence list) + **evidence-turn validation** —
+  ids not in the call are DROPPED and flagged `evidence_dropped` (hallucinated-turn guard); every
+  dim marked **`provenance: "uncalibrated"`** (no kappa yet).
+- `FIXTURE`: a canned SYNTHETIC call (not from data/normalized). `--selftest` (offline, mock
+  responses) + `--fixture` (live Gemini on the fixture).
+
+**Commands:** `judge.py --selftest` (offline ✓), `judge.py --fixture` (5 dims, live, cached).
+
+**Verification:** offline selftest passes (good→uncalibrated; hallucinated `t99` dropped+flagged;
+missing-score & out-of-range rejected). Live fixture: 5/5 dims, all uncalibrated, all evidence valid.
+**`out/calls.json` md5 byte-identical before/after; judge cache holds only fixture_4a + smoke_001 —
+NO real call judged.**
+
+**Quarantine honored (forbidden, NOT done):** no scoring of the 46 real calls, no write to
+out/calls.json, no real-call judge output/aggregate/distribution exposed, no kappa/DPO/dashboard/
+calibration claim. Lifts only when Spike's blind labels exist.
+
+**Broke:** nothing.
+
+**Next:** the quarantine lifts after **Spike labels ≥40 at /label**. Then: judge the real calls →
+merge into out/calls.json → kappa (judge vs blind labels) → DPO → Batch 5 dashboard. All held.
+
+---
+
 ## BATCH 2 — Public dataset slice · Jun 11 ~19:45 IST
 
 **Objective:** expand the normalized pool to ≥40 calls (blind-label calibration needs ≥40), from
