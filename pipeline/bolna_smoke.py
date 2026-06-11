@@ -15,6 +15,7 @@ stdlib only (urllib) — no extra dependency.
 import json
 import os
 import sys
+import time
 import urllib.error
 import urllib.request
 from pathlib import Path
@@ -34,10 +35,24 @@ def load_env():
                 os.environ.setdefault(k.strip(), v.strip())
 
 
-def get(path, key):
-    req = urllib.request.Request(BASE + path, headers={"Authorization": f"Bearer {key}"})
-    with urllib.request.urlopen(req, timeout=20) as r:
-        return r.status, json.loads(r.read().decode())
+def get(path, key, attempts=3):
+    """Authenticated GET with retries — Bolna occasionally responds slowly, which surfaces as a
+    read TimeoutError (NOT an HTTPError), so we retry transient network failures a few times.
+    Auth/path errors (HTTPError) are real and raised immediately, never retried."""
+    last = None
+    for i in range(attempts):
+        try:
+            req = urllib.request.Request(BASE + path, headers={"Authorization": f"Bearer {key}"})
+            with urllib.request.urlopen(req, timeout=30) as r:
+                return r.status, json.loads(r.read().decode())
+        except urllib.error.HTTPError:
+            raise                                  # 401/404 etc. are not transient — surface them
+        except (TimeoutError, urllib.error.URLError, OSError) as e:
+            last = e                               # transient: slow server / wifi blip
+            if i < attempts - 1:
+                print(f"  …attempt {i + 1} timed out, retrying in 2s")
+                time.sleep(2)
+    raise last
 
 
 def main():
@@ -57,8 +72,10 @@ def main():
         body = e.read().decode()[:400]
         hint = " (401 = key wrong/expired — regenerate under Developers)" if e.code == 401 else ""
         sys.exit(f"HTTP {e.code} from /me{hint}\n{body}")
-    except urllib.error.URLError as e:
-        sys.exit(f"could not reach {BASE}: {e.reason}\n(check internet / that the base URL is right)")
+    except (TimeoutError, urllib.error.URLError, OSError) as e:
+        reason = getattr(e, "reason", e)
+        sys.exit(f"network timeout/error reaching {BASE}/me after retries: {reason}\n"
+                 "This is transient (the call has succeeded before) — check wifi and just re-run.")
 
     print("\n✓ KEY WORKS — your Bolna account is live.\n")
     # field names vary; print the likely credit/identity ones if present, then the full payload
