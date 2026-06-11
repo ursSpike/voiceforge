@@ -92,8 +92,10 @@ The loop, as five steps you will run by hand:
 1. **v1 policy** produces a transcript on the fixed scenario.
 2. **Score v1** with the pipeline → a scorecard (per `schemas/scorecard.md`: every dimension
    carries a `score`, a `reason`, and `evidence_turn_ids` — no bare numbers).
-3. **Detect** the failure: read the lowest dimension's reason; that is the axis to fix.
-4. **v2 policy** changes the prompt to target *that one axis* (and nothing else).
+3. **Detect** the failure: read the reason of *every* dimension at the lowest score; together they
+   name the **one behaviour** to fix (several axes can zero out from a single root cause).
+4. **v2 policy** changes the prompt to target *that one behaviour* (and nothing unrelated) — even
+   when fixing it lifts more than one scored dimension.
 5. **Re-run the SAME scenario** through v2, **re-score** with the SAME pipeline, and lay v1 vs v2
    side by side.
 
@@ -414,18 +416,26 @@ C.append(md('''
 ## DETECT the failure (step 3 of the loop)
 
 This is the hinge of the whole loop, and it is *not* "the score is low." A scorecard with reasons
-turns a number into a **diagnosis**: read the dimension with the lowest score and look at its
-*reason* — that sentence names the single axis to fix. Do **not** change everything; change the
-thing the evidence points at.
+turns a number into a **diagnosis**: read **every** dimension at the lowest score and look at each
+*reason* — those sentences name the **behaviour** to fix. (Often several dimensions zero out
+together because they share one root cause, so detect them all, not just the first.) Do **not**
+change everything; change the **one behaviour** the evidence points at — even when that single
+behaviour moves more than one scored dimension.
 '''))
 C.append(code('''
-# Find the failure to fix: the lowest-scoring dimension AND its reason. The reason is what makes
-# this actionable - "repair_quality 0.0 because the agent demanded the full address instead of
-# confirming Madhapur" tells you exactly what the v2 prompt must change (and what it must NOT touch).
-worst_dim = min(scorecard_v1["dimensions"], key=lambda d: d["score"])   # lowest score = the failure
-print("DETECTED failure axis:", worst_dim["name"], "(score", worst_dim["score"], ")")
-print("evidence:", worst_dim["reason"], "| turns:", worst_dim["evidence_turn_ids"])
-print("=> the v2 prompt must fix THIS axis and change nothing else (single-axis discipline).")
+# Find the failure to fix. Naive instinct: take the single lowest dimension. But a min() over a TIE
+# silently hides that more than one axis failed - so we instead collect EVERY dimension at the lowest
+# score and read all their reasons. Here barge_in AND repair_quality BOTH score 0.0; reading both
+# reasons shows they are the SAME underlying behaviour (the agent steamrolling a partial answer:
+# talking over the caller AND demanding the full address instead of confirming Madhapur). That one
+# behaviour is what the v2 prompt must change.
+lowest = min(d["score"] for d in scorecard_v1["dimensions"])             # the worst score on the card
+failed_dims = [d for d in scorecard_v1["dimensions"] if d["score"] == lowest]  # ALL axes at that low
+print("DETECTED failure axes:", [d["name"] for d in failed_dims], "(all at score", lowest, ")")
+for d in failed_dims:                                                   # one reason line per failed axis
+    print(f"  - {d['name']}: {d['reason']} | turns: {d['evidence_turn_ids']}")
+print("=> both zeroed axes are ONE behaviour (steamrolling the partial); v2 changes that one")
+print("   BEHAVIOUR - which may lift more than one scored dimension - and nothing unrelated.")
 '''))
 C.append(md('''
 ## CHECKPOINT 2 (out loud)
@@ -433,16 +443,25 @@ C.append(md('''
    across v1 and v2?
 2. The scorecard rule from `schemas/scorecard.md` is "no bare numbers" — what two things must ride
    alongside every score, and why does that turn a number into a *diagnosis*?
-3. Which dimension did we **detect** as the failure, and what one axis will v2 change?
+3. Which **two** dimensions did we **detect** at the bottom (both scoring 0.0), and why are they
+   really **one behaviour** that a single v2 change can fix?
 '''))
 C.append(md('''
-## The v2 (fixed) policy — change ONE axis
+## The v2 (fixed) policy — change ONE behaviour
 
-Now write **v2**. The detected failure was **repair_quality** (and the barge-in alongside it): the
-agent steamrolled a partial answer. So v2 adds exactly two instructions targeting that — *confirm
-the partial, ask only for the missing piece, and never speak while the caller is mid-answer.* It
-changes **nothing else** (still a booking agent, still wants the fields). That single-axis
-discipline is the same rule that makes a preference pair valid in book 19 / `improvement_example.md`.
+Now write **v2**. The detection above found **two** dimensions tied at the bottom — **barge_in 0.0**
+and **repair_quality 0.0** — and their reasons describe the *same* underlying behaviour: the agent
+**steamrolling the partial answer** (it talks over the tail of u1 *and* demands the full address
+instead of confirming Madhapur). One behaviour, showing up on two scored axes.
+
+So v2 changes that **one behaviour** with two instructions aimed at it — *confirm the partial and
+ask only for the missing piece, and never speak while the caller is mid-answer.* It changes
+**nothing else** (still a booking agent, still wants the same fields). The discipline is *change one
+BEHAVIOUR*, not *touch exactly one number*: because the three scored dimensions share a root cause,
+fixing the behaviour lifts **barge_in, repair_quality, AND task_completion** together — the agent
+stops talking over the caller, starts confirming the partial, and (by not dead-ending the address
+loop) finally reaches a time slot, so the task completes. That is the same single-cause rule that
+makes a preference pair valid in book 19 / `improvement_example.md`.
 '''))
 C.append(md('''
 ## PREDICT
@@ -468,7 +487,7 @@ else:
           "| turns go", my_v2_turns_direction)
 '''))
 C.append(code('''
-# The v2 POLICY: same role, ONE axis changed. We add acknowledge-the-partial + stay-out-of-the-way,
+# The v2 POLICY: same role, ONE BEHAVIOUR changed. We add acknowledge-the-partial + stay-out-of-the-way,
 # and touch nothing else - so any scorecard difference is attributable to THIS change. We will diff
 # it against v1 in the next cell to make "we changed one thing" literally visible.
 policy_v2 = (
@@ -479,7 +498,7 @@ print("POLICY v2 (fixed):")
 print(policy_v2)
 '''))
 C.append(code('''
-# Show the change is SINGLE-AXIS by diffing the two prompts word-set wise. This is the soup rule
+# Show the change is SINGLE-BEHAVIOUR by diffing the two prompts word-set wise. This is the soup rule
 # made literal: if many unrelated things changed, the before/after would not isolate a cause. We
 # print what v2 ADDS and what it DROPS so a reviewer can see the knob we turned (and only that knob).
 set_v1, set_v2 = set(policy_v1.lower().split()), set(policy_v2.lower().split())
@@ -642,8 +661,10 @@ C.append(md('''
 
 Before Act 2: "show a before/after" was a vague goal. After Act 2 you can **run the whole loop by
 hand** — fix the scenario, score v1 into a scorecard with reasons/evidence, **detect** the failure
-from the lowest dimension's reason, change **one axis** into v2, **re-run the same turns**, re-score
-with the **same ruler**, and assemble the before/after panel (turns down, failures down, score up).
+by reading every lowest-scoring dimension's reason (here barge_in and repair_quality both at 0.0,
+one behaviour), change **that one behaviour** into v2, **re-run the same turns**, re-score with the
+**same ruler**, and assemble the before/after panel (turns down, failures down, score up — three
+scored dimensions rising from the single behaviour fix).
 And you can read the panel honestly: it shows a shape on one call. That scorecard shape is exactly
 what book 21's `rubric.yaml` exists to define and weight.
 '''))
@@ -932,7 +953,7 @@ C.append(md('''
 <details><summary>answer</summary>Because the caller's turns are the controlled variable — byte-for-byte identical objects in both runs (we reuse the same scenario list, not a fresh call). Only the system prompt changes, and the same scoring functions run on both transcripts. If the scenario or the rubric had changed too, the comparison would be meaningless, and I'd be the first to throw it out.</details>
 
 **3. "Why show n=1 at all if it proves nothing?"**
-<details><summary>answer</summary>Because a shape is worth showing when you label it as a shape. The replay proves the loop *closes* — detect a failure, change one axis, re-run, see it fixed — which is the mechanism the whole product rests on. It is the cheapest possible check before spending a training run, and it makes the abstract concrete. I never let it stand in for the statistical claim; I say "the shape is the point" out loud.</details>
+<details><summary>answer</summary>Because a shape is worth showing when you label it as a shape. The replay proves the loop *closes* — detect a failure, change one behaviour, re-run, see it fixed — which is the mechanism the whole product rests on. It is the cheapest possible check before spending a training run, and it makes the abstract concrete. I never let it stand in for the statistical claim; I say "the shape is the point" out loud.</details>
 '''))
 C.append(md('''
 ## ACT 4 knowledge-flow checkpoint — what changed in your head?

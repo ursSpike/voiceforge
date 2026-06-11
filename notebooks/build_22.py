@@ -28,7 +28,9 @@ C.append(md('''
 By the end of this notebook you will be able to:
 1. Write a **caller persona** as data — a small script that says how one *kind* of caller behaves
    (cooperative, hesitant, angry, code-switching) — and run it to **generate a synthetic call
-   object** in the exact `schemas/call_log.md` shape the rest of the pipeline already reads.
+   object** in the same shape the pipeline reads (`schemas/call_log.md`), with `source` extended to
+   `synthetic` — a value the deterministic signals ignore (the schema's own `source` enum lists only
+   `spokenwoz|ami|hero|bolna`).
 2. State the load-bearing distinction of this book: **a simulated call is not a real log.** A
    persona is a *hypothesis about a caller*, authored by you; a real log is *evidence* of a caller
    that happened. They are different epistemic objects even when they share a schema.
@@ -246,10 +248,12 @@ for t in turns:
     print(f'{t["turn_id"]:>3} {t["speaker"]:<6} [{t["start_ms"]:>5}-{t["end_ms"]:>5}]  {t["text"]}')
 '''))
 C.append(code('''
-# Wrap those turns into a full call object in the EXACT schemas/call_log.md shape. This sameness is
-# deliberate: the synthetic call must be a drop-in for a real one so book-21's rubric can score it
-# unchanged. We set source="synthetic" and metadata.constructed=True so the call CONFESSES its origin -
-# an honest synthetic call never pretends to be a real log (that honesty is the whole ethic of book 23).
+# Wrap those turns into a full call object in the same shape the pipeline reads (schemas/call_log.md),
+# with source extended to "synthetic" (a value the deterministic signals ignore - the schema's own
+# source enum lists only spokenwoz|ami|hero|bolna). This sameness is deliberate: the synthetic call must
+# be a drop-in for a real one so book-21's rubric can score it unchanged. We set source="synthetic" and
+# metadata.constructed=True so the call CONFESSES its origin - an honest synthetic call never pretends to
+# be a real log (that honesty is the whole ethic of book 23).
 coop_call = {
     "call_id": "sim_cooperative_001",
     "source": "synthetic",                    # NOT 'hero'/'spokenwoz' - this call announces it is generated
@@ -322,7 +326,9 @@ def simulate_call(persona, agent_script, call_id, stress_profile,
         clock += dur_ms + gap_ms
     return {
         "call_id": call_id,
-        "source": "synthetic",                 # hardcoded: this function can ONLY make synthetic calls
+        "source": "synthetic",                 # hardcoded: only makes synthetic calls. "synthetic" EXTENDS
+                                                # the schema's source enum (spokenwoz|ami|hero|bolna); the
+                                                # deterministic signals ignore source, so this is safe.
         "language": persona["language"],
         "stress_profile": stress_profile,
         "workflow_type": workflow_type,
@@ -406,7 +412,9 @@ C.append(md('''
 ## PREDICT
 We are about to run all four personas through the *same* simulator and collect four synthetic calls.
 Before we do: rank the four by **how many turns** each call will have, fewest to most. (Hint: a
-persona with more `utterances` produces more turns — count the lines.) Commit in the next cell.
+persona with more `utterances` produces more turns — count the lines. Three personas have 2 utterances
+each, so they **tie** at the fewest — any one of them is a correct "fewest" answer.) Commit in the
+next cell.
 '''))
 C.append(code('''
 # YOUR TURN - PREDICT the turn-count ranking BEFORE generating. Store the fewest/most as a check.
@@ -445,12 +453,17 @@ for c in sim_calls:
 C.append(code('''
 # Confront YOUR ranking with the generated turn counts.
 turn_counts = {c["metadata"]["persona_id"]: len(c["turns"]) for c in sim_calls}
-fewest_actual = min(turn_counts, key=turn_counts.get)        # persona id with the smallest call
-most_actual   = max(turn_counts, key=turn_counts.get)        # persona id with the largest call
-print("actual fewest:", fewest_actual, "| actual most:", most_actual)
+min_turns = min(turn_counts.values())                        # the smallest call size
+max_turns = max(turn_counts.values())                        # the largest call size
+# Several personas TIE at the minimum (cooperative, angry, code_switcher all have 4 turns), so the
+# correct answer is a SET, not one id - we compare your pick against the whole min set so a learner
+# who answered any tied persona is marked MATCHED, not wrongly told DIFFERED.
+fewest_set = {pid for pid, n in turn_counts.items() if n == min_turns}
+most_set   = {pid for pid, n in turn_counts.items() if n == max_turns}
+print("actual fewest (any of):", sorted(fewest_set), "| actual most (any of):", sorted(most_set))
 
 if my_fewest_persona is not None:
-    hit = (my_fewest_persona == fewest_actual and my_most_persona == most_actual)
+    hit = (my_fewest_persona in fewest_set and my_most_persona in most_set)
     print("your ranking", "MATCHED" if hit else "DIFFERED", "- the gap is the thing to think about")
 '''))
 C.append(md('''
@@ -704,6 +717,10 @@ Our `code_switcher` persona was modeled on the real hero call. Time to lay them 
 *honestly*. They share the schema; they do **not** share standing as evidence. The real call's
 timestamps came from an audio-assembly timeline (exact, from a real waveform); the synthetic call's
 came from a flat clock we typed. Same shape, different truth. We load the real one and compare.
+
+One label to decode before the table prints it: the hero file labels the language `te-en` (the
+schema's BCP-47-ish code for Telugu-English; `schemas/call_log.md`). It is the same condition our
+synthetic persona spells out in full as `Telugu-English` — one caller condition, two field spellings.
 '''))
 C.append(md('''
 ## PREDICT
@@ -754,8 +771,10 @@ C.append(md('''
 
 The real hero call carries a **detectable 800ms barge-in** because a real assembly timeline put a real
 overlap in the clock; our synthetic Telugu-English call carries **zero**, because our flat clock never
-did. Same `language`, same schema, same drop-in compatibility — and one is a *recording of a hard
-moment that happened*, the other is *a hypothesis about a caller, with timing we typed*. The synthetic
+did. Same language CONDITION (both Telugu-English code-switching), noted differently in the `language`
+field (synthetic prints `Telugu-English`, the hero file prints `te-en` — look at the table above, two
+spellings of one condition), same schema, same drop-in compatibility — and one is a *recording of a
+hard moment that happened*, the other is *a hypothesis about a caller, with timing we typed*. The synthetic
 call is wonderful for **coverage** (we can spin up fifty code-switching variants tonight) and worthless
 as **validity** (it cannot prove the agent survives a real Telugu-English caller — only the real call,
 or a calibrated public set, speaks to that). That is the entire book, standing in two columns.

@@ -276,11 +276,15 @@ if my_fewest_turns_call is not None:
 C.append(md('''
 ## OBSERVE + EXPLAIN
 
-Did the ranking hold? The shape to notice: the English call finished in the fewest turns and
-succeeded; the Hinglish call took the most turns and only partially completed; the Tenglish
-call failed. **Turn count rose and outcome worsened as the language moved away from English** —
-and the task never changed. One sentence, out loud: *why* would a repeat request ("can you
-repeat?") show up more in a code-switched call than in a clean-English one?
+Did the ranking hold? Read the counts off the table exactly: English **4** turns, Hinglish **6**,
+Tenglish **4**. The English call finished in the fewest turns and **succeeded**; the Hinglish
+call took the **MOST** turns (6) and only **partially** completed; the Tenglish call also took
+few turns (4) but **FAILED outright** — the booking died fast rather than dragging on. The two
+failure modes look different in turn count (Hinglish **drags**, Tenglish **collapses**), but
+**BOTH are non-success** once the language moves off clean English — the lesson is the **OUTCOME
+shift**, not a tidy turn-count ranking (notice turn count rises *then falls*: 4 → 6 → 4, so it
+is not a monotone signal). The task never changed. One sentence, out loud: *why* would a repeat
+request ("can you repeat?") show up more in a code-switched call than in a clean-English one?
 '''))
 C.append(md('''
 ## CHECKPOINT 2 (out loud)

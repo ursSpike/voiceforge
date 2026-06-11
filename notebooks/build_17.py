@@ -503,10 +503,10 @@ C.append(code('''
 # BREAK-IT (guided) - a deliberately MULTI-AXIS chosen turn. This is not a crash; it is a subtler
 # break: the pair looks fine and exports fine, but it moves THREE axes at once, so any method that
 # learns from it cannot tell which difference we wanted. We build it to feel the confound.
-bad_chosen_text = ("Ayyo sorry sorry! Meeru cheppindi correct - Madhapur, metro daggara. "
-                   "Chala thanks andi, morning or evening manchidi cheppandi please!")
-# Axes moved vs the real rejected t3: (1) over-talk fixed, (2) language en->te-en switched,
-# (3) tone: gushing apology + padding added. Three changes, one prompt. The contrast is muddy.
+bad_chosen_text = ("Ayyo sorry sorry! Madhapur metro daggara, correct andi. "
+                   "Morning or evening cheppandi please!")
+# Axes moved vs the real rejected t3: (1) length/over-talk fixed (it is far shorter than t3),
+# (2) language en->te-en switched, (3) tone: gushing apology + padding. Three changes, one prompt.
 bad_pair = make_pair(prompt, bad_chosen_text, turns_by_id["t3"]["text"],
                      hero["call_id"], "barge_in", "fixes address demand (but also changes language and tone)")
 print("BAD chosen :", bad_pair["chosen"][0]["content"])
@@ -634,7 +634,7 @@ C.append(code('''
 # my prediction: <write how many axes you expect axes_moved() to report, and which ones, BEFORE running>
 
 # 1) write a chosen turn that fixes over-talk but ALSO sneaks in a second axis (language OR padding):
-my_bad_chosen = "Got it, Madhapur near the metro."   # <- edit me to smuggle in a 2nd axis
+my_bad_chosen = "Got it andi, Madhapur near the metro daggara, sorry sorry for the wait."   # <- edit me; smuggles in language + padding
 # 2) score it against the real rejected t3 and compare the count to your written prediction:
 my_axes = axes_moved(turns_by_id["t3"]["text"], my_bad_chosen)
 print("your chosen:", my_bad_chosen)
@@ -655,8 +655,10 @@ C.append(code('''
 # A pair whose chosen is BETTER ON EVERY AXIS - and is therefore a bad TRAINING pair.
 # Each improvement is real; that is the trap. Multiple good changes at once = multiple entangled
 # lessons. We score the axes to show 'better' and 'clean' are different measurements.
-better_everything = ("So sorry for cutting in! Madhapur near the metro, perfect. "
-                     "You're doing great - shall we say morning or evening for the visit?")
+# This reply stays in English (no language switch), yet still moves MORE than one axis: it is far
+# shorter than the over-demanding t3 (length) AND it softens with a 'please!' apology (tone-padding).
+better_everything = ("So sorry for cutting in, please! Madhapur near the metro, that is perfect indeed. "
+                     "You are doing really great here - shall we maybe say morning or evening for the technician visit?")
 trap_axes = axes_moved(turns_by_id["t3"]["text"], better_everything)
 print("chosen (better on every axis):", better_everything)
 print("axes moved:", trap_axes, "->", len(trap_axes), "axes")
@@ -740,7 +742,7 @@ cast_pairs = [
     {"id": "call_C", "language": "te-en", "outcome": "failure",
      "axis": "over-talk -> confirm partial, ask one thing",
      "rejected": "I need your complete address with pincode, landmark and door number.",
-     "chosen":   "Got it - Madhapur, near the metro. Morning or evening slot work better?"},
+     "chosen":   "Got it - Madhapur, near the metro station. Morning or evening slot work better?"},
 ]
 # One print per cast member so each pair is visibly one THING; the axis is named explicitly.
 for c in cast_pairs:

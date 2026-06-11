@@ -130,8 +130,9 @@ C.append(md('''
 
 Course rule: **see the ugly input before any transformation.** Below is our toy data — a small **list of
 call dictionaries**. This is exactly the shape P01 left you with: each call is a `dict` of facts. It mirrors
-the real schema in `schemas/call_log.md` (real fields: `call_id`, `language`, `outcome`, plus a `turns`
-list), trimmed to the few columns this lesson needs so the whole table fits on screen.
+the real schema in `schemas/call_log.md` (real fields: `call_id`, `source`, `language`, `stress_profile`,
+plus a `turns` list), trimmed to the few columns this lesson needs so the whole table fits on screen. The
+`outcome` column below is a **toy** convenience this lesson adds, not a real top-level schema field.
 '''))
 C.append(code('''
 # The recurring cast as a LIST OF DICTS - the same call_A / call_B / call_C you met in P00/P01.
@@ -712,8 +713,9 @@ C.append(md('''
 
 The list-of-dicts you turned into a DataFrame is the **literal shape of VoiceForge's call data**. The
 repo carries **11 real normalized calls** at `data/normalized/*.json` (the hero call plus 10 SpokenWOZ
-conversations), each a JSON object with exactly the fields you have been handling — `call_id`, `language`,
-`stress_profile`, `outcome`, and a `turns` list (schema in `schemas/call_log.md`). Loading that folder is
+conversations), each a JSON object carrying `call_id`, `source`, `language`, `stress_profile`, and a `turns`
+list (the normalized schema in `schemas/call_log.md` has no top-level `outcome`; the `outcome` here is a
+toy-cast simplification). Loading that folder is
 "a pile of call dicts," and the first thing any analysis does is `pd.DataFrame(those_dicts)`. The next
 cell shows the real loader pattern — guarded so it runs whether or not the data is present on your machine.
 '''))

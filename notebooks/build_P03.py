@@ -344,9 +344,12 @@ the chart this whole course is built toward: each **turn** of a call becomes a h
 placed at its real start time and as long as it actually lasted. Two speakers, two rows.
 
 This is where **overlap becomes visible**. When the agent's bar starts *before* the user's bar
-ends, the bars overlap on the page — and that overlap is a **barge-in**, the exact failure the
-hero call (`data/hero/turns.json`) is famous for. We build it on toy turns first, then preview
-the real one.
+ends, the bars overlap on the page. But not every overlap counts: an overlap is only a
+**barge-in** when it exceeds ~100ms; a smaller overlap is a **backchannel** ("mm-hm", "right")
+and is ignored (this is the `threshold_overlap_ms = 100` rule from `rubric.yaml`, forward-
+referenced in Act 4). A real barge-in is the exact failure the hero call
+(`data/hero/turns.json`) is famous for. Every overlap we draw below is well past 100ms, so each
+is a true barge-in. We build it on toy turns first, then preview the real one.
 '''))
 C.append(md('''
 ## PREDICT
@@ -389,9 +392,18 @@ C.append(code('''
 # FTO = next.start_ms - prev.end_ms. Negative = overlap (bars cross); positive = gap (silence).
 # This is the exact definition from pipeline/signals.py - we compute it here so the timeline's
 # overlaps are something we DERIVED, not something we eyeballed off a picture.
+# Threshold matters: an overlap is a barge-in only when it exceeds ~100ms (the rubric.yaml
+# threshold_overlap_ms = 100, forward-referenced in Act 4); a smaller overlap is a backchannel
+# ("mm-hm") and is ignored. Our one toy overlap is -200ms, comfortably past 100ms = a real barge-in.
+overlap_threshold_ms = 100                       # rubric.yaml threshold_overlap_ms: overlaps deeper than this count
 for a, b in zip(toy_turns, toy_turns[1:]):
     fto = b["start_ms"] - a["end_ms"]           # the single number that defines overlap vs gap
-    kind = "OVERLAP (barge-in)" if fto < 0 else "gap (silence)"
+    if fto >= 0:
+        kind = "gap (silence)"                   # positive FTO = a real gap, nobody overlapped
+    elif -fto > overlap_threshold_ms:
+        kind = "OVERLAP (barge-in)"              # overlap deeper than 100ms = the failure we care about
+    else:
+        kind = "overlap (backchannel, ignored)"  # shallow overlap = a backchannel, not a barge-in
     # who-interrupts-whom is just the speaker of the turn that barged in (the 'next' turn)
     who = f"{b['speaker']} interrupts {a['speaker']}" if fto < 0 else ""
     print(f"{a['turn_id']}->{b['turn_id']}: fto = {fto:>6} ms   {kind}   {who}")

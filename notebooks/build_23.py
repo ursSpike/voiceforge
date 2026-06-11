@@ -385,11 +385,12 @@ my_missing_sources = []   # <- e.g. ["synthetic", "provider_log"]  (fill it in)
 if len(my_missing_sources) == 0:
     print("fill in my_missing_sources above (two names), then re-run.")
 else:
-    present = set(real_counts)
-    defined = {"hero", "spokenwoz", "synthetic", "provider_log", "public"}
-    # We compute the gap so your guess can be checked against the actual missing-from-disk set.
-    print("you guessed missing:", my_missing_sources)
-    print("sources actually present on disk:", sorted(present))
+    # The two hierarchy jobs the current pool does NOT fill: the disk holds hero + spokenwoz
+    # (spokenwoz IS the public/validity job), so coverage (synthetic) and production reality
+    # (provider_log) are the unfilled pair. We name them explicitly so the guess can be CHECKED.
+    missing_jobs = {"synthetic", "provider_log"}
+    print("jobs the pool does not fill:", sorted(missing_jobs))
+    print("your guess correct?", set(my_missing_sources) == missing_jobs)
 '''))
 C.append(md('''
 ## ACT 2 knowledge-flow checkpoint — what changed in your head?

@@ -629,7 +629,7 @@ heavy_latency = copy.deepcopy(dims)
 heavy_latency["latency_gap"]["weight"] = 0.40
 heavy_latency["barge_in"]["weight"] = 0.0   # keep the sum at 1.0 so overalls stay comparable
 
-scores_good_latency = {**toy_scores, "latency_gap": 1.0}   # this call is FAST
+scores_good_latency = {**toy_scores, "latency_gap": 1.0, "barge_in": 0.4}   # FAST, but weak on barge_in
 scores_bad_latency  = {**toy_scores, "latency_gap": 0.2}   # this call is SLOW
 
 print("GOOD-latency call: base", round(overall_score(dims, scores_good_latency), 3),
@@ -697,7 +697,8 @@ The course cast — **call_A** (clean English success), **call_B** (Hinglish par
 (Telugu-English failure with an agent barge-in) — all get graded by *this* file. call_C's
 agent-interrupts-caller moment is exactly what the `barge_in` threshold (100ms) catches, and
 its weight (0.20) is how much that failure costs in the overall. The rubric is the bridge from
-"the agent talked over the caller" to "the call scored 0.4".
+"the agent talked over the caller" to "the call scored 0.245" (you will see that exact number
+when call_C is graded in the next cell).
 '''))
 C.append(code('''
 # Toy scorecards for the three cast calls, then grade all three through the SAME rubric. Using

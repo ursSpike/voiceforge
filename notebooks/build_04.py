@@ -384,9 +384,10 @@ aloud (its speaker and its start/end in ms).
 '''))
 
 C.append(code('''
-# Print the first two REAL turns raw. t1 is the agent's long greeting; t2 is the caller answering
-# in Telugu-English. We look at the actual ms here because the next cells subtract exactly these.
-for t in hero["turns"][:2]:
+# Print the first three REAL turns raw. t1 is the agent's long greeting; t2 is the caller answering
+# in Telugu-English; t3 is the agent replying. We print t3 too because the NEXT cell predicts the
+# t2->t3 seam, and you cannot predict a seam whose second turn was never shown to you.
+for t in hero["turns"][:3]:
     # text trimmed only so the timing fields (the point) are not lost off the side of the screen
     print(t["turn_id"], "|", t["speaker"], "| start", t["start_ms"], "| end", t["end_ms"], "|", t["text"][:40], "...")
 '''))
@@ -789,13 +790,19 @@ Before the chart: how many bars **poke above** the red line, and which seam is t
 '''))
 
 C.append(code('''
-# One bar per user->agent handoff, with the threshold drawn as a line. We chart only the latency-
+# One bar per user->agent LATENCY gap, with the threshold drawn as a line. We chart only the latency-
 # eligible gaps (not all 11 seams) because mixing in agent->user 'thinking' gaps would mis-frame
 # the chart as system latency when it is not. Every line says why it exists.
 import matplotlib.pyplot as plt
 
-labels = [e["prev_turn_id"]+"->"+e["next_turn_id"] for e in user_to_agent]   # x: the handoffs (THINGS)
-gaps_ms = [e["gap_ms"] for e in user_to_agent]                                # y: the wait in ms (MEASURE)
+# Reasoning: a latency gap only exists where the user->agent seam was actually a GAP (fto >= 0).
+# The t2->t3 seam is a user->agent seam too, but its fto is -800 (an OVERLAP, the 0:18 barge-in) -
+# the caller waited 0 ms there, the agent talked OVER them. An overlap is not a latency gap, so we
+# drop it; otherwise the chart would draw 5 bars while analyze() correctly counts n_handoffs=4.
+lat_handoffs = [e for e in user_to_agent if e["fto_ms"] >= 0]   # gap-bearing seams only (4 of them)
+
+labels = [e["prev_turn_id"]+"->"+e["next_turn_id"] for e in lat_handoffs]    # x: the handoffs (THINGS)
+gaps_ms = [e["gap_ms"] for e in lat_handoffs]                                 # y: the wait in ms (MEASURE)
 
 fig, ax = plt.subplots(figsize=(5, 3))   # fig = canvas, ax = the drawing area on it
 ax.bar(labels, gaps_ms)                  # one bar per handoff; height = ms the caller waited

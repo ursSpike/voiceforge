@@ -164,19 +164,21 @@ C.append(code('''
 # Ten toy calls. Each row is (truth, pred): truth=1 means the call really failed; pred=1 means
 # our detector flagged it. We hand-pick the rows so all four cells (TP/FP/TN/FN) appear - a toy
 # that only had correct rows could not teach the error cells, which are the point of the book.
+# We also make 'fine' the MAJORITY (8 fine, 2 failures) on purpose: failures are rare in production,
+# and Act 3's "always fine" trap only bites when the fine class dominates - so the toy must reflect that.
 # 1 = "failure" is the POSITIVE class because the detector's job is to raise its hand on failures.
 labels = [
     # (truth, pred)
-    (1, 1),   # really failed, flagged      -> a caught failure
-    (1, 1),   # really failed, flagged      -> a caught failure
-    (0, 0),   # really fine,   passed       -> correctly let through
-    (0, 0),   # really fine,   passed       -> correctly let through
-    (0, 0),   # really fine,   passed       -> correctly let through
-    (0, 1),   # really fine,   FLAGGED      -> false alarm
-    (1, 0),   # really FAILED, passed       -> MISSED failure
-    (1, 0),   # really FAILED, passed       -> MISSED failure
-    (1, 1),   # really failed, flagged      -> a caught failure
-    (0, 0),   # really fine,   passed       -> correctly let through
+    (1, 1),   # really failed, flagged      -> a caught failure (TP)
+    (1, 0),   # really FAILED, passed       -> MISSED failure (FN) - the dangerous cell
+    (0, 1),   # really fine,   FLAGGED      -> false alarm (FP)
+    (0, 0),   # really fine,   passed       -> correctly let through (TN)
+    (0, 0),   # really fine,   passed       -> correctly let through (TN)
+    (0, 0),   # really fine,   passed       -> correctly let through (TN)
+    (0, 0),   # really fine,   passed       -> correctly let through (TN)
+    (0, 0),   # really fine,   passed       -> correctly let through (TN)
+    (0, 0),   # really fine,   passed       -> correctly let through (TN)
+    (0, 0),   # really fine,   passed       -> correctly let through (TN)
 ]
 
 # Print the raw rows first (course habit: see the input before computing anything from it).
@@ -525,15 +527,15 @@ print("lazy accuracy:", round(acc2, 3), "  lazy recall:", rec2)
 C.append(md('''
 ## Reading the lie (no crash, all wrong where it counts)
 
-No traceback. The "always fine" detector posted a **respectable accuracy** — because most calls
-in the data really are fine, and it gets every one of those right (all TN). But its **recall is
-`0.0`**: it caught **zero** real failures. It is a smoke alarm with the battery removed that
-still reads "92% of the time there's no fire, and I agree!"
+No traceback. The "always fine" detector posted a **respectable accuracy of 0.8** — because most
+calls in the data really are fine (8 of the 10), and it gets every one of those right (all TN).
+But its **recall is `0.0`**: it caught **zero** real failures. It is a smoke alarm with the
+battery removed that still reads "most of the time there's no fire, and I agree!"
 
 This is the dangerous failure: not a crash (Python would tell you) but a **high accuracy sitting
-next to a useless recall**. Accuracy was fooled because the *fine* class dominates the data and
-accuracy rewards getting the majority right. Recall could not be fooled, because it only looks at
-the *real failures* — and the detector caught none of them.
+next to a useless recall**. Accuracy was fooled because the *fine* class dominates the data (8 of
+10) and accuracy rewards getting the majority right. Recall could not be fooled, because it only
+looks at the *real failures* — and the detector caught none of them.
 '''))
 C.append(md('''
 ## CHECKPOINT 4 (out loud)
