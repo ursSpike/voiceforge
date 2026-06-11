@@ -1,0 +1,211 @@
+{
+  "call_id": "swz_MUL1685",
+  "source": "spokenwoz",
+  "language": "en",
+  "stress_profile": "clean",
+  "workflow_type": "profile+restaurant+train",
+  "turns": [
+    {
+      "turn_id": "t1",
+      "speaker": "user",
+      "text": "hello is the customer service .",
+      "start_ms": 7790,
+      "end_ms": 10490
+    },
+    {
+      "turn_id": "t2",
+      "speaker": "agent",
+      "text": "yes . what can i help you .",
+      "start_ms": 10840,
+      "end_ms": 13130
+    },
+    {
+      "turn_id": "t3",
+      "speaker": "user",
+      "text": "um i'm planning the trading in cambridge .",
+      "start_ms": 13050,
+      "end_ms": 16440
+    },
+    {
+      "turn_id": "t4",
+      "speaker": "agent",
+      "text": "okay , please tell me what you need .",
+      "start_ms": 16620,
+      "end_ms": 19070
+    },
+    {
+      "turn_id": "t5",
+      "speaker": "user",
+      "text": "uh , i'm looking for a particular .",
+      "start_ms": 19180,
+      "end_ms": 22550
+    },
+    {
+      "turn_id": "t6",
+      "speaker": "agent",
+      "text": "alright , could you please tell me the name of this restaurant .",
+      "start_ms": 22790,
+      "end_ms": 26140
+    },
+    {
+      "turn_id": "t7",
+      "speaker": "user",
+      "text": "uh , yes , his name is called jelly pizzeria .",
+      "start_ms": 26310,
+      "end_ms": 31120
+    },
+    {
+      "turn_id": "t8",
+      "speaker": "agent",
+      "text": "don pasquale pizzeria , uh , i found this restaurant for you .",
+      "start_ms": 31520,
+      "end_ms": 35780
+    },
+    {
+      "turn_id": "t9",
+      "speaker": "user",
+      "text": "okay , that's great . so i want to know the price range of this restaurant .",
+      "start_ms": 35900,
+      "end_ms": 40410
+    },
+    {
+      "turn_id": "t10",
+      "speaker": "agent",
+      "text": "the price range of this restaurant is expensive .",
+      "start_ms": 40920,
+      "end_ms": 44100
+    },
+    {
+      "turn_id": "t11",
+      "speaker": "user",
+      "text": "okay . and where is the restaurant .",
+      "start_ms": 44560,
+      "end_ms": 47440
+    },
+    {
+      "turn_id": "t12",
+      "speaker": "agent",
+      "text": "the address of the restaurant is 12 market healthy center .",
+      "start_ms": 47930,
+      "end_ms": 52770
+    },
+    {
+      "turn_id": "t13",
+      "speaker": "user",
+      "text": "okay , i got it and i'm also looking for a train .",
+      "start_ms": 53690,
+      "end_ms": 58370
+    },
+    {
+      "turn_id": "t14",
+      "speaker": "agent",
+      "text": "you please tell me something about this train .",
+      "start_ms": 58760,
+      "end_ms": 61190
+    },
+    {
+      "turn_id": "t15",
+      "speaker": "user",
+      "text": "the train should go to london teens crossing should depart from cambridge .",
+      "start_ms": 61560,
+      "end_ms": 66770
+    },
+    {
+      "turn_id": "t16",
+      "speaker": "agent",
+      "text": "okay , i understand , please go on .",
+      "start_ms": 67070,
+      "end_ms": 70420
+    },
+    {
+      "turn_id": "t17",
+      "speaker": "user",
+      "text": "uh , yes , the train should leave on wednesday and should leave after 4 15 p .",
+      "start_ms": 70990,
+      "end_ms": 77530
+    },
+    {
+      "turn_id": "t18",
+      "speaker": "agent",
+      "text": "wednesday , as you request it here is a train tr7942 i think it will be the best choice for you .",
+      "start_ms": 77780,
+      "end_ms": 85660
+    },
+    {
+      "turn_id": "t19",
+      "speaker": "user",
+      "text": "okay , that's great .  and i want to know the arrival time of this train .",
+      "start_ms": 85990,
+      "end_ms": 91620
+    },
+    {
+      "turn_id": "t20",
+      "speaker": "agent",
+      "text": "of course , the arrival time of this train is 23:51 .",
+      "start_ms": 91910,
+      "end_ms": 97570
+    },
+    {
+      "turn_id": "t21",
+      "speaker": "user",
+      "text": "okay , i know that thank you very much .",
+      "start_ms": 98340,
+      "end_ms": 101330
+    },
+    {
+      "turn_id": "t22",
+      "speaker": "agent",
+      "text": "you're welcome .",
+      "start_ms": 101660,
+      "end_ms": 102990
+    },
+    {
+      "turn_id": "t23",
+      "speaker": "user",
+      "text": "have a nice day . bye .",
+      "start_ms": 103230,
+      "end_ms": 105100
+    },
+    {
+      "turn_id": "t24",
+      "speaker": "agent",
+      "text": "please enjoy your day . bye .",
+      "start_ms": 105190,
+      "end_ms": 107140
+    }
+  ],
+  "audio_path": null,
+  "metadata": {
+    "license": "CC BY-NC 4.0 (eval use)",
+    "speaker_source": "tag field (channel ids do not separate speakers)",
+    "skipped_unwordtimed_turns": 0,
+    "n_plausible_overlaps": 0,
+    "n_long_intra_pauses": 0,
+    "goal": {
+      "profile": {
+        "info": {}
+      },
+      "restaurant": {
+        "info": {
+          "name": "don pasquale pizzeria"
+        },
+        "reqt": [
+          "pricerange",
+          "address"
+        ]
+      },
+      "train": {
+        "info": {
+          "day": "wednesday",
+          "departure": "cambridge",
+          "destination": "london kings cross",
+          "leaveAt": "16:15"
+        },
+        "reqt": [
+          "arriveBy"
+        ]
+      }
+    },
+    "selection_bucket": "clean_quiet"
+  }
+}

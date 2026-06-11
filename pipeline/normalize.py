@@ -131,7 +131,10 @@ def cmd_spokenwoz(k):
                         if did in data and 16 <= s["turns"] <= 60 and s["dur_s"] <= 300)
     calls = {did: spokenwoz_call(did, data[did]) for did in candidates}
 
-    quota = {"interruption": 3, "pause_heavy": 3, "clean_laggy": 2, "clean_quiet": 2}
+    # scale the stratified quota to k (>=40 needed for blind-label calibration); proportions keep a
+    # failure-rich-vs-clean mix so the binary label set is not single-class (the prevalence trap).
+    _frac = {"interruption": 0.30, "pause_heavy": 0.27, "clean_laggy": 0.23, "clean_quiet": 0.20}
+    quota = {b: max(1, round(k * f)) for b, f in _frac.items()}
     buckets = {b: [] for b in quota}
 
     def bucket_of(did):
@@ -150,6 +153,17 @@ def cmd_spokenwoz(k):
             buckets[b].append(did)
         if sum(len(v) for v in buckets.values()) == k:
             break
+
+    # if a bucket ran dry, top up to k from any matching bucket (deterministic, still mixed)
+    total = sum(len(v) for v in buckets.values())
+    if total < k:
+        for did in candidates:
+            if total >= k:
+                break
+            b = bucket_of(did)
+            if b and did not in buckets[b]:
+                buckets[b].append(did)
+                total += 1
 
     OUT.mkdir(parents=True, exist_ok=True)
     print(f"selected {sum(len(v) for v in buckets.values())} calls (stratified, reproducible):")

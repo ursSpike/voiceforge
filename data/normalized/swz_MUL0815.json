@@ -1,0 +1,229 @@
+{
+  "call_id": "swz_MUL0815",
+  "source": "spokenwoz",
+  "language": "en",
+  "stress_profile": "clean",
+  "workflow_type": "profile+restaurant+train",
+  "turns": [
+    {
+      "turn_id": "t1",
+      "speaker": "user",
+      "text": "hello .",
+      "start_ms": 2110,
+      "end_ms": 3230
+    },
+    {
+      "turn_id": "t2",
+      "speaker": "agent",
+      "text": "how can i help you .",
+      "start_ms": 3470,
+      "end_ms": 4950
+    },
+    {
+      "turn_id": "t3",
+      "speaker": "user",
+      "text": "i'm planning a trip in cambridge .",
+      "start_ms": 5290,
+      "end_ms": 7910
+    },
+    {
+      "turn_id": "t4",
+      "speaker": "agent",
+      "text": "and i can just do that .",
+      "start_ms": 8070,
+      "end_ms": 10020
+    },
+    {
+      "turn_id": "t5",
+      "speaker": "user",
+      "text": "um looking for a particular restaurant .  called alibaba .",
+      "start_ms": 10490,
+      "end_ms": 15890
+    },
+    {
+      "turn_id": "t6",
+      "speaker": "agent",
+      "text": "okay . would you like to make .",
+      "start_ms": 16570,
+      "end_ms": 19450
+    },
+    {
+      "turn_id": "t7",
+      "speaker": "user",
+      "text": "is i like to book for two people at 1415 on saturday .",
+      "start_ms": 19940,
+      "end_ms": 26480
+    },
+    {
+      "turn_id": "t8",
+      "speaker": "agent",
+      "text": "okay , but , um . unfortunately that time is impossible . but do do you have . for 13:15 .",
+      "start_ms": 26760,
+      "end_ms": 33560
+    },
+    {
+      "turn_id": "t9",
+      "speaker": "user",
+      "text": "and that's fine too .",
+      "start_ms": 34500,
+      "end_ms": 36880
+    },
+    {
+      "turn_id": "t10",
+      "speaker": "agent",
+      "text": "can i please have your name .",
+      "start_ms": 37240,
+      "end_ms": 39350
+    },
+    {
+      "turn_id": "t11",
+      "speaker": "user",
+      "text": "my name is deborah . kevin . deborah is dep ra kevin is g o v a n .",
+      "start_ms": 39730,
+      "end_ms": 49960
+    },
+    {
+      "turn_id": "t12",
+      "speaker": "agent",
+      "text": "okay , thank you . um , well , anything else .",
+      "start_ms": 50620,
+      "end_ms": 54260
+    },
+    {
+      "turn_id": "t13",
+      "speaker": "user",
+      "text": "yes , i'm also looking for a train .",
+      "start_ms": 54970,
+      "end_ms": 58340
+    },
+    {
+      "turn_id": "t14",
+      "speaker": "agent",
+      "text": "this .",
+      "start_ms": 58640,
+      "end_ms": 59720
+    },
+    {
+      "turn_id": "t15",
+      "speaker": "user",
+      "text": "the train should depart from cambridge and should go to ali .",
+      "start_ms": 60310,
+      "end_ms": 64990
+    },
+    {
+      "turn_id": "t16",
+      "speaker": "agent",
+      "text": "okay , no problem . um . and then we went to the train leave .",
+      "start_ms": 65780,
+      "end_ms": 72020
+    },
+    {
+      "turn_id": "t17",
+      "speaker": "user",
+      "text": "it should live on a sunday and should arrive by .  1345 .",
+      "start_ms": 72480,
+      "end_ms": 78720
+    },
+    {
+      "turn_id": "t18",
+      "speaker": "agent",
+      "text": "okay . um looking at systems that they have to turn up , would you like to know .",
+      "start_ms": 79160,
+      "end_ms": 83860
+    },
+    {
+      "turn_id": "t19",
+      "speaker": "user",
+      "text": "i'd like to get the deposit time .",
+      "start_ms": 84010,
+      "end_ms": 86610
+    },
+    {
+      "turn_id": "t20",
+      "speaker": "agent",
+      "text": "the departure time is 09:15 in the way off .",
+      "start_ms": 87280,
+      "end_ms": 92010
+    },
+    {
+      "turn_id": "t21",
+      "speaker": "user",
+      "text": "no , that's all .",
+      "start_ms": 92300,
+      "end_ms": 93940
+    },
+    {
+      "turn_id": "t22",
+      "speaker": "agent",
+      "text": "and would you like to see what is my email .",
+      "start_ms": 94510,
+      "end_ms": 97110
+    },
+    {
+      "turn_id": "t23",
+      "speaker": "user",
+      "text": "yes , i like to receive what is my email .",
+      "start_ms": 97010,
+      "end_ms": 100010
+    },
+    {
+      "turn_id": "t24",
+      "speaker": "agent",
+      "text": "can i please have email address .",
+      "start_ms": 100070,
+      "end_ms": 101850
+    },
+    {
+      "turn_id": "t25",
+      "speaker": "user",
+      "text": "my email address is d .  governor .  ay .  a to at hotmail dot com .",
+      "start_ms": 101950,
+      "end_ms": 112630
+    },
+    {
+      "turn_id": "t26",
+      "speaker": "agent",
+      "text": "okay , thank you so much . have a good day .",
+      "start_ms": 112950,
+      "end_ms": 115320
+    }
+  ],
+  "audio_path": null,
+  "metadata": {
+    "license": "CC BY-NC 4.0 (eval use)",
+    "speaker_source": "tag field (channel ids do not separate speakers)",
+    "skipped_unwordtimed_turns": 0,
+    "n_plausible_overlaps": 0,
+    "n_long_intra_pauses": 0,
+    "goal": {
+      "profile": {
+        "info": {
+          "email": "dgovanaya2@hotmail.com",
+          "name": "debra govan"
+        }
+      },
+      "restaurant": {
+        "book": {
+          "day": "saturday",
+          "people": "2",
+          "time": "14:15"
+        },
+        "info": {
+          "name": "ali baba"
+        }
+      },
+      "train": {
+        "info": {
+          "arriveBy": "13:45",
+          "day": "sunday",
+          "departure": "cambridge",
+          "destination": "ely"
+        },
+        "reqt": [
+          "leaveAt"
+        ]
+      }
+    },
+    "selection_bucket": "clean_quiet"
+  }
+}

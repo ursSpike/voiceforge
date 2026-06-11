@@ -1,0 +1,295 @@
+{
+  "call_id": "swz_MUL0125",
+  "source": "spokenwoz",
+  "language": "en",
+  "stress_profile": "interruption",
+  "workflow_type": "attraction+profile+train",
+  "turns": [
+    {
+      "turn_id": "t1",
+      "speaker": "user",
+      "text": "hello .",
+      "start_ms": 1800,
+      "end_ms": 2690
+    },
+    {
+      "turn_id": "t2",
+      "speaker": "agent",
+      "text": "customer service , how can i help you .",
+      "start_ms": 2960,
+      "end_ms": 5580
+    },
+    {
+      "turn_id": "t3",
+      "speaker": "user",
+      "text": "mm .  yes , i'm looking for some information in cambridge .",
+      "start_ms": 2980,
+      "end_ms": 9060
+    },
+    {
+      "turn_id": "t4",
+      "speaker": "agent",
+      "text": "okay . what kind of information .",
+      "start_ms": 9110,
+      "end_ms": 11510
+    },
+    {
+      "turn_id": "t5",
+      "speaker": "user",
+      "text": "looking for a trend .",
+      "start_ms": 12270,
+      "end_ms": 13460
+    },
+    {
+      "turn_id": "t6",
+      "speaker": "agent",
+      "text": "okay , when will you depart from .",
+      "start_ms": 14080,
+      "end_ms": 17090
+    },
+    {
+      "turn_id": "t7",
+      "speaker": "user",
+      "text": "i will depart from cambridge .",
+      "start_ms": 18160,
+      "end_ms": 20590
+    },
+    {
+      "turn_id": "t8",
+      "speaker": "agent",
+      "text": "okay , and your destination , please .",
+      "start_ms": 20980,
+      "end_ms": 23560
+    },
+    {
+      "turn_id": "t9",
+      "speaker": "user",
+      "text": "i will go to norwegian .",
+      "start_ms": 23850,
+      "end_ms": 25910
+    },
+    {
+      "turn_id": "t10",
+      "speaker": "agent",
+      "text": "okay . which date will you leave .",
+      "start_ms": 26900,
+      "end_ms": 30290
+    },
+    {
+      "turn_id": "t11",
+      "speaker": "user",
+      "text": "um i suppose i can leave on this tuesday .",
+      "start_ms": 30930,
+      "end_ms": 34610
+    },
+    {
+      "turn_id": "t12",
+      "speaker": "agent",
+      "text": "got that and the time you prefer .",
+      "start_ms": 35430,
+      "end_ms": 38260
+    },
+    {
+      "turn_id": "t13",
+      "speaker": "user",
+      "text": "hm , i suppose .  the train should live after .  11 a m .",
+      "start_ms": 38360,
+      "end_ms": 45160
+    },
+    {
+      "turn_id": "t14",
+      "speaker": "agent",
+      "text": "let me cut for you . here is the train pr 5 9 4 9 it will leave . 11:36 , will that be okay .",
+      "start_ms": 45410,
+      "end_ms": 57680
+    },
+    {
+      "turn_id": "t15",
+      "speaker": "user",
+      "text": "yes , i suppose the except of all .  so could you please tell me the price of the check .",
+      "start_ms": 57990,
+      "end_ms": 65010
+    },
+    {
+      "turn_id": "t16",
+      "speaker": "agent",
+      "text": "it . is . 17.6 .",
+      "start_ms": 65710,
+      "end_ms": 70180
+    },
+    {
+      "turn_id": "t17",
+      "speaker": "user",
+      "text": "wow .  could you please tell me the travel time of the trend .",
+      "start_ms": 71070,
+      "end_ms": 75670
+    },
+    {
+      "turn_id": "t18",
+      "speaker": "agent",
+      "text": "the duration of the train is . 79 minutes .",
+      "start_ms": 75800,
+      "end_ms": 80330
+    },
+    {
+      "turn_id": "t19",
+      "speaker": "user",
+      "text": "okay , got it .",
+      "start_ms": 81850,
+      "end_ms": 83320
+    },
+    {
+      "turn_id": "t20",
+      "speaker": "agent",
+      "text": "okay . i is there anything else i can do for you .",
+      "start_ms": 84020,
+      "end_ms": 87320
+    },
+    {
+      "turn_id": "t21",
+      "speaker": "user",
+      "text": "yes , i'm also looking for some places to go .",
+      "start_ms": 87190,
+      "end_ms": 90620
+    },
+    {
+      "turn_id": "t22",
+      "speaker": "agent",
+      "text": "okay , and the location you preferred .",
+      "start_ms": 91420,
+      "end_ms": 95450
+    },
+    {
+      "turn_id": "t23",
+      "speaker": "user",
+      "text": "well , i suppose it should be in the .  eaten off the same thing .",
+      "start_ms": 95710,
+      "end_ms": 100850
+    },
+    {
+      "turn_id": "t24",
+      "speaker": "agent",
+      "text": "uh , what type of attraction . are you interested .",
+      "start_ms": 101480,
+      "end_ms": 106790
+    },
+    {
+      "turn_id": "t25",
+      "speaker": "user",
+      "text": "well , i i suppose it should be in the part in the type of museum .  pick off .  uh , because i want to see .  sea town textile .  exploitation .",
+      "start_ms": 106900,
+      "end_ms": 119010
+    },
+    {
+      "turn_id": "t26",
+      "speaker": "agent",
+      "text": "okay , let me check for you . how about kambar outwards .",
+      "start_ms": 119970,
+      "end_ms": 125960
+    },
+    {
+      "turn_id": "t27",
+      "speaker": "user",
+      "text": "yes , it's acceptable .",
+      "start_ms": 126370,
+      "end_ms": 128330
+    },
+    {
+      "turn_id": "t28",
+      "speaker": "agent",
+      "text": "okay . what kind of information do you need .",
+      "start_ms": 128930,
+      "end_ms": 135170
+    },
+    {
+      "turn_id": "t29",
+      "speaker": "user",
+      "text": "so i want to get the .  the phone number .",
+      "start_ms": 136210,
+      "end_ms": 140760
+    },
+    {
+      "turn_id": "t30",
+      "speaker": "agent",
+      "text": "okay , the phone number . 1,2,2,390 .",
+      "start_ms": 141250,
+      "end_ms": 148240
+    },
+    {
+      "turn_id": "t31",
+      "speaker": "user",
+      "text": "okay .",
+      "start_ms": 146950,
+      "end_ms": 147950
+    },
+    {
+      "turn_id": "t32",
+      "speaker": "agent",
+      "text": "2168 .",
+      "start_ms": 148270,
+      "end_ms": 151820
+    },
+    {
+      "turn_id": "t33",
+      "speaker": "user",
+      "text": "okay .",
+      "start_ms": 152780,
+      "end_ms": 153790
+    },
+    {
+      "turn_id": "t34",
+      "speaker": "agent",
+      "text": "is there anything else i can do for you .",
+      "start_ms": 154570,
+      "end_ms": 156920
+    },
+    {
+      "turn_id": "t35",
+      "speaker": "user",
+      "text": "hmm , i suppose that's .",
+      "start_ms": 157050,
+      "end_ms": 159780
+    },
+    {
+      "turn_id": "t36",
+      "speaker": "agent",
+      "text": "okay , happy to help bye bye .",
+      "start_ms": 160420,
+      "end_ms": 163250
+    }
+  ],
+  "audio_path": null,
+  "metadata": {
+    "license": "CC BY-NC 4.0 (eval use)",
+    "speaker_source": "tag field (channel ids do not separate speakers)",
+    "skipped_unwordtimed_turns": 0,
+    "n_plausible_overlaps": 3,
+    "n_long_intra_pauses": 2,
+    "goal": {
+      "attraction": {
+        "info": {
+          "type": "museum"
+        },
+        "reqt": [
+          "phone"
+        ]
+      },
+      "profile": {
+        "info": {}
+      },
+      "train": {
+        "info": {
+          "departure": "cambridge",
+          "destination": "norwich",
+          "leaveAt": "11:00"
+        },
+        "reqt": [
+          "price",
+          "duration",
+          "trainID"
+        ]
+      }
+    },
+    "selection_bucket": "interruption"
+  }
+}

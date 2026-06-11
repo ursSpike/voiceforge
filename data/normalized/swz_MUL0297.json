@@ -1,0 +1,270 @@
+{
+  "call_id": "swz_MUL0297",
+  "source": "spokenwoz",
+  "language": "en",
+  "stress_profile": "interruption",
+  "workflow_type": "profile+restaurant+train",
+  "turns": [
+    {
+      "turn_id": "t1",
+      "speaker": "user",
+      "text": "hello .",
+      "start_ms": 4670,
+      "end_ms": 5680
+    },
+    {
+      "turn_id": "t2",
+      "speaker": "agent",
+      "text": "hello , how can i help you .",
+      "start_ms": 5670,
+      "end_ms": 7620
+    },
+    {
+      "turn_id": "t3",
+      "speaker": "user",
+      "text": "yes , i'm looking for a train depart from cambridge .",
+      "start_ms": 8410,
+      "end_ms": 13370
+    },
+    {
+      "turn_id": "t4",
+      "speaker": "agent",
+      "text": "okay .",
+      "start_ms": 13770,
+      "end_ms": 15330
+    },
+    {
+      "turn_id": "t5",
+      "speaker": "user",
+      "text": "and it should live on tuesday .",
+      "start_ms": 18150,
+      "end_ms": 20370
+    },
+    {
+      "turn_id": "t6",
+      "speaker": "agent",
+      "text": "okay , depart from cambridge and live on tuesday .",
+      "start_ms": 21770,
+      "end_ms": 27210
+    },
+    {
+      "turn_id": "t7",
+      "speaker": "user",
+      "text": "yes , and you should go to .  the king's lane and should arrive by .  1945 .",
+      "start_ms": 27590,
+      "end_ms": 38790
+    },
+    {
+      "turn_id": "t8",
+      "speaker": "agent",
+      "text": "okay , the destination is cancelling and arrived by 19:45 . i'm searching for you .",
+      "start_ms": 40270,
+      "end_ms": 50460
+    },
+    {
+      "turn_id": "t9",
+      "speaker": "user",
+      "text": "mhm .  thank you .",
+      "start_ms": 48670,
+      "end_ms": 51710
+    },
+    {
+      "turn_id": "t10",
+      "speaker": "agent",
+      "text": "and . i found a train decor tr0525 .",
+      "start_ms": 50930,
+      "end_ms": 57800
+    },
+    {
+      "turn_id": "t11",
+      "speaker": "user",
+      "text": "okay . ah , what about the price .",
+      "start_ms": 59450,
+      "end_ms": 62710
+    },
+    {
+      "turn_id": "t12",
+      "speaker": "agent",
+      "text": "the price is about 9.8 pounds .",
+      "start_ms": 64520,
+      "end_ms": 70200
+    },
+    {
+      "turn_id": "t13",
+      "speaker": "user",
+      "text": "okay , then what about the departure time .",
+      "start_ms": 70720,
+      "end_ms": 73710
+    },
+    {
+      "turn_id": "t14",
+      "speaker": "agent",
+      "text": "the departure time is 19 :11 .",
+      "start_ms": 76690,
+      "end_ms": 84050
+    },
+    {
+      "turn_id": "t15",
+      "speaker": "user",
+      "text": "okay , thank you .  i'm also looking for a restaurant .",
+      "start_ms": 84400,
+      "end_ms": 88660
+    },
+    {
+      "turn_id": "t16",
+      "speaker": "agent",
+      "text": "okay , a restaurant .",
+      "start_ms": 90090,
+      "end_ms": 92010
+    },
+    {
+      "turn_id": "t17",
+      "speaker": "user",
+      "text": "yes , and the restaurant should be in the expensive price range .  and i would love it for sitting facing the south .",
+      "start_ms": 92690,
+      "end_ms": 103250
+    },
+    {
+      "turn_id": "t18",
+      "speaker": "agent",
+      "text": "okay . price range of expensive . and the direction is north .",
+      "start_ms": 104810,
+      "end_ms": 111690
+    },
+    {
+      "turn_id": "t19",
+      "speaker": "user",
+      "text": "yes .",
+      "start_ms": 112130,
+      "end_ms": 113000
+    },
+    {
+      "turn_id": "t20",
+      "speaker": "agent",
+      "text": "ok searching for you . i found a restaurant decor restaurant too too is required . uh , for you .",
+      "start_ms": 116030,
+      "end_ms": 125360
+    },
+    {
+      "turn_id": "t21",
+      "speaker": "user",
+      "text": "okay , then i would love to .  book a table for three people at .  1215 on the same day .",
+      "start_ms": 126180,
+      "end_ms": 137120
+    },
+    {
+      "turn_id": "t22",
+      "speaker": "agent",
+      "text": "okay , a table for 3 at 12:15 .",
+      "start_ms": 137940,
+      "end_ms": 144590
+    },
+    {
+      "turn_id": "t23",
+      "speaker": "user",
+      "text": "yes .",
+      "start_ms": 145950,
+      "end_ms": 146810
+    },
+    {
+      "turn_id": "t24",
+      "speaker": "agent",
+      "text": "um . but the . tuesday is unavailable .",
+      "start_ms": 147700,
+      "end_ms": 153250
+    },
+    {
+      "turn_id": "t25",
+      "speaker": "user",
+      "text": "okay . what about monday .",
+      "start_ms": 154360,
+      "end_ms": 157660
+    },
+    {
+      "turn_id": "t26",
+      "speaker": "agent",
+      "text": "okay , monday is okay . i'm working for you . can i have your name .",
+      "start_ms": 158530,
+      "end_ms": 163210
+    },
+    {
+      "turn_id": "t27",
+      "speaker": "user",
+      "text": "yes , my name is louis hanson .",
+      "start_ms": 163580,
+      "end_ms": 167180
+    },
+    {
+      "turn_id": "t28",
+      "speaker": "agent",
+      "text": "okay , louis hansen . and can i have your email address for you to receiving orders .",
+      "start_ms": 167820,
+      "end_ms": 174130
+    },
+    {
+      "turn_id": "t29",
+      "speaker": "user",
+      "text": "uh , no , i don't think i need orders .",
+      "start_ms": 174770,
+      "end_ms": 179630
+    },
+    {
+      "turn_id": "t30",
+      "speaker": "agent",
+      "text": "okay . any other else can i help you .",
+      "start_ms": 180500,
+      "end_ms": 184100
+    },
+    {
+      "turn_id": "t31",
+      "speaker": "user",
+      "text": "no , that will be all .",
+      "start_ms": 184250,
+      "end_ms": 185870
+    },
+    {
+      "turn_id": "t32",
+      "speaker": "agent",
+      "text": "okay , have a nice day .",
+      "start_ms": 186450,
+      "end_ms": 188350
+    }
+  ],
+  "audio_path": null,
+  "metadata": {
+    "license": "CC BY-NC 4.0 (eval use)",
+    "speaker_source": "tag field (channel ids do not separate speakers)",
+    "skipped_unwordtimed_turns": 0,
+    "n_plausible_overlaps": 2,
+    "n_long_intra_pauses": 0,
+    "goal": {
+      "profile": {
+        "info": {
+          "name": "luis henson"
+        }
+      },
+      "restaurant": {
+        "book": {
+          "day": "monday",
+          "time": "12:15"
+        },
+        "info": {
+          "area": "north"
+        }
+      },
+      "train": {
+        "info": {
+          "arriveBy": "19:45",
+          "departure": "cambridge",
+          "destination": "kings lynn"
+        },
+        "reqt": [
+          "leaveAt",
+          "trainID",
+          "price"
+        ]
+      }
+    },
+    "selection_bucket": "interruption"
+  }
+}

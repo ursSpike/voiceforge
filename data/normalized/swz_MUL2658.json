@@ -1,0 +1,184 @@
+{
+  "call_id": "swz_MUL2658",
+  "source": "spokenwoz",
+  "language": "en",
+  "stress_profile": "pause_heavy",
+  "workflow_type": "hotel+profile+train",
+  "turns": [
+    {
+      "turn_id": "t1",
+      "speaker": "user",
+      "text": "hello , i am looking for a train .",
+      "start_ms": 3520,
+      "end_ms": 6170
+    },
+    {
+      "turn_id": "t2",
+      "speaker": "agent",
+      "text": "can you please provide more information about the tray .",
+      "start_ms": 7110,
+      "end_ms": 10100
+    },
+    {
+      "turn_id": "t3",
+      "speaker": "user",
+      "text": "the train should depart from cambridge , go to king lines .  the creature arrives .  at 30 minutes past 11 .  and should leave on monday .",
+      "start_ms": 10540,
+      "end_ms": 20450
+    },
+    {
+      "turn_id": "t4",
+      "speaker": "agent",
+      "text": "alright , let me switch the database . okay , there is a train available . the train id is trl566 .",
+      "start_ms": 21540,
+      "end_ms": 36380
+    },
+    {
+      "turn_id": "t5",
+      "speaker": "user",
+      "text": "may i please have the travel time .",
+      "start_ms": 37380,
+      "end_ms": 39450
+    },
+    {
+      "turn_id": "t6",
+      "speaker": "agent",
+      "text": "the travel time is 47 minutes .",
+      "start_ms": 40750,
+      "end_ms": 43210
+    },
+    {
+      "turn_id": "t7",
+      "speaker": "user",
+      "text": "okay , i'm also looking for the place to stay .",
+      "start_ms": 43860,
+      "end_ms": 47110
+    },
+    {
+      "turn_id": "t8",
+      "speaker": "agent",
+      "text": "all right . what kind of a place to stay .",
+      "start_ms": 48020,
+      "end_ms": 50400
+    },
+    {
+      "turn_id": "t9",
+      "speaker": "user",
+      "text": "the hotel doesn't need to have internet and should be in the middle .  the hotel should be in the type of a guest house .",
+      "start_ms": 51410,
+      "end_ms": 58000
+    },
+    {
+      "turn_id": "t10",
+      "speaker": "agent",
+      "text": "alright , let me search the database . okay . um , there isn't such a base available . do you have a second choice .",
+      "start_ms": 59280,
+      "end_ms": 73380
+    },
+    {
+      "turn_id": "t11",
+      "speaker": "user",
+      "text": "how about one that has a free wifi .",
+      "start_ms": 73710,
+      "end_ms": 76170
+    },
+    {
+      "turn_id": "t12",
+      "speaker": "agent",
+      "text": "alright , let me check the data paste . okay , this is a hotel . called alexander bed and breakfast .",
+      "start_ms": 77130,
+      "end_ms": 88480
+    },
+    {
+      "turn_id": "t13",
+      "speaker": "user",
+      "text": "may you please provide me with the post code .",
+      "start_ms": 89790,
+      "end_ms": 92190
+    },
+    {
+      "turn_id": "t14",
+      "speaker": "agent",
+      "text": "cp121te .",
+      "start_ms": 94120,
+      "end_ms": 96940
+    },
+    {
+      "turn_id": "t15",
+      "speaker": "user",
+      "text": "the staff of the hotel .",
+      "start_ms": 97760,
+      "end_ms": 99220
+    },
+    {
+      "turn_id": "t16",
+      "speaker": "agent",
+      "text": "it's a 4 hotel .",
+      "start_ms": 100580,
+      "end_ms": 102280
+    },
+    {
+      "turn_id": "t17",
+      "speaker": "user",
+      "text": "all right , thank you very much , sir .",
+      "start_ms": 102880,
+      "end_ms": 104850
+    },
+    {
+      "turn_id": "t18",
+      "speaker": "agent",
+      "text": "okay . is there anything else i can help you with .",
+      "start_ms": 105290,
+      "end_ms": 107720
+    },
+    {
+      "turn_id": "t19",
+      "speaker": "user",
+      "text": "no thanks .",
+      "start_ms": 108110,
+      "end_ms": 109240
+    },
+    {
+      "turn_id": "t20",
+      "speaker": "agent",
+      "text": "okay , thank you for your quote . we enjoyed the rest of your day .",
+      "start_ms": 109760,
+      "end_ms": 112640
+    }
+  ],
+  "audio_path": null,
+  "metadata": {
+    "license": "CC BY-NC 4.0 (eval use)",
+    "speaker_source": "tag field (channel ids do not separate speakers)",
+    "skipped_unwordtimed_turns": 0,
+    "n_plausible_overlaps": 0,
+    "n_long_intra_pauses": 3,
+    "goal": {
+      "hotel": {
+        "info": {
+          "area": "centre",
+          "internet": "yes",
+          "type": "guesthouse"
+        },
+        "reqt": [
+          "postcode",
+          "stars"
+        ]
+      },
+      "profile": {
+        "info": {}
+      },
+      "train": {
+        "info": {
+          "arriveBy": "11:30",
+          "departure": "cambridge",
+          "destination": "kings lynn"
+        },
+        "reqt": [
+          "duration"
+        ]
+      }
+    },
+    "selection_bucket": "pause_heavy"
+  }
+}

@@ -1,0 +1,241 @@
+{
+  "call_id": "swz_MUL1004",
+  "source": "spokenwoz",
+  "language": "en",
+  "stress_profile": "clean",
+  "workflow_type": "profile+restaurant+train",
+  "turns": [
+    {
+      "turn_id": "t1",
+      "speaker": "user",
+      "text": "hello is the customer servants .",
+      "start_ms": 1630,
+      "end_ms": 4380
+    },
+    {
+      "turn_id": "t2",
+      "speaker": "agent",
+      "text": "yes . what can i help you .",
+      "start_ms": 4790,
+      "end_ms": 6880
+    },
+    {
+      "turn_id": "t3",
+      "speaker": "user",
+      "text": "um .  i'm planning my trip in cambridge .",
+      "start_ms": 6950,
+      "end_ms": 11820
+    },
+    {
+      "turn_id": "t4",
+      "speaker": "agent",
+      "text": "okay , please tell me what you need .",
+      "start_ms": 12130,
+      "end_ms": 14830
+    },
+    {
+      "turn_id": "t5",
+      "speaker": "user",
+      "text": "um i am looking for a train .",
+      "start_ms": 14760,
+      "end_ms": 18990
+    },
+    {
+      "turn_id": "t6",
+      "speaker": "agent",
+      "text": "please tell me your request about this train .",
+      "start_ms": 19430,
+      "end_ms": 22380
+    },
+    {
+      "turn_id": "t7",
+      "speaker": "user",
+      "text": "uh , the train should arrive by nine thirty a m and she depart from lesser .",
+      "start_ms": 22650,
+      "end_ms": 30100
+    },
+    {
+      "turn_id": "t8",
+      "speaker": "agent",
+      "text": "okay , i understand and please go on .",
+      "start_ms": 30310,
+      "end_ms": 33290
+    },
+    {
+      "turn_id": "t9",
+      "speaker": "user",
+      "text": "uh , the train should leave thursday and should go to cambridge .",
+      "start_ms": 34450,
+      "end_ms": 38840
+    },
+    {
+      "turn_id": "t10",
+      "speaker": "agent",
+      "text": "okay , so here is a train i think will be the best choice for you .",
+      "start_ms": 39170,
+      "end_ms": 43680
+    },
+    {
+      "turn_id": "t11",
+      "speaker": "user",
+      "text": "ah yes , that's great . so can i have the departure time of the train .",
+      "start_ms": 44160,
+      "end_ms": 50050
+    },
+    {
+      "turn_id": "t12",
+      "speaker": "agent",
+      "text": "of course , the departure time of train is 05:09 .",
+      "start_ms": 50470,
+      "end_ms": 56470
+    },
+    {
+      "turn_id": "t13",
+      "speaker": "user",
+      "text": "okay .  and what's the train i be .",
+      "start_ms": 56510,
+      "end_ms": 59940
+    },
+    {
+      "turn_id": "t14",
+      "speaker": "agent",
+      "text": "the idea of the train is tr6125 .",
+      "start_ms": 60310,
+      "end_ms": 65040
+    },
+    {
+      "turn_id": "t15",
+      "speaker": "user",
+      "text": "okay , and i'm also looking for a place to die .",
+      "start_ms": 65630,
+      "end_ms": 70010
+    },
+    {
+      "turn_id": "t16",
+      "speaker": "agent",
+      "text": "okay , please tell me your preferences about this .",
+      "start_ms": 70500,
+      "end_ms": 73810
+    },
+    {
+      "turn_id": "t17",
+      "speaker": "user",
+      "text": "uh , yes . and i want to um have some turkish food .",
+      "start_ms": 73760,
+      "end_ms": 79900
+    },
+    {
+      "turn_id": "t18",
+      "speaker": "agent",
+      "text": "okay , and please go ahead .",
+      "start_ms": 80460,
+      "end_ms": 83360
+    },
+    {
+      "turn_id": "t19",
+      "speaker": "user",
+      "text": "and the restaurant should be in the century of the area .",
+      "start_ms": 83590,
+      "end_ms": 88430
+    },
+    {
+      "turn_id": "t20",
+      "speaker": "agent",
+      "text": "okay , so here is a restaurant called meze bar i think will be the best choice for you .",
+      "start_ms": 88560,
+      "end_ms": 95130
+    },
+    {
+      "turn_id": "t21",
+      "speaker": "user",
+      "text": "okay , that sounds great .  and can i have the price range of the restaurant .",
+      "start_ms": 95270,
+      "end_ms": 102880
+    },
+    {
+      "turn_id": "t22",
+      "speaker": "agent",
+      "text": "sure , the price range of the restaurant is expensive .",
+      "start_ms": 103140,
+      "end_ms": 106990
+    },
+    {
+      "turn_id": "t23",
+      "speaker": "user",
+      "text": "okay . and what's the post code of the restaurant .",
+      "start_ms": 107510,
+      "end_ms": 110980
+    },
+    {
+      "turn_id": "t24",
+      "speaker": "agent",
+      "text": "the best code of this restaurant is cb13nf .",
+      "start_ms": 111310,
+      "end_ms": 116010
+    },
+    {
+      "turn_id": "t25",
+      "speaker": "user",
+      "text": "okay , okay , that's great . thank you very much .",
+      "start_ms": 116780,
+      "end_ms": 119670
+    },
+    {
+      "turn_id": "t26",
+      "speaker": "agent",
+      "text": "you are welcome .",
+      "start_ms": 119620,
+      "end_ms": 121000
+    },
+    {
+      "turn_id": "t27",
+      "speaker": "user",
+      "text": "have a nice day . bye .",
+      "start_ms": 121430,
+      "end_ms": 123360
+    },
+    {
+      "turn_id": "t28",
+      "speaker": "agent",
+      "text": "enjoy your trip , bye .",
+      "start_ms": 123470,
+      "end_ms": 125490
+    }
+  ],
+  "audio_path": null,
+  "metadata": {
+    "license": "CC BY-NC 4.0 (eval use)",
+    "speaker_source": "tag field (channel ids do not separate speakers)",
+    "skipped_unwordtimed_turns": 0,
+    "n_plausible_overlaps": 0,
+    "n_long_intra_pauses": 0,
+    "goal": {
+      "profile": {
+        "info": {}
+      },
+      "restaurant": {
+        "info": {
+          "area": "centre",
+          "food": "turkish"
+        },
+        "reqt": [
+          "pricerange",
+          "postcode"
+        ]
+      },
+      "train": {
+        "info": {
+          "arriveBy": "09:30",
+          "day": "thursday",
+          "departure": "leicester",
+          "destination": "cambridge"
+        },
+        "reqt": [
+          "leaveAt",
+          "trainID"
+        ]
+      }
+    },
+    "selection_bucket": "clean_quiet"
+  }
+}

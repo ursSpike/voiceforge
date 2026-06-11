@@ -1,0 +1,312 @@
+{
+  "call_id": "swz_MUL0293",
+  "source": "spokenwoz",
+  "language": "en",
+  "stress_profile": "interruption",
+  "workflow_type": "profile+restaurant+train",
+  "turns": [
+    {
+      "turn_id": "t1",
+      "speaker": "user",
+      "text": "has it this is philip speaking .",
+      "start_ms": 2910,
+      "end_ms": 5320
+    },
+    {
+      "turn_id": "t2",
+      "speaker": "agent",
+      "text": "hi , philip . how are you doing .",
+      "start_ms": 5390,
+      "end_ms": 7100
+    },
+    {
+      "turn_id": "t3",
+      "speaker": "user",
+      "text": "i'm great . thanks in yourself .",
+      "start_ms": 7250,
+      "end_ms": 9200
+    },
+    {
+      "turn_id": "t4",
+      "speaker": "agent",
+      "text": "i'm great . thank you .",
+      "start_ms": 9100,
+      "end_ms": 10700
+    },
+    {
+      "turn_id": "t5",
+      "speaker": "user",
+      "text": "i'm planning a trip to cambridge and i was wondering if you can assist me some information .",
+      "start_ms": 10990,
+      "end_ms": 15980
+    },
+    {
+      "turn_id": "t6",
+      "speaker": "agent",
+      "text": "yes , i'll be happy to assist you .",
+      "start_ms": 15980,
+      "end_ms": 18110
+    },
+    {
+      "turn_id": "t7",
+      "speaker": "user",
+      "text": "okay , so i'm looking for a place to dine that should be located in the opposite of the north of the city .",
+      "start_ms": 18310,
+      "end_ms": 28760
+    },
+    {
+      "turn_id": "t8",
+      "speaker": "agent",
+      "text": "i can check and see what restaurants we have in the south of the city and .",
+      "start_ms": 29290,
+      "end_ms": 33350
+    },
+    {
+      "turn_id": "t9",
+      "speaker": "user",
+      "text": "all right , and it should be in the moderate price range .",
+      "start_ms": 33640,
+      "end_ms": 37610
+    },
+    {
+      "turn_id": "t10",
+      "speaker": "agent",
+      "text": "okay , i can add moderate price range to your request .",
+      "start_ms": 37580,
+      "end_ms": 41030
+    },
+    {
+      "turn_id": "t11",
+      "speaker": "user",
+      "text": "and should serve italian food .",
+      "start_ms": 41310,
+      "end_ms": 44270
+    },
+    {
+      "turn_id": "t12",
+      "speaker": "agent",
+      "text": "um italian . what i can offer you that in the south of the city of as italian food at moderate price range would be the . pizza hut cherry hinton .",
+      "start_ms": 45120,
+      "end_ms": 57230
+    },
+    {
+      "turn_id": "t13",
+      "speaker": "user",
+      "text": "okay .  perfect . thank you so much for that . can you give me their post code , please .",
+      "start_ms": 57900,
+      "end_ms": 62940
+    },
+    {
+      "turn_id": "t14",
+      "speaker": "agent",
+      "text": "yes , certainly the postcode is cb17dy .",
+      "start_ms": 63050,
+      "end_ms": 67380
+    },
+    {
+      "turn_id": "t15",
+      "speaker": "user",
+      "text": "thank you so much for that information and their phone number as well .",
+      "start_ms": 68010,
+      "end_ms": 72300
+    },
+    {
+      "turn_id": "t16",
+      "speaker": "agent",
+      "text": "the phone number is 1223323737 .",
+      "start_ms": 72010,
+      "end_ms": 78630
+    },
+    {
+      "turn_id": "t17",
+      "speaker": "user",
+      "text": "thank you so much . and lastly , can you tell me what their address is .",
+      "start_ms": 78960,
+      "end_ms": 83080
+    },
+    {
+      "turn_id": "t18",
+      "speaker": "agent",
+      "text": "yes , certainly that would be g4 cambridge leisure park , clifton way , cherry hinton .",
+      "start_ms": 83290,
+      "end_ms": 89980
+    },
+    {
+      "turn_id": "t19",
+      "speaker": "user",
+      "text": "thank you so much for that information . i'm also looking for information on trains .  um from cambridge . is this also something that you can help me with .",
+      "start_ms": 90460,
+      "end_ms": 100580
+    },
+    {
+      "turn_id": "t20",
+      "speaker": "agent",
+      "text": "yes , i'll be happy to assist you with that as well .",
+      "start_ms": 100630,
+      "end_ms": 103350
+    },
+    {
+      "turn_id": "t21",
+      "speaker": "user",
+      "text": "okay , some interested in a train that should depart from cambridge , going to lester .",
+      "start_ms": 103690,
+      "end_ms": 109130
+    },
+    {
+      "turn_id": "t22",
+      "speaker": "agent",
+      "text": "cambridge .",
+      "start_ms": 109880,
+      "end_ms": 113230
+    },
+    {
+      "turn_id": "t23",
+      "speaker": "user",
+      "text": "okay , and the train that i'm interested in should depart cambridge on a monday and should arrive in leicester by 12 .",
+      "start_ms": 113650,
+      "end_ms": 124500
+    },
+    {
+      "turn_id": "t24",
+      "speaker": "agent",
+      "text": "what i can offer you on monday is a train that arrives in leicester at 12:00 that work for you .",
+      "start_ms": 125420,
+      "end_ms": 134160
+    },
+    {
+      "turn_id": "t25",
+      "speaker": "user",
+      "text": "yes , that works perfectly . could i make if i wanted to book on that trend . could i do it through you .",
+      "start_ms": 134570,
+      "end_ms": 140630
+    },
+    {
+      "turn_id": "t26",
+      "speaker": "agent",
+      "text": "yes , i'll be happy to make it booking for you .",
+      "start_ms": 141030,
+      "end_ms": 143490
+    },
+    {
+      "turn_id": "t27",
+      "speaker": "user",
+      "text": "alright , please book me myself on that train .",
+      "start_ms": 143520,
+      "end_ms": 147670
+    },
+    {
+      "turn_id": "t28",
+      "speaker": "agent",
+      "text": "okay . um , may i please have your id number .",
+      "start_ms": 148280,
+      "end_ms": 151950
+    },
+    {
+      "turn_id": "t29",
+      "speaker": "user",
+      "text": "certainly my id number is 3 3 , 1 7 .",
+      "start_ms": 152300,
+      "end_ms": 156040
+    },
+    {
+      "turn_id": "t30",
+      "speaker": "agent",
+      "text": "3317 .",
+      "start_ms": 156060,
+      "end_ms": 156880
+    },
+    {
+      "turn_id": "t31",
+      "speaker": "user",
+      "text": "0 6 2 2 .  5 0 , 6 4 .",
+      "start_ms": 156990,
+      "end_ms": 162550
+    },
+    {
+      "turn_id": "t32",
+      "speaker": "agent",
+      "text": "06225064 .",
+      "start_ms": 162320,
+      "end_ms": 163240
+    },
+    {
+      "turn_id": "t33",
+      "speaker": "user",
+      "text": "8 3 0 4 .",
+      "start_ms": 163390,
+      "end_ms": 165570
+    },
+    {
+      "turn_id": "t34",
+      "speaker": "agent",
+      "text": "8304 for that train booking has been made in your train id is tr6715 .",
+      "start_ms": 165510,
+      "end_ms": 173160
+    },
+    {
+      "turn_id": "t35",
+      "speaker": "user",
+      "text": "thank you so much for that information .",
+      "start_ms": 173430,
+      "end_ms": 176070
+    },
+    {
+      "turn_id": "t36",
+      "speaker": "agent",
+      "text": "your most welcome . is there anything else that i can assist you .",
+      "start_ms": 176140,
+      "end_ms": 179340
+    },
+    {
+      "turn_id": "t37",
+      "speaker": "user",
+      "text": "that was all i needed help with . thank you .",
+      "start_ms": 179540,
+      "end_ms": 182340
+    },
+    {
+      "turn_id": "t38",
+      "speaker": "agent",
+      "text": "okay , thank you for calling .",
+      "start_ms": 182290,
+      "end_ms": 184170
+    }
+  ],
+  "audio_path": null,
+  "metadata": {
+    "license": "CC BY-NC 4.0 (eval use)",
+    "speaker_source": "tag field (channel ids do not separate speakers)",
+    "skipped_unwordtimed_turns": 0,
+    "n_plausible_overlaps": 2,
+    "n_long_intra_pauses": 0,
+    "goal": {
+      "profile": {
+        "info": {
+          "idnumber": "6561963903663578"
+        }
+      },
+      "restaurant": {
+        "info": {
+          "food": "italian",
+          "pricerange": "moderate"
+        },
+        "reqt": [
+          "address",
+          "postcode"
+        ]
+      },
+      "train": {
+        "info": {
+          "day": "monday",
+          "departure": "cambridge",
+          "destination": "peterborough",
+          "leaveAt": "21:30"
+        },
+        "reqt": [
+          "arriveBy"
+        ]
+      }
+    },
+    "selection_bucket": "interruption"
+  }
+}

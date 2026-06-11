@@ -1,0 +1,413 @@
+{
+  "call_id": "swz_MUL0142",
+  "source": "spokenwoz",
+  "language": "en",
+  "stress_profile": "interruption",
+  "workflow_type": "hotel+profile+train",
+  "turns": [
+    {
+      "turn_id": "t1",
+      "speaker": "user",
+      "text": "hello , can you hear me .",
+      "start_ms": 530,
+      "end_ms": 2510
+    },
+    {
+      "turn_id": "t2",
+      "speaker": "agent",
+      "text": "yes . may i help you .",
+      "start_ms": 2800,
+      "end_ms": 4450
+    },
+    {
+      "turn_id": "t3",
+      "speaker": "user",
+      "text": "oh , yes , i'm looking for a place to stay .",
+      "start_ms": 4830,
+      "end_ms": 8030
+    },
+    {
+      "turn_id": "t4",
+      "speaker": "agent",
+      "text": "yes .",
+      "start_ms": 9300,
+      "end_ms": 10400
+    },
+    {
+      "turn_id": "t5",
+      "speaker": "user",
+      "text": "um and i love to live in guesthouse .  the .  in the east .",
+      "start_ms": 11240,
+      "end_ms": 18820
+    },
+    {
+      "turn_id": "t6",
+      "speaker": "agent",
+      "text": "okay , searching a restaurant , a guest house for you in the east .",
+      "start_ms": 20310,
+      "end_ms": 24910
+    },
+    {
+      "turn_id": "t7",
+      "speaker": "user",
+      "text": "yes .  and i can i can pay for the parking fee .",
+      "start_ms": 25180,
+      "end_ms": 30660
+    },
+    {
+      "turn_id": "t8",
+      "speaker": "agent",
+      "text": "ah yes , of course .",
+      "start_ms": 32580,
+      "end_ms": 35050
+    },
+    {
+      "turn_id": "t9",
+      "speaker": "user",
+      "text": "okay , that's my return .",
+      "start_ms": 39110,
+      "end_ms": 41020
+    },
+    {
+      "turn_id": "t10",
+      "speaker": "agent",
+      "text": "there is a hotel named a and b guest house ready for you .",
+      "start_ms": 39400,
+      "end_ms": 45250
+    },
+    {
+      "turn_id": "t11",
+      "speaker": "user",
+      "text": "oh , yes .  and please book for me and two people .  and four knife .",
+      "start_ms": 45700,
+      "end_ms": 52640
+    },
+    {
+      "turn_id": "t12",
+      "speaker": "agent",
+      "text": "okay , make a booking for 2 and 4 .",
+      "start_ms": 53800,
+      "end_ms": 57910
+    },
+    {
+      "turn_id": "t13",
+      "speaker": "user",
+      "text": "yes .  starting from the day that .  after sunday .",
+      "start_ms": 58120,
+      "end_ms": 65060
+    },
+    {
+      "turn_id": "t14",
+      "speaker": "agent",
+      "text": "okay , booking from monday .",
+      "start_ms": 66240,
+      "end_ms": 69850
+    },
+    {
+      "turn_id": "t15",
+      "speaker": "user",
+      "text": "yes .  thank you .",
+      "start_ms": 70400,
+      "end_ms": 72800
+    },
+    {
+      "turn_id": "t16",
+      "speaker": "agent",
+      "text": "okay . may i have your name , please .",
+      "start_ms": 73040,
+      "end_ms": 76290
+    },
+    {
+      "turn_id": "t17",
+      "speaker": "user",
+      "text": "yes , my name is edward brown .",
+      "start_ms": 76630,
+      "end_ms": 79740
+    },
+    {
+      "turn_id": "t18",
+      "speaker": "agent",
+      "text": "okay , booking for name edward brown .",
+      "start_ms": 80290,
+      "end_ms": 84840
+    },
+    {
+      "turn_id": "t19",
+      "speaker": "user",
+      "text": "yes , thank you .",
+      "start_ms": 86030,
+      "end_ms": 87060
+    },
+    {
+      "turn_id": "t20",
+      "speaker": "agent",
+      "text": "okay , the booking is finished in order to receive the information . uh , may i have your email , please .",
+      "start_ms": 87170,
+      "end_ms": 94050
+    },
+    {
+      "turn_id": "t21",
+      "speaker": "user",
+      "text": "oh , sorry , i can't offer you my email address .",
+      "start_ms": 94610,
+      "end_ms": 98660
+    },
+    {
+      "turn_id": "t22",
+      "speaker": "agent",
+      "text": "oh , that's fine . anything else i might help .",
+      "start_ms": 99120,
+      "end_ms": 102420
+    },
+    {
+      "turn_id": "t23",
+      "speaker": "user",
+      "text": "yes , i'm also looking for a train .",
+      "start_ms": 103000,
+      "end_ms": 106140
+    },
+    {
+      "turn_id": "t24",
+      "speaker": "agent",
+      "text": "yes , searching for a tree right now .",
+      "start_ms": 107210,
+      "end_ms": 109660
+    },
+    {
+      "turn_id": "t25",
+      "speaker": "user",
+      "text": "ya .  i would like to .  mm .  looking for the train that live on the day .  the day after thursday .",
+      "start_ms": 111430,
+      "end_ms": 123580
+    },
+    {
+      "turn_id": "t26",
+      "speaker": "agent",
+      "text": "um let me see you want to leave . around . the day after .",
+      "start_ms": 124710,
+      "end_ms": 134770
+    },
+    {
+      "turn_id": "t27",
+      "speaker": "user",
+      "text": "after thursday .",
+      "start_ms": 136180,
+      "end_ms": 137770
+    },
+    {
+      "turn_id": "t28",
+      "speaker": "agent",
+      "text": "after thursday , okay , leave around . friday .",
+      "start_ms": 137850,
+      "end_ms": 143700
+    },
+    {
+      "turn_id": "t29",
+      "speaker": "user",
+      "text": "oh , yes .",
+      "start_ms": 144220,
+      "end_ms": 145380
+    },
+    {
+      "turn_id": "t30",
+      "speaker": "agent",
+      "text": "anything else .",
+      "start_ms": 146600,
+      "end_ms": 147820
+    },
+    {
+      "turn_id": "t31",
+      "speaker": "user",
+      "text": "and the train should depart from .  appraise the connective .  famous university , but i can't recall the praise name .",
+      "start_ms": 148000,
+      "end_ms": 161820
+    },
+    {
+      "turn_id": "t32",
+      "speaker": "agent",
+      "text": "oh , yes , that's fine . maybe let me try cambridge .",
+      "start_ms": 162940,
+      "end_ms": 166690
+    },
+    {
+      "turn_id": "t33",
+      "speaker": "user",
+      "text": "oh , yes . cambridge .",
+      "start_ms": 167150,
+      "end_ms": 169340
+    },
+    {
+      "turn_id": "t34",
+      "speaker": "agent",
+      "text": "okay .",
+      "start_ms": 170570,
+      "end_ms": 171680
+    },
+    {
+      "turn_id": "t35",
+      "speaker": "user",
+      "text": "and .  the train .  to go to the destination .  oh , oh , sorry .  i also .  i can't remember the full name of the destination , but .  i remember .  the name may connect you to some ancestor or other arrows .",
+      "start_ms": 170830,
+      "end_ms": 193960
+    },
+    {
+      "turn_id": "t36",
+      "speaker": "agent",
+      "text": "uh , yes , the destination . let's try leicester .",
+      "start_ms": 195050,
+      "end_ms": 199970
+    },
+    {
+      "turn_id": "t37",
+      "speaker": "user",
+      "text": "oh , yes . the sister , yes , yes .  and .  i should .  arrive by .  um 1345 .",
+      "start_ms": 200640,
+      "end_ms": 212350
+    },
+    {
+      "turn_id": "t38",
+      "speaker": "agent",
+      "text": "okay , arrival time will be 13:45 .",
+      "start_ms": 212940,
+      "end_ms": 217150
+    },
+    {
+      "turn_id": "t39",
+      "speaker": "user",
+      "text": "oh , yes .",
+      "start_ms": 217470,
+      "end_ms": 218640
+    },
+    {
+      "turn_id": "t40",
+      "speaker": "agent",
+      "text": "um let me see , there is a train . i d tr95306 for you .",
+      "start_ms": 219080,
+      "end_ms": 229140
+    },
+    {
+      "turn_id": "t41",
+      "speaker": "user",
+      "text": "okay , thank you . and i write a book for the same group of people .",
+      "start_ms": 229160,
+      "end_ms": 235250
+    },
+    {
+      "turn_id": "t42",
+      "speaker": "agent",
+      "text": "yes . okay , make a booking for the same group of people , which is 2 in total for you . in order to finish this , may i have your id number , please .",
+      "start_ms": 236250,
+      "end_ms": 247390
+    },
+    {
+      "turn_id": "t43",
+      "speaker": "user",
+      "text": "yes , my id number is 1 3 9 9 9 .",
+      "start_ms": 247930,
+      "end_ms": 252680
+    },
+    {
+      "turn_id": "t44",
+      "speaker": "agent",
+      "text": "yes .",
+      "start_ms": 252850,
+      "end_ms": 253780
+    },
+    {
+      "turn_id": "t45",
+      "speaker": "user",
+      "text": "0 3 1 8 1 .",
+      "start_ms": 254520,
+      "end_ms": 258240
+    },
+    {
+      "turn_id": "t46",
+      "speaker": "agent",
+      "text": "yes .",
+      "start_ms": 258770,
+      "end_ms": 259770
+    },
+    {
+      "turn_id": "t47",
+      "speaker": "user",
+      "text": "2 1 5 1 1 6 .",
+      "start_ms": 260020,
+      "end_ms": 263020
+    },
+    {
+      "turn_id": "t48",
+      "speaker": "agent",
+      "text": "yes , i got it .",
+      "start_ms": 263850,
+      "end_ms": 265820
+    },
+    {
+      "turn_id": "t49",
+      "speaker": "user",
+      "text": "yes , thank you .",
+      "start_ms": 266320,
+      "end_ms": 268100
+    },
+    {
+      "turn_id": "t50",
+      "speaker": "agent",
+      "text": "uh , in order to receive all the information , would you like to offer your email .",
+      "start_ms": 268260,
+      "end_ms": 277100
+    },
+    {
+      "turn_id": "t51",
+      "speaker": "user",
+      "text": "oh , sorry . and i can't offer my email address . sorry .",
+      "start_ms": 277550,
+      "end_ms": 283340
+    },
+    {
+      "turn_id": "t52",
+      "speaker": "agent",
+      "text": "okay , that's fine . have a nice day .",
+      "start_ms": 283420,
+      "end_ms": 286630
+    }
+  ],
+  "audio_path": null,
+  "metadata": {
+    "license": "CC BY-NC 4.0 (eval use)",
+    "speaker_source": "tag field (channel ids do not separate speakers)",
+    "skipped_unwordtimed_turns": 0,
+    "n_plausible_overlaps": 2,
+    "n_long_intra_pauses": 0,
+    "goal": {
+      "hotel": {
+        "book": {
+          "day": "monday",
+          "people": "2",
+          "stay": "4"
+        },
+        "info": {
+          "area": "east",
+          "parking": "yes",
+          "type": "guesthouse"
+        }
+      },
+      "profile": {
+        "info": {
+          "idnumber": "1399903181215116",
+          "name": "Edward Brawn"
+        }
+      },
+      "train": {
+        "book": {
+          "people": "2"
+        },
+        "info": {
+          "arriveBy": "13:45",
+          "day": "friday",
+          "departure": "cambridge",
+          "destination": "leicester"
+        }
+      }
+    },
+    "selection_bucket": "interruption"
+  }
+}

@@ -115,3 +115,36 @@ remaining batch targets, not regressions.
 **Next:** Batch 2 + 3 now safe to proceed on a solid contract — awaiting GPT approval.
 
 ---
+
+## BATCH 2 — Public dataset slice · Jun 11 ~19:45 IST
+
+**Objective:** expand the normalized pool to ≥40 calls (blind-label calibration needs ≥40), from
+the already-on-disk SpokenWOZ — stratified, reproducible, no new download.
+
+**Inputs:** `data/spokenwoz/data.json` (cached), `data/spokenwoz/dev_scan.json`, `pipeline/normalize.py`.
+
+**Outputs:**
+- 44 new/updated `data/normalized/swz_*.json` (the `cmd_spokenwoz` quota now scales to k with a
+  deterministic top-up when a bucket runs dry).
+- `docs/dataset_card.md` — source, CC BY-NC license, fields used/ignored, slice method, honest caveats.
+
+**Commands:** `python pipeline/normalize.py spokenwoz --k 44`; `python pipeline/schemas.py` (validate).
+
+**Why for demo:** the eval/dashboard now spans **46 calls** (44 SpokenWOZ + hero + Bolna), enough
+for a real ≥40 blind-label calibration, and stratified so the binary label set has both pass- and
+fail-prone calls. "Public dataset support" requirement satisfied with a small slice, not a 246MB grind.
+
+**Result:** pool **46/46 valid** against call_log. Composition: interruption 21, clean 20,
+pause_heavy 5. Selection is deterministic (same `--k` → same calls).
+
+**Discarded / honest caveats:** SpokenWOZ is latency-rich, not barge-in-rich (protocol) — documented
+in the dataset card; audio corpus not downloaded (word timestamps suffice); only 5 pause_heavy
+calls qualified, so the stratification top-up filled from interruption (recorded, not hidden).
+
+**Broke:** nothing.
+
+**Next (NOT started — awaiting review):** Batch 3 — deterministic eval core (task_outcome from
+goals + signals + cost → the first real `out/calls.json` validated against the tight call_record
+contract, + analytics/failure-clusters). STOP here per the leash.
+
+---

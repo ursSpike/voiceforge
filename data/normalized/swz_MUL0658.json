@@ -1,0 +1,298 @@
+{
+  "call_id": "swz_MUL0658",
+  "source": "spokenwoz",
+  "language": "en",
+  "stress_profile": "clean",
+  "workflow_type": "hotel+profile+train",
+  "turns": [
+    {
+      "turn_id": "t1",
+      "speaker": "user",
+      "text": "hello .",
+      "start_ms": 2370,
+      "end_ms": 3360
+    },
+    {
+      "turn_id": "t2",
+      "speaker": "agent",
+      "text": "hello , how can i help you .",
+      "start_ms": 3350,
+      "end_ms": 5500
+    },
+    {
+      "turn_id": "t3",
+      "speaker": "user",
+      "text": "yes , i'm looking for a train .",
+      "start_ms": 5690,
+      "end_ms": 8030
+    },
+    {
+      "turn_id": "t4",
+      "speaker": "agent",
+      "text": "okay , searching training for you .",
+      "start_ms": 8340,
+      "end_ms": 10810
+    },
+    {
+      "turn_id": "t5",
+      "speaker": "user",
+      "text": "i think the trains should arrive by .  21 .",
+      "start_ms": 11410,
+      "end_ms": 15990
+    },
+    {
+      "turn_id": "t6",
+      "speaker": "agent",
+      "text": "okay .",
+      "start_ms": 16350,
+      "end_ms": 17780
+    },
+    {
+      "turn_id": "t7",
+      "speaker": "user",
+      "text": "and leave on thursday .",
+      "start_ms": 17980,
+      "end_ms": 20620
+    },
+    {
+      "turn_id": "t8",
+      "speaker": "agent",
+      "text": "okay .",
+      "start_ms": 21190,
+      "end_ms": 22440
+    },
+    {
+      "turn_id": "t9",
+      "speaker": "user",
+      "text": "and also the train should go to sunset airport and depart from cambridge .",
+      "start_ms": 22700,
+      "end_ms": 29460
+    },
+    {
+      "turn_id": "t10",
+      "speaker": "agent",
+      "text": "okay . i'm searching for you , please hold on .",
+      "start_ms": 30220,
+      "end_ms": 34390
+    },
+    {
+      "turn_id": "t11",
+      "speaker": "user",
+      "text": "thank you .",
+      "start_ms": 35090,
+      "end_ms": 36270
+    },
+    {
+      "turn_id": "t12",
+      "speaker": "agent",
+      "text": "there is a train called tr8383 can meet your requirement .",
+      "start_ms": 38400,
+      "end_ms": 45120
+    },
+    {
+      "turn_id": "t13",
+      "speaker": "user",
+      "text": "okay . what about the departure time .",
+      "start_ms": 46650,
+      "end_ms": 49430
+    },
+    {
+      "turn_id": "t14",
+      "speaker": "agent",
+      "text": "the train will depart . at . um . 20:40 . oh . o'clock .",
+      "start_ms": 51230,
+      "end_ms": 61250
+    },
+    {
+      "turn_id": "t15",
+      "speaker": "user",
+      "text": "okay , got it . thank you .",
+      "start_ms": 62210,
+      "end_ms": 64330
+    },
+    {
+      "turn_id": "t16",
+      "speaker": "agent",
+      "text": "any other else i can help .",
+      "start_ms": 64950,
+      "end_ms": 66850
+    },
+    {
+      "turn_id": "t17",
+      "speaker": "user",
+      "text": "yes , i'm also looking for a particular hotel named express by holiday .  in cambridge .",
+      "start_ms": 66980,
+      "end_ms": 75820
+    },
+    {
+      "turn_id": "t18",
+      "speaker": "agent",
+      "text": "okay , i'm searching for you the express by holiday inn cambridge . please hold on .",
+      "start_ms": 76820,
+      "end_ms": 86400
+    },
+    {
+      "turn_id": "t19",
+      "speaker": "user",
+      "text": "okay .",
+      "start_ms": 86810,
+      "end_ms": 87960
+    },
+    {
+      "turn_id": "t20",
+      "speaker": "agent",
+      "text": "and i found the hotel for you . any infor-mation .",
+      "start_ms": 95120,
+      "end_ms": 102210
+    },
+    {
+      "turn_id": "t21",
+      "speaker": "user",
+      "text": "okay .",
+      "start_ms": 100550,
+      "end_ms": 101620
+    },
+    {
+      "turn_id": "t22",
+      "speaker": "agent",
+      "text": "ok , please go on .",
+      "start_ms": 102600,
+      "end_ms": 104620
+    },
+    {
+      "turn_id": "t23",
+      "speaker": "user",
+      "text": "okay , i want to make a booking for 8 people .",
+      "start_ms": 104830,
+      "end_ms": 108840
+    },
+    {
+      "turn_id": "t24",
+      "speaker": "agent",
+      "text": "okay .",
+      "start_ms": 109180,
+      "end_ms": 110570
+    },
+    {
+      "turn_id": "t25",
+      "speaker": "user",
+      "text": "and staying for five nights starting from saturday .",
+      "start_ms": 111170,
+      "end_ms": 117020
+    },
+    {
+      "turn_id": "t26",
+      "speaker": "agent",
+      "text": "okay , but . maybe 5 is not available . maybe you can shorten the travel time .",
+      "start_ms": 117850,
+      "end_ms": 126170
+    },
+    {
+      "turn_id": "t27",
+      "speaker": "user",
+      "text": "okay , then for next .",
+      "start_ms": 127350,
+      "end_ms": 130320
+    },
+    {
+      "turn_id": "t28",
+      "speaker": "agent",
+      "text": "ok , 4 nights . 4 nights it's okay . i'm booking for you and can i have your name .",
+      "start_ms": 131000,
+      "end_ms": 136480
+    },
+    {
+      "turn_id": "t29",
+      "speaker": "user",
+      "text": "yes , my name is donald king .",
+      "start_ms": 137500,
+      "end_ms": 140420
+    },
+    {
+      "turn_id": "t30",
+      "speaker": "agent",
+      "text": "ok , how to spell it .",
+      "start_ms": 141360,
+      "end_ms": 143420
+    },
+    {
+      "turn_id": "t31",
+      "speaker": "user",
+      "text": "a donald start with a d o n .  ald .",
+      "start_ms": 143750,
+      "end_ms": 150820
+    },
+    {
+      "turn_id": "t32",
+      "speaker": "agent",
+      "text": "ok , go on , please .",
+      "start_ms": 151730,
+      "end_ms": 153500
+    },
+    {
+      "turn_id": "t33",
+      "speaker": "user",
+      "text": "and then there is a king for .  king .  k i n gk is for key .",
+      "start_ms": 153610,
+      "end_ms": 161400
+    },
+    {
+      "turn_id": "t34",
+      "speaker": "agent",
+      "text": "okay . the booking is done and can i have your email address for you to receive booking orders .",
+      "start_ms": 161520,
+      "end_ms": 169560
+    },
+    {
+      "turn_id": "t35",
+      "speaker": "user",
+      "text": "ah i think i don't bother with the email . thank you .",
+      "start_ms": 169730,
+      "end_ms": 173500
+    },
+    {
+      "turn_id": "t36",
+      "speaker": "agent",
+      "text": "okay , have a nice day .",
+      "start_ms": 173670,
+      "end_ms": 175670
+    }
+  ],
+  "audio_path": null,
+  "metadata": {
+    "license": "CC BY-NC 4.0 (eval use)",
+    "speaker_source": "tag field (channel ids do not separate speakers)",
+    "skipped_unwordtimed_turns": 0,
+    "n_plausible_overlaps": 1,
+    "n_long_intra_pauses": 1,
+    "goal": {
+      "hotel": {
+        "book": {
+          "day": "saturday",
+          "people": "8",
+          "stay": "4"
+        },
+        "info": {
+          "name": "express by holiday inn cambridge"
+        }
+      },
+      "profile": {
+        "info": {
+          "name": "donald king"
+        }
+      },
+      "train": {
+        "info": {
+          "arriveBy": "21:00",
+          "day": "thursday",
+          "departure": "cambridge",
+          "destination": "stansted airport"
+        },
+        "reqt": [
+          "leaveAt"
+        ]
+      }
+    },
+    "selection_bucket": "clean_laggy"
+  }
+}

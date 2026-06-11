@@ -1,0 +1,478 @@
+{
+  "call_id": "swz_MUL0071",
+  "source": "spokenwoz",
+  "language": "en",
+  "stress_profile": "interruption",
+  "workflow_type": "hotel+profile+restaurant+taxi",
+  "turns": [
+    {
+      "turn_id": "t1",
+      "speaker": "user",
+      "text": "hello is the customer service of cambridge .",
+      "start_ms": 2160,
+      "end_ms": 4780
+    },
+    {
+      "turn_id": "t2",
+      "speaker": "agent",
+      "text": "yes , here it is . how can i help you .",
+      "start_ms": 4670,
+      "end_ms": 6940
+    },
+    {
+      "turn_id": "t3",
+      "speaker": "user",
+      "text": "yes , i'm looking for some information in cambridge .",
+      "start_ms": 7010,
+      "end_ms": 9930
+    },
+    {
+      "turn_id": "t4",
+      "speaker": "agent",
+      "text": "well , uh , what information do you need .",
+      "start_ms": 9710,
+      "end_ms": 12540
+    },
+    {
+      "turn_id": "t5",
+      "speaker": "user",
+      "text": "well , i'm looking for a place to stay .",
+      "start_ms": 12700,
+      "end_ms": 15220
+    },
+    {
+      "turn_id": "t6",
+      "speaker": "agent",
+      "text": "well , please go ahead .",
+      "start_ms": 15440,
+      "end_ms": 17020
+    },
+    {
+      "turn_id": "t7",
+      "speaker": "user",
+      "text": "well , i suppose the hotel should have a stop for .",
+      "start_ms": 17090,
+      "end_ms": 21110
+    },
+    {
+      "turn_id": "t8",
+      "speaker": "agent",
+      "text": "4 .",
+      "start_ms": 21660,
+      "end_ms": 22800
+    },
+    {
+      "turn_id": "t9",
+      "speaker": "user",
+      "text": "that's right . and it should be in the type of gateway .",
+      "start_ms": 22790,
+      "end_ms": 26370
+    },
+    {
+      "turn_id": "t10",
+      "speaker": "agent",
+      "text": "this house type is guest house .",
+      "start_ms": 26630,
+      "end_ms": 30460
+    },
+    {
+      "turn_id": "t11",
+      "speaker": "user",
+      "text": "and was more extremely in the cheap price range .",
+      "start_ms": 30460,
+      "end_ms": 34520
+    },
+    {
+      "turn_id": "t12",
+      "speaker": "agent",
+      "text": "price range . it bad , be cheap . go that .",
+      "start_ms": 34760,
+      "end_ms": 38080
+    },
+    {
+      "turn_id": "t13",
+      "speaker": "user",
+      "text": "and it should include free parking .",
+      "start_ms": 38200,
+      "end_ms": 41740
+    },
+    {
+      "turn_id": "t14",
+      "speaker": "agent",
+      "text": "free parking is needed . okay . yeah . um , let me check for you .",
+      "start_ms": 42060,
+      "end_ms": 47070
+    },
+    {
+      "turn_id": "t15",
+      "speaker": "user",
+      "text": "okay , thank you very much .",
+      "start_ms": 47620,
+      "end_ms": 49560
+    },
+    {
+      "turn_id": "t16",
+      "speaker": "agent",
+      "text": "okay , i got this recommendation .",
+      "start_ms": 49540,
+      "end_ms": 52450
+    },
+    {
+      "turn_id": "t17",
+      "speaker": "user",
+      "text": "okay . may i know the recommendation .",
+      "start_ms": 53160,
+      "end_ms": 55400
+    },
+    {
+      "turn_id": "t18",
+      "speaker": "agent",
+      "text": "the name is alexander bed and breakfast .",
+      "start_ms": 55300,
+      "end_ms": 58510
+    },
+    {
+      "turn_id": "t19",
+      "speaker": "user",
+      "text": "well , it sounds very good .",
+      "start_ms": 59300,
+      "end_ms": 61600
+    },
+    {
+      "turn_id": "t20",
+      "speaker": "agent",
+      "text": "do you need a reservation .",
+      "start_ms": 61680,
+      "end_ms": 63310
+    },
+    {
+      "turn_id": "t21",
+      "speaker": "user",
+      "text": "no thanks , but i need some other information of that .",
+      "start_ms": 63260,
+      "end_ms": 67210
+    },
+    {
+      "turn_id": "t22",
+      "speaker": "agent",
+      "text": "okay , please go ahead .",
+      "start_ms": 67130,
+      "end_ms": 69110
+    },
+    {
+      "turn_id": "t23",
+      "speaker": "user",
+      "text": "um may i know the may i know whether they have the internet .",
+      "start_ms": 70580,
+      "end_ms": 76010
+    },
+    {
+      "turn_id": "t24",
+      "speaker": "agent",
+      "text": "yes , they do provide free wi fi service .",
+      "start_ms": 76110,
+      "end_ms": 79670
+    },
+    {
+      "turn_id": "t25",
+      "speaker": "user",
+      "text": "okay , got it . may i know the area of the hotel .",
+      "start_ms": 79780,
+      "end_ms": 83220
+    },
+    {
+      "turn_id": "t26",
+      "speaker": "agent",
+      "text": "it located in the centre .",
+      "start_ms": 83310,
+      "end_ms": 86450
+    },
+    {
+      "turn_id": "t27",
+      "speaker": "user",
+      "text": "okay . uh , may i know the phone number of the hotel .",
+      "start_ms": 87060,
+      "end_ms": 92010
+    },
+    {
+      "turn_id": "t28",
+      "speaker": "agent",
+      "text": "of course . um the phone number is 1223525725 .",
+      "start_ms": 92240,
+      "end_ms": 100110
+    },
+    {
+      "turn_id": "t29",
+      "speaker": "user",
+      "text": "okay , got it . thank you very much .",
+      "start_ms": 100730,
+      "end_ms": 103530
+    },
+    {
+      "turn_id": "t30",
+      "speaker": "agent",
+      "text": "is there anything else i can help with .",
+      "start_ms": 103470,
+      "end_ms": 105910
+    },
+    {
+      "turn_id": "t31",
+      "speaker": "user",
+      "text": "well , um , i think that's all for the whole information .",
+      "start_ms": 106110,
+      "end_ms": 109850
+    },
+    {
+      "turn_id": "t32",
+      "speaker": "agent",
+      "text": "anything else you need .",
+      "start_ms": 110270,
+      "end_ms": 111990
+    },
+    {
+      "turn_id": "t33",
+      "speaker": "user",
+      "text": "yes , i'm also looking for a restaurant .",
+      "start_ms": 112030,
+      "end_ms": 114910
+    },
+    {
+      "turn_id": "t34",
+      "speaker": "agent",
+      "text": "ok , may i know your requirement .",
+      "start_ms": 114990,
+      "end_ms": 117290
+    },
+    {
+      "turn_id": "t35",
+      "speaker": "user",
+      "text": "um i suppose the researchers said italian .",
+      "start_ms": 117370,
+      "end_ms": 122390
+    },
+    {
+      "turn_id": "t36",
+      "speaker": "agent",
+      "text": "okay , got it in telling fruit , please go ahead .",
+      "start_ms": 122540,
+      "end_ms": 125920
+    },
+    {
+      "turn_id": "t37",
+      "speaker": "user",
+      "text": "what's more , the hotel in the center .",
+      "start_ms": 125800,
+      "end_ms": 129870
+    },
+    {
+      "turn_id": "t38",
+      "speaker": "agent",
+      "text": "okay , in the centre of the city , okay , please continue .",
+      "start_ms": 130150,
+      "end_ms": 134940
+    },
+    {
+      "turn_id": "t39",
+      "speaker": "user",
+      "text": "what's more , is it better be in the same price range as the whole .",
+      "start_ms": 135490,
+      "end_ms": 141220
+    },
+    {
+      "turn_id": "t40",
+      "speaker": "agent",
+      "text": "okay , cheap price range . let me check for you .",
+      "start_ms": 141430,
+      "end_ms": 145220
+    },
+    {
+      "turn_id": "t41",
+      "speaker": "user",
+      "text": "okay , thank you very much .",
+      "start_ms": 145180,
+      "end_ms": 147980
+    },
+    {
+      "turn_id": "t42",
+      "speaker": "agent",
+      "text": "i got three options for you . the first one named pizza hut city centre .",
+      "start_ms": 147840,
+      "end_ms": 153390
+    },
+    {
+      "turn_id": "t43",
+      "speaker": "user",
+      "text": "okay . may i know the other two options and please make a reservation for me .",
+      "start_ms": 154800,
+      "end_ms": 160640
+    },
+    {
+      "turn_id": "t44",
+      "speaker": "agent",
+      "text": "okay , and i got it . um a second one . uh , j restaurant and the third one is zizzi cambridge , which one do you like .",
+      "start_ms": 160550,
+      "end_ms": 171170
+    },
+    {
+      "turn_id": "t45",
+      "speaker": "user",
+      "text": "well , i prefer the first one and please book a table for four people at the .  a hot pie .  12 p m .",
+      "start_ms": 171070,
+      "end_ms": 179730
+    },
+    {
+      "turn_id": "t46",
+      "speaker": "agent",
+      "text": "okay , i'll go back . how about the date you need .",
+      "start_ms": 179980,
+      "end_ms": 183760
+    },
+    {
+      "turn_id": "t47",
+      "speaker": "user",
+      "text": "well , i prefer it should be .  tomorrow .",
+      "start_ms": 183690,
+      "end_ms": 187700
+    },
+    {
+      "turn_id": "t48",
+      "speaker": "agent",
+      "text": "okay , since today's wednesday of this thursday . ah let me check , please wait .",
+      "start_ms": 187920,
+      "end_ms": 194010
+    },
+    {
+      "turn_id": "t49",
+      "speaker": "user",
+      "text": "okay , thank you very much .",
+      "start_ms": 195520,
+      "end_ms": 197460
+    },
+    {
+      "turn_id": "t50",
+      "speaker": "agent",
+      "text": "i'm sorry . i'm sorry , but the sea is not available . how about same time on saturday .",
+      "start_ms": 195600,
+      "end_ms": 203030
+    },
+    {
+      "turn_id": "t51",
+      "speaker": "user",
+      "text": "wow , that's quite acceptable and i will give you my name . my name is .  uh , rudolph .",
+      "start_ms": 203020,
+      "end_ms": 210650
+    },
+    {
+      "turn_id": "t52",
+      "speaker": "agent",
+      "text": "i need to know how to spell , please .",
+      "start_ms": 210820,
+      "end_ms": 212990
+    },
+    {
+      "turn_id": "t53",
+      "speaker": "user",
+      "text": "yes , it should be r u d o l p h .",
+      "start_ms": 212920,
+      "end_ms": 217460
+    },
+    {
+      "turn_id": "t54",
+      "speaker": "agent",
+      "text": "go back , please go ahead .",
+      "start_ms": 217250,
+      "end_ms": 219130
+    },
+    {
+      "turn_id": "t55",
+      "speaker": "user",
+      "text": "c o w a n .",
+      "start_ms": 219020,
+      "end_ms": 221300
+    },
+    {
+      "turn_id": "t56",
+      "speaker": "agent",
+      "text": "okay , your booking has been successful . would you like to get email confirmation , and .",
+      "start_ms": 221160,
+      "end_ms": 227050
+    },
+    {
+      "turn_id": "t57",
+      "speaker": "user",
+      "text": "hmm , no , thanks . i don't really need that and please book a please make a book , a taxi .  for me to commute between to play this and i suppose it should arrive at it should arrive at the restaurant by the booked time .  um well , and please give me the car type . well , my phone number should be , um .  my phone number should be 6 0 9 3 8 .  6 .",
+      "start_ms": 227630,
+      "end_ms": 259500
+    },
+    {
+      "turn_id": "t58",
+      "speaker": "agent",
+      "text": "go that please continue .",
+      "start_ms": 260020,
+      "end_ms": 261980
+    },
+    {
+      "turn_id": "t59",
+      "speaker": "user",
+      "text": "and 0 8 5 1 2 , please tell me the car type of that . thank you , rabbit .",
+      "start_ms": 261930,
+      "end_ms": 269250
+    },
+    {
+      "turn_id": "t60",
+      "speaker": "agent",
+      "text": "o-. you'll be a great food and have a nice day . goodbye .",
+      "start_ms": 267760,
+      "end_ms": 272360
+    }
+  ],
+  "audio_path": null,
+  "metadata": {
+    "license": "CC BY-NC 4.0 (eval use)",
+    "speaker_source": "tag field (channel ids do not separate speakers)",
+    "skipped_unwordtimed_turns": 0,
+    "n_plausible_overlaps": 9,
+    "n_long_intra_pauses": 0,
+    "goal": {
+      "hotel": {
+        "info": {
+          "pricerange": "cheap",
+          "stars": "4",
+          "type": "guesthouse"
+        },
+        "reqt": [
+          "internet",
+          "area",
+          "phone"
+        ]
+      },
+      "profile": {
+        "info": {
+          "name": "rudolph cowan",
+          "phonenumber": "6093608512"
+        }
+      },
+      "restaurant": {
+        "book": {
+          "day": "thursday",
+          "people": "4",
+          "time": "12:30"
+        },
+        "info": {
+          "area": "centre",
+          "food": "italian",
+          "pricerange": "cheap"
+        }
+      },
+      "taxi": {
+        "info": {
+          "arriveBy": "12:30"
+        },
+        "reqt": [
+          "car type"
+        ]
+      }
+    },
+    "selection_bucket": "interruption"
+  }
+}

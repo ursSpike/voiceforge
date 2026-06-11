@@ -14,7 +14,7 @@ Check progress anytime: `.venv/bin/python pipeline/preflight.py` (the executable
 | one submission | solo | — |
 
 ## Done already (verified)
-hero call (Cartesia Devansh, self-check OK, failures 0:15/0:48) · money-shot page /shot (click-to-seek verified) · normalize+signals over 11 calls · Gemini judge harness (smoke + cache) · Bolna agent live + 1 completed execution (246cd9f3…) · both sponsor keys verified · 36 training notebooks.
+hero call (Cartesia Devansh, self-check OK, failures 0:15/0:48) · money-shot page /shot (click-to-seek verified) · normalize+signals over **46 calls** (44 SpokenWOZ + hero + Bolna, Batch 2) · Gemini judge harness (smoke + cache) · Bolna agent live + 1 ingested execution (246cd9f3…) · both sponsor keys verified · 36 training notebooks.
 
 ## CRITICAL PATH (in order — ~13h of work vs ~13h available; A/B is OUT unless ahead)
 | # | block | what | time | owner |

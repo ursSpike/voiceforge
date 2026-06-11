@@ -1,0 +1,315 @@
+{
+  "call_id": "swz_MUL0226",
+  "source": "spokenwoz",
+  "language": "en",
+  "stress_profile": "interruption",
+  "workflow_type": "hotel+profile+restaurant",
+  "turns": [
+    {
+      "turn_id": "t1",
+      "speaker": "user",
+      "text": "hello .",
+      "start_ms": 1450,
+      "end_ms": 2440
+    },
+    {
+      "turn_id": "t2",
+      "speaker": "agent",
+      "text": "hello customer service center . how can i help you .",
+      "start_ms": 2730,
+      "end_ms": 5900
+    },
+    {
+      "turn_id": "t3",
+      "speaker": "user",
+      "text": "oh , that would that would be great . um , i'd like to have email .",
+      "start_ms": 7120,
+      "end_ms": 15430
+    },
+    {
+      "turn_id": "t4",
+      "speaker": "agent",
+      "text": "um , yeah . and then please tell me your email address .",
+      "start_ms": 16220,
+      "end_ms": 19960
+    },
+    {
+      "turn_id": "t5",
+      "speaker": "user",
+      "text": "hi , i'm traveling in cambridge and so can you help me find a place to sleep .",
+      "start_ms": 20180,
+      "end_ms": 31160
+    },
+    {
+      "turn_id": "t6",
+      "speaker": "agent",
+      "text": "no problem . what kind of place do you want to stay .",
+      "start_ms": 32280,
+      "end_ms": 40206
+    },
+    {
+      "turn_id": "t7",
+      "speaker": "user",
+      "text": "i need free parking lot and .  um i think the hotel should have four star rank .",
+      "start_ms": 42005,
+      "end_ms": 53379
+    },
+    {
+      "turn_id": "t8",
+      "speaker": "agent",
+      "text": "okay . and what else .",
+      "start_ms": 53910,
+      "end_ms": 67230
+    },
+    {
+      "turn_id": "t9",
+      "speaker": "user",
+      "text": "also , i need in a rather .  economic price range and if it it would be better if it would have .  free wifi .",
+      "start_ms": 69190,
+      "end_ms": 74492
+    },
+    {
+      "turn_id": "t10",
+      "speaker": "agent",
+      "text": "sure , let me check for you . yes . i have several options . and . this one called acorn guest house .",
+      "start_ms": 75310,
+      "end_ms": 78712
+    },
+    {
+      "turn_id": "t11",
+      "speaker": "user",
+      "text": "okay , acronym guest house . can you tell me what type of .",
+      "start_ms": 78110,
+      "end_ms": 84325
+    },
+    {
+      "turn_id": "t12",
+      "speaker": "agent",
+      "text": "it's a guest house . mm .",
+      "start_ms": 85540,
+      "end_ms": 87070
+    },
+    {
+      "turn_id": "t13",
+      "speaker": "user",
+      "text": "i see . it's a guesthouse , which area is located .",
+      "start_ms": 87300,
+      "end_ms": 91020
+    },
+    {
+      "turn_id": "t14",
+      "speaker": "agent",
+      "text": "uh , in the now .",
+      "start_ms": 92690,
+      "end_ms": 102450
+    },
+    {
+      "turn_id": "t15",
+      "speaker": "user",
+      "text": "okay .  then can you give me the phone number .",
+      "start_ms": 104520,
+      "end_ms": 116550
+    },
+    {
+      "turn_id": "t16",
+      "speaker": "agent",
+      "text": "yes , it's . 1223745288 .",
+      "start_ms": 117280,
+      "end_ms": 124510
+    },
+    {
+      "turn_id": "t17",
+      "speaker": "user",
+      "text": "okay , great . i see . and .  here's another thing . can you help me find .  particular restaurant and the name is peking restaurant .",
+      "start_ms": 124550,
+      "end_ms": 138980
+    },
+    {
+      "turn_id": "t18",
+      "speaker": "agent",
+      "text": "sure , acorn guest house let me check for you . oh , yeah , i got it . what do you need .",
+      "start_ms": 138290,
+      "end_ms": 145538
+    },
+    {
+      "turn_id": "t19",
+      "speaker": "user",
+      "text": "oh , great . i want to book a table for five people on tuesday , let's say .  and i think the time should act .  16 .  is it .",
+      "start_ms": 139180,
+      "end_ms": 147180
+    },
+    {
+      "turn_id": "t20",
+      "speaker": "agent",
+      "text": "okay , 5 5 people am , 16:00 on tuesday , i guess .",
+      "start_ms": 148320,
+      "end_ms": 152160
+    },
+    {
+      "turn_id": "t21",
+      "speaker": "user",
+      "text": "ya .  yeah .",
+      "start_ms": 153010,
+      "end_ms": 158930
+    },
+    {
+      "turn_id": "t22",
+      "speaker": "agent",
+      "text": "sure . uh , for the booking , can i have your name , please .",
+      "start_ms": 159250,
+      "end_ms": 163980
+    },
+    {
+      "turn_id": "t23",
+      "speaker": "user",
+      "text": "of course my name is .  the siri thomson .",
+      "start_ms": 164080,
+      "end_ms": 167048
+    },
+    {
+      "turn_id": "t24",
+      "speaker": "agent",
+      "text": "desiree thompson , okay . can you spell desiree for me .",
+      "start_ms": 167130,
+      "end_ms": 168867
+    },
+    {
+      "turn_id": "t25",
+      "speaker": "user",
+      "text": "um it's d e s i .",
+      "start_ms": 168850,
+      "end_ms": 170908
+    },
+    {
+      "turn_id": "t26",
+      "speaker": "agent",
+      "text": "desi .",
+      "start_ms": 170820,
+      "end_ms": 182300
+    },
+    {
+      "turn_id": "t27",
+      "speaker": "user",
+      "text": "r double e .",
+      "start_ms": 182820,
+      "end_ms": 187518
+    },
+    {
+      "turn_id": "t28",
+      "speaker": "agent",
+      "text": "ree okay , got it . and desiree thompson . i'm glad to tell you that your booking are successful . do you need me to send you the order to your email .",
+      "start_ms": 188240,
+      "end_ms": 191683
+    },
+    {
+      "turn_id": "t29",
+      "speaker": "user",
+      "text": "sure , my email address is .  d . thompson , my name .",
+      "start_ms": 192540,
+      "end_ms": 197930
+    },
+    {
+      "turn_id": "t30",
+      "speaker": "agent",
+      "text": "desiree thompson .",
+      "start_ms": 198310,
+      "end_ms": 199860
+    },
+    {
+      "turn_id": "t31",
+      "speaker": "user",
+      "text": "and q o .",
+      "start_ms": 200150,
+      "end_ms": 202570
+    },
+    {
+      "turn_id": "t32",
+      "speaker": "agent",
+      "text": "qo .",
+      "start_ms": 203220,
+      "end_ms": 204540
+    },
+    {
+      "turn_id": "t33",
+      "speaker": "user",
+      "text": "pretty .",
+      "start_ms": 204510,
+      "end_ms": 205730
+    },
+    {
+      "turn_id": "t34",
+      "speaker": "agent",
+      "text": "3t .",
+      "start_ms": 205890,
+      "end_ms": 207320
+    },
+    {
+      "turn_id": "t35",
+      "speaker": "user",
+      "text": "at hotmail dot com .",
+      "start_ms": 206880,
+      "end_ms": 208830
+    },
+    {
+      "turn_id": "t36",
+      "speaker": "agent",
+      "text": "@hotmail.com . ok , i got it . your order will be sent to you soon .",
+      "start_ms": 208790,
+      "end_ms": 213990
+    },
+    {
+      "turn_id": "t37",
+      "speaker": "user",
+      "text": "great . oh , i think that's all i need . thank you .",
+      "start_ms": 214700,
+      "end_ms": 218520
+    },
+    {
+      "turn_id": "t38",
+      "speaker": "agent",
+      "text": "you're welcome . have a nice day . goodbye .",
+      "start_ms": 218560,
+      "end_ms": 221000
+    }
+  ],
+  "audio_path": null,
+  "metadata": {
+    "license": "CC BY-NC 4.0 (eval use)",
+    "speaker_source": "tag field (channel ids do not separate speakers)",
+    "skipped_unwordtimed_turns": 0,
+    "n_plausible_overlaps": 3,
+    "n_long_intra_pauses": 2,
+    "goal": {
+      "hotel": {
+        "info": {
+          "internet": "yes",
+          "parking": "yes",
+          "pricerange": "cheap",
+          "stars": "4"
+        },
+        "reqt": [
+          "phone",
+          "area",
+          "type"
+        ]
+      },
+      "profile": {
+        "info": {
+          "email": "dthompsonqo3t@hotmail.com",
+          "name": "desiree thompson"
+        }
+      },
+      "restaurant": {
+        "book": {
+          "day": "tuesday",
+          "people": "5",
+          "time": "16:00"
+        },
+        "info": {
+          "name": "peking restaurant"
+        }
+      }
+    },
+    "selection_bucket": "interruption"
+  }
+}

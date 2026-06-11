@@ -1,0 +1,329 @@
+{
+  "call_id": "swz_MUL0329",
+  "source": "spokenwoz",
+  "language": "en",
+  "stress_profile": "interruption",
+  "workflow_type": "profile+restaurant+train",
+  "turns": [
+    {
+      "turn_id": "t1",
+      "speaker": "user",
+      "text": "hello . how are .",
+      "start_ms": 1930,
+      "end_ms": 3250
+    },
+    {
+      "turn_id": "t2",
+      "speaker": "agent",
+      "text": "fine , thanks to you .",
+      "start_ms": 3680,
+      "end_ms": 5270
+    },
+    {
+      "turn_id": "t3",
+      "speaker": "user",
+      "text": "i'm good . thank you . i would like to book some tickets for a train that is commuting the following day after wednesday .  from brookstone , from brook's bond bridge and should leave after 1130 a . m. .",
+      "start_ms": 5150,
+      "end_ms": 17720
+    },
+    {
+      "turn_id": "t4",
+      "speaker": "agent",
+      "text": "okay , i have found one .",
+      "start_ms": 18500,
+      "end_ms": 21370
+    },
+    {
+      "turn_id": "t5",
+      "speaker": "user",
+      "text": "alright , i would like to book for one person .",
+      "start_ms": 21510,
+      "end_ms": 24200
+    },
+    {
+      "turn_id": "t6",
+      "speaker": "agent",
+      "text": "honestly , get your id number .",
+      "start_ms": 24530,
+      "end_ms": 26590
+    },
+    {
+      "turn_id": "t7",
+      "speaker": "user",
+      "text": "yes . uh , it's 5 5 0 2 .",
+      "start_ms": 26870,
+      "end_ms": 29530
+    },
+    {
+      "turn_id": "t8",
+      "speaker": "agent",
+      "text": "yes , i got that .",
+      "start_ms": 29720,
+      "end_ms": 31200
+    },
+    {
+      "turn_id": "t9",
+      "speaker": "user",
+      "text": "9 0 6 8 .",
+      "start_ms": 31360,
+      "end_ms": 33450
+    },
+    {
+      "turn_id": "t10",
+      "speaker": "agent",
+      "text": "yes , i got that .",
+      "start_ms": 33640,
+      "end_ms": 35150
+    },
+    {
+      "turn_id": "t11",
+      "speaker": "user",
+      "text": "5 0 , 9 .",
+      "start_ms": 35190,
+      "end_ms": 36650
+    },
+    {
+      "turn_id": "t12",
+      "speaker": "agent",
+      "text": "yes , i got that .",
+      "start_ms": 36830,
+      "end_ms": 38300
+    },
+    {
+      "turn_id": "t13",
+      "speaker": "user",
+      "text": "and 0 2 , 4 , 1 .",
+      "start_ms": 38350,
+      "end_ms": 40390
+    },
+    {
+      "turn_id": "t14",
+      "speaker": "agent",
+      "text": "okay , thank you . i have booked your train tickets .",
+      "start_ms": 40860,
+      "end_ms": 44440
+    },
+    {
+      "turn_id": "t15",
+      "speaker": "user",
+      "text": "oh , can you please provide me the day .",
+      "start_ms": 45070,
+      "end_ms": 47320
+    },
+    {
+      "turn_id": "t16",
+      "speaker": "agent",
+      "text": "okay , the train id is tr5979 .",
+      "start_ms": 47820,
+      "end_ms": 52430
+    },
+    {
+      "turn_id": "t17",
+      "speaker": "user",
+      "text": "okay , thank you . i would also like to book a table in a restaurant that serves indian food and that's also in the expensive price range and it should be in the opposite area of cambridge is .",
+      "start_ms": 53010,
+      "end_ms": 65740
+    },
+    {
+      "turn_id": "t18",
+      "speaker": "agent",
+      "text": "okay , so that's in the west .",
+      "start_ms": 66630,
+      "end_ms": 68540
+    },
+    {
+      "turn_id": "t19",
+      "speaker": "user",
+      "text": "yes , please .",
+      "start_ms": 68640,
+      "end_ms": 70030
+    },
+    {
+      "turn_id": "t20",
+      "speaker": "agent",
+      "text": "okay , i have found one .",
+      "start_ms": 70040,
+      "end_ms": 72770
+    },
+    {
+      "turn_id": "t21",
+      "speaker": "user",
+      "text": "alright , so i'd like to book for one person .  it .",
+      "start_ms": 72980,
+      "end_ms": 77410
+    },
+    {
+      "turn_id": "t22",
+      "speaker": "agent",
+      "text": "okay .",
+      "start_ms": 76870,
+      "end_ms": 77860
+    },
+    {
+      "turn_id": "t23",
+      "speaker": "user",
+      "text": "at 8 and and it should be on thursday .",
+      "start_ms": 77510,
+      "end_ms": 81010
+    },
+    {
+      "turn_id": "t24",
+      "speaker": "agent",
+      "text": "okay . can i still get your name .",
+      "start_ms": 81720,
+      "end_ms": 84610
+    },
+    {
+      "turn_id": "t25",
+      "speaker": "user",
+      "text": "yes , my name is jack castro and the spelling of my name is .",
+      "start_ms": 84830,
+      "end_ms": 90730
+    },
+    {
+      "turn_id": "t26",
+      "speaker": "agent",
+      "text": "yes , i got that .",
+      "start_ms": 91070,
+      "end_ms": 92550
+    },
+    {
+      "turn_id": "t27",
+      "speaker": "user",
+      "text": "k e .",
+      "start_ms": 92410,
+      "end_ms": 93640
+    },
+    {
+      "turn_id": "t28",
+      "speaker": "agent",
+      "text": "yes , i got that .",
+      "start_ms": 93900,
+      "end_ms": 95440
+    },
+    {
+      "turn_id": "t29",
+      "speaker": "user",
+      "text": "and for my surname it's \u00e7 \u00e4 .",
+      "start_ms": 95450,
+      "end_ms": 98060
+    },
+    {
+      "turn_id": "t30",
+      "speaker": "agent",
+      "text": "yes , i got that .",
+      "start_ms": 98360,
+      "end_ms": 99860
+    },
+    {
+      "turn_id": "t31",
+      "speaker": "user",
+      "text": "st .",
+      "start_ms": 99750,
+      "end_ms": 101180
+    },
+    {
+      "turn_id": "t32",
+      "speaker": "agent",
+      "text": "yes , i got turf .",
+      "start_ms": 101420,
+      "end_ms": 102990
+    },
+    {
+      "turn_id": "t33",
+      "speaker": "user",
+      "text": "r o .",
+      "start_ms": 102890,
+      "end_ms": 104220
+    },
+    {
+      "turn_id": "t34",
+      "speaker": "agent",
+      "text": "okay , thank you . can i please get your email .",
+      "start_ms": 104260,
+      "end_ms": 107220
+    },
+    {
+      "turn_id": "t35",
+      "speaker": "user",
+      "text": "i'm sorry , i can't give out my email .",
+      "start_ms": 107410,
+      "end_ms": 109950
+    },
+    {
+      "turn_id": "t36",
+      "speaker": "agent",
+      "text": "okay , no problem . i have booked a table at india house .",
+      "start_ms": 110770,
+      "end_ms": 114650
+    },
+    {
+      "turn_id": "t37",
+      "speaker": "user",
+      "text": "all right , thank .",
+      "start_ms": 114770,
+      "end_ms": 116560
+    },
+    {
+      "turn_id": "t38",
+      "speaker": "agent",
+      "text": "yes . is there anything else i can help you with .",
+      "start_ms": 116790,
+      "end_ms": 119170
+    },
+    {
+      "turn_id": "t39",
+      "speaker": "user",
+      "text": "not at all . thank you . bye .",
+      "start_ms": 119270,
+      "end_ms": 121580
+    },
+    {
+      "turn_id": "t40",
+      "speaker": "agent",
+      "text": "bye , have a wonderful day .",
+      "start_ms": 121820,
+      "end_ms": 124040
+    }
+  ],
+  "audio_path": null,
+  "metadata": {
+    "license": "CC BY-NC 4.0 (eval use)",
+    "speaker_source": "tag field (channel ids do not separate speakers)",
+    "skipped_unwordtimed_turns": 0,
+    "n_plausible_overlaps": 5,
+    "n_long_intra_pauses": 0,
+    "goal": {
+      "profile": {
+        "info": {
+          "idnumber": "5502906850990241",
+          "name": "jake castro"
+        }
+      },
+      "restaurant": {
+        "book": {
+          "day": "thursday",
+          "people": "1",
+          "time": "20:00"
+        },
+        "info": {
+          "area": "west",
+          "food": "indian",
+          "pricerange": "expensive"
+        }
+      },
+      "train": {
+        "book": {
+          "people": "1"
+        },
+        "info": {
+          "day": "thursday",
+          "departure": "broxbourne",
+          "destination": "cambridge",
+          "leaveAt": "11:30"
+        }
+      }
+    },
+    "selection_bucket": "interruption"
+  }
+}

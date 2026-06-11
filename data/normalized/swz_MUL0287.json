@@ -1,0 +1,454 @@
+{
+  "call_id": "swz_MUL0287",
+  "source": "spokenwoz",
+  "language": "en",
+  "stress_profile": "clean",
+  "workflow_type": "profile+restaurant+train",
+  "turns": [
+    {
+      "turn_id": "t1",
+      "speaker": "user",
+      "text": "hello is the customer service .",
+      "start_ms": 3470,
+      "end_ms": 6740
+    },
+    {
+      "turn_id": "t2",
+      "speaker": "agent",
+      "text": "yes , we can help you .",
+      "start_ms": 7070,
+      "end_ms": 9100
+    },
+    {
+      "turn_id": "t3",
+      "speaker": "user",
+      "text": "um since my meeting is at .  for 1615 on sunday . so i'd like to die one hour .  later , after the meeting , is that okay .",
+      "start_ms": 9030,
+      "end_ms": 13350
+    },
+    {
+      "turn_id": "t4",
+      "speaker": "agent",
+      "text": "of course , but here is no table sunday .",
+      "start_ms": 14000,
+      "end_ms": 18288
+    },
+    {
+      "turn_id": "t5",
+      "speaker": "user",
+      "text": "uh , the attraction i'm visiting is near cambridge , so i like to take the train .",
+      "start_ms": 18240,
+      "end_ms": 21128
+    },
+    {
+      "turn_id": "t6",
+      "speaker": "agent",
+      "text": "okay , and please go ahead .",
+      "start_ms": 22310,
+      "end_ms": 25240
+    },
+    {
+      "turn_id": "t7",
+      "speaker": "user",
+      "text": "yes , my id number is 7 9 9 .",
+      "start_ms": 25230,
+      "end_ms": 29287
+    },
+    {
+      "turn_id": "t8",
+      "speaker": "agent",
+      "text": "okay .",
+      "start_ms": 30250,
+      "end_ms": 30648
+    },
+    {
+      "turn_id": "t9",
+      "speaker": "user",
+      "text": "ah thank you again . bye .",
+      "start_ms": 32340,
+      "end_ms": 36420
+    },
+    {
+      "turn_id": "t10",
+      "speaker": "agent",
+      "text": "bai .",
+      "start_ms": 37230,
+      "end_ms": 43310
+    },
+    {
+      "turn_id": "t11",
+      "speaker": "user",
+      "text": "i'm traveling and have encountered some difficulties .",
+      "start_ms": 43600,
+      "end_ms": 45525
+    },
+    {
+      "turn_id": "t12",
+      "speaker": "agent",
+      "text": "okay , so please tell me your needs and i will try my best to help you .",
+      "start_ms": 46410,
+      "end_ms": 47268
+    },
+    {
+      "turn_id": "t13",
+      "speaker": "user",
+      "text": "i'm looking for a place to die in .",
+      "start_ms": 49390,
+      "end_ms": 56990
+    },
+    {
+      "turn_id": "t14",
+      "speaker": "agent",
+      "text": "so what's your preferences about this place .",
+      "start_ms": 57300,
+      "end_ms": 59624
+    },
+    {
+      "turn_id": "t15",
+      "speaker": "user",
+      "text": "yes , the restaurant should be in the center of the city .",
+      "start_ms": 60160,
+      "end_ms": 75477
+    },
+    {
+      "turn_id": "t16",
+      "speaker": "agent",
+      "text": "okay , please go ahead .",
+      "start_ms": 75950,
+      "end_ms": 80238
+    },
+    {
+      "turn_id": "t17",
+      "speaker": "user",
+      "text": "and the restaurant should serve gastropub food .",
+      "start_ms": 80580,
+      "end_ms": 87267
+    },
+    {
+      "turn_id": "t18",
+      "speaker": "agent",
+      "text": "okay , so here is a gastropub that will be the best choice for you .",
+      "start_ms": 87430,
+      "end_ms": 89910
+    },
+    {
+      "turn_id": "t19",
+      "speaker": "user",
+      "text": "great , thank you .",
+      "start_ms": 90160,
+      "end_ms": 91306
+    },
+    {
+      "turn_id": "t20",
+      "speaker": "agent",
+      "text": "and do you need a reservation .",
+      "start_ms": 92460,
+      "end_ms": 95220
+    },
+    {
+      "turn_id": "t21",
+      "speaker": "user",
+      "text": "uh , i'd like to reserve table for three people and on sunday .",
+      "start_ms": 95480,
+      "end_ms": 98744
+    },
+    {
+      "turn_id": "t22",
+      "speaker": "agent",
+      "text": "okay , i understand .",
+      "start_ms": 99360,
+      "end_ms": 101490
+    },
+    {
+      "turn_id": "t23",
+      "speaker": "user",
+      "text": "so is it possible to make a book for the same time on saturday .",
+      "start_ms": 101590,
+      "end_ms": 103849
+    },
+    {
+      "turn_id": "t24",
+      "speaker": "agent",
+      "text": "saturday .",
+      "start_ms": 104140,
+      "end_ms": 107120
+    },
+    {
+      "turn_id": "t25",
+      "speaker": "user",
+      "text": "thank you very much .",
+      "start_ms": 107660,
+      "end_ms": 110400
+    },
+    {
+      "turn_id": "t26",
+      "speaker": "agent",
+      "text": "and can i have your name , please .",
+      "start_ms": 110670,
+      "end_ms": 114646
+    },
+    {
+      "turn_id": "t27",
+      "speaker": "user",
+      "text": "of course , my name is federal craft .",
+      "start_ms": 115570,
+      "end_ms": 123220
+    },
+    {
+      "turn_id": "t28",
+      "speaker": "agent",
+      "text": "please spell the last name .",
+      "start_ms": 124443,
+      "end_ms": 126090
+    },
+    {
+      "turn_id": "t29",
+      "speaker": "user",
+      "text": "c r a f t .",
+      "start_ms": 126270,
+      "end_ms": 129460
+    },
+    {
+      "turn_id": "t30",
+      "speaker": "agent",
+      "text": "okay , and anything else can help .",
+      "start_ms": 129880,
+      "end_ms": 132187
+    },
+    {
+      "turn_id": "t31",
+      "speaker": "user",
+      "text": "i'm also looking for a train .",
+      "start_ms": 132240,
+      "end_ms": 135570
+    },
+    {
+      "turn_id": "t32",
+      "speaker": "agent",
+      "text": "okay . what about the information of the train .",
+      "start_ms": 136010,
+      "end_ms": 141430
+    },
+    {
+      "turn_id": "t33",
+      "speaker": "user",
+      "text": "uh , this training should be arrived .",
+      "start_ms": 142220,
+      "end_ms": 150520
+    },
+    {
+      "turn_id": "t34",
+      "speaker": "agent",
+      "text": "okay , i understand .",
+      "start_ms": 150670,
+      "end_ms": 162010
+    },
+    {
+      "turn_id": "t35",
+      "speaker": "user",
+      "text": "and i will depart from stamina .",
+      "start_ms": 162490,
+      "end_ms": 164470
+    },
+    {
+      "turn_id": "t36",
+      "speaker": "agent",
+      "text": "okay , so you will depart from stevenage and go to cambridge .",
+      "start_ms": 164940,
+      "end_ms": 167388
+    },
+    {
+      "turn_id": "t37",
+      "speaker": "user",
+      "text": "uh .  and i want to live on saturday the same day as the restaurant booking .",
+      "start_ms": 167660,
+      "end_ms": 172540
+    },
+    {
+      "turn_id": "t38",
+      "speaker": "agent",
+      "text": "okay , tr6016 and 07:54 and 08:53 .",
+      "start_ms": 173000,
+      "end_ms": 175300
+    },
+    {
+      "turn_id": "t39",
+      "speaker": "user",
+      "text": "okay , okay , thank you .",
+      "start_ms": 175570,
+      "end_ms": 176898
+    },
+    {
+      "turn_id": "t40",
+      "speaker": "agent",
+      "text": "and do you need a reservation for that .",
+      "start_ms": 177970,
+      "end_ms": 180580
+    },
+    {
+      "turn_id": "t41",
+      "speaker": "user",
+      "text": "yes , i want to book three train tickets for the same group of people .",
+      "start_ms": 180540,
+      "end_ms": 184383
+    },
+    {
+      "turn_id": "t42",
+      "speaker": "agent",
+      "text": "okay , i understand .",
+      "start_ms": 184450,
+      "end_ms": 185620
+    },
+    {
+      "turn_id": "t43",
+      "speaker": "user",
+      "text": "uh , thanks .",
+      "start_ms": 186360,
+      "end_ms": 188540
+    },
+    {
+      "turn_id": "t44",
+      "speaker": "agent",
+      "text": "and can i have your id number , please .",
+      "start_ms": 190850,
+      "end_ms": 191090
+    },
+    {
+      "turn_id": "t45",
+      "speaker": "user",
+      "text": "7 double 3 .",
+      "start_ms": 191260,
+      "end_ms": 194419
+    },
+    {
+      "turn_id": "t46",
+      "speaker": "agent",
+      "text": "799733 .",
+      "start_ms": 194470,
+      "end_ms": 195910
+    },
+    {
+      "turn_id": "t47",
+      "speaker": "user",
+      "text": "uh , in 4 3 .",
+      "start_ms": 196170,
+      "end_ms": 198170
+    },
+    {
+      "turn_id": "t48",
+      "speaker": "agent",
+      "text": "okay .",
+      "start_ms": 198190,
+      "end_ms": 199670
+    },
+    {
+      "turn_id": "t49",
+      "speaker": "user",
+      "text": "1 , 4 , 7 .",
+      "start_ms": 199830,
+      "end_ms": 202788
+    },
+    {
+      "turn_id": "t50",
+      "speaker": "agent",
+      "text": "147 .",
+      "start_ms": 202970,
+      "end_ms": 212150
+    },
+    {
+      "turn_id": "t51",
+      "speaker": "user",
+      "text": "and 4 6 7 , 8 .",
+      "start_ms": 212140,
+      "end_ms": 213250
+    },
+    {
+      "turn_id": "t52",
+      "speaker": "agent",
+      "text": "okay , so your i d number is 7997334341474678 .",
+      "start_ms": 213590,
+      "end_ms": 215870
+    },
+    {
+      "turn_id": "t53",
+      "speaker": "user",
+      "text": "yes .",
+      "start_ms": 216170,
+      "end_ms": 218020
+    },
+    {
+      "turn_id": "t54",
+      "speaker": "agent",
+      "text": "3 .",
+      "start_ms": 218120,
+      "end_ms": 220540
+    },
+    {
+      "turn_id": "t55",
+      "speaker": "user",
+      "text": "thank you very much .",
+      "start_ms": 220940,
+      "end_ms": 224240
+    },
+    {
+      "turn_id": "t56",
+      "speaker": "agent",
+      "text": "do you want to get your order by email .",
+      "start_ms": 224490,
+      "end_ms": 226245
+    },
+    {
+      "turn_id": "t57",
+      "speaker": "user",
+      "text": "sorry , i don't really want to leave my email .",
+      "start_ms": 227090,
+      "end_ms": 229493
+    },
+    {
+      "turn_id": "t58",
+      "speaker": "agent",
+      "text": "okay , let's go , right .",
+      "start_ms": 230560,
+      "end_ms": 231640
+    }
+  ],
+  "audio_path": null,
+  "metadata": {
+    "license": "CC BY-NC 4.0 (eval use)",
+    "speaker_source": "tag field (channel ids do not separate speakers)",
+    "skipped_unwordtimed_turns": 0,
+    "n_plausible_overlaps": 0,
+    "n_long_intra_pauses": 0,
+    "goal": {
+      "profile": {
+        "info": {
+          "idnumber": "7997334341474678",
+          "name": "sandra craft"
+        }
+      },
+      "restaurant": {
+        "book": {
+          "day": "saturday",
+          "people": "3",
+          "time": "17:15"
+        },
+        "info": {
+          "area": "centre",
+          "food": "gastropub"
+        }
+      },
+      "train": {
+        "book": {
+          "people": "3"
+        },
+        "info": {
+          "arriveBy": "09:00",
+          "day": "saturday",
+          "departure": "stevenage",
+          "destination": "cambridge"
+        }
+      }
+    },
+    "selection_bucket": "clean_laggy"
+  }
+}
