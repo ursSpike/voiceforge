@@ -6,7 +6,7 @@ add it to .env as BOLNA_API_KEY, then:
 
     .venv/bin/python pipeline/bolna_smoke.py
 
-This hits GET /user/info (read-only, no charge) which returns your name, email and wallet
+This hits GET /me (read-only, no charge) which returns your name, email and wallet
 balance. It (1) proves the key works = "use it once", and (2) shows your credit balance so you
 can confirm when the organizers top it up. Re-run after they add credits to watch the number rise.
 
@@ -50,23 +50,23 @@ def main():
                  "  3. add to .env:  BOLNA_API_KEY=<your key>\n"
                  "  4. re-run this script")
 
-    print(f"key loaded ({key[:6]}…{key[-4:]}) — calling {BASE}/user/info …")
+    print(f"key loaded ({key[:6]}…{key[-4:]}) — calling {BASE}/me …")
     try:
-        _, info = get("/user/info", key)
+        _, info = get("/me", key)
     except urllib.error.HTTPError as e:
         body = e.read().decode()[:400]
         hint = " (401 = key wrong/expired — regenerate under Developers)" if e.code == 401 else ""
-        sys.exit(f"HTTP {e.code} from /user/info{hint}\n{body}")
+        sys.exit(f"HTTP {e.code} from /me{hint}\n{body}")
     except urllib.error.URLError as e:
         sys.exit(f"could not reach {BASE}: {e.reason}\n(check internet / that the base URL is right)")
 
     print("\n✓ KEY WORKS — your Bolna account is live.\n")
     # field names vary; print the likely credit/identity ones if present, then the full payload
-    for label in ("name", "email", "wallet_balance", "balance", "credits", "amount",
+    for label in ("name", "email", "wallet", "wallet_balance", "balance", "credits", "amount",
                   "concurrency", "concurrency_limit"):
         if label in info:
             print(f"  {label}: {info[label]}")
-    print("\nfull /user/info response:")
+    print("\nfull /me response:")
     print(json.dumps(info, indent=2)[:1500])
     print("\nWALLET / CREDITS: look for a balance field above. After the organizers add credits,\n"
           "re-run this script and the number should go up.")
