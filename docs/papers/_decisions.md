@@ -36,10 +36,10 @@ One verifier agent per paper; each wrote `docs/papers/<slug>.md`. No PDF/dataset
 ## Justice or Prejudice? Quantifying Biases in LLM-as-a-Judge
 - **arXiv:** [2410.02736](https://arxiv.org/abs/2410.02736) — verified: True
 - **Decision (role):** `judge_bias_justification`
-- **Why this role:** JUSTIFIES VoiceForge's deterministic-first design and blind-human-label calibration pilot. Because LLM judges carry 12 documented, persistent bias types, VoiceForge keeps load-bearing signals (barge-in, latency, turn accounting) deterministic and calibrates the LLM judge against blind human labels rather than trusting it. Does NOT validate VoiceForge or reproduce any result.
+- **Why this role:** JUSTIFIES VoiceForge's deterministic-first design and blind-human-label calibration pilot. Because LLM judges carry 12 documented, persistent bias types, VoiceForge keeps load-bearing signals (barge-in, latency, turn accounting) deterministic and is designed to calibrate the LLM judge against blind human labels (pilot; labels pending) rather than trusting it. Does NOT validate VoiceForge or reproduce any result.
 - **Hard non-claim:** Paper JUSTIFIES the deterministic-first + human-calibration posture; it does NOT validate VoiceForge, reproduce any VoiceForge result, or measure VoiceForge's own judge. It does NOT justify any specific VoiceForge threshold (e.g. 100ms/800ms) — those are VoiceForge's own design choices. We do not claim to reproduce CALM or its numbers.
 
 ## Decisions, stated plainly
 - **SpokenWOZ → product.** Our public backbone (44 normalized calls sliced from it). The ONLY paper VoiceForge depends on.
 - **τ-Voice / VoiceAgentBench / WildSpeech-Bench → motivation + Q&A armor.** They establish the problem is real and unsolved (voice-text gap, Indic degradation, the lack of specialized end-to-end speech-LLM benchmarks). Cited to justify that voice-agent eval matters — never to claim our numbers match theirs.
-- **LLM-judge survey / Justice-or-Prejudice → deterministic-first justification.** They document LLM judges are biased/unreliable — exactly why VoiceForge keeps timing/overlap/slots DETERMINISTIC and calibrates the judge against blind human labels.
+- **LLM-judge survey / Justice-or-Prejudice → deterministic-first justification.** They document LLM judges are biased/unreliable — exactly why VoiceForge keeps timing/overlap/slots DETERMINISTIC and will calibrate the judge against blind human labels.

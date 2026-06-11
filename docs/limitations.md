@@ -23,7 +23,8 @@ Validity comes from the public-data calibration, not from this call. Disclosed o
 - Barge-in and latency math is exact **given correct turn boundaries**. SpokenWOZ turn bounds
   are synthesized from word-level timestamps; hero-call bounds come from assembly.
 - Sources with single timestamps (no end times) get latency treatment only — we never fake overlap.
-- SpokenWOZ is protocol-collected: few genuine barge-ins. AMI supplies real overlap but is
+- SpokenWOZ is protocol-collected: few genuine barge-ins. AMI *could* supply real overlap but is
+  **not in the current pool** (roadmap); where overlap matters now it comes from the hero call. AMI is
   meetings-domain, not task calls. Sample is **46 calls** (44 SpokenWOZ + hero + Bolna) — directional, not statistical.
 
 ## Costs are estimates

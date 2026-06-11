@@ -158,6 +158,40 @@ then Batch 4A (judge machinery, quarantined — no real-call scoring until Spike
 
 ---
 
+## BATCH 8A — Deterministic business-value chart · Jun 11 ~22:25 IST
+
+**Objective:** one reproducible chart from `out/analytics.json` ONLY (no labels, no judge, no raw
+recompute), honest labels, output under `reports/charts/`. No dashboard.
+
+**Inputs:** `out/analytics.json` (Batch 3 output) — `by_stress_profile[]` + `failure_clusters[]`.
+
+**Outputs:** `pipeline/chart.py` + `reports/charts/business_value.png` (3 panels): success rate by
+stress profile, est. cost per successful call by stress profile, deterministic failure EVENTS by type.
+
+**Commands:** `python pipeline/chart.py` (run twice → byte-identical, md5 confirmed).
+
+**Why for demo:** the founder magnet — harder calls (pause_heavy) show **lower success (20%) AND
+higher cost per success ($0.330)** vs clean (40% / $0.231); latency_gap is the dominant failure
+event (183 vs barge_in 107). Reads off `analytics.json`, so it stays in sync with the pipeline.
+
+**Honest labels baked in (per audit ruling):** success = HEURISTIC task completion; cost = ESTIMATED
+prototype $; panel 3 says **"failure EVENTS (not failed calls)"**; **sample size n shown on every
+stress-profile bar**; title flags DETERMINISTIC (pre-judge).
+
+**Determinism:** fixed bar order (clean→pause_heavy→interruption; clusters by count desc), fixed
+colors, no randomness, PNG `Date` metadata stripped → re-run is byte-identical (verified md5 twice).
+
+**Discarded:** no recomputation from raw calls / imaginary fields — reads only analytics fields.
+
+**Broke:** nothing (one headroom tweak so the top bar label cleared the panel title).
+
+**Next (NOT started — awaiting audit):** Batch 4A — judge machinery only, QUARANTINED: implement the
+5 semantic dims + JSON/evidence validation + cache + retry + `uncalibrated` provenance + canned
+fixture verification; FORBIDDEN until Spike labels: scoring the 46 real calls, writing judge scores
+to out/calls.json, showing any judge output, kappa/DPO/dashboard. STOP per the leash.
+
+---
+
 ## BATCH 2 — Public dataset slice · Jun 11 ~19:45 IST
 
 **Objective:** expand the normalized pool to ≥40 calls (blind-label calibration needs ≥40), from
