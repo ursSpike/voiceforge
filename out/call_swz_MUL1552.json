@@ -1,0 +1,408 @@
+{
+  "call_id": "swz_MUL1552",
+  "source": "spokenwoz",
+  "language": "en",
+  "stress_profile": "pause_heavy",
+  "workflow_type": "attraction+profile+restaurant",
+  "turns": [
+    {
+      "turn_id": "t1",
+      "speaker": "user",
+      "text": "hello , i'm looking for a restaurant .",
+      "start_ms": 2310,
+      "end_ms": 5210
+    },
+    {
+      "turn_id": "t2",
+      "speaker": "agent",
+      "text": "alright , what kind of a restaurant .",
+      "start_ms": 6150,
+      "end_ms": 8580
+    },
+    {
+      "turn_id": "t3",
+      "speaker": "user",
+      "text": "the restaurant should be an expensive price range and should win the wave and the restaurant should serve indian food .",
+      "start_ms": 8720,
+      "end_ms": 16000
+    },
+    {
+      "turn_id": "t4",
+      "speaker": "agent",
+      "text": "okay , let me search a database . okay , there is such a restaurant . it is called tandoori palace .",
+      "start_ms": 17190,
+      "end_ms": 39200
+    },
+    {
+      "turn_id": "t5",
+      "speaker": "user",
+      "text": "okay , i would like to book a table for 8 people at half an hour past 11 on friday .",
+      "start_ms": 40280,
+      "end_ms": 47130
+    },
+    {
+      "turn_id": "t6",
+      "speaker": "agent",
+      "text": "alright , till sort that out . is there anything .",
+      "start_ms": 48300,
+      "end_ms": 53590
+    },
+    {
+      "turn_id": "t7",
+      "speaker": "user",
+      "text": "i'm also looking for a place to go in town . the attraction should be in the same area as the restaurant .",
+      "start_ms": 54510,
+      "end_ms": 60290
+    },
+    {
+      "turn_id": "t8",
+      "speaker": "agent",
+      "text": "okay , let me search our database . alright , there is such a place um it is called the cambridge and county folk museum .",
+      "start_ms": 61840,
+      "end_ms": 84460
+    },
+    {
+      "turn_id": "t9",
+      "speaker": "user",
+      "text": "okay . what type of an attraction is .",
+      "start_ms": 85630,
+      "end_ms": 87830
+    },
+    {
+      "turn_id": "t10",
+      "speaker": "agent",
+      "text": "gram it is a museum .",
+      "start_ms": 88520,
+      "end_ms": 90520
+    },
+    {
+      "turn_id": "t11",
+      "speaker": "user",
+      "text": "okay , thank you , sir .",
+      "start_ms": 90990,
+      "end_ms": 92870
+    },
+    {
+      "turn_id": "t12",
+      "speaker": "agent",
+      "text": "okay . may i please have your name for the restaurant booking .",
+      "start_ms": 93650,
+      "end_ms": 97710
+    },
+    {
+      "turn_id": "t13",
+      "speaker": "user",
+      "text": "it's cannes cumin .",
+      "start_ms": 98410,
+      "end_ms": 100500
+    },
+    {
+      "turn_id": "t14",
+      "speaker": "agent",
+      "text": "all right , maybe please buy your first name and love me .",
+      "start_ms": 101370,
+      "end_ms": 105400
+    },
+    {
+      "turn_id": "t15",
+      "speaker": "user",
+      "text": "it's k e n t .",
+      "start_ms": 105820,
+      "end_ms": 107910
+    },
+    {
+      "turn_id": "t16",
+      "speaker": "agent",
+      "text": "kent .",
+      "start_ms": 108550,
+      "end_ms": 110360
+    },
+    {
+      "turn_id": "t17",
+      "speaker": "user",
+      "text": "scuba is s c h m .",
+      "start_ms": 110760,
+      "end_ms": 113950
+    },
+    {
+      "turn_id": "t18",
+      "speaker": "agent",
+      "text": "schn .",
+      "start_ms": 113840,
+      "end_ms": 115710
+    },
+    {
+      "turn_id": "t19",
+      "speaker": "user",
+      "text": "double e m .",
+      "start_ms": 118020,
+      "end_ms": 120190
+    },
+    {
+      "turn_id": "t20",
+      "speaker": "agent",
+      "text": "kent schneeman .",
+      "start_ms": 120970,
+      "end_ms": 123820
+    },
+    {
+      "turn_id": "t21",
+      "speaker": "user",
+      "text": "yes .",
+      "start_ms": 123910,
+      "end_ms": 124780
+    },
+    {
+      "turn_id": "t22",
+      "speaker": "agent",
+      "text": "alright , and would you like to receive an email confirmation for your booking .",
+      "start_ms": 125450,
+      "end_ms": 129820
+    },
+    {
+      "turn_id": "t23",
+      "speaker": "user",
+      "text": "no thanks .",
+      "start_ms": 129800,
+      "end_ms": 131140
+    },
+    {
+      "turn_id": "t24",
+      "speaker": "agent",
+      "text": "alright , do you do anything else .",
+      "start_ms": 131750,
+      "end_ms": 133980
+    },
+    {
+      "turn_id": "t25",
+      "speaker": "user",
+      "text": "no , thanks for everything .",
+      "start_ms": 133930,
+      "end_ms": 135580
+    },
+    {
+      "turn_id": "t26",
+      "speaker": "agent",
+      "text": "okay , thank you for your call . enjoy the rest of your day .",
+      "start_ms": 136170,
+      "end_ms": 139600
+    }
+  ],
+  "audio_path": null,
+  "metadata": {
+    "license": "CC BY-NC 4.0 (eval use)",
+    "speaker_source": "tag field (channel ids do not separate speakers)",
+    "skipped_unwordtimed_turns": 0,
+    "n_plausible_overlaps": 1,
+    "n_long_intra_pauses": 3,
+    "goal": {
+      "attraction": {
+        "info": {
+          "area": "west"
+        },
+        "reqt": [
+          "type"
+        ]
+      },
+      "profile": {
+        "info": {
+          "name": "kent schneeman"
+        }
+      },
+      "restaurant": {
+        "book": {
+          "day": "friday",
+          "people": "8",
+          "time": "11:30"
+        },
+        "info": {
+          "area": "west",
+          "food": "indian",
+          "pricerange": "expensive"
+        }
+      }
+    },
+    "selection_bucket": "pause_heavy"
+  },
+  "outcome": {
+    "call_id": "swz_MUL1552",
+    "task_completed": false,
+    "required_fields": [
+      {
+        "name": "attraction.area",
+        "captured": false,
+        "value": null
+      },
+      {
+        "name": "attraction.type",
+        "captured": false,
+        "value": null
+      },
+      {
+        "name": "profile.name",
+        "captured": true,
+        "value": "kent schneeman"
+      },
+      {
+        "name": "restaurant.area",
+        "captured": false,
+        "value": null
+      },
+      {
+        "name": "restaurant.food",
+        "captured": true,
+        "value": "indian"
+      },
+      {
+        "name": "restaurant.pricerange",
+        "captured": true,
+        "value": "expensive"
+      },
+      {
+        "name": "restaurant.book_day",
+        "captured": true,
+        "value": "friday"
+      },
+      {
+        "name": "restaurant.book_people",
+        "captured": true,
+        "value": "8"
+      },
+      {
+        "name": "restaurant.book_time",
+        "captured": false,
+        "value": null
+      }
+    ],
+    "escalation_needed": false,
+    "confidence": 0.56
+  },
+  "scorecard": {
+    "call_id": "swz_MUL1552",
+    "dimensions": [
+      {
+        "name": "barge_in",
+        "type": "deterministic",
+        "score": 0.66,
+        "reason": "agent interrupted the caller 1x (overlap 110ms)",
+        "evidence_turn_ids": [
+          "t17",
+          "t18"
+        ]
+      },
+      {
+        "name": "latency_gap",
+        "type": "deterministic",
+        "score": 0.583,
+        "reason": "median 780.0ms / p90 1190ms; 5/12 responses laggy (>800ms)",
+        "evidence_turn_ids": [
+          "t2",
+          "t4",
+          "t6",
+          "t8",
+          "t14"
+        ]
+      },
+      {
+        "name": "task_completion",
+        "type": "deterministic",
+        "score": 0.556,
+        "reason": "captured 5/9 required fields (heuristic from goal/workflow)",
+        "evidence_turn_ids": []
+      }
+    ],
+    "overall": 0.6
+  },
+  "cost": {
+    "call_id": "swz_MUL1552",
+    "duration_s": 139.6,
+    "turn_count": 26,
+    "est_llm_calls": 13,
+    "est_cost_total": 0.065,
+    "est_cost_per_success_note": "estimated, prototype"
+  },
+  "failures": [
+    {
+      "at_ms": 6150,
+      "dimension": "latency_gap",
+      "label": "response latency",
+      "detail": "940ms gap",
+      "evidence_turn_ids": [
+        "t1",
+        "t2"
+      ],
+      "call_id": "swz_MUL1552",
+      "origin": "deterministic"
+    },
+    {
+      "at_ms": 17190,
+      "dimension": "latency_gap",
+      "label": "response latency",
+      "detail": "1,190ms gap",
+      "evidence_turn_ids": [
+        "t3",
+        "t4"
+      ],
+      "call_id": "swz_MUL1552",
+      "origin": "deterministic"
+    },
+    {
+      "at_ms": 48300,
+      "dimension": "latency_gap",
+      "label": "response latency",
+      "detail": "1,170ms gap",
+      "evidence_turn_ids": [
+        "t5",
+        "t6"
+      ],
+      "call_id": "swz_MUL1552",
+      "origin": "deterministic"
+    },
+    {
+      "at_ms": 61840,
+      "dimension": "latency_gap",
+      "label": "response latency",
+      "detail": "1,550ms gap",
+      "evidence_turn_ids": [
+        "t7",
+        "t8"
+      ],
+      "call_id": "swz_MUL1552",
+      "origin": "deterministic"
+    },
+    {
+      "at_ms": 101370,
+      "dimension": "latency_gap",
+      "label": "response latency",
+      "detail": "870ms gap",
+      "evidence_turn_ids": [
+        "t13",
+        "t14"
+      ],
+      "call_id": "swz_MUL1552",
+      "origin": "deterministic"
+    },
+    {
+      "at_ms": 113840,
+      "dimension": "barge_in",
+      "label": "agent barge-in",
+      "detail": "110ms overlap",
+      "evidence_turn_ids": [
+        "t17",
+        "t18"
+      ],
+      "call_id": "swz_MUL1552",
+      "origin": "deterministic"
+    }
+  ],
+  "signals": {
+    "latency": {
+      "n_handoffs": 12,
+      "median_gap_ms": 780.0,
+      "p90_gap_ms": 1190,
+      "laggy_threshold_ms": 800,
+      "n_laggy": 5
+    },
+    "n_barge_ins": 1
+  }
+}

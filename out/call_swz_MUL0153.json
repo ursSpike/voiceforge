@@ -1,0 +1,600 @@
+{
+  "call_id": "swz_MUL0153",
+  "source": "spokenwoz",
+  "language": "en",
+  "stress_profile": "pause_heavy",
+  "workflow_type": "hotel+profile+train",
+  "turns": [
+    {
+      "turn_id": "t1",
+      "speaker": "user",
+      "text": "hello .  hello , can you hear me .  hello .  hello .  hello . can you hear .",
+      "start_ms": 2690,
+      "end_ms": 18730
+    },
+    {
+      "turn_id": "t2",
+      "speaker": "agent",
+      "text": "yes . may i help you .",
+      "start_ms": 19950,
+      "end_ms": 21790
+    },
+    {
+      "turn_id": "t3",
+      "speaker": "user",
+      "text": "oh , yes .  um i'm looking for a place to stay .",
+      "start_ms": 22050,
+      "end_ms": 26690
+    },
+    {
+      "turn_id": "t4",
+      "speaker": "agent",
+      "text": "okay .",
+      "start_ms": 28490,
+      "end_ms": 29730
+    },
+    {
+      "turn_id": "t5",
+      "speaker": "user",
+      "text": "yes , i would love to stay in guesthouse .  and it should include free internet .",
+      "start_ms": 30240,
+      "end_ms": 38280
+    },
+    {
+      "turn_id": "t6",
+      "speaker": "agent",
+      "text": "okay , searching discounts for you include free internet .",
+      "start_ms": 39410,
+      "end_ms": 44330
+    },
+    {
+      "turn_id": "t7",
+      "speaker": "user",
+      "text": "yes , it should be in the north .  and include free parking .",
+      "start_ms": 44880,
+      "end_ms": 51860
+    },
+    {
+      "turn_id": "t8",
+      "speaker": "agent",
+      "text": "okay , include free parking in the north .",
+      "start_ms": 52390,
+      "end_ms": 56800
+    },
+    {
+      "turn_id": "t9",
+      "speaker": "user",
+      "text": "oh , yes .",
+      "start_ms": 57720,
+      "end_ms": 59060
+    },
+    {
+      "turn_id": "t10",
+      "speaker": "agent",
+      "text": "okay , there is a hotel named archway house fits for you .",
+      "start_ms": 61830,
+      "end_ms": 67600
+    },
+    {
+      "turn_id": "t11",
+      "speaker": "user",
+      "text": "oh , yeah . and i would like to book for my three friends .  and two families .",
+      "start_ms": 68770,
+      "end_ms": 79590
+    },
+    {
+      "turn_id": "t12",
+      "speaker": "agent",
+      "text": "okay , booking for 6 in total .",
+      "start_ms": 80400,
+      "end_ms": 83070
+    },
+    {
+      "turn_id": "t13",
+      "speaker": "user",
+      "text": "yes , these people .  and i i would like to checking on tuesday and check out .  on saturday .",
+      "start_ms": 83100,
+      "end_ms": 95310
+    },
+    {
+      "turn_id": "t14",
+      "speaker": "agent",
+      "text": "okay , check in starts from tuesday and stay for 5 .",
+      "start_ms": 96660,
+      "end_ms": 103900
+    },
+    {
+      "turn_id": "t15",
+      "speaker": "user",
+      "text": "oh , yes , five nights .",
+      "start_ms": 104250,
+      "end_ms": 106120
+    },
+    {
+      "turn_id": "t16",
+      "speaker": "agent",
+      "text": "oh , i'm really sorry to inform you , but the 5 .",
+      "start_ms": 106880,
+      "end_ms": 115460
+    },
+    {
+      "turn_id": "t17",
+      "speaker": "user",
+      "text": "oh , of course , maybe three knights .",
+      "start_ms": 116240,
+      "end_ms": 120220
+    },
+    {
+      "turn_id": "t18",
+      "speaker": "agent",
+      "text": "let me see . oh yes , three nights will be fine . and i'm looking for i'm doing the booking for you right now . may i have your name and email , please .",
+      "start_ms": 121340,
+      "end_ms": 134110
+    },
+    {
+      "turn_id": "t19",
+      "speaker": "user",
+      "text": "yes , my name is .  rosary smith .",
+      "start_ms": 134860,
+      "end_ms": 139370
+    },
+    {
+      "turn_id": "t20",
+      "speaker": "agent",
+      "text": "yes , okay , booking name is rosalyn smith .",
+      "start_ms": 140910,
+      "end_ms": 145400
+    },
+    {
+      "turn_id": "t21",
+      "speaker": "user",
+      "text": "oh , yes . and .  but i can offer you my email address .",
+      "start_ms": 145950,
+      "end_ms": 151010
+    },
+    {
+      "turn_id": "t22",
+      "speaker": "agent",
+      "text": "oh , uh , that should be fine . anything else i might help you .",
+      "start_ms": 151800,
+      "end_ms": 156010
+    },
+    {
+      "turn_id": "t23",
+      "speaker": "user",
+      "text": "yes , i'm also looking for a train .",
+      "start_ms": 156620,
+      "end_ms": 160110
+    },
+    {
+      "turn_id": "t24",
+      "speaker": "agent",
+      "text": "yes , looking for a train .",
+      "start_ms": 161090,
+      "end_ms": 163110
+    },
+    {
+      "turn_id": "t25",
+      "speaker": "user",
+      "text": "and .  the train should arrive .  hmm , by the clock day after .  afternoon .",
+      "start_ms": 164560,
+      "end_ms": 176820
+    },
+    {
+      "turn_id": "t26",
+      "speaker": "agent",
+      "text": "okay . uh , arrival time will be 12:00 .",
+      "start_ms": 177580,
+      "end_ms": 181990
+    },
+    {
+      "turn_id": "t27",
+      "speaker": "user",
+      "text": "oh , yes , 12 is okay .  and it should depart from bishop store falls .",
+      "start_ms": 182210,
+      "end_ms": 189850
+    },
+    {
+      "turn_id": "t28",
+      "speaker": "agent",
+      "text": "okay , departure departure station is bishops stortford .",
+      "start_ms": 190850,
+      "end_ms": 196639
+    },
+    {
+      "turn_id": "t29",
+      "speaker": "user",
+      "text": "yes .  and the destination is cambridge .",
+      "start_ms": 197000,
+      "end_ms": 201290
+    },
+    {
+      "turn_id": "t30",
+      "speaker": "agent",
+      "text": "destination cambridge .",
+      "start_ms": 201960,
+      "end_ms": 204100
+    },
+    {
+      "turn_id": "t31",
+      "speaker": "user",
+      "text": "yes , it's star .  on the same day as the hotel booking .",
+      "start_ms": 204010,
+      "end_ms": 209580
+    },
+    {
+      "turn_id": "t32",
+      "speaker": "agent",
+      "text": "okay , starts on tuesday .",
+      "start_ms": 210560,
+      "end_ms": 213680
+    },
+    {
+      "turn_id": "t33",
+      "speaker": "user",
+      "text": "oh , yes .",
+      "start_ms": 213970,
+      "end_ms": 215180
+    },
+    {
+      "turn_id": "t34",
+      "speaker": "agent",
+      "text": "okay , there is a train tr1392 two fits for you .",
+      "start_ms": 216620,
+      "end_ms": 226720
+    },
+    {
+      "turn_id": "t35",
+      "speaker": "user",
+      "text": "oh , yes , thank you . and i also .  want to know the price of the train .",
+      "start_ms": 226980,
+      "end_ms": 234140
+    },
+    {
+      "turn_id": "t36",
+      "speaker": "agent",
+      "text": "uh , yes , of course , the price of this trim will be ten point 10 pounds. .",
+      "start_ms": 234540,
+      "end_ms": 240620
+    },
+    {
+      "turn_id": "t37",
+      "speaker": "user",
+      "text": "oh , yes .  thank you .",
+      "start_ms": 241010,
+      "end_ms": 244280
+    },
+    {
+      "turn_id": "t38",
+      "speaker": "agent",
+      "text": "okay , anything else i might help you with .",
+      "start_ms": 244540,
+      "end_ms": 247380
+    },
+    {
+      "turn_id": "t39",
+      "speaker": "user",
+      "text": "no other eye , no other else . thank you .",
+      "start_ms": 248080,
+      "end_ms": 251520
+    },
+    {
+      "turn_id": "t40",
+      "speaker": "agent",
+      "text": "have a nice day .",
+      "start_ms": 252050,
+      "end_ms": 253360
+    }
+  ],
+  "audio_path": null,
+  "metadata": {
+    "license": "CC BY-NC 4.0 (eval use)",
+    "speaker_source": "tag field (channel ids do not separate speakers)",
+    "skipped_unwordtimed_turns": 0,
+    "n_plausible_overlaps": 0,
+    "n_long_intra_pauses": 3,
+    "goal": {
+      "hotel": {
+        "book": {
+          "day": "tuesday",
+          "people": "6",
+          "stay": "3"
+        },
+        "info": {
+          "area": "north",
+          "internet": "yes",
+          "parking": "yes",
+          "type": "guesthouse"
+        }
+      },
+      "profile": {
+        "info": {
+          "name": "rosalyn smith"
+        }
+      },
+      "train": {
+        "info": {
+          "arriveBy": "12:00",
+          "day": "tuesday",
+          "departure": "bishops stortford",
+          "destination": "cambridge"
+        },
+        "reqt": [
+          "price"
+        ]
+      }
+    },
+    "selection_bucket": "pause_heavy"
+  },
+  "outcome": {
+    "call_id": "swz_MUL0153",
+    "task_completed": true,
+    "required_fields": [
+      {
+        "name": "hotel.area",
+        "captured": true,
+        "value": "north"
+      },
+      {
+        "name": "hotel.internet",
+        "captured": true,
+        "value": "yes"
+      },
+      {
+        "name": "hotel.parking",
+        "captured": true,
+        "value": "yes"
+      },
+      {
+        "name": "hotel.type",
+        "captured": true,
+        "value": "guesthouse"
+      },
+      {
+        "name": "hotel.book_day",
+        "captured": true,
+        "value": "tuesday"
+      },
+      {
+        "name": "hotel.book_people",
+        "captured": true,
+        "value": "6"
+      },
+      {
+        "name": "hotel.book_stay",
+        "captured": true,
+        "value": "3"
+      },
+      {
+        "name": "profile.name",
+        "captured": true,
+        "value": "rosalyn smith"
+      },
+      {
+        "name": "train.arriveBy",
+        "captured": true,
+        "value": "12:00"
+      },
+      {
+        "name": "train.day",
+        "captured": true,
+        "value": "tuesday"
+      },
+      {
+        "name": "train.departure",
+        "captured": true,
+        "value": "bishops stortford"
+      },
+      {
+        "name": "train.destination",
+        "captured": true,
+        "value": "cambridge"
+      },
+      {
+        "name": "train.price",
+        "captured": true,
+        "value": null
+      }
+    ],
+    "escalation_needed": false,
+    "confidence": 1.0
+  },
+  "scorecard": {
+    "call_id": "swz_MUL0153",
+    "dimensions": [
+      {
+        "name": "barge_in",
+        "type": "deterministic",
+        "score": 1.0,
+        "reason": "no agent barge-ins",
+        "evidence_turn_ids": []
+      },
+      {
+        "name": "latency_gap",
+        "type": "deterministic",
+        "score": 0.4,
+        "reason": "median 980.0ms / p90 1540ms; 12/20 responses laggy (>800ms)",
+        "evidence_turn_ids": [
+          "t2",
+          "t4",
+          "t6",
+          "t10",
+          "t12",
+          "t14"
+        ]
+      },
+      {
+        "name": "task_completion",
+        "type": "deterministic",
+        "score": 1.0,
+        "reason": "captured 13/13 required fields (heuristic from goal/workflow)",
+        "evidence_turn_ids": []
+      }
+    ],
+    "overall": 0.8
+  },
+  "cost": {
+    "call_id": "swz_MUL0153",
+    "duration_s": 253.4,
+    "turn_count": 40,
+    "est_llm_calls": 20,
+    "est_cost_total": 0.1,
+    "est_cost_per_success_note": "estimated, prototype"
+  },
+  "failures": [
+    {
+      "at_ms": 19950,
+      "dimension": "latency_gap",
+      "label": "response latency",
+      "detail": "1,220ms gap",
+      "evidence_turn_ids": [
+        "t1",
+        "t2"
+      ],
+      "call_id": "swz_MUL0153",
+      "origin": "deterministic"
+    },
+    {
+      "at_ms": 28490,
+      "dimension": "latency_gap",
+      "label": "response latency",
+      "detail": "1,800ms gap",
+      "evidence_turn_ids": [
+        "t3",
+        "t4"
+      ],
+      "call_id": "swz_MUL0153",
+      "origin": "deterministic"
+    },
+    {
+      "at_ms": 39410,
+      "dimension": "latency_gap",
+      "label": "response latency",
+      "detail": "1,130ms gap",
+      "evidence_turn_ids": [
+        "t5",
+        "t6"
+      ],
+      "call_id": "swz_MUL0153",
+      "origin": "deterministic"
+    },
+    {
+      "at_ms": 61830,
+      "dimension": "latency_gap",
+      "label": "response latency",
+      "detail": "2,770ms gap",
+      "evidence_turn_ids": [
+        "t9",
+        "t10"
+      ],
+      "call_id": "swz_MUL0153",
+      "origin": "deterministic"
+    },
+    {
+      "at_ms": 80400,
+      "dimension": "latency_gap",
+      "label": "response latency",
+      "detail": "810ms gap",
+      "evidence_turn_ids": [
+        "t11",
+        "t12"
+      ],
+      "call_id": "swz_MUL0153",
+      "origin": "deterministic"
+    },
+    {
+      "at_ms": 96660,
+      "dimension": "latency_gap",
+      "label": "response latency",
+      "detail": "1,350ms gap",
+      "evidence_turn_ids": [
+        "t13",
+        "t14"
+      ],
+      "call_id": "swz_MUL0153",
+      "origin": "deterministic"
+    },
+    {
+      "at_ms": 121340,
+      "dimension": "latency_gap",
+      "label": "response latency",
+      "detail": "1,120ms gap",
+      "evidence_turn_ids": [
+        "t17",
+        "t18"
+      ],
+      "call_id": "swz_MUL0153",
+      "origin": "deterministic"
+    },
+    {
+      "at_ms": 140910,
+      "dimension": "latency_gap",
+      "label": "response latency",
+      "detail": "1,540ms gap",
+      "evidence_turn_ids": [
+        "t19",
+        "t20"
+      ],
+      "call_id": "swz_MUL0153",
+      "origin": "deterministic"
+    },
+    {
+      "at_ms": 161090,
+      "dimension": "latency_gap",
+      "label": "response latency",
+      "detail": "980ms gap",
+      "evidence_turn_ids": [
+        "t23",
+        "t24"
+      ],
+      "call_id": "swz_MUL0153",
+      "origin": "deterministic"
+    },
+    {
+      "at_ms": 190850,
+      "dimension": "latency_gap",
+      "label": "response latency",
+      "detail": "1,000ms gap",
+      "evidence_turn_ids": [
+        "t27",
+        "t28"
+      ],
+      "call_id": "swz_MUL0153",
+      "origin": "deterministic"
+    },
+    {
+      "at_ms": 210560,
+      "dimension": "latency_gap",
+      "label": "response latency",
+      "detail": "980ms gap",
+      "evidence_turn_ids": [
+        "t31",
+        "t32"
+      ],
+      "call_id": "swz_MUL0153",
+      "origin": "deterministic"
+    },
+    {
+      "at_ms": 216620,
+      "dimension": "latency_gap",
+      "label": "response latency",
+      "detail": "1,440ms gap",
+      "evidence_turn_ids": [
+        "t33",
+        "t34"
+      ],
+      "call_id": "swz_MUL0153",
+      "origin": "deterministic"
+    }
+  ],
+  "signals": {
+    "latency": {
+      "n_handoffs": 20,
+      "median_gap_ms": 980.0,
+      "p90_gap_ms": 1540,
+      "laggy_threshold_ms": 800,
+      "n_laggy": 12
+    },
+    "n_barge_ins": 0
+  }
+}

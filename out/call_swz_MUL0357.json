@@ -1,0 +1,424 @@
+{
+  "call_id": "swz_MUL0357",
+  "source": "spokenwoz",
+  "language": "en",
+  "stress_profile": "interruption",
+  "workflow_type": "attraction+profile+train",
+  "turns": [
+    {
+      "turn_id": "t1",
+      "speaker": "user",
+      "text": "hello . is that customer service .",
+      "start_ms": 6210,
+      "end_ms": 9220
+    },
+    {
+      "turn_id": "t2",
+      "speaker": "agent",
+      "text": "yes , we can help you .",
+      "start_ms": 9800,
+      "end_ms": 11990
+    },
+    {
+      "turn_id": "t3",
+      "speaker": "user",
+      "text": "i'm looking for information in cambridge and i am looking for places to go in town .",
+      "start_ms": 12050,
+      "end_ms": 19070
+    },
+    {
+      "turn_id": "t4",
+      "speaker": "agent",
+      "text": "okay , please tell me what's your attractionattraction about this place .",
+      "start_ms": 19520,
+      "end_ms": 23390
+    },
+    {
+      "turn_id": "t5",
+      "speaker": "user",
+      "text": "uh , the attraction should be in type of cinema .",
+      "start_ms": 23600,
+      "end_ms": 27910
+    },
+    {
+      "turn_id": "t6",
+      "speaker": "agent",
+      "text": "okay , i understand .",
+      "start_ms": 28230,
+      "end_ms": 30640
+    },
+    {
+      "turn_id": "t7",
+      "speaker": "user",
+      "text": "and it should i know that the source part is more lively , so i want to go there .",
+      "start_ms": 30690,
+      "end_ms": 38730
+    },
+    {
+      "turn_id": "t8",
+      "speaker": "agent",
+      "text": "okay , so you want to go to attraction in the south .",
+      "start_ms": 39210,
+      "end_ms": 43610
+    },
+    {
+      "turn_id": "t9",
+      "speaker": "user",
+      "text": "yes .",
+      "start_ms": 43700,
+      "end_ms": 44890
+    },
+    {
+      "turn_id": "t10",
+      "speaker": "agent",
+      "text": "so here is one called cineworld cinema that will be the best choice for you .",
+      "start_ms": 45220,
+      "end_ms": 50780
+    },
+    {
+      "turn_id": "t11",
+      "speaker": "user",
+      "text": "okay , that's great . and i'm also looking for a train .",
+      "start_ms": 50810,
+      "end_ms": 55620
+    },
+    {
+      "turn_id": "t12",
+      "speaker": "agent",
+      "text": "okay . and what's the information about this train .",
+      "start_ms": 56050,
+      "end_ms": 59310
+    },
+    {
+      "turn_id": "t13",
+      "speaker": "user",
+      "text": "uh , it should depart depart from birmingham new street .",
+      "start_ms": 59260,
+      "end_ms": 65560
+    },
+    {
+      "turn_id": "t14",
+      "speaker": "agent",
+      "text": "okay . and what about the time .",
+      "start_ms": 66040,
+      "end_ms": 68850
+    },
+    {
+      "turn_id": "t15",
+      "speaker": "user",
+      "text": "uh .  it should arrive by one hour before 6 15 p m .",
+      "start_ms": 68810,
+      "end_ms": 75760
+    },
+    {
+      "turn_id": "t16",
+      "speaker": "agent",
+      "text": "okay . so you want to . arrive by . 17:15 , right .",
+      "start_ms": 76120,
+      "end_ms": 83740
+    },
+    {
+      "turn_id": "t17",
+      "speaker": "user",
+      "text": "yes .  and the tree should should go to the cambridge .",
+      "start_ms": 83800,
+      "end_ms": 90250
+    },
+    {
+      "turn_id": "t18",
+      "speaker": "agent",
+      "text": "and . okay . and anything else i need to know .",
+      "start_ms": 86010,
+      "end_ms": 93780
+    },
+    {
+      "turn_id": "t19",
+      "speaker": "user",
+      "text": "uh , yes , today is friday and should leave from tomorrow .",
+      "start_ms": 93820,
+      "end_ms": 98930
+    },
+    {
+      "turn_id": "t20",
+      "speaker": "agent",
+      "text": "okay . so you mean you want to leave on saturday .",
+      "start_ms": 99150,
+      "end_ms": 103100
+    },
+    {
+      "turn_id": "t21",
+      "speaker": "user",
+      "text": "yes .",
+      "start_ms": 103420,
+      "end_ms": 104670
+    },
+    {
+      "turn_id": "t22",
+      "speaker": "agent",
+      "text": "okay , so here is a train tr4453 will arrive by 14:23 that will be the best choice for you .",
+      "start_ms": 104910,
+      "end_ms": 114970
+    },
+    {
+      "turn_id": "t23",
+      "speaker": "user",
+      "text": "okay , that's great . and i want to book tickets for me and for friends .",
+      "start_ms": 114830,
+      "end_ms": 120510
+    },
+    {
+      "turn_id": "t24",
+      "speaker": "agent",
+      "text": "that's all right . and could you please tell me your idea .",
+      "start_ms": 120900,
+      "end_ms": 124090
+    },
+    {
+      "turn_id": "t25",
+      "speaker": "user",
+      "text": "uh , sure my id number is double 8 to 1 .",
+      "start_ms": 124070,
+      "end_ms": 128360
+    },
+    {
+      "turn_id": "t26",
+      "speaker": "agent",
+      "text": "okay .",
+      "start_ms": 128710,
+      "end_ms": 129970
+    },
+    {
+      "turn_id": "t27",
+      "speaker": "user",
+      "text": "4 9 8 0 .",
+      "start_ms": 130650,
+      "end_ms": 132990
+    },
+    {
+      "turn_id": "t28",
+      "speaker": "agent",
+      "text": "4980 .",
+      "start_ms": 133680,
+      "end_ms": 135100
+    },
+    {
+      "turn_id": "t29",
+      "speaker": "user",
+      "text": "8 2 6 , 7 .",
+      "start_ms": 135070,
+      "end_ms": 137830
+    },
+    {
+      "turn_id": "t30",
+      "speaker": "agent",
+      "text": "okay . and then .",
+      "start_ms": 138470,
+      "end_ms": 140590
+    },
+    {
+      "turn_id": "t31",
+      "speaker": "user",
+      "text": "9 5 4 0 .",
+      "start_ms": 140550,
+      "end_ms": 143530
+    },
+    {
+      "turn_id": "t32",
+      "speaker": "agent",
+      "text": "okay , i have written on your id number and your vision is confirmed .",
+      "start_ms": 144010,
+      "end_ms": 149160
+    },
+    {
+      "turn_id": "t33",
+      "speaker": "user",
+      "text": "okay , thank you very much .",
+      "start_ms": 148970,
+      "end_ms": 151120
+    },
+    {
+      "turn_id": "t34",
+      "speaker": "agent",
+      "text": "you are welcome .",
+      "start_ms": 151060,
+      "end_ms": 152430
+    },
+    {
+      "turn_id": "t35",
+      "speaker": "user",
+      "text": "bye .",
+      "start_ms": 152430,
+      "end_ms": 153560
+    },
+    {
+      "turn_id": "t36",
+      "speaker": "agent",
+      "text": "bye .",
+      "start_ms": 153700,
+      "end_ms": 154810
+    }
+  ],
+  "audio_path": null,
+  "metadata": {
+    "license": "CC BY-NC 4.0 (eval use)",
+    "speaker_source": "tag field (channel ids do not separate speakers)",
+    "skipped_unwordtimed_turns": 0,
+    "n_plausible_overlaps": 2,
+    "n_long_intra_pauses": 1,
+    "goal": {
+      "attraction": {
+        "info": {
+          "type": "cinema"
+        },
+        "reqt": [
+          "entrance fee"
+        ]
+      },
+      "profile": {
+        "info": {
+          "idnumber": "8821498082679540"
+        }
+      },
+      "train": {
+        "book": {
+          "people": "5"
+        },
+        "info": {
+          "arriveBy": "17:15",
+          "departure": "birmingham new street",
+          "destination": "cambridge"
+        }
+      }
+    },
+    "selection_bucket": "interruption"
+  },
+  "outcome": {
+    "call_id": "swz_MUL0357",
+    "task_completed": true,
+    "required_fields": [
+      {
+        "name": "attraction.type",
+        "captured": true,
+        "value": "cinema"
+      },
+      {
+        "name": "attraction.entrance fee",
+        "captured": false,
+        "value": null
+      },
+      {
+        "name": "profile.idnumber",
+        "captured": false,
+        "value": null
+      },
+      {
+        "name": "train.arriveBy",
+        "captured": true,
+        "value": "17:15"
+      },
+      {
+        "name": "train.departure",
+        "captured": true,
+        "value": "birmingham new street"
+      },
+      {
+        "name": "train.destination",
+        "captured": true,
+        "value": "cambridge"
+      },
+      {
+        "name": "train.book_people",
+        "captured": true,
+        "value": "5"
+      }
+    ],
+    "escalation_needed": false,
+    "confidence": 0.71
+  },
+  "scorecard": {
+    "call_id": "swz_MUL0357",
+    "dimensions": [
+      {
+        "name": "barge_in",
+        "type": "deterministic",
+        "score": 0.66,
+        "reason": "agent interrupted the caller 1x (overlap 4240ms)",
+        "evidence_turn_ids": [
+          "t17",
+          "t18"
+        ]
+      },
+      {
+        "name": "latency_gap",
+        "type": "deterministic",
+        "score": 1.0,
+        "reason": "median 410.0ms / p90 640ms; 0/16 responses laggy (>800ms)",
+        "evidence_turn_ids": []
+      },
+      {
+        "name": "task_completion",
+        "type": "deterministic",
+        "score": 0.714,
+        "reason": "captured 5/7 required fields (heuristic from goal/workflow)",
+        "evidence_turn_ids": []
+      }
+    ],
+    "overall": 0.791
+  },
+  "cost": {
+    "call_id": "swz_MUL0357",
+    "duration_s": 154.8,
+    "turn_count": 36,
+    "est_llm_calls": 18,
+    "est_cost_total": 0.09,
+    "est_cost_per_success_note": "estimated, prototype"
+  },
+  "failures": [
+    {
+      "at_ms": 86010,
+      "dimension": "barge_in",
+      "label": "agent barge-in",
+      "detail": "4240ms overlap",
+      "evidence_turn_ids": [
+        "t17",
+        "t18"
+      ],
+      "call_id": "swz_MUL0357",
+      "origin": "deterministic"
+    },
+    {
+      "at_ms": 114830,
+      "dimension": "barge_in",
+      "label": "user barge-in",
+      "detail": "140ms overlap",
+      "evidence_turn_ids": [
+        "t22",
+        "t23"
+      ],
+      "call_id": "swz_MUL0357",
+      "origin": "deterministic"
+    },
+    {
+      "at_ms": 148970,
+      "dimension": "barge_in",
+      "label": "user barge-in",
+      "detail": "190ms overlap",
+      "evidence_turn_ids": [
+        "t32",
+        "t33"
+      ],
+      "call_id": "swz_MUL0357",
+      "origin": "deterministic"
+    }
+  ],
+  "signals": {
+    "latency": {
+      "n_handoffs": 16,
+      "median_gap_ms": 410.0,
+      "p90_gap_ms": 640,
+      "laggy_threshold_ms": 800,
+      "n_laggy": 0
+    },
+    "n_barge_ins": 3
+  }
+}

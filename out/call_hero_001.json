@@ -1,0 +1,200 @@
+{
+  "call_id": "hero_001",
+  "source": "hero",
+  "language": "te-en",
+  "stress_profile": "interruption",
+  "workflow_type": "appliance_service_booking",
+  "turns": [
+    {
+      "turn_id": "t1",
+      "speaker": "agent",
+      "text": "Hi, this is the service desk for QuickCool appliance care. I can help you book a technician visit. May I know which area you're calling from?",
+      "start_ms": 0,
+      "end_ms": 8042
+    },
+    {
+      "turn_id": "t2",
+      "speaker": "user",
+      "text": "haan hello... area ante... Madhapur side anukunta... near the, er... metro station.",
+      "start_ms": 8642,
+      "end_ms": 16644
+    },
+    {
+      "turn_id": "t3",
+      "speaker": "agent",
+      "text": "I need your complete address with pincode, landmark and door number before we can proceed any further with this booking request.",
+      "start_ms": 15844,
+      "end_ms": 21742
+    },
+    {
+      "turn_id": "t4",
+      "speaker": "user",
+      "text": "ayyo okay okay... full address kavala? it's plot 42, ante... near metro pillar number... I don't remember exactly ya.",
+      "start_ms": 22242,
+      "end_ms": 33486
+    },
+    {
+      "turn_id": "t5",
+      "speaker": "agent",
+      "text": "Thank you. And what appliance needs servicing today?",
+      "start_ms": 33886,
+      "end_ms": 36753
+    },
+    {
+      "turn_id": "t6",
+      "speaker": "user",
+      "text": "AC unit... cooling sariga ledu, very weak airflow vastundi.",
+      "start_ms": 37253,
+      "end_ms": 46899
+    },
+    {
+      "turn_id": "t7",
+      "speaker": "agent",
+      "text": "Got it \u2014 an AC cooling issue. Would you prefer a morning or an evening visit tomorrow?",
+      "start_ms": 48519,
+      "end_ms": 53782
+    },
+    {
+      "turn_id": "t8",
+      "speaker": "user",
+      "text": "morning better... around ten ayite manchidi.",
+      "start_ms": 54232,
+      "end_ms": 57935
+    },
+    {
+      "turn_id": "t9",
+      "speaker": "agent",
+      "text": "Perfect, tomorrow morning around ten AM. Could I get a callback number?",
+      "start_ms": 58285,
+      "end_ms": 62169
+    },
+    {
+      "turn_id": "t10",
+      "speaker": "user",
+      "text": "nine eight four nine two... double five... zero three one.",
+      "start_ms": 62719,
+      "end_ms": 69512
+    },
+    {
+      "turn_id": "t11",
+      "speaker": "agent",
+      "text": "Thank you. Your booking is confirmed for tomorrow at ten AM in Madhapur. The technician will call you before arriving.",
+      "start_ms": 69912,
+      "end_ms": 76124
+    },
+    {
+      "turn_id": "t12",
+      "speaker": "user",
+      "text": "sare, thanks ya.",
+      "start_ms": 76624,
+      "end_ms": 80044
+    }
+  ],
+  "audio_path": "data/hero/hero_001.wav",
+  "metadata": {
+    "constructed": true,
+    "timestamps_from": "assembly_timeline",
+    "agent_voice": "cartesia/Devansh",
+    "voice_provider": "cartesia",
+    "disclosure": "constructed demo scenario; see docs/limitations.md"
+  },
+  "outcome": {
+    "call_id": "hero_001",
+    "task_completed": true,
+    "required_fields": [
+      {
+        "name": "service_area",
+        "captured": true,
+        "value": null
+      },
+      {
+        "name": "appliance",
+        "captured": true,
+        "value": null
+      },
+      {
+        "name": "time_slot",
+        "captured": true,
+        "value": null
+      }
+    ],
+    "escalation_needed": false,
+    "confidence": 1.0
+  },
+  "scorecard": {
+    "call_id": "hero_001",
+    "dimensions": [
+      {
+        "name": "barge_in",
+        "type": "deterministic",
+        "score": 0.66,
+        "reason": "agent interrupted the caller 1x (overlap 800ms)",
+        "evidence_turn_ids": [
+          "t2",
+          "t3"
+        ]
+      },
+      {
+        "name": "latency_gap",
+        "type": "deterministic",
+        "score": 0.75,
+        "reason": "median 400.0ms / p90 1620ms; 1/4 responses laggy (>800ms)",
+        "evidence_turn_ids": [
+          "t7"
+        ]
+      },
+      {
+        "name": "task_completion",
+        "type": "deterministic",
+        "score": 1.0,
+        "reason": "captured 3/3 required fields (heuristic from goal/workflow)",
+        "evidence_turn_ids": []
+      }
+    ],
+    "overall": 0.803
+  },
+  "cost": {
+    "call_id": "hero_001",
+    "duration_s": 80.0,
+    "turn_count": 12,
+    "est_llm_calls": 6,
+    "est_cost_total": 0.03,
+    "est_cost_per_success_note": "estimated, prototype"
+  },
+  "failures": [
+    {
+      "at_ms": 15844,
+      "dimension": "barge_in",
+      "label": "agent barge-in",
+      "detail": "800ms overlap",
+      "evidence_turn_ids": [
+        "t2",
+        "t3"
+      ],
+      "call_id": "hero_001",
+      "origin": "deterministic"
+    },
+    {
+      "at_ms": 48519,
+      "dimension": "latency_gap",
+      "label": "response latency",
+      "detail": "1,620ms gap",
+      "evidence_turn_ids": [
+        "t6",
+        "t7"
+      ],
+      "call_id": "hero_001",
+      "origin": "deterministic"
+    }
+  ],
+  "signals": {
+    "latency": {
+      "n_handoffs": 4,
+      "median_gap_ms": 400.0,
+      "p90_gap_ms": 1620,
+      "laggy_threshold_ms": 800,
+      "n_laggy": 1
+    },
+    "n_barge_ins": 1
+  }
+}

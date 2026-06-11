@@ -1,0 +1,376 @@
+{
+  "call_id": "swz_MUL2483",
+  "source": "spokenwoz",
+  "language": "en",
+  "stress_profile": "pause_heavy",
+  "workflow_type": "hotel+profile+restaurant",
+  "turns": [
+    {
+      "turn_id": "t1",
+      "speaker": "user",
+      "text": "hello .  hello .",
+      "start_ms": 1030,
+      "end_ms": 6130
+    },
+    {
+      "turn_id": "t2",
+      "speaker": "agent",
+      "text": "hello , how are you .",
+      "start_ms": 7060,
+      "end_ms": 8710
+    },
+    {
+      "turn_id": "t3",
+      "speaker": "user",
+      "text": "i'm fine . thank you . how are you .",
+      "start_ms": 8990,
+      "end_ms": 10780
+    },
+    {
+      "turn_id": "t4",
+      "speaker": "agent",
+      "text": "i'm okay . thank you . how can i help you .",
+      "start_ms": 11110,
+      "end_ms": 13870
+    },
+    {
+      "turn_id": "t5",
+      "speaker": "user",
+      "text": "yes , i'm looking for information in cambridge .  i'm looking for a place to stay .  and the hotel certainly include .  free .  internet .  for wifi .  and stood in the cheap price range .  and the hotels within the type of hotel .",
+      "start_ms": 14360,
+      "end_ms": 31630
+    },
+    {
+      "turn_id": "t6",
+      "speaker": "agent",
+      "text": "a big in london . i have the bridge guest house . we have that .",
+      "start_ms": 33260,
+      "end_ms": 41260
+    },
+    {
+      "turn_id": "t7",
+      "speaker": "user",
+      "text": "okay , that is perfect .  can i please book it for 8 people and three 9th starting from tuesday .",
+      "start_ms": 41290,
+      "end_ms": 48570
+    },
+    {
+      "turn_id": "t8",
+      "speaker": "agent",
+      "text": "what's your name hello .",
+      "start_ms": 51120,
+      "end_ms": 63580
+    },
+    {
+      "turn_id": "t9",
+      "speaker": "user",
+      "text": "dear hello .",
+      "start_ms": 64490,
+      "end_ms": 65780
+    },
+    {
+      "turn_id": "t10",
+      "speaker": "agent",
+      "text": "can i get your name .",
+      "start_ms": 66190,
+      "end_ms": 67950
+    },
+    {
+      "turn_id": "t11",
+      "speaker": "user",
+      "text": "oh , my name is cynthia floris .",
+      "start_ms": 68210,
+      "end_ms": 70650
+    },
+    {
+      "turn_id": "t12",
+      "speaker": "agent",
+      "text": "your potential to say anything else .",
+      "start_ms": 74080,
+      "end_ms": 77380
+    },
+    {
+      "turn_id": "t13",
+      "speaker": "user",
+      "text": "yes , i'm also looking for a particular restaurant .  its name is called waga mama .",
+      "start_ms": 77870,
+      "end_ms": 83850
+    },
+    {
+      "turn_id": "t14",
+      "speaker": "agent",
+      "text": "uh , give me a moment .",
+      "start_ms": 85790,
+      "end_ms": 87410
+    },
+    {
+      "turn_id": "t15",
+      "speaker": "user",
+      "text": "okay .",
+      "start_ms": 88030,
+      "end_ms": 88890
+    },
+    {
+      "turn_id": "t16",
+      "speaker": "agent",
+      "text": "yes i have it .",
+      "start_ms": 91920,
+      "end_ms": 93648
+    },
+    {
+      "turn_id": "t17",
+      "speaker": "user",
+      "text": "okay , i would like to book a table for the phone group of people .  at an hour of the quarter to 12 .  on the same day .",
+      "start_ms": 94050,
+      "end_ms": 105460
+    },
+    {
+      "turn_id": "t18",
+      "speaker": "agent",
+      "text": "8 . that cooking has been secured . is there anything else in calculus .",
+      "start_ms": 106130,
+      "end_ms": 111640
+    },
+    {
+      "turn_id": "t19",
+      "speaker": "user",
+      "text": "no , thank you . that is all .",
+      "start_ms": 111830,
+      "end_ms": 113410
+    },
+    {
+      "turn_id": "t20",
+      "speaker": "agent",
+      "text": "bye have a lovely day .",
+      "start_ms": 114140,
+      "end_ms": 115880
+    }
+  ],
+  "audio_path": null,
+  "metadata": {
+    "license": "CC BY-NC 4.0 (eval use)",
+    "speaker_source": "tag field (channel ids do not separate speakers)",
+    "skipped_unwordtimed_turns": 0,
+    "n_plausible_overlaps": 0,
+    "n_long_intra_pauses": 3,
+    "goal": {
+      "hotel": {
+        "book": {
+          "day": "tuesday",
+          "people": "8",
+          "stay": "3"
+        },
+        "info": {
+          "internet": "yes",
+          "pricerange": "cheap",
+          "type": "hotel"
+        }
+      },
+      "profile": {
+        "info": {
+          "name": "cynthia flores"
+        }
+      },
+      "restaurant": {
+        "book": {
+          "day": "tuesday",
+          "people": "8",
+          "time": "12:45"
+        },
+        "info": {
+          "name": "wagamama"
+        }
+      }
+    },
+    "selection_bucket": "pause_heavy"
+  },
+  "outcome": {
+    "call_id": "swz_MUL2483",
+    "task_completed": false,
+    "required_fields": [
+      {
+        "name": "hotel.internet",
+        "captured": true,
+        "value": "yes"
+      },
+      {
+        "name": "hotel.pricerange",
+        "captured": true,
+        "value": "cheap"
+      },
+      {
+        "name": "hotel.type",
+        "captured": true,
+        "value": "hotel"
+      },
+      {
+        "name": "hotel.book_day",
+        "captured": true,
+        "value": "tuesday"
+      },
+      {
+        "name": "hotel.book_people",
+        "captured": true,
+        "value": "8"
+      },
+      {
+        "name": "hotel.book_stay",
+        "captured": false,
+        "value": null
+      },
+      {
+        "name": "profile.name",
+        "captured": false,
+        "value": null
+      },
+      {
+        "name": "restaurant.name",
+        "captured": false,
+        "value": null
+      },
+      {
+        "name": "restaurant.book_day",
+        "captured": true,
+        "value": "tuesday"
+      },
+      {
+        "name": "restaurant.book_people",
+        "captured": true,
+        "value": "8"
+      },
+      {
+        "name": "restaurant.book_time",
+        "captured": false,
+        "value": null
+      }
+    ],
+    "escalation_needed": false,
+    "confidence": 0.64
+  },
+  "scorecard": {
+    "call_id": "swz_MUL2483",
+    "dimensions": [
+      {
+        "name": "barge_in",
+        "type": "deterministic",
+        "score": 1.0,
+        "reason": "no agent barge-ins",
+        "evidence_turn_ids": []
+      },
+      {
+        "name": "latency_gap",
+        "type": "deterministic",
+        "score": 0.4,
+        "reason": "median 1280.0ms / p90 3030ms; 6/10 responses laggy (>800ms)",
+        "evidence_turn_ids": [
+          "t2",
+          "t6",
+          "t8",
+          "t12",
+          "t14",
+          "t16"
+        ]
+      },
+      {
+        "name": "task_completion",
+        "type": "deterministic",
+        "score": 0.636,
+        "reason": "captured 7/11 required fields (heuristic from goal/workflow)",
+        "evidence_turn_ids": []
+      }
+    ],
+    "overall": 0.679
+  },
+  "cost": {
+    "call_id": "swz_MUL2483",
+    "duration_s": 115.9,
+    "turn_count": 20,
+    "est_llm_calls": 10,
+    "est_cost_total": 0.05,
+    "est_cost_per_success_note": "estimated, prototype"
+  },
+  "failures": [
+    {
+      "at_ms": 7060,
+      "dimension": "latency_gap",
+      "label": "response latency",
+      "detail": "930ms gap",
+      "evidence_turn_ids": [
+        "t1",
+        "t2"
+      ],
+      "call_id": "swz_MUL2483",
+      "origin": "deterministic"
+    },
+    {
+      "at_ms": 33260,
+      "dimension": "latency_gap",
+      "label": "response latency",
+      "detail": "1,630ms gap",
+      "evidence_turn_ids": [
+        "t5",
+        "t6"
+      ],
+      "call_id": "swz_MUL2483",
+      "origin": "deterministic"
+    },
+    {
+      "at_ms": 51120,
+      "dimension": "latency_gap",
+      "label": "response latency",
+      "detail": "2,550ms gap",
+      "evidence_turn_ids": [
+        "t7",
+        "t8"
+      ],
+      "call_id": "swz_MUL2483",
+      "origin": "deterministic"
+    },
+    {
+      "at_ms": 74080,
+      "dimension": "latency_gap",
+      "label": "response latency",
+      "detail": "3,430ms gap",
+      "evidence_turn_ids": [
+        "t11",
+        "t12"
+      ],
+      "call_id": "swz_MUL2483",
+      "origin": "deterministic"
+    },
+    {
+      "at_ms": 85790,
+      "dimension": "latency_gap",
+      "label": "response latency",
+      "detail": "1,940ms gap",
+      "evidence_turn_ids": [
+        "t13",
+        "t14"
+      ],
+      "call_id": "swz_MUL2483",
+      "origin": "deterministic"
+    },
+    {
+      "at_ms": 91920,
+      "dimension": "latency_gap",
+      "label": "response latency",
+      "detail": "3,030ms gap",
+      "evidence_turn_ids": [
+        "t15",
+        "t16"
+      ],
+      "call_id": "swz_MUL2483",
+      "origin": "deterministic"
+    }
+  ],
+  "signals": {
+    "latency": {
+      "n_handoffs": 10,
+      "median_gap_ms": 1280.0,
+      "p90_gap_ms": 3030,
+      "laggy_threshold_ms": 800,
+      "n_laggy": 6
+    },
+    "n_barge_ins": 0
+  }
+}

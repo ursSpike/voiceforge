@@ -1,0 +1,381 @@
+{
+  "call_id": "swz_MUL0322",
+  "source": "spokenwoz",
+  "language": "en",
+  "stress_profile": "clean",
+  "workflow_type": "profile+restaurant+train",
+  "turns": [
+    {
+      "turn_id": "t1",
+      "speaker": "user",
+      "text": "hello , how are you .",
+      "start_ms": 2810,
+      "end_ms": 4520
+    },
+    {
+      "turn_id": "t2",
+      "speaker": "agent",
+      "text": "avenue .",
+      "start_ms": 4900,
+      "end_ms": 5870
+    },
+    {
+      "turn_id": "t3",
+      "speaker": "user",
+      "text": "i'm good . thank you . i would like to book a table in a restaurant that serves international food .  and it should be in the expensive price range and should be in the center area .",
+      "start_ms": 6100,
+      "end_ms": 19260
+    },
+    {
+      "turn_id": "t4",
+      "speaker": "agent",
+      "text": "i can find one like that .",
+      "start_ms": 19780,
+      "end_ms": 21840
+    },
+    {
+      "turn_id": "t5",
+      "speaker": "user",
+      "text": "okay . what about the one that saves french food .",
+      "start_ms": 22700,
+      "end_ms": 25960
+    },
+    {
+      "turn_id": "t6",
+      "speaker": "agent",
+      "text": "okay , i found one .",
+      "start_ms": 26490,
+      "end_ms": 28370
+    },
+    {
+      "turn_id": "t7",
+      "speaker": "user",
+      "text": "okay , i would like to book for five people .  on monday at 1 pm .",
+      "start_ms": 29250,
+      "end_ms": 36469
+    },
+    {
+      "turn_id": "t8",
+      "speaker": "agent",
+      "text": "okay . can i please get your name .",
+      "start_ms": 37220,
+      "end_ms": 39500
+    },
+    {
+      "turn_id": "t9",
+      "speaker": "user",
+      "text": "my name is salami and .  the spelling of my name is l i .",
+      "start_ms": 40250,
+      "end_ms": 45590
+    },
+    {
+      "turn_id": "t10",
+      "speaker": "agent",
+      "text": "yes , i got that .",
+      "start_ms": 45780,
+      "end_ms": 47230
+    },
+    {
+      "turn_id": "t11",
+      "speaker": "user",
+      "text": "and the .",
+      "start_ms": 47740,
+      "end_ms": 49190
+    },
+    {
+      "turn_id": "t12",
+      "speaker": "agent",
+      "text": "yes .",
+      "start_ms": 49400,
+      "end_ms": 50840
+    },
+    {
+      "turn_id": "t13",
+      "speaker": "user",
+      "text": "a .",
+      "start_ms": 50990,
+      "end_ms": 52240
+    },
+    {
+      "turn_id": "t14",
+      "speaker": "agent",
+      "text": "yes , i got that .",
+      "start_ms": 52480,
+      "end_ms": 53620
+    },
+    {
+      "turn_id": "t15",
+      "speaker": "user",
+      "text": "and for my sentiments .  b e l .",
+      "start_ms": 53170,
+      "end_ms": 56600
+    },
+    {
+      "turn_id": "t16",
+      "speaker": "agent",
+      "text": "yes , i got that .",
+      "start_ms": 57000,
+      "end_ms": 58520
+    },
+    {
+      "turn_id": "t17",
+      "speaker": "user",
+      "text": "l . a. .",
+      "start_ms": 59050,
+      "end_ms": 60480
+    },
+    {
+      "turn_id": "t18",
+      "speaker": "agent",
+      "text": "yes , i got that .",
+      "start_ms": 60700,
+      "end_ms": 62110
+    },
+    {
+      "turn_id": "t19",
+      "speaker": "user",
+      "text": "and m . y. .",
+      "start_ms": 62420,
+      "end_ms": 64200
+    },
+    {
+      "turn_id": "t20",
+      "speaker": "agent",
+      "text": "okay , thank you . can i please get your email .",
+      "start_ms": 64630,
+      "end_ms": 67580
+    },
+    {
+      "turn_id": "t21",
+      "speaker": "user",
+      "text": "uh , i'm sorry . i'm not comfortable to go to give out my email .",
+      "start_ms": 67950,
+      "end_ms": 72590
+    },
+    {
+      "turn_id": "t22",
+      "speaker": "agent",
+      "text": "okay , no problem . i forget what i quote .",
+      "start_ms": 72940,
+      "end_ms": 75980
+    },
+    {
+      "turn_id": "t23",
+      "speaker": "user",
+      "text": "thank you .  um .  can you please check on the link that is that is commenting on monday from london liverpool street to cambridge and should arrive by .  9 30 a . m. .",
+      "start_ms": 76940,
+      "end_ms": 89660
+    },
+    {
+      "turn_id": "t24",
+      "speaker": "agent",
+      "text": "okay , so there's no train that arrives at 9 30 , but there is one that arrives at 09:07 . is that okay .",
+      "start_ms": 90360,
+      "end_ms": 97260
+    },
+    {
+      "turn_id": "t25",
+      "speaker": "user",
+      "text": "yes , it's okay .",
+      "start_ms": 97440,
+      "end_ms": 99060
+    },
+    {
+      "turn_id": "t26",
+      "speaker": "agent",
+      "text": "okay , then i found one .",
+      "start_ms": 99720,
+      "end_ms": 101890
+    },
+    {
+      "turn_id": "t27",
+      "speaker": "user",
+      "text": "okay . can you please provide me with the train , i .",
+      "start_ms": 102010,
+      "end_ms": 105880
+    },
+    {
+      "turn_id": "t28",
+      "speaker": "agent",
+      "text": "okay , the train id is tr3673 .",
+      "start_ms": 106470,
+      "end_ms": 111320
+    },
+    {
+      "turn_id": "t29",
+      "speaker": "user",
+      "text": "all right , thank you .",
+      "start_ms": 111660,
+      "end_ms": 113470
+    },
+    {
+      "turn_id": "t30",
+      "speaker": "agent",
+      "text": "yes . is anything else i can help you with .",
+      "start_ms": 114190,
+      "end_ms": 116550
+    },
+    {
+      "turn_id": "t31",
+      "speaker": "user",
+      "text": "no , that's all thank you so much . bye .",
+      "start_ms": 116920,
+      "end_ms": 119490
+    },
+    {
+      "turn_id": "t32",
+      "speaker": "agent",
+      "text": "bye , have a wonderful day .",
+      "start_ms": 119910,
+      "end_ms": 122160
+    }
+  ],
+  "audio_path": null,
+  "metadata": {
+    "license": "CC BY-NC 4.0 (eval use)",
+    "speaker_source": "tag field (channel ids do not separate speakers)",
+    "skipped_unwordtimed_turns": 0,
+    "n_plausible_overlaps": 1,
+    "n_long_intra_pauses": 0,
+    "goal": {
+      "profile": {
+        "info": {
+          "name": "linda bellamy"
+        }
+      },
+      "restaurant": {
+        "book": {
+          "day": "monday",
+          "people": "5",
+          "time": "13:00"
+        },
+        "info": {
+          "area": "centre",
+          "food": "french",
+          "pricerange": "expensive"
+        }
+      },
+      "train": {
+        "info": {
+          "arriveBy": "09:30"
+        },
+        "reqt": [
+          "trainID"
+        ]
+      }
+    },
+    "selection_bucket": "clean_quiet"
+  },
+  "outcome": {
+    "call_id": "swz_MUL0322",
+    "task_completed": false,
+    "required_fields": [
+      {
+        "name": "profile.name",
+        "captured": false,
+        "value": null
+      },
+      {
+        "name": "restaurant.area",
+        "captured": false,
+        "value": null
+      },
+      {
+        "name": "restaurant.food",
+        "captured": true,
+        "value": "french"
+      },
+      {
+        "name": "restaurant.pricerange",
+        "captured": true,
+        "value": "expensive"
+      },
+      {
+        "name": "restaurant.book_day",
+        "captured": true,
+        "value": "monday"
+      },
+      {
+        "name": "restaurant.book_people",
+        "captured": false,
+        "value": null
+      },
+      {
+        "name": "restaurant.book_time",
+        "captured": false,
+        "value": null
+      },
+      {
+        "name": "train.arriveBy",
+        "captured": false,
+        "value": null
+      },
+      {
+        "name": "train.trainID",
+        "captured": false,
+        "value": null
+      }
+    ],
+    "escalation_needed": false,
+    "confidence": 0.33
+  },
+  "scorecard": {
+    "call_id": "swz_MUL0322",
+    "dimensions": [
+      {
+        "name": "barge_in",
+        "type": "deterministic",
+        "score": 1.0,
+        "reason": "no agent barge-ins",
+        "evidence_turn_ids": []
+      },
+      {
+        "name": "latency_gap",
+        "type": "deterministic",
+        "score": 1.0,
+        "reason": "median 425.0ms / p90 720ms; 0/16 responses laggy (>800ms)",
+        "evidence_turn_ids": []
+      },
+      {
+        "name": "task_completion",
+        "type": "deterministic",
+        "score": 0.333,
+        "reason": "captured 3/9 required fields (heuristic from goal/workflow)",
+        "evidence_turn_ids": []
+      }
+    ],
+    "overall": 0.778
+  },
+  "cost": {
+    "call_id": "swz_MUL0322",
+    "duration_s": 122.2,
+    "turn_count": 32,
+    "est_llm_calls": 16,
+    "est_cost_total": 0.08,
+    "est_cost_per_success_note": "estimated, prototype"
+  },
+  "failures": [
+    {
+      "at_ms": 53170,
+      "dimension": "barge_in",
+      "label": "user barge-in",
+      "detail": "450ms overlap",
+      "evidence_turn_ids": [
+        "t14",
+        "t15"
+      ],
+      "call_id": "swz_MUL0322",
+      "origin": "deterministic"
+    }
+  ],
+  "signals": {
+    "latency": {
+      "n_handoffs": 16,
+      "median_gap_ms": 425.0,
+      "p90_gap_ms": 720,
+      "laggy_threshold_ms": 800,
+      "n_laggy": 0
+    },
+    "n_barge_ins": 1
+  }
+}

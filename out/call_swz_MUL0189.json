@@ -1,0 +1,472 @@
+{
+  "call_id": "swz_MUL0189",
+  "source": "spokenwoz",
+  "language": "en",
+  "stress_profile": "interruption",
+  "workflow_type": "attraction+profile+restaurant+taxi",
+  "turns": [
+    {
+      "turn_id": "t1",
+      "speaker": "user",
+      "text": "hello .",
+      "start_ms": 720,
+      "end_ms": 1990
+    },
+    {
+      "turn_id": "t2",
+      "speaker": "agent",
+      "text": "hi customer service center . how can i help you .",
+      "start_ms": 2100,
+      "end_ms": 4830
+    },
+    {
+      "turn_id": "t3",
+      "speaker": "user",
+      "text": "yes , i'm looking for some information in cambridge . i need to find a place .  uh , the name is museum of archaeology , anthropology .",
+      "start_ms": 4760,
+      "end_ms": 17090
+    },
+    {
+      "turn_id": "t4",
+      "speaker": "agent",
+      "text": "okay , so it's called the museum of archaelogy and anthropology . let me check for .",
+      "start_ms": 17600,
+      "end_ms": 24570
+    },
+    {
+      "turn_id": "t5",
+      "speaker": "user",
+      "text": "yeah .  yes .",
+      "start_ms": 23170,
+      "end_ms": 25550
+    },
+    {
+      "turn_id": "t6",
+      "speaker": "agent",
+      "text": "what information do you want to know .",
+      "start_ms": 26080,
+      "end_ms": 28880
+    },
+    {
+      "turn_id": "t7",
+      "speaker": "user",
+      "text": "yes , i need to know the phone number and the open hours .",
+      "start_ms": 28850,
+      "end_ms": 33410
+    },
+    {
+      "turn_id": "t8",
+      "speaker": "agent",
+      "text": "okay . so the phone number of this museum is 12243516 . and open hour open hour . it opens it is open from may to sept .",
+      "start_ms": 33690,
+      "end_ms": 55340
+    },
+    {
+      "turn_id": "t9",
+      "speaker": "user",
+      "text": "okay .  okay , i got it . thank you . and i also want you to find a restaurant for me . it should be in the center of the city and , uh .  it is better be a .  restaurant serves with korean food .",
+      "start_ms": 47500,
+      "end_ms": 74050
+    },
+    {
+      "turn_id": "t10",
+      "speaker": "agent",
+      "text": "okay . and what else .",
+      "start_ms": 75050,
+      "end_ms": 78210
+    },
+    {
+      "turn_id": "t11",
+      "speaker": "user",
+      "text": "i think i need it in a moderate price range .",
+      "start_ms": 78750,
+      "end_ms": 83230
+    },
+    {
+      "turn_id": "t12",
+      "speaker": "agent",
+      "text": "okay , moderate korean food restaurant . let me check . well , i'm so sorry , i am afraid there's no such kind of . can you accept turkish food .",
+      "start_ms": 83700,
+      "end_ms": 96350
+    },
+    {
+      "turn_id": "t13",
+      "speaker": "user",
+      "text": "turkish food sounds great . okay , i can .  accept that .",
+      "start_ms": 96940,
+      "end_ms": 102970
+    },
+    {
+      "turn_id": "t14",
+      "speaker": "agent",
+      "text": "then i recommend you to go to a restaurant called anatolia . uh , do you want to make a book .",
+      "start_ms": 103190,
+      "end_ms": 109590
+    },
+    {
+      "turn_id": "t15",
+      "speaker": "user",
+      "text": "uh , yes , sure , please book table for five people .  um 20 .  let's do 1230 on friday .",
+      "start_ms": 111350,
+      "end_ms": 121020
+    },
+    {
+      "turn_id": "t16",
+      "speaker": "agent",
+      "text": "okay , so 5 people 12:30 on friday . can i have a name , please .",
+      "start_ms": 121150,
+      "end_ms": 125820
+    },
+    {
+      "turn_id": "t17",
+      "speaker": "user",
+      "text": "yes , my name is john was in .",
+      "start_ms": 125880,
+      "end_ms": 129390
+    },
+    {
+      "turn_id": "t18",
+      "speaker": "agent",
+      "text": "can you start a thing for me .",
+      "start_ms": 129730,
+      "end_ms": 131500
+    },
+    {
+      "turn_id": "t19",
+      "speaker": "user",
+      "text": "racing is r a c i n e .",
+      "start_ms": 131490,
+      "end_ms": 135340
+    },
+    {
+      "turn_id": "t20",
+      "speaker": "agent",
+      "text": "racine i got it . oh , yes , you're booking successful . um do you want me to send confirmation later to your email .",
+      "start_ms": 135290,
+      "end_ms": 144120
+    },
+    {
+      "turn_id": "t21",
+      "speaker": "user",
+      "text": "okay , sure . my email address is j was seen my name and 4 0 v d .  at outlook dot com .",
+      "start_ms": 144840,
+      "end_ms": 154690
+    },
+    {
+      "turn_id": "t22",
+      "speaker": "agent",
+      "text": "okay , i got it then you . bladder will be sending . um is there anything i can do for you .",
+      "start_ms": 155100,
+      "end_ms": 162330
+    },
+    {
+      "turn_id": "t23",
+      "speaker": "user",
+      "text": "oh , yeah , sure . i i just think about that . i need a taxi to commute between the two places . can you book taxi for me , uh . and make sure make sure you arrive at the restaurant .  by 1230 , please .",
+      "start_ms": 162510,
+      "end_ms": 178970
+    },
+    {
+      "turn_id": "t24",
+      "speaker": "agent",
+      "text": "of course , and the tax will be picking up at 12:30 . and arrive the restaurant . um can i have your phone number , please .",
+      "start_ms": 178970,
+      "end_ms": 190470
+    },
+    {
+      "turn_id": "t25",
+      "speaker": "user",
+      "text": "yes , my phone number is double 9 3 8 .",
+      "start_ms": 190520,
+      "end_ms": 194510
+    },
+    {
+      "turn_id": "t26",
+      "speaker": "agent",
+      "text": "9938 .",
+      "start_ms": 194590,
+      "end_ms": 196210
+    },
+    {
+      "turn_id": "t27",
+      "speaker": "user",
+      "text": "double 2 3 6 .",
+      "start_ms": 196560,
+      "end_ms": 198710
+    },
+    {
+      "turn_id": "t28",
+      "speaker": "agent",
+      "text": "2236 .",
+      "start_ms": 199130,
+      "end_ms": 201330
+    },
+    {
+      "turn_id": "t29",
+      "speaker": "user",
+      "text": "0 2 .",
+      "start_ms": 201340,
+      "end_ms": 202750
+    },
+    {
+      "turn_id": "t30",
+      "speaker": "agent",
+      "text": "02 . okay , i got it . and there will be a tesla waiting for you .",
+      "start_ms": 202620,
+      "end_ms": 208610
+    },
+    {
+      "turn_id": "t31",
+      "speaker": "user",
+      "text": "okay , why scold . i got it . thank you very much . that's all i need .",
+      "start_ms": 208570,
+      "end_ms": 212820
+    },
+    {
+      "turn_id": "t32",
+      "speaker": "agent",
+      "text": "you're welcome , goodbye .",
+      "start_ms": 212900,
+      "end_ms": 214940
+    },
+    {
+      "turn_id": "t33",
+      "speaker": "user",
+      "text": "bai .",
+      "start_ms": 215150,
+      "end_ms": 216170
+    },
+    {
+      "turn_id": "t34",
+      "speaker": "agent",
+      "text": "bye bye .",
+      "start_ms": 216610,
+      "end_ms": 217630
+    }
+  ],
+  "audio_path": null,
+  "metadata": {
+    "license": "CC BY-NC 4.0 (eval use)",
+    "speaker_source": "tag field (channel ids do not separate speakers)",
+    "skipped_unwordtimed_turns": 0,
+    "n_plausible_overlaps": 2,
+    "n_long_intra_pauses": 2,
+    "goal": {
+      "attraction": {
+        "info": {
+          "name": "museum of archaelogy and anthropology"
+        },
+        "reqt": [
+          "phone",
+          "openhours"
+        ]
+      },
+      "profile": {
+        "info": {
+          "email": "jracine40vd@outlook.com",
+          "name": "john racine",
+          "phonenumber": "9938223602"
+        }
+      },
+      "restaurant": {
+        "book": {
+          "day": "friday",
+          "people": "5",
+          "time": "12:30"
+        },
+        "info": {
+          "area": "centre",
+          "food": "turkish",
+          "pricerange": "moderate"
+        }
+      },
+      "taxi": {
+        "info": {
+          "arriveBy": "12:30"
+        },
+        "reqt": [
+          "car type"
+        ]
+      }
+    },
+    "selection_bucket": "interruption"
+  },
+  "outcome": {
+    "call_id": "swz_MUL0189",
+    "task_completed": false,
+    "required_fields": [
+      {
+        "name": "attraction.name",
+        "captured": true,
+        "value": "museum of archaelogy and anthropology"
+      },
+      {
+        "name": "attraction.phone",
+        "captured": true,
+        "value": null
+      },
+      {
+        "name": "attraction.openhours",
+        "captured": false,
+        "value": null
+      },
+      {
+        "name": "profile.email",
+        "captured": false,
+        "value": null
+      },
+      {
+        "name": "profile.name",
+        "captured": false,
+        "value": null
+      },
+      {
+        "name": "profile.phonenumber",
+        "captured": false,
+        "value": null
+      },
+      {
+        "name": "restaurant.area",
+        "captured": false,
+        "value": null
+      },
+      {
+        "name": "restaurant.food",
+        "captured": true,
+        "value": "turkish"
+      },
+      {
+        "name": "restaurant.pricerange",
+        "captured": true,
+        "value": "moderate"
+      },
+      {
+        "name": "restaurant.book_day",
+        "captured": true,
+        "value": "friday"
+      },
+      {
+        "name": "restaurant.book_people",
+        "captured": true,
+        "value": "5"
+      },
+      {
+        "name": "restaurant.book_time",
+        "captured": true,
+        "value": "12:30"
+      },
+      {
+        "name": "taxi.arriveBy",
+        "captured": true,
+        "value": "12:30"
+      },
+      {
+        "name": "taxi.car type",
+        "captured": false,
+        "value": null
+      }
+    ],
+    "escalation_needed": false,
+    "confidence": 0.57
+  },
+  "scorecard": {
+    "call_id": "swz_MUL0189",
+    "dimensions": [
+      {
+        "name": "barge_in",
+        "type": "deterministic",
+        "score": 0.66,
+        "reason": "agent interrupted the caller 1x (overlap 130ms)",
+        "evidence_turn_ids": [
+          "t29",
+          "t30"
+        ]
+      },
+      {
+        "name": "latency_gap",
+        "type": "deterministic",
+        "score": 0.933,
+        "reason": "median 340ms / p90 530ms; 1/15 responses laggy (>800ms)",
+        "evidence_turn_ids": [
+          "t10"
+        ]
+      },
+      {
+        "name": "task_completion",
+        "type": "deterministic",
+        "score": 0.571,
+        "reason": "captured 8/14 required fields (heuristic from goal/workflow)",
+        "evidence_turn_ids": []
+      }
+    ],
+    "overall": 0.721
+  },
+  "cost": {
+    "call_id": "swz_MUL0189",
+    "duration_s": 217.6,
+    "turn_count": 34,
+    "est_llm_calls": 17,
+    "est_cost_total": 0.085,
+    "est_cost_per_success_note": "estimated, prototype"
+  },
+  "failures": [
+    {
+      "at_ms": 23170,
+      "dimension": "barge_in",
+      "label": "user barge-in",
+      "detail": "1400ms overlap",
+      "evidence_turn_ids": [
+        "t4",
+        "t5"
+      ],
+      "call_id": "swz_MUL0189",
+      "origin": "deterministic"
+    },
+    {
+      "at_ms": 47500,
+      "dimension": "barge_in",
+      "label": "user barge-in",
+      "detail": "7840ms overlap",
+      "evidence_turn_ids": [
+        "t8",
+        "t9"
+      ],
+      "call_id": "swz_MUL0189",
+      "origin": "deterministic"
+    },
+    {
+      "at_ms": 75050,
+      "dimension": "latency_gap",
+      "label": "response latency",
+      "detail": "1,000ms gap",
+      "evidence_turn_ids": [
+        "t9",
+        "t10"
+      ],
+      "call_id": "swz_MUL0189",
+      "origin": "deterministic"
+    },
+    {
+      "at_ms": 202620,
+      "dimension": "barge_in",
+      "label": "agent barge-in",
+      "detail": "130ms overlap",
+      "evidence_turn_ids": [
+        "t29",
+        "t30"
+      ],
+      "call_id": "swz_MUL0189",
+      "origin": "deterministic"
+    }
+  ],
+  "signals": {
+    "latency": {
+      "n_handoffs": 15,
+      "median_gap_ms": 340,
+      "p90_gap_ms": 530,
+      "laggy_threshold_ms": 800,
+      "n_laggy": 1
+    },
+    "n_barge_ins": 3
+  }
+}

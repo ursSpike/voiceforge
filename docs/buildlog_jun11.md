@@ -148,3 +148,49 @@ goals + signals + cost → the first real `out/calls.json` validated against the
 contract, + analytics/failure-clusters). STOP here per the leash.
 
 ---
+
+## BATCH 3 — Deterministic eval core · Jun 11 ~20:15 IST
+
+**Objective:** produce the first real `out/calls.json` — every call merged into a validated
+`call_record` (task_outcome + deterministic scorecard + cost + failures) — plus `out/analytics.json`
+(summary + failure clusters). DETERMINISTIC ONLY; judge dims are Batch 4.
+
+**Inputs:** 46 `data/normalized/*.json`, `signals.py`, `schemas.py`, `rubric.yaml`.
+
+**Outputs:**
+- `pipeline/score.py` — the eval core (outcome heuristic, 3 deterministic scorecard dims, cost,
+  failures, analytics; `overall` = weighted mean over PRESENT dims, re-normalized).
+- `out/calls.json` (46 records) + `out/call_<id>.json` per call + `out/analytics.json` — all
+  **validated against the tight call_record / analytics contracts** (0 invalid).
+
+**Commands:** `python pipeline/score.py`.
+
+**Why for demo:** this is the spine the dashboard reads. The contrast story holds on real numbers:
+clean calls score high + complete (bolna_246cd9f3 **1.0**, swz_MUL0265 0.82); the interruption call
+fails (swz_MUL0035 **0.547**, 6/13 laggy, 4/9 fields captured, 13 failures). Hero: 0.803 with the
+1 agent barge-in (800ms) + 1 laggy gap correctly scored. Every dimension carries a reason citing
+the actual ms numbers + evidence turn ids. Preflight `scored` now PASS (46 calls, 0 dims missing
+reason/evidence); global preflight 6→5 FAIL.
+
+**Numbers:** success_rate 0.37 · avg_overall 0.711 · cost/successful $0.244. Failure clusters:
+latency_gap 183, barge_in 107. By profile: interruption 21 (38%), clean 20 (40%), pause_heavy 5 (20%).
+
+**Discarded / honest caveats:**
+- `task_outcome` is a transparent HEURISTIC: a field is "captured" if its goal value (or workflow
+  keyword) appears in the dialogue text — NOT gold dialogue-state (SpokenWOZ has belief-state
+  annotations we deliberately ignore this sprint). So success_rate 0.37 likely UNDERcounts real
+  completions (e.g. 16-digit `idnumber`, `reqt` slots rarely match verbatim). Documented; it's
+  deterministic + reproducible, and the relative ordering (clean > failing) is the demo point.
+- The `barge_in` failure cluster (107) counts BOTH agent and user barge-ins (the `label` field
+  distinguishes); only AGENT barge-ins penalize the `barge_in` score. Splitting into separate
+  cluster dimensions is a Batch 8 refinement, not a blocker.
+- Cost is estimated at $0.005/agent-turn (anchored to Bolna's observed 5.96c/13 turns); the Bolna
+  call uses its REAL provider cost. Labeled "estimated, prototype".
+
+**Broke:** left a stray placeholder line in `deterministic_scorecard` while drafting — removed before running.
+
+**Next (NOT started — awaiting review):** Batch 4 (LLM judge: the +2 semantic dims, evidence-cited,
+cached, gated behind blind labels) OR Spike's blind labels (Block 4) which the calibration needs.
+STOP here per the leash.
+
+---

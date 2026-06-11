@@ -1,0 +1,447 @@
+{
+  "call_id": "swz_MUL0398",
+  "source": "spokenwoz",
+  "language": "en",
+  "stress_profile": "clean",
+  "workflow_type": "hotel+profile+train",
+  "turns": [
+    {
+      "turn_id": "t1",
+      "speaker": "user",
+      "text": "hello is that customer service center .",
+      "start_ms": 0,
+      "end_ms": 3010
+    },
+    {
+      "turn_id": "t2",
+      "speaker": "agent",
+      "text": "yes . uh , what can i do for you .",
+      "start_ms": 2940,
+      "end_ms": 5520
+    },
+    {
+      "turn_id": "t3",
+      "speaker": "user",
+      "text": "uh , yes , i'm looking for a place to stay . could you please help me to find one .",
+      "start_ms": 5670,
+      "end_ms": 12930
+    },
+    {
+      "turn_id": "t4",
+      "speaker": "agent",
+      "text": "yes . do you have any special requirement .",
+      "start_ms": 12970,
+      "end_ms": 15780
+    },
+    {
+      "turn_id": "t5",
+      "speaker": "user",
+      "text": "yes , i think the hotel should have a star of four and i think it should be in the type of guesthouse .",
+      "start_ms": 16070,
+      "end_ms": 24520
+    },
+    {
+      "turn_id": "t6",
+      "speaker": "agent",
+      "text": "ok , do you have any special requirement for this guest house .",
+      "start_ms": 24680,
+      "end_ms": 28319
+    },
+    {
+      "turn_id": "t7",
+      "speaker": "user",
+      "text": "uh , yes . uh , i think my brother will come to see us and i think he's a job here . i hope he could .  free of charge .",
+      "start_ms": 28580,
+      "end_ms": 39970
+    },
+    {
+      "turn_id": "t8",
+      "speaker": "agent",
+      "text": "okay , of course . please hold on , let me check for you .",
+      "start_ms": 40040,
+      "end_ms": 43190
+    },
+    {
+      "turn_id": "t9",
+      "speaker": "user",
+      "text": "okay , thank you .",
+      "start_ms": 43100,
+      "end_ms": 44800
+    },
+    {
+      "turn_id": "t10",
+      "speaker": "agent",
+      "text": "yes , i have found a hotel name . a and b guest house . would you like me to book for you .",
+      "start_ms": 45070,
+      "end_ms": 50860
+    },
+    {
+      "turn_id": "t11",
+      "speaker": "user",
+      "text": "yes , yes , please book by room for our three people and we will stay there for five nights starting from saturday , please .",
+      "start_ms": 50990,
+      "end_ms": 61770
+    },
+    {
+      "turn_id": "t12",
+      "speaker": "agent",
+      "text": "okay . please hold on . um i'm afraid the hotel are 5 . is that acceptable .",
+      "start_ms": 62220,
+      "end_ms": 70310
+    },
+    {
+      "turn_id": "t13",
+      "speaker": "user",
+      "text": "yes , then two nights is okay .",
+      "start_ms": 70510,
+      "end_ms": 73910
+    },
+    {
+      "turn_id": "t14",
+      "speaker": "agent",
+      "text": "okay , i'm gonna need your name , please .",
+      "start_ms": 74150,
+      "end_ms": 76480
+    },
+    {
+      "turn_id": "t15",
+      "speaker": "user",
+      "text": "my name is eric miller .",
+      "start_ms": 76770,
+      "end_ms": 79340
+    },
+    {
+      "turn_id": "t16",
+      "speaker": "agent",
+      "text": "could you please spell that .",
+      "start_ms": 79700,
+      "end_ms": 81370
+    },
+    {
+      "turn_id": "t17",
+      "speaker": "user",
+      "text": "yes , it's e r i c k .  m i l l e r .",
+      "start_ms": 81620,
+      "end_ms": 87750
+    },
+    {
+      "turn_id": "t18",
+      "speaker": "agent",
+      "text": "okay , eric miller . is there anything else i can do for you .",
+      "start_ms": 87650,
+      "end_ms": 91620
+    },
+    {
+      "turn_id": "t19",
+      "speaker": "user",
+      "text": "yes , i'm also looking for a train which is depart from la and go to cambridge .",
+      "start_ms": 91640,
+      "end_ms": 98080
+    },
+    {
+      "turn_id": "t20",
+      "speaker": "agent",
+      "text": "okay . when would you like to leave .",
+      "start_ms": 98290,
+      "end_ms": 100580
+    },
+    {
+      "turn_id": "t21",
+      "speaker": "user",
+      "text": "hmm , i think we will live there the same day as the hotel booking and about the time it will leave after a quarter to 3 o'clock p .",
+      "start_ms": 100760,
+      "end_ms": 111910
+    },
+    {
+      "turn_id": "t22",
+      "speaker": "agent",
+      "text": "okay , please hold on .",
+      "start_ms": 112140,
+      "end_ms": 113950
+    },
+    {
+      "turn_id": "t23",
+      "speaker": "user",
+      "text": "yes .",
+      "start_ms": 114560,
+      "end_ms": 115530
+    },
+    {
+      "turn_id": "t24",
+      "speaker": "agent",
+      "text": "yes , we have a three train depart from lilly to cambridge and live at 15:35 . um saturday . would you like me to book .",
+      "start_ms": 115660,
+      "end_ms": 126080
+    },
+    {
+      "turn_id": "t25",
+      "speaker": "user",
+      "text": "uh , no , i just want to get its train .",
+      "start_ms": 126470,
+      "end_ms": 130560
+    },
+    {
+      "turn_id": "t26",
+      "speaker": "agent",
+      "text": "yes , the train i d is tr8176 .",
+      "start_ms": 130480,
+      "end_ms": 134850
+    },
+    {
+      "turn_id": "t27",
+      "speaker": "user",
+      "text": "okay , and it's travel time , please .",
+      "start_ms": 135120,
+      "end_ms": 138720
+    },
+    {
+      "turn_id": "t28",
+      "speaker": "agent",
+      "text": "and the train duration 17 minutes .",
+      "start_ms": 139130,
+      "end_ms": 142280
+    },
+    {
+      "turn_id": "t29",
+      "speaker": "user",
+      "text": "okay , got it and i want to know when it will arrive .",
+      "start_ms": 142630,
+      "end_ms": 146930
+    },
+    {
+      "turn_id": "t30",
+      "speaker": "agent",
+      "text": "yes , and the train will arrive at . 15:52 .",
+      "start_ms": 146910,
+      "end_ms": 153370
+    },
+    {
+      "turn_id": "t31",
+      "speaker": "user",
+      "text": "okay , okay , got it . thank you very much .",
+      "start_ms": 152680,
+      "end_ms": 156310
+    },
+    {
+      "turn_id": "t32",
+      "speaker": "agent",
+      "text": "would you like to receive all the information on .",
+      "start_ms": 156340,
+      "end_ms": 159530
+    },
+    {
+      "turn_id": "t33",
+      "speaker": "user",
+      "text": "yes , yes , i'm happy to receive orders via my .",
+      "start_ms": 159730,
+      "end_ms": 163860
+    },
+    {
+      "turn_id": "t34",
+      "speaker": "agent",
+      "text": "okay , then i'm gonna need your email address .",
+      "start_ms": 163810,
+      "end_ms": 167040
+    },
+    {
+      "turn_id": "t35",
+      "speaker": "user",
+      "text": "okay , it's e m i l l e r r y .  easy at yahoo dot com .",
+      "start_ms": 167290,
+      "end_ms": 176790
+    },
+    {
+      "turn_id": "t36",
+      "speaker": "agent",
+      "text": "okay . got it . is there anything else i can do for you .",
+      "start_ms": 177140,
+      "end_ms": 180550
+    },
+    {
+      "turn_id": "t37",
+      "speaker": "user",
+      "text": "no , that's all .",
+      "start_ms": 180550,
+      "end_ms": 182290
+    },
+    {
+      "turn_id": "t38",
+      "speaker": "agent",
+      "text": "okay , thanks for calling . have a nice day .",
+      "start_ms": 182600,
+      "end_ms": 185100
+    }
+  ],
+  "audio_path": null,
+  "metadata": {
+    "license": "CC BY-NC 4.0 (eval use)",
+    "speaker_source": "tag field (channel ids do not separate speakers)",
+    "skipped_unwordtimed_turns": 0,
+    "n_plausible_overlaps": 1,
+    "n_long_intra_pauses": 0,
+    "goal": {
+      "hotel": {
+        "book": {
+          "day": "saturday",
+          "people": "3",
+          "stay": "2"
+        },
+        "info": {
+          "parking": "yes",
+          "stars": "4"
+        }
+      },
+      "profile": {
+        "info": {
+          "email": "EMillerryav@yahoo.com",
+          "name": "Erick Miller"
+        }
+      },
+      "train": {
+        "info": {
+          "departure": "ely",
+          "destination": "cambridge",
+          "leaveAt": "14:45"
+        },
+        "reqt": [
+          "trainID",
+          "duration",
+          "arriveBy"
+        ]
+      }
+    },
+    "selection_bucket": "clean_quiet"
+  },
+  "outcome": {
+    "call_id": "swz_MUL0398",
+    "task_completed": false,
+    "required_fields": [
+      {
+        "name": "hotel.parking",
+        "captured": true,
+        "value": "yes"
+      },
+      {
+        "name": "hotel.stars",
+        "captured": false,
+        "value": null
+      },
+      {
+        "name": "hotel.book_day",
+        "captured": true,
+        "value": "saturday"
+      },
+      {
+        "name": "hotel.book_people",
+        "captured": true,
+        "value": "3"
+      },
+      {
+        "name": "hotel.book_stay",
+        "captured": true,
+        "value": "2"
+      },
+      {
+        "name": "profile.email",
+        "captured": false,
+        "value": null
+      },
+      {
+        "name": "profile.name",
+        "captured": false,
+        "value": null
+      },
+      {
+        "name": "train.departure",
+        "captured": false,
+        "value": null
+      },
+      {
+        "name": "train.destination",
+        "captured": true,
+        "value": "cambridge"
+      },
+      {
+        "name": "train.leaveAt",
+        "captured": false,
+        "value": null
+      },
+      {
+        "name": "train.trainID",
+        "captured": false,
+        "value": null
+      },
+      {
+        "name": "train.duration",
+        "captured": true,
+        "value": null
+      },
+      {
+        "name": "train.arriveBy",
+        "captured": false,
+        "value": null
+      }
+    ],
+    "escalation_needed": false,
+    "confidence": 0.46
+  },
+  "scorecard": {
+    "call_id": "swz_MUL0398",
+    "dimensions": [
+      {
+        "name": "barge_in",
+        "type": "deterministic",
+        "score": 1.0,
+        "reason": "no agent barge-ins",
+        "evidence_turn_ids": []
+      },
+      {
+        "name": "latency_gap",
+        "type": "deterministic",
+        "score": 1.0,
+        "reason": "median 235.0ms / p90 410ms; 0/14 responses laggy (>800ms)",
+        "evidence_turn_ids": []
+      },
+      {
+        "name": "task_completion",
+        "type": "deterministic",
+        "score": 0.462,
+        "reason": "captured 6/13 required fields (heuristic from goal/workflow)",
+        "evidence_turn_ids": []
+      }
+    ],
+    "overall": 0.821
+  },
+  "cost": {
+    "call_id": "swz_MUL0398",
+    "duration_s": 185.1,
+    "turn_count": 38,
+    "est_llm_calls": 19,
+    "est_cost_total": 0.095,
+    "est_cost_per_success_note": "estimated, prototype"
+  },
+  "failures": [
+    {
+      "at_ms": 152680,
+      "dimension": "barge_in",
+      "label": "user barge-in",
+      "detail": "690ms overlap",
+      "evidence_turn_ids": [
+        "t30",
+        "t31"
+      ],
+      "call_id": "swz_MUL0398",
+      "origin": "deterministic"
+    }
+  ],
+  "signals": {
+    "latency": {
+      "n_handoffs": 14,
+      "median_gap_ms": 235.0,
+      "p90_gap_ms": 410,
+      "laggy_threshold_ms": 800,
+      "n_laggy": 0
+    },
+    "n_barge_ins": 1
+  }
+}

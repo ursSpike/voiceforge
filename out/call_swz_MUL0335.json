@@ -1,0 +1,435 @@
+{
+  "call_id": "swz_MUL0335",
+  "source": "spokenwoz",
+  "language": "en",
+  "stress_profile": "clean",
+  "workflow_type": "profile+restaurant+train",
+  "turns": [
+    {
+      "turn_id": "t1",
+      "speaker": "user",
+      "text": "hello , how are you .",
+      "start_ms": 3670,
+      "end_ms": 5310
+    },
+    {
+      "turn_id": "t2",
+      "speaker": "agent",
+      "text": "fine , thanks and you .",
+      "start_ms": 5780,
+      "end_ms": 7480
+    },
+    {
+      "turn_id": "t3",
+      "speaker": "user",
+      "text": "i'm good . thank you . i would like for a table in a restaurant that says italian food , that's in the moderate price range and it should be in the opposite .  a side of .  cambridge north .",
+      "start_ms": 7400,
+      "end_ms": 20710
+    },
+    {
+      "turn_id": "t4",
+      "speaker": "agent",
+      "text": "south .",
+      "start_ms": 22570,
+      "end_ms": 22840
+    },
+    {
+      "turn_id": "t5",
+      "speaker": "user",
+      "text": "yes , please .",
+      "start_ms": 23000,
+      "end_ms": 24490
+    },
+    {
+      "turn_id": "t6",
+      "speaker": "agent",
+      "text": "okay , i found it .",
+      "start_ms": 24700,
+      "end_ms": 26800
+    },
+    {
+      "turn_id": "t7",
+      "speaker": "user",
+      "text": "alright , so i would like to book for one person on saturday .  7 petition .",
+      "start_ms": 27200,
+      "end_ms": 33330
+    },
+    {
+      "turn_id": "t8",
+      "speaker": "agent",
+      "text": "okay . can i please get your name .",
+      "start_ms": 33850,
+      "end_ms": 36300
+    },
+    {
+      "turn_id": "t9",
+      "speaker": "user",
+      "text": "yes , my name is jimmy .  jimmy mickey .  and this feeling of my name is ji .",
+      "start_ms": 36420,
+      "end_ms": 43700
+    },
+    {
+      "turn_id": "t10",
+      "speaker": "agent",
+      "text": "yes , i got .",
+      "start_ms": 43860,
+      "end_ms": 44950
+    },
+    {
+      "turn_id": "t11",
+      "speaker": "user",
+      "text": "m m y .",
+      "start_ms": 45340,
+      "end_ms": 47030
+    },
+    {
+      "turn_id": "t12",
+      "speaker": "agent",
+      "text": "yes , i got .",
+      "start_ms": 47090,
+      "end_ms": 48600
+    },
+    {
+      "turn_id": "t13",
+      "speaker": "user",
+      "text": "and for my surname , it's m . a.c. .",
+      "start_ms": 48770,
+      "end_ms": 51499
+    },
+    {
+      "turn_id": "t14",
+      "speaker": "agent",
+      "text": "yes , i got that .",
+      "start_ms": 51760,
+      "end_ms": 53220
+    },
+    {
+      "turn_id": "t15",
+      "speaker": "user",
+      "text": "k ey .",
+      "start_ms": 53300,
+      "end_ms": 54790
+    },
+    {
+      "turn_id": "t16",
+      "speaker": "agent",
+      "text": "okay , so cute . can i think your email .",
+      "start_ms": 55100,
+      "end_ms": 57910
+    },
+    {
+      "turn_id": "t17",
+      "speaker": "user",
+      "text": "i'm sorry , i can't give out my email .",
+      "start_ms": 58310,
+      "end_ms": 60710
+    },
+    {
+      "turn_id": "t18",
+      "speaker": "agent",
+      "text": "okay , no problem . i have booked your table at pizza hut cherry hinton .",
+      "start_ms": 61120,
+      "end_ms": 66570
+    },
+    {
+      "turn_id": "t19",
+      "speaker": "user",
+      "text": "alright , thank you . and i would also like to put it for a train that is commuting on sunday from cambridge to box bond and it should arrive for five minutes before 11 a . m. .",
+      "start_ms": 66730,
+      "end_ms": 78349
+    },
+    {
+      "turn_id": "t20",
+      "speaker": "agent",
+      "text": "okay . can um , i found one .",
+      "start_ms": 78790,
+      "end_ms": 82060
+    },
+    {
+      "turn_id": "t21",
+      "speaker": "user",
+      "text": "all right , i would like to book for one person .",
+      "start_ms": 82490,
+      "end_ms": 85070
+    },
+    {
+      "turn_id": "t22",
+      "speaker": "agent",
+      "text": "okay . can i please get your id number .",
+      "start_ms": 85740,
+      "end_ms": 89020
+    },
+    {
+      "turn_id": "t23",
+      "speaker": "user",
+      "text": "yes . uh , it's 2 7 , 7 , 3 .",
+      "start_ms": 89170,
+      "end_ms": 92780
+    },
+    {
+      "turn_id": "t24",
+      "speaker": "agent",
+      "text": "you forgotten .",
+      "start_ms": 93060,
+      "end_ms": 94640
+    },
+    {
+      "turn_id": "t25",
+      "speaker": "user",
+      "text": "1 , 5 , 3 , 7 .",
+      "start_ms": 94890,
+      "end_ms": 97070
+    },
+    {
+      "turn_id": "t26",
+      "speaker": "agent",
+      "text": "you forgot us .",
+      "start_ms": 97530,
+      "end_ms": 99090
+    },
+    {
+      "turn_id": "t27",
+      "speaker": "user",
+      "text": "2 8 2 2 .",
+      "start_ms": 99160,
+      "end_ms": 101070
+    },
+    {
+      "turn_id": "t28",
+      "speaker": "agent",
+      "text": "you forgot that .",
+      "start_ms": 101380,
+      "end_ms": 102920
+    },
+    {
+      "turn_id": "t29",
+      "speaker": "user",
+      "text": "3 0 , 5 , 9 .",
+      "start_ms": 102870,
+      "end_ms": 104690
+    },
+    {
+      "turn_id": "t30",
+      "speaker": "agent",
+      "text": "okay , thank you . i have booked your train , although it does not arrive at 10:15 , it arrives at 10:01 . is that okay .",
+      "start_ms": 105180,
+      "end_ms": 112930
+    },
+    {
+      "turn_id": "t31",
+      "speaker": "user",
+      "text": "yes , it's okay . it's okay . um can you please provide me the train id .",
+      "start_ms": 113150,
+      "end_ms": 117780
+    },
+    {
+      "turn_id": "t32",
+      "speaker": "agent",
+      "text": "okay , the train id is tr2941 .",
+      "start_ms": 118200,
+      "end_ms": 122820
+    },
+    {
+      "turn_id": "t33",
+      "speaker": "user",
+      "text": "alright , thank you .",
+      "start_ms": 123050,
+      "end_ms": 124460
+    },
+    {
+      "turn_id": "t34",
+      "speaker": "agent",
+      "text": "yes . is there anything else i can help you .",
+      "start_ms": 124560,
+      "end_ms": 127050
+    },
+    {
+      "turn_id": "t35",
+      "speaker": "user",
+      "text": "no , that's all . thank you . bye .",
+      "start_ms": 127100,
+      "end_ms": 129350
+    },
+    {
+      "turn_id": "t36",
+      "speaker": "agent",
+      "text": "but i have a wonderful day .",
+      "start_ms": 129590,
+      "end_ms": 131530
+    }
+  ],
+  "audio_path": null,
+  "metadata": {
+    "license": "CC BY-NC 4.0 (eval use)",
+    "speaker_source": "tag field (channel ids do not separate speakers)",
+    "skipped_unwordtimed_turns": 0,
+    "n_plausible_overlaps": 0,
+    "n_long_intra_pauses": 0,
+    "goal": {
+      "profile": {
+        "info": {
+          "idnumber": "2773153728223059",
+          "name": "jimmy mackey"
+        }
+      },
+      "restaurant": {
+        "book": {
+          "day": "saturday",
+          "people": "1",
+          "time": "19:30"
+        },
+        "info": {
+          "area": "south",
+          "food": "italian",
+          "pricerange": "moderate"
+        }
+      },
+      "train": {
+        "book": {
+          "people": "1"
+        },
+        "info": {
+          "arriveBy": "10:15",
+          "day": "sunday",
+          "departure": "cambridge",
+          "destination": "broxbourne"
+        }
+      }
+    },
+    "selection_bucket": "clean_laggy"
+  },
+  "outcome": {
+    "call_id": "swz_MUL0335",
+    "task_completed": false,
+    "required_fields": [
+      {
+        "name": "profile.idnumber",
+        "captured": false,
+        "value": null
+      },
+      {
+        "name": "profile.name",
+        "captured": false,
+        "value": null
+      },
+      {
+        "name": "restaurant.area",
+        "captured": true,
+        "value": "south"
+      },
+      {
+        "name": "restaurant.food",
+        "captured": true,
+        "value": "italian"
+      },
+      {
+        "name": "restaurant.pricerange",
+        "captured": true,
+        "value": "moderate"
+      },
+      {
+        "name": "restaurant.book_day",
+        "captured": true,
+        "value": "saturday"
+      },
+      {
+        "name": "restaurant.book_people",
+        "captured": true,
+        "value": "1"
+      },
+      {
+        "name": "restaurant.book_time",
+        "captured": false,
+        "value": null
+      },
+      {
+        "name": "train.arriveBy",
+        "captured": true,
+        "value": "10:15"
+      },
+      {
+        "name": "train.day",
+        "captured": true,
+        "value": "sunday"
+      },
+      {
+        "name": "train.departure",
+        "captured": true,
+        "value": "cambridge"
+      },
+      {
+        "name": "train.destination",
+        "captured": false,
+        "value": null
+      },
+      {
+        "name": "train.book_people",
+        "captured": true,
+        "value": "1"
+      }
+    ],
+    "escalation_needed": false,
+    "confidence": 0.69
+  },
+  "scorecard": {
+    "call_id": "swz_MUL0335",
+    "dimensions": [
+      {
+        "name": "barge_in",
+        "type": "deterministic",
+        "score": 1.0,
+        "reason": "no agent barge-ins",
+        "evidence_turn_ids": []
+      },
+      {
+        "name": "latency_gap",
+        "type": "deterministic",
+        "score": 0.944,
+        "reason": "median 360.0ms / p90 670ms; 1/18 responses laggy (>800ms)",
+        "evidence_turn_ids": [
+          "t4"
+        ]
+      },
+      {
+        "name": "task_completion",
+        "type": "deterministic",
+        "score": 0.692,
+        "reason": "captured 9/13 required fields (heuristic from goal/workflow)",
+        "evidence_turn_ids": []
+      }
+    ],
+    "overall": 0.879
+  },
+  "cost": {
+    "call_id": "swz_MUL0335",
+    "duration_s": 131.5,
+    "turn_count": 36,
+    "est_llm_calls": 18,
+    "est_cost_total": 0.09,
+    "est_cost_per_success_note": "estimated, prototype"
+  },
+  "failures": [
+    {
+      "at_ms": 22570,
+      "dimension": "latency_gap",
+      "label": "response latency",
+      "detail": "1,860ms gap",
+      "evidence_turn_ids": [
+        "t3",
+        "t4"
+      ],
+      "call_id": "swz_MUL0335",
+      "origin": "deterministic"
+    }
+  ],
+  "signals": {
+    "latency": {
+      "n_handoffs": 18,
+      "median_gap_ms": 360.0,
+      "p90_gap_ms": 670,
+      "laggy_threshold_ms": 800,
+      "n_laggy": 1
+    },
+    "n_barge_ins": 0
+  }
+}

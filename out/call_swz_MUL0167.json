@@ -1,0 +1,498 @@
+{
+  "call_id": "swz_MUL0167",
+  "source": "spokenwoz",
+  "language": "en",
+  "stress_profile": "interruption",
+  "workflow_type": "hotel+profile+train",
+  "turns": [
+    {
+      "turn_id": "t1",
+      "speaker": "user",
+      "text": "hi there . you're speaking to scarlet .",
+      "start_ms": 1450,
+      "end_ms": 3850
+    },
+    {
+      "turn_id": "t2",
+      "speaker": "agent",
+      "text": "hi , scarlett . how are you .",
+      "start_ms": 4100,
+      "end_ms": 5860
+    },
+    {
+      "turn_id": "t3",
+      "speaker": "user",
+      "text": "i'm great . thanks for yourself .",
+      "start_ms": 5970,
+      "end_ms": 7940
+    },
+    {
+      "turn_id": "t4",
+      "speaker": "agent",
+      "text": "i'm good . thank you .",
+      "start_ms": 7920,
+      "end_ms": 9330
+    },
+    {
+      "turn_id": "t5",
+      "speaker": "user",
+      "text": "i am planning a trip to cambridge and i'm looking for some information on places that i can stay .  is this something that you can help me with .",
+      "start_ms": 10110,
+      "end_ms": 18380
+    },
+    {
+      "turn_id": "t6",
+      "speaker": "agent",
+      "text": "yes , i'll be happy to assist .",
+      "start_ms": 18370,
+      "end_ms": 20230
+    },
+    {
+      "turn_id": "t7",
+      "speaker": "user",
+      "text": "okay , so i'm looking for a hotel . um , it doesn't need to include .",
+      "start_ms": 20610,
+      "end_ms": 27250
+    },
+    {
+      "turn_id": "t8",
+      "speaker": "agent",
+      "text": "okay , alright , i can check and see what we have in cambridge .",
+      "start_ms": 28450,
+      "end_ms": 32530
+    },
+    {
+      "turn_id": "t9",
+      "speaker": "user",
+      "text": "all right , and i also won't be driving as well .",
+      "start_ms": 32880,
+      "end_ms": 37230
+    },
+    {
+      "turn_id": "t10",
+      "speaker": "agent",
+      "text": "okay , i can check and see if it doesn't have i i can make sure that it doesn't have free packing .",
+      "start_ms": 37790,
+      "end_ms": 44360
+    },
+    {
+      "turn_id": "t11",
+      "speaker": "user",
+      "text": "all right . and the hotels that i'm interested in should have a three star rating and should be in the moderate price range .",
+      "start_ms": 44390,
+      "end_ms": 52350
+    },
+    {
+      "turn_id": "t12",
+      "speaker": "agent",
+      "text": "okay , alright for that , i can recommend the alpha-milton guest house .",
+      "start_ms": 52670,
+      "end_ms": 57960
+    },
+    {
+      "turn_id": "t13",
+      "speaker": "user",
+      "text": "okay , alright , i would like to make a booking for six people to stay at that guesthouse for two nights starting from wednesday .",
+      "start_ms": 58430,
+      "end_ms": 67400
+    },
+    {
+      "turn_id": "t14",
+      "speaker": "agent",
+      "text": "okay , i'll be happy to make a booking for 6 for 2 starting from wednesday . matt , please have your full .",
+      "start_ms": 67740,
+      "end_ms": 74330
+    },
+    {
+      "turn_id": "t15",
+      "speaker": "user",
+      "text": "my full name is kalat jensen jackson .",
+      "start_ms": 74730,
+      "end_ms": 78700
+    },
+    {
+      "turn_id": "t16",
+      "speaker": "agent",
+      "text": "thank you , scalet . may you please spell that for me .",
+      "start_ms": 79190,
+      "end_ms": 82030
+    },
+    {
+      "turn_id": "t17",
+      "speaker": "user",
+      "text": "all right , scallop is both as for sierra c for charlie .  a for \u03b1 \u03b1 roger alpha lima e for echo double t photograph .  and jackson is photos j for juliet . a for alpha c for charlie k for kilo s for sierra or for oscar and for november .",
+      "start_ms": 82370,
+      "end_ms": 103140
+    },
+    {
+      "turn_id": "t18",
+      "speaker": "agent",
+      "text": "okay , all right . thank you so much for that . scarlett booking has been made . would you like an email with the order .",
+      "start_ms": 103750,
+      "end_ms": 110210
+    },
+    {
+      "turn_id": "t19",
+      "speaker": "user",
+      "text": "um no , thank you , but i am also looking for some information on trains . is this something that you can assist you with .",
+      "start_ms": 110540,
+      "end_ms": 117550
+    },
+    {
+      "turn_id": "t20",
+      "speaker": "agent",
+      "text": "yes , i'll be happy to assist you with that as well .",
+      "start_ms": 117520,
+      "end_ms": 120050
+    },
+    {
+      "turn_id": "t21",
+      "speaker": "user",
+      "text": "alright , so i'm interested in a train that should depart from .  bishop sought for going to cambridge .",
+      "start_ms": 120290,
+      "end_ms": 128190
+    },
+    {
+      "turn_id": "t22",
+      "speaker": "agent",
+      "text": "okay , i can check our database for that .",
+      "start_ms": 128440,
+      "end_ms": 130950
+    },
+    {
+      "turn_id": "t23",
+      "speaker": "user",
+      "text": "right . and i'm interested in leaving bishop sought food on a wednesday any time after .  1330 .",
+      "start_ms": 131140,
+      "end_ms": 141180
+    },
+    {
+      "turn_id": "t24",
+      "speaker": "agent",
+      "text": "okay . um i can offer you a train that leaves bishops stortford . at 13:30 that work for you .",
+      "start_ms": 141450,
+      "end_ms": 150090
+    },
+    {
+      "turn_id": "t25",
+      "speaker": "user",
+      "text": "um , yes , that's perfect . could you please make a booking for me for um 6 people on that train .",
+      "start_ms": 150730,
+      "end_ms": 158670
+    },
+    {
+      "turn_id": "t26",
+      "speaker": "agent",
+      "text": "yes , certainly , may i please have your id number .",
+      "start_ms": 159010,
+      "end_ms": 161880
+    },
+    {
+      "turn_id": "t27",
+      "speaker": "user",
+      "text": "my id number is 8 6 8 1 .",
+      "start_ms": 162950,
+      "end_ms": 166590
+    },
+    {
+      "turn_id": "t28",
+      "speaker": "agent",
+      "text": "8681 .",
+      "start_ms": 166490,
+      "end_ms": 167300
+    },
+    {
+      "turn_id": "t29",
+      "speaker": "user",
+      "text": "7 2 7 1 .",
+      "start_ms": 167520,
+      "end_ms": 169740
+    },
+    {
+      "turn_id": "t30",
+      "speaker": "agent",
+      "text": "yes .",
+      "start_ms": 169580,
+      "end_ms": 170440
+    },
+    {
+      "turn_id": "t31",
+      "speaker": "user",
+      "text": "3 , 3 , 1 , 2 .",
+      "start_ms": 170740,
+      "end_ms": 172910
+    },
+    {
+      "turn_id": "t32",
+      "speaker": "agent",
+      "text": "go ahead .",
+      "start_ms": 172710,
+      "end_ms": 173700
+    },
+    {
+      "turn_id": "t33",
+      "speaker": "user",
+      "text": "2 6 0 1 .",
+      "start_ms": 173930,
+      "end_ms": 176250
+    },
+    {
+      "turn_id": "t34",
+      "speaker": "agent",
+      "text": "okay , thank you so much . so train booking has been made and your train id is tr9939 .",
+      "start_ms": 176070,
+      "end_ms": 183150
+    },
+    {
+      "turn_id": "t35",
+      "speaker": "user",
+      "text": "thank you so much for that information .",
+      "start_ms": 183660,
+      "end_ms": 186540
+    },
+    {
+      "turn_id": "t36",
+      "speaker": "agent",
+      "text": "your most welcome . is there anything else that i can assist you with .",
+      "start_ms": 186530,
+      "end_ms": 189690
+    },
+    {
+      "turn_id": "t37",
+      "speaker": "user",
+      "text": "that was all i needed to help today . thank you .",
+      "start_ms": 189920,
+      "end_ms": 193060
+    },
+    {
+      "turn_id": "t38",
+      "speaker": "agent",
+      "text": "okay , thank you so much for calling .",
+      "start_ms": 193110,
+      "end_ms": 195260
+    }
+  ],
+  "audio_path": null,
+  "metadata": {
+    "license": "CC BY-NC 4.0 (eval use)",
+    "speaker_source": "tag field (channel ids do not separate speakers)",
+    "skipped_unwordtimed_turns": 0,
+    "n_plausible_overlaps": 3,
+    "n_long_intra_pauses": 0,
+    "goal": {
+      "hotel": {
+        "book": {
+          "day": "wednesday",
+          "people": "6",
+          "stay": "2"
+        },
+        "info": {
+          "internet": "no",
+          "parking": "no",
+          "pricerange": "moderate",
+          "stars": "3"
+        }
+      },
+      "profile": {
+        "info": {
+          "idnumber": "8681727133122601",
+          "name": "scarlett jackson"
+        }
+      },
+      "train": {
+        "book": {
+          "people": "6"
+        },
+        "info": {
+          "day": "wednesday",
+          "departure": "bishops stortford",
+          "destination": "cambridge",
+          "leaveAt": "13:30"
+        }
+      }
+    },
+    "selection_bucket": "interruption"
+  },
+  "outcome": {
+    "call_id": "swz_MUL0167",
+    "task_completed": true,
+    "required_fields": [
+      {
+        "name": "hotel.internet",
+        "captured": true,
+        "value": "no"
+      },
+      {
+        "name": "hotel.parking",
+        "captured": true,
+        "value": "no"
+      },
+      {
+        "name": "hotel.pricerange",
+        "captured": true,
+        "value": "moderate"
+      },
+      {
+        "name": "hotel.stars",
+        "captured": true,
+        "value": "3"
+      },
+      {
+        "name": "hotel.book_day",
+        "captured": true,
+        "value": "wednesday"
+      },
+      {
+        "name": "hotel.book_people",
+        "captured": true,
+        "value": "6"
+      },
+      {
+        "name": "hotel.book_stay",
+        "captured": true,
+        "value": "2"
+      },
+      {
+        "name": "profile.idnumber",
+        "captured": false,
+        "value": null
+      },
+      {
+        "name": "profile.name",
+        "captured": false,
+        "value": null
+      },
+      {
+        "name": "train.day",
+        "captured": true,
+        "value": "wednesday"
+      },
+      {
+        "name": "train.departure",
+        "captured": true,
+        "value": "bishops stortford"
+      },
+      {
+        "name": "train.destination",
+        "captured": true,
+        "value": "cambridge"
+      },
+      {
+        "name": "train.leaveAt",
+        "captured": true,
+        "value": "13:30"
+      },
+      {
+        "name": "train.book_people",
+        "captured": true,
+        "value": "6"
+      }
+    ],
+    "escalation_needed": false,
+    "confidence": 0.86
+  },
+  "scorecard": {
+    "call_id": "swz_MUL0167",
+    "dimensions": [
+      {
+        "name": "barge_in",
+        "type": "deterministic",
+        "score": 0.0,
+        "reason": "agent interrupted the caller 3x (overlap 160ms, 200ms, 180ms)",
+        "evidence_turn_ids": [
+          "t29",
+          "t30",
+          "t31",
+          "t32",
+          "t33",
+          "t34"
+        ]
+      },
+      {
+        "name": "latency_gap",
+        "type": "deterministic",
+        "score": 0.909,
+        "reason": "median 340ms / p90 610ms; 1/11 responses laggy (>800ms)",
+        "evidence_turn_ids": [
+          "t8"
+        ]
+      },
+      {
+        "name": "task_completion",
+        "type": "deterministic",
+        "score": 0.857,
+        "reason": "captured 12/14 required fields (heuristic from goal/workflow)",
+        "evidence_turn_ids": []
+      }
+    ],
+    "overall": 0.589
+  },
+  "cost": {
+    "call_id": "swz_MUL0167",
+    "duration_s": 195.3,
+    "turn_count": 38,
+    "est_llm_calls": 19,
+    "est_cost_total": 0.095,
+    "est_cost_per_success_note": "estimated, prototype"
+  },
+  "failures": [
+    {
+      "at_ms": 28450,
+      "dimension": "latency_gap",
+      "label": "response latency",
+      "detail": "1,200ms gap",
+      "evidence_turn_ids": [
+        "t7",
+        "t8"
+      ],
+      "call_id": "swz_MUL0167",
+      "origin": "deterministic"
+    },
+    {
+      "at_ms": 169580,
+      "dimension": "barge_in",
+      "label": "agent barge-in",
+      "detail": "160ms overlap",
+      "evidence_turn_ids": [
+        "t29",
+        "t30"
+      ],
+      "call_id": "swz_MUL0167",
+      "origin": "deterministic"
+    },
+    {
+      "at_ms": 172710,
+      "dimension": "barge_in",
+      "label": "agent barge-in",
+      "detail": "200ms overlap",
+      "evidence_turn_ids": [
+        "t31",
+        "t32"
+      ],
+      "call_id": "swz_MUL0167",
+      "origin": "deterministic"
+    },
+    {
+      "at_ms": 176070,
+      "dimension": "barge_in",
+      "label": "agent barge-in",
+      "detail": "180ms overlap",
+      "evidence_turn_ids": [
+        "t33",
+        "t34"
+      ],
+      "call_id": "swz_MUL0167",
+      "origin": "deterministic"
+    }
+  ],
+  "signals": {
+    "latency": {
+      "n_handoffs": 11,
+      "median_gap_ms": 340,
+      "p90_gap_ms": 610,
+      "laggy_threshold_ms": 800,
+      "n_laggy": 1
+    },
+    "n_barge_ins": 3
+  }
+}

@@ -1,0 +1,576 @@
+{
+  "call_id": "swz_MUL0864",
+  "source": "spokenwoz",
+  "language": "en",
+  "stress_profile": "clean",
+  "workflow_type": "hotel+profile+train",
+  "turns": [
+    {
+      "turn_id": "t1",
+      "speaker": "user",
+      "text": "hello can service .",
+      "start_ms": 1250,
+      "end_ms": 2720
+    },
+    {
+      "turn_id": "t2",
+      "speaker": "agent",
+      "text": "get on .",
+      "start_ms": 3200,
+      "end_ms": 5660
+    },
+    {
+      "turn_id": "t3",
+      "speaker": "user",
+      "text": "thank you for taking my call .",
+      "start_ms": 7200,
+      "end_ms": 9030
+    },
+    {
+      "turn_id": "t4",
+      "speaker": "agent",
+      "text": "you will come home today .",
+      "start_ms": 9390,
+      "end_ms": 11610
+    },
+    {
+      "turn_id": "t5",
+      "speaker": "user",
+      "text": "i'm great . and how are you .",
+      "start_ms": 12020,
+      "end_ms": 13680
+    },
+    {
+      "turn_id": "t6",
+      "speaker": "agent",
+      "text": "oh , thank you . how can i help .",
+      "start_ms": 14160,
+      "end_ms": 16310
+    },
+    {
+      "turn_id": "t7",
+      "speaker": "user",
+      "text": "no , i'm looking for a .  place to stay .",
+      "start_ms": 17030,
+      "end_ms": 20740
+    },
+    {
+      "turn_id": "t8",
+      "speaker": "agent",
+      "text": "do you have a particular place in mind .",
+      "start_ms": 21510,
+      "end_ms": 23690
+    },
+    {
+      "turn_id": "t9",
+      "speaker": "user",
+      "text": "can it please include free parking .",
+      "start_ms": 24710,
+      "end_ms": 27610
+    },
+    {
+      "turn_id": "t10",
+      "speaker": "agent",
+      "text": "alright , do you have any other special requirements .",
+      "start_ms": 28260,
+      "end_ms": 30670
+    },
+    {
+      "turn_id": "t11",
+      "speaker": "user",
+      "text": "and a pc situation is at least .",
+      "start_ms": 31590,
+      "end_ms": 35300
+    },
+    {
+      "turn_id": "t12",
+      "speaker": "agent",
+      "text": "anything else before i search .",
+      "start_ms": 37160,
+      "end_ms": 39400
+    },
+    {
+      "turn_id": "t13",
+      "speaker": "user",
+      "text": "the price .  can it be extremely cheap .",
+      "start_ms": 40280,
+      "end_ms": 44280
+    },
+    {
+      "turn_id": "t14",
+      "speaker": "agent",
+      "text": "okay , please turn the line for me while i search .",
+      "start_ms": 46600,
+      "end_ms": 49840
+    },
+    {
+      "turn_id": "t15",
+      "speaker": "user",
+      "text": "i will hope .",
+      "start_ms": 50080,
+      "end_ms": 51350
+    },
+    {
+      "turn_id": "t16",
+      "speaker": "agent",
+      "text": "thank you for holding .",
+      "start_ms": 61910,
+      "end_ms": 63500
+    },
+    {
+      "turn_id": "t17",
+      "speaker": "user",
+      "text": "you are most welcome .",
+      "start_ms": 63900,
+      "end_ms": 65580
+    },
+    {
+      "turn_id": "t18",
+      "speaker": "agent",
+      "text": "being right . i found a hotel here called leverton house .",
+      "start_ms": 67330,
+      "end_ms": 71570
+    },
+    {
+      "turn_id": "t19",
+      "speaker": "user",
+      "text": "excellent and mayor , please just get the post .",
+      "start_ms": 74370,
+      "end_ms": 78550
+    },
+    {
+      "turn_id": "t20",
+      "speaker": "agent",
+      "text": "yes , the post code is cb5858 .",
+      "start_ms": 79010,
+      "end_ms": 83140
+    },
+    {
+      "turn_id": "t21",
+      "speaker": "user",
+      "text": "excellent . so i'm also just looking for a train .",
+      "start_ms": 84100,
+      "end_ms": 87380
+    },
+    {
+      "turn_id": "t22",
+      "speaker": "agent",
+      "text": "may you please confirm your departure point .",
+      "start_ms": 87860,
+      "end_ms": 90540
+    },
+    {
+      "turn_id": "t23",
+      "speaker": "user",
+      "text": "yeah , so i will be leaving london king's cross on the third day of this week .",
+      "start_ms": 91160,
+      "end_ms": 97230
+    },
+    {
+      "turn_id": "t24",
+      "speaker": "agent",
+      "text": "and what is your destination .",
+      "start_ms": 98120,
+      "end_ms": 100200
+    },
+    {
+      "turn_id": "t25",
+      "speaker": "user",
+      "text": "i am off to cambridge .",
+      "start_ms": 100780,
+      "end_ms": 103260
+    },
+    {
+      "turn_id": "t26",
+      "speaker": "agent",
+      "text": "anything else beside such .",
+      "start_ms": 103600,
+      "end_ms": 105680
+    },
+    {
+      "turn_id": "t27",
+      "speaker": "user",
+      "text": "so i would like way to leave after 1030 .",
+      "start_ms": 106120,
+      "end_ms": 110480
+    },
+    {
+      "turn_id": "t28",
+      "speaker": "agent",
+      "text": "you know i please don't align .",
+      "start_ms": 111300,
+      "end_ms": 113440
+    },
+    {
+      "turn_id": "t29",
+      "speaker": "user",
+      "text": "i will hope for you .",
+      "start_ms": 113760,
+      "end_ms": 115420
+    },
+    {
+      "turn_id": "t30",
+      "speaker": "agent",
+      "text": "thank you for holding .",
+      "start_ms": 123740,
+      "end_ms": 125340
+    },
+    {
+      "turn_id": "t31",
+      "speaker": "user",
+      "text": "you are most welcome .",
+      "start_ms": 125640,
+      "end_ms": 127280
+    },
+    {
+      "turn_id": "t32",
+      "speaker": "agent",
+      "text": "there is an available transformative . tr2417 .",
+      "start_ms": 127590,
+      "end_ms": 132520
+    },
+    {
+      "turn_id": "t33",
+      "speaker": "user",
+      "text": "great , ma'am , please book 6 .  seats , please .",
+      "start_ms": 133360,
+      "end_ms": 137860
+    },
+    {
+      "turn_id": "t34",
+      "speaker": "agent",
+      "text": "no problem . can i catch id .",
+      "start_ms": 138750,
+      "end_ms": 141200
+    },
+    {
+      "turn_id": "t35",
+      "speaker": "user",
+      "text": "sure , my id is 1 4 8 7 1 .",
+      "start_ms": 142650,
+      "end_ms": 146490
+    },
+    {
+      "turn_id": "t36",
+      "speaker": "agent",
+      "text": "yes , second .",
+      "start_ms": 146990,
+      "end_ms": 147890
+    },
+    {
+      "turn_id": "t37",
+      "speaker": "user",
+      "text": "6 8 1 5 3 .",
+      "start_ms": 149290,
+      "end_ms": 151720
+    },
+    {
+      "turn_id": "t38",
+      "speaker": "agent",
+      "text": "install with you .",
+      "start_ms": 152190,
+      "end_ms": 153550
+    },
+    {
+      "turn_id": "t39",
+      "speaker": "user",
+      "text": "3 4 1 0 , 3 , 7 .",
+      "start_ms": 154010,
+      "end_ms": 157060
+    },
+    {
+      "turn_id": "t40",
+      "speaker": "agent",
+      "text": "alright , i'll confirm your head number . it is 1487168153341037 .",
+      "start_ms": 157700,
+      "end_ms": 167810
+    },
+    {
+      "turn_id": "t41",
+      "speaker": "user",
+      "text": "yes , that is correct .",
+      "start_ms": 168680,
+      "end_ms": 170640
+    },
+    {
+      "turn_id": "t42",
+      "speaker": "agent",
+      "text": "thank you . the trend has been booked for wednesday 6 passengers .",
+      "start_ms": 171320,
+      "end_ms": 175450
+    },
+    {
+      "turn_id": "t43",
+      "speaker": "user",
+      "text": "thank you very much , ma'am .",
+      "start_ms": 176430,
+      "end_ms": 178240
+    },
+    {
+      "turn_id": "t44",
+      "speaker": "agent",
+      "text": "anything else i can help with .",
+      "start_ms": 178490,
+      "end_ms": 180610
+    },
+    {
+      "turn_id": "t45",
+      "speaker": "user",
+      "text": "that is all from me .",
+      "start_ms": 180910,
+      "end_ms": 182500
+    },
+    {
+      "turn_id": "t46",
+      "speaker": "agent",
+      "text": "thank you for calling me goodbye .",
+      "start_ms": 182940,
+      "end_ms": 184770
+    }
+  ],
+  "audio_path": null,
+  "metadata": {
+    "license": "CC BY-NC 4.0 (eval use)",
+    "speaker_source": "tag field (channel ids do not separate speakers)",
+    "skipped_unwordtimed_turns": 0,
+    "n_plausible_overlaps": 0,
+    "n_long_intra_pauses": 0,
+    "goal": {
+      "hotel": {
+        "info": {
+          "area": "east",
+          "parking": "yes",
+          "pricerange": "cheap"
+        },
+        "reqt": [
+          "postcode"
+        ]
+      },
+      "profile": {
+        "info": {
+          "idnumber": "1487168153341037"
+        }
+      },
+      "train": {
+        "book": {
+          "people": "6"
+        },
+        "info": {
+          "day": "wednesday",
+          "departure": "london kings cross",
+          "destination": "cambridge",
+          "leaveAt": "10:30"
+        }
+      }
+    },
+    "selection_bucket": "clean_laggy"
+  },
+  "outcome": {
+    "call_id": "swz_MUL0864",
+    "task_completed": true,
+    "required_fields": [
+      {
+        "name": "hotel.area",
+        "captured": true,
+        "value": "east"
+      },
+      {
+        "name": "hotel.parking",
+        "captured": true,
+        "value": "yes"
+      },
+      {
+        "name": "hotel.pricerange",
+        "captured": true,
+        "value": "cheap"
+      },
+      {
+        "name": "hotel.postcode",
+        "captured": false,
+        "value": null
+      },
+      {
+        "name": "profile.idnumber",
+        "captured": true,
+        "value": "1487168153341037"
+      },
+      {
+        "name": "train.day",
+        "captured": true,
+        "value": "wednesday"
+      },
+      {
+        "name": "train.departure",
+        "captured": false,
+        "value": null
+      },
+      {
+        "name": "train.destination",
+        "captured": true,
+        "value": "cambridge"
+      },
+      {
+        "name": "train.leaveAt",
+        "captured": false,
+        "value": null
+      },
+      {
+        "name": "train.book_people",
+        "captured": true,
+        "value": "6"
+      }
+    ],
+    "escalation_needed": false,
+    "confidence": 0.7
+  },
+  "scorecard": {
+    "call_id": "swz_MUL0864",
+    "dimensions": [
+      {
+        "name": "barge_in",
+        "type": "deterministic",
+        "score": 1.0,
+        "reason": "no agent barge-ins",
+        "evidence_turn_ids": []
+      },
+      {
+        "name": "latency_gap",
+        "type": "deterministic",
+        "score": 0.652,
+        "reason": "median 640ms / p90 2320ms; 8/23 responses laggy (>800ms)",
+        "evidence_turn_ids": [
+          "t12",
+          "t14",
+          "t16",
+          "t18",
+          "t24",
+          "t28"
+        ]
+      },
+      {
+        "name": "task_completion",
+        "type": "deterministic",
+        "score": 0.7,
+        "reason": "captured 7/10 required fields (heuristic from goal/workflow)",
+        "evidence_turn_ids": []
+      }
+    ],
+    "overall": 0.784
+  },
+  "cost": {
+    "call_id": "swz_MUL0864",
+    "duration_s": 184.8,
+    "turn_count": 46,
+    "est_llm_calls": 23,
+    "est_cost_total": 0.115,
+    "est_cost_per_success_note": "estimated, prototype"
+  },
+  "failures": [
+    {
+      "at_ms": 37160,
+      "dimension": "latency_gap",
+      "label": "response latency",
+      "detail": "1,860ms gap",
+      "evidence_turn_ids": [
+        "t11",
+        "t12"
+      ],
+      "call_id": "swz_MUL0864",
+      "origin": "deterministic"
+    },
+    {
+      "at_ms": 46600,
+      "dimension": "latency_gap",
+      "label": "response latency",
+      "detail": "2,320ms gap",
+      "evidence_turn_ids": [
+        "t13",
+        "t14"
+      ],
+      "call_id": "swz_MUL0864",
+      "origin": "deterministic"
+    },
+    {
+      "at_ms": 61910,
+      "dimension": "latency_gap",
+      "label": "response latency",
+      "detail": "10,560ms gap",
+      "evidence_turn_ids": [
+        "t15",
+        "t16"
+      ],
+      "call_id": "swz_MUL0864",
+      "origin": "deterministic"
+    },
+    {
+      "at_ms": 67330,
+      "dimension": "latency_gap",
+      "label": "response latency",
+      "detail": "1,750ms gap",
+      "evidence_turn_ids": [
+        "t17",
+        "t18"
+      ],
+      "call_id": "swz_MUL0864",
+      "origin": "deterministic"
+    },
+    {
+      "at_ms": 98120,
+      "dimension": "latency_gap",
+      "label": "response latency",
+      "detail": "890ms gap",
+      "evidence_turn_ids": [
+        "t23",
+        "t24"
+      ],
+      "call_id": "swz_MUL0864",
+      "origin": "deterministic"
+    },
+    {
+      "at_ms": 111300,
+      "dimension": "latency_gap",
+      "label": "response latency",
+      "detail": "820ms gap",
+      "evidence_turn_ids": [
+        "t27",
+        "t28"
+      ],
+      "call_id": "swz_MUL0864",
+      "origin": "deterministic"
+    },
+    {
+      "at_ms": 123740,
+      "dimension": "latency_gap",
+      "label": "response latency",
+      "detail": "8,320ms gap",
+      "evidence_turn_ids": [
+        "t29",
+        "t30"
+      ],
+      "call_id": "swz_MUL0864",
+      "origin": "deterministic"
+    },
+    {
+      "at_ms": 138750,
+      "dimension": "latency_gap",
+      "label": "response latency",
+      "detail": "890ms gap",
+      "evidence_turn_ids": [
+        "t33",
+        "t34"
+      ],
+      "call_id": "swz_MUL0864",
+      "origin": "deterministic"
+    }
+  ],
+  "signals": {
+    "latency": {
+      "n_handoffs": 23,
+      "median_gap_ms": 640,
+      "p90_gap_ms": 2320,
+      "laggy_threshold_ms": 800,
+      "n_laggy": 8
+    },
+    "n_barge_ins": 0
+  }
+}

@@ -1,0 +1,375 @@
+{
+  "call_id": "swz_MUL0247",
+  "source": "spokenwoz",
+  "language": "en",
+  "stress_profile": "interruption",
+  "workflow_type": "hotel+profile+restaurant",
+  "turns": [
+    {
+      "turn_id": "t1",
+      "speaker": "user",
+      "text": "oh , yes . um , i would like to check in on sunday .",
+      "start_ms": 1160,
+      "end_ms": 2425
+    },
+    {
+      "turn_id": "t2",
+      "speaker": "agent",
+      "text": "okay , some people for three nights start from sunday . i'm afraid sunday is not available . would you like to change to another .",
+      "start_ms": 2640,
+      "end_ms": 4610
+    },
+    {
+      "turn_id": "t3",
+      "speaker": "user",
+      "text": "um maybe tuesday .  does that work .",
+      "start_ms": 4420,
+      "end_ms": 12730
+    },
+    {
+      "turn_id": "t4",
+      "speaker": "agent",
+      "text": "yes , tuesday works . your book is successful now . would you like to receive our email address .",
+      "start_ms": 13120,
+      "end_ms": 19910
+    },
+    {
+      "turn_id": "t5",
+      "speaker": "user",
+      "text": "hi , hello .",
+      "start_ms": 20440,
+      "end_ms": 24080
+    },
+    {
+      "turn_id": "t6",
+      "speaker": "agent",
+      "text": "hello , how can i help you .",
+      "start_ms": 24610,
+      "end_ms": 29428
+    },
+    {
+      "turn_id": "t7",
+      "speaker": "user",
+      "text": "yes , i'm finding a place to dine . could you recommend any expensive gastropub food for me .",
+      "start_ms": 29770,
+      "end_ms": 38179
+    },
+    {
+      "turn_id": "t8",
+      "speaker": "agent",
+      "text": "okay , we do have some choices for you . we got you a backstreet bistro .",
+      "start_ms": 43130,
+      "end_ms": 50968
+    },
+    {
+      "turn_id": "t9",
+      "speaker": "user",
+      "text": "okay . um , could you share the address for with me .",
+      "start_ms": 50790,
+      "end_ms": 53823
+    },
+    {
+      "turn_id": "t10",
+      "speaker": "agent",
+      "text": "of course it is 2 13 street city center .",
+      "start_ms": 54590,
+      "end_ms": 61565
+    },
+    {
+      "turn_id": "t11",
+      "speaker": "user",
+      "text": "2 30 straight city center . okay . yeah , i'm also looking for a place to stay . so could you help me to find any guest house in the century of the city .",
+      "start_ms": 61400,
+      "end_ms": 67915
+    },
+    {
+      "turn_id": "t12",
+      "speaker": "agent",
+      "text": "would you like to tell us in the star of the hotel .",
+      "start_ms": 69854,
+      "end_ms": 72146
+    },
+    {
+      "turn_id": "t13",
+      "speaker": "user",
+      "text": "um i don't need any start hotel .",
+      "start_ms": 72428,
+      "end_ms": 75777
+    },
+    {
+      "turn_id": "t14",
+      "speaker": "agent",
+      "text": "okay , we got you a el shaddai hotel for you . would you like me to book room .",
+      "start_ms": 76500,
+      "end_ms": 87259
+    },
+    {
+      "turn_id": "t15",
+      "speaker": "user",
+      "text": "oh , yeah , that sounds good . please help me to book for 7 people and three night .",
+      "start_ms": 87350,
+      "end_ms": 91566
+    },
+    {
+      "turn_id": "t16",
+      "speaker": "agent",
+      "text": "okay , what they would like to check in .",
+      "start_ms": 92010,
+      "end_ms": 99340
+    },
+    {
+      "turn_id": "t17",
+      "speaker": "user",
+      "text": "ah no , i don't need the email confirmation . i think that is good .",
+      "start_ms": 99240,
+      "end_ms": 104820
+    },
+    {
+      "turn_id": "t18",
+      "speaker": "agent",
+      "text": "okay , for your orders , we would like to receive your name , please .",
+      "start_ms": 105140,
+      "end_ms": 109820
+    },
+    {
+      "turn_id": "t19",
+      "speaker": "user",
+      "text": "oh , yes , it's melissa thompson .",
+      "start_ms": 109760,
+      "end_ms": 113440
+    },
+    {
+      "turn_id": "t20",
+      "speaker": "agent",
+      "text": "okay , melissa thompson . thank you . is there anything else i can do for .",
+      "start_ms": 113810,
+      "end_ms": 119120
+    },
+    {
+      "turn_id": "t21",
+      "speaker": "user",
+      "text": "oh , no , that should be all thank you very .",
+      "start_ms": 119050,
+      "end_ms": 122180
+    },
+    {
+      "turn_id": "t22",
+      "speaker": "agent",
+      "text": "have a nice day .",
+      "start_ms": 123825,
+      "end_ms": 124871
+    }
+  ],
+  "audio_path": null,
+  "metadata": {
+    "license": "CC BY-NC 4.0 (eval use)",
+    "speaker_source": "tag field (channel ids do not separate speakers)",
+    "skipped_unwordtimed_turns": 0,
+    "n_plausible_overlaps": 3,
+    "n_long_intra_pauses": 0,
+    "goal": {
+      "hotel": {
+        "book": {
+          "day": "tuesday",
+          "people": "7",
+          "stay": "3"
+        },
+        "info": {
+          "area": "centre"
+        }
+      },
+      "profile": {
+        "info": {
+          "email": "MThompsonyt2e@yahoo.com",
+          "name": "melissa thompson"
+        }
+      },
+      "restaurant": {
+        "info": {
+          "food": "gastropub",
+          "pricerange": "expensive"
+        },
+        "reqt": [
+          "address"
+        ]
+      }
+    },
+    "selection_bucket": "interruption"
+  },
+  "outcome": {
+    "call_id": "swz_MUL0247",
+    "task_completed": true,
+    "required_fields": [
+      {
+        "name": "hotel.area",
+        "captured": false,
+        "value": null
+      },
+      {
+        "name": "hotel.book_day",
+        "captured": true,
+        "value": "tuesday"
+      },
+      {
+        "name": "hotel.book_people",
+        "captured": true,
+        "value": "7"
+      },
+      {
+        "name": "hotel.book_stay",
+        "captured": true,
+        "value": "3"
+      },
+      {
+        "name": "profile.email",
+        "captured": false,
+        "value": null
+      },
+      {
+        "name": "profile.name",
+        "captured": true,
+        "value": "melissa thompson"
+      },
+      {
+        "name": "restaurant.food",
+        "captured": true,
+        "value": "gastropub"
+      },
+      {
+        "name": "restaurant.pricerange",
+        "captured": true,
+        "value": "expensive"
+      },
+      {
+        "name": "restaurant.address",
+        "captured": true,
+        "value": null
+      }
+    ],
+    "escalation_needed": false,
+    "confidence": 0.78
+  },
+  "scorecard": {
+    "call_id": "swz_MUL0247",
+    "dimensions": [
+      {
+        "name": "barge_in",
+        "type": "deterministic",
+        "score": 1.0,
+        "reason": "no agent barge-ins",
+        "evidence_turn_ids": []
+      },
+      {
+        "name": "latency_gap",
+        "type": "deterministic",
+        "score": 0.727,
+        "reason": "median 530ms / p90 1939ms; 3/11 responses laggy (>800ms)",
+        "evidence_turn_ids": [
+          "t8",
+          "t12",
+          "t22"
+        ]
+      },
+      {
+        "name": "task_completion",
+        "type": "deterministic",
+        "score": 0.778,
+        "reason": "captured 7/9 required fields (heuristic from goal/workflow)",
+        "evidence_turn_ids": []
+      }
+    ],
+    "overall": 0.835
+  },
+  "cost": {
+    "call_id": "swz_MUL0247",
+    "duration_s": 124.9,
+    "turn_count": 22,
+    "est_llm_calls": 11,
+    "est_cost_total": 0.055,
+    "est_cost_per_success_note": "estimated, prototype"
+  },
+  "failures": [
+    {
+      "at_ms": 4420,
+      "dimension": "barge_in",
+      "label": "user barge-in",
+      "detail": "190ms overlap",
+      "evidence_turn_ids": [
+        "t2",
+        "t3"
+      ],
+      "call_id": "swz_MUL0247",
+      "origin": "deterministic"
+    },
+    {
+      "at_ms": 43130,
+      "dimension": "latency_gap",
+      "label": "response latency",
+      "detail": "4,951ms gap",
+      "evidence_turn_ids": [
+        "t7",
+        "t8"
+      ],
+      "call_id": "swz_MUL0247",
+      "origin": "deterministic"
+    },
+    {
+      "at_ms": 50790,
+      "dimension": "barge_in",
+      "label": "user barge-in",
+      "detail": "178ms overlap",
+      "evidence_turn_ids": [
+        "t8",
+        "t9"
+      ],
+      "call_id": "swz_MUL0247",
+      "origin": "deterministic"
+    },
+    {
+      "at_ms": 61400,
+      "dimension": "barge_in",
+      "label": "user barge-in",
+      "detail": "165ms overlap",
+      "evidence_turn_ids": [
+        "t10",
+        "t11"
+      ],
+      "call_id": "swz_MUL0247",
+      "origin": "deterministic"
+    },
+    {
+      "at_ms": 69854,
+      "dimension": "latency_gap",
+      "label": "response latency",
+      "detail": "1,939ms gap",
+      "evidence_turn_ids": [
+        "t11",
+        "t12"
+      ],
+      "call_id": "swz_MUL0247",
+      "origin": "deterministic"
+    },
+    {
+      "at_ms": 123825,
+      "dimension": "latency_gap",
+      "label": "response latency",
+      "detail": "1,645ms gap",
+      "evidence_turn_ids": [
+        "t21",
+        "t22"
+      ],
+      "call_id": "swz_MUL0247",
+      "origin": "deterministic"
+    }
+  ],
+  "signals": {
+    "latency": {
+      "n_handoffs": 11,
+      "median_gap_ms": 530,
+      "p90_gap_ms": 1939,
+      "laggy_threshold_ms": 800,
+      "n_laggy": 3
+    },
+    "n_barge_ins": 3
+  }
+}

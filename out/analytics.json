@@ -1,0 +1,57 @@
+{
+  "n_calls": 46,
+  "success_rate": 0.37,
+  "avg_overall": 0.711,
+  "cost_per_successful_call": 0.2438,
+  "by_stress_profile": [
+    {
+      "stress_profile": "interruption",
+      "n": 21,
+      "n_completed": 8,
+      "cost": 1.965,
+      "success_rate": 0.381,
+      "cost_per_successful_call": 0.2456
+    },
+    {
+      "stress_profile": "clean",
+      "n": 20,
+      "n_completed": 8,
+      "cost": 1.8496,
+      "success_rate": 0.4,
+      "cost_per_successful_call": 0.2312
+    },
+    {
+      "stress_profile": "pause_heavy",
+      "n": 5,
+      "n_completed": 1,
+      "cost": 0.33,
+      "success_rate": 0.2,
+      "cost_per_successful_call": 0.33
+    }
+  ],
+  "failure_clusters": [
+    {
+      "dimension": "latency_gap",
+      "count": 183,
+      "example_call_ids": [
+        "hero_001",
+        "swz_MUL0035",
+        "swz_MUL0056",
+        "swz_MUL0069",
+        "swz_MUL0106"
+      ]
+    },
+    {
+      "dimension": "barge_in",
+      "count": 107,
+      "example_call_ids": [
+        "hero_001",
+        "swz_MUL0035",
+        "swz_MUL0043",
+        "swz_MUL0056",
+        "swz_MUL0071"
+      ]
+    }
+  ],
+  "note": "deterministic eval only (judge dims add in Batch 4); costs estimated, prototype"
+}
