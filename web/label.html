@@ -124,7 +124,7 @@
 </div>
 <script>
 const $ = id => document.getElementById(id);
-let CALLS = [], TAGS = { positive: [], negative: [], context: [] }, labeled = {}, cur = 0, saving = false;
+let CALLS = [], TAGS = { positive: [], negative: [], context: [], labels: {} }, labeled = {}, cur = 0, saving = false;
 const TARGET = 40;
 let sel = null, drafts = {};
 
@@ -178,7 +178,7 @@ function render() {
 }
 
 function chips(list, kind, set) {
-  return list.map(t => `<button class="tag ${kind} ${set.has(t) ? "on" : ""}" data-k="${kind}" data-t="${t}">${t}</button>`).join("");
+  return list.map(t => `<button class="tag ${kind} ${set.has(t) ? "on" : ""}" data-k="${kind}" data-t="${t}">${esc(TAGS.labels[t] || t.replace(/_/g, " "))}</button>`).join("");
 }
 
 function renderDock() {
@@ -194,11 +194,11 @@ function renderDock() {
     <div class="lab">your confidence (required)</div>
     <div class="row conf">${["high","medium","low"].map(c =>
       `<button class="${sel.confidence===c?"on":""}" data-c="${c}">${c}</button>`).join("")}</div>
-    <div class="labq">What was good? Select all that apply.</div>
-    <div class="grouphint">Positive and negative tags may coexist — judge each independently.</div>
+    <div class="labq">What worked well? Select all that apply.</div>
+    <div class="grouphint">Use plain call evidence. Positive and negative tags may coexist.</div>
     <div class="row">${chips(TAGS.positive,"pos",sel.pos)}</div>
-    <div class="labq">What went wrong? Select all that apply.</div><div class="row">${chips(TAGS.negative,"neg",sel.neg)}</div>
-    <div class="labq">Context present? Select all that apply.</div><div class="row">${chips(TAGS.context,"ctx",sel.ctx)}</div>
+    <div class="labq">What needs fixing? Select all that apply.</div><div class="row">${chips(TAGS.negative,"neg",sel.neg)}</div>
+    <div class="labq">What context matters? Select all that apply.</div><div class="row">${chips(TAGS.context,"ctx",sel.ctx)}</div>
     <div class="lab">note — only for something the tags don't capture</div><textarea id="note" placeholder="anything the taxonomy misses…">${esc(sel.note)}</textarea>
     <label class="reviewconf ${sel.reviewed?"on":""}"><input type="checkbox" id="reviewchk" ${sel.reviewed?"checked":""}>
       <span>I reviewed all three phenotype groups; zero tags means none applied. <span style="color:var(--muted)">(required)</span></span></label>`;

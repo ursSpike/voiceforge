@@ -196,7 +196,8 @@ class Booth(BaseHTTPRequestHandler):
         if p == "/label/tags":
             import schemas   # single source of the allowlists -> client fetches, no duplication/drift
             return self._send(200, json.dumps({"positive": schemas.PHENO_POSITIVE,
-                "negative": schemas.PHENO_NEGATIVE, "context": schemas.PHENO_CONTEXT}), "application/json")
+                "negative": schemas.PHENO_NEGATIVE, "context": schemas.PHENO_CONTEXT,
+                "labels": schemas.PHENO_TAG_LABELS}), "application/json")
         if p == "/label/state":
             order = label_order()
             ref_of = {c["call_id"]: i for i, c in enumerate(order)}

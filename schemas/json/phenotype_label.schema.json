@@ -31,13 +31,12 @@
       "type": "array",
       "items": {
         "enum": [
-          "clear_and_concise",
-          "good_clarification_or_repair",
-          "appropriate_language_adaptation",
-          "recovered_after_confusion",
-          "user_expressed_satisfaction",
-          "good_handoff_or_next_step",
-          "good_closing"
+          "easy_to_understand",
+          "understood_user",
+          "handled_confusion_well",
+          "adapted_language_well",
+          "completed_or_clear_next_step",
+          "user_satisfied"
         ]
       }
     },
@@ -45,18 +44,14 @@
       "type": "array",
       "items": {
         "enum": [
-          "language_mismatch",
-          "code_switching_handling_failure",
-          "register_mismatch",
-          "misunderstood_user_intent",
-          "missing_required_information",
-          "bad_clarification_or_repair",
-          "tool_or_workflow_failure",
-          "unsupported_or_hallucinated_answer",
-          "user_goal_ambiguous",
-          "user_expressed_frustration",
-          "overly_verbose_or_unclear",
-          "repeated_request_or_repair_loop"
+          "hard_to_understand",
+          "wrong_language_or_tone",
+          "misunderstood_user",
+          "poor_clarification_or_recovery",
+          "missing_or_wrong_information",
+          "repeated_or_stuck",
+          "workflow_or_tool_failed",
+          "user_frustrated"
         ]
       }
     },
@@ -64,11 +59,10 @@
       "type": "array",
       "items": {
         "enum": [
-          "code_switching_present",
-          "user_hesitation_or_self_repair",
-          "multi_domain_task",
-          "transcript_quality_uncertain",
-          "explicit_external_interruption"
+          "mixed_languages",
+          "user_unclear_or_hesitant",
+          "multi_step_request",
+          "transcript_unclear"
         ]
       }
     },

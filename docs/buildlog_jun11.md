@@ -382,3 +382,31 @@ next navigation, and a clear completion state.
 
 **Contracts unchanged:** no schema, tag allowlist, CSV format, blindness route, judge output, or normalized
 data change. Judge quarantine remains active.
+
+---
+
+## FDE-facing phenotype taxonomy (Jun 12)
+**Goal:** replace the research-heavy annotation vocabulary with a smaller operational checklist that
+delivery, support, and field-deployment teams can understand without learning VoiceForge internals.
+The taxonomy stays provider-neutral while covering multilingual onboarding and local-workforce calls.
+
+**Changed:**
+- Reduced Level-2 primitives from 24 to **18**: 6 "worked well", 8 "needs fixing", 4 context.
+- UI shows plain labels such as **Adapted language well**, **Wrong language or tone**,
+  **Repeated or got stuck**, and **Workflow or tool failed**. CSV/schema retain stable snake-case ids.
+- `pipeline/schemas.py` remains the source of truth for ids and display labels; `/label/tags` serves both,
+  so the client does not duplicate taxonomy text.
+- Regenerated `schemas/json/phenotype_label.schema.json`; no real label migration was required because
+  `eval/labels_spike.csv` did not exist.
+
+**Scope boundary:** this booth remains transcript-only. Spoken-word intelligibility, pronunciation,
+accent fit, voice naturalness, noise, and microphone quality require an audio-enabled review surface
+and are intentionally reserved for post-hackathon extension. Current labels describe only evidence
+visible in the transcript.
+
+**Verified with an isolated CSV:**
+- All 18 human-readable labels rendered in the light split workspace.
+- A mixed multilingual annotation saved the ids `adapted_language_well`,
+  `wrong_language_or_tone`, and `mixed_languages`.
+- An obsolete tag (`clear_and_concise`) was rejected with HTTP 400 by schema validation.
+- `pipeline/schemas.py`: 9 schemas emitted, 46/46 normalized calls valid, call_record self-test passed.

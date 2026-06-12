@@ -200,18 +200,37 @@ ANALYTICS = {
 }
 
 # ---------------------------------------------------------------- phenotype_label (human annotation)
-# Audit-confirmed allowlists: transcript-observable SEMANTIC tags only — no audio/timing/overlap/
-# silence/noise tags (unobservable from text and/or deterministic-duplicates). Schema stays
-# extensible for post-hackathon audio tags.
-PHENO_POSITIVE = ["clear_and_concise", "good_clarification_or_repair", "appropriate_language_adaptation",
-                  "recovered_after_confusion", "user_expressed_satisfaction", "good_handoff_or_next_step",
-                  "good_closing"]
-PHENO_NEGATIVE = ["language_mismatch", "code_switching_handling_failure", "register_mismatch",
-                  "misunderstood_user_intent", "missing_required_information", "bad_clarification_or_repair",
-                  "tool_or_workflow_failure", "unsupported_or_hallucinated_answer", "user_goal_ambiguous",
-                  "user_expressed_frustration", "overly_verbose_or_unclear", "repeated_request_or_repair_loop"]
-PHENO_CONTEXT = ["code_switching_present", "user_hesitation_or_self_repair", "multi_domain_task",
-                 "transcript_quality_uncertain", "explicit_external_interruption"]
+# FDE-facing transcript taxonomy: small, operational, and reusable across onboarding, booking,
+# support, and local-workforce calls. Audio intelligibility/pronunciation tags stay out until an
+# audio-enabled review surface exists.
+PHENO_POSITIVE = ["easy_to_understand", "understood_user", "handled_confusion_well",
+                  "adapted_language_well", "completed_or_clear_next_step", "user_satisfied"]
+PHENO_NEGATIVE = ["hard_to_understand", "wrong_language_or_tone", "misunderstood_user",
+                  "poor_clarification_or_recovery", "missing_or_wrong_information",
+                  "repeated_or_stuck", "workflow_or_tool_failed", "user_frustrated"]
+PHENO_CONTEXT = ["mixed_languages", "user_unclear_or_hesitant", "multi_step_request",
+                 "transcript_unclear"]
+
+PHENO_TAG_LABELS = {
+    "easy_to_understand": "Easy to understand",
+    "understood_user": "Understood the user",
+    "handled_confusion_well": "Handled confusion well",
+    "adapted_language_well": "Adapted language well",
+    "completed_or_clear_next_step": "Completed task / clear next step",
+    "user_satisfied": "User seemed satisfied",
+    "hard_to_understand": "Hard to understand",
+    "wrong_language_or_tone": "Wrong language or tone",
+    "misunderstood_user": "Misunderstood the user",
+    "poor_clarification_or_recovery": "Poor clarification or recovery",
+    "missing_or_wrong_information": "Missing or wrong information",
+    "repeated_or_stuck": "Repeated or got stuck",
+    "workflow_or_tool_failed": "Workflow or tool failed",
+    "user_frustrated": "User seemed frustrated",
+    "mixed_languages": "Mixed languages",
+    "user_unclear_or_hesitant": "User unclear or hesitant",
+    "multi_step_request": "Multi-step request",
+    "transcript_unclear": "Transcript unclear",
+}
 
 PHENOTYPE_LABEL = {
     "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "phenotype_label.schema.json",

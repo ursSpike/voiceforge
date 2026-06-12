@@ -24,17 +24,23 @@ a single-rater EXPLORATORY layer — no kappa on tags this sprint.** Binary ship
 3. **Scope/time.** Collect the additive layer NOW (re-reading transcripts later is wasteful). **No
    training, no model comparison, no polished analytics.** After labeling: a small DETERMINISTIC summary.
 
-## Approved tag taxonomy (use EXACTLY these allowlists, server-validated)
-- **positive (7):** clear_and_concise · good_clarification_or_repair · appropriate_language_adaptation ·
-  recovered_after_confusion · user_expressed_satisfaction · good_handoff_or_next_step · good_closing
-- **negative (12):** language_mismatch · code_switching_handling_failure · register_mismatch ·
-  misunderstood_user_intent · missing_required_information · bad_clarification_or_repair ·
-  tool_or_workflow_failure · unsupported_or_hallucinated_answer · user_goal_ambiguous ·
-  user_expressed_frustration · overly_verbose_or_unclear · repeated_request_or_repair_loop
-- **context (5):** code_switching_present · user_hesitation_or_self_repair · multi_domain_task ·
-  transcript_quality_uncertain · explicit_external_interruption
-- Removed per ruling: `rural_urban_register_mismatch` (demographic inference) + all audio/timing/
-  overlap/silence/noise tags (unobservable or deterministic-duplicates).
+## FDE-facing tag taxonomy (server-validated)
+The UI shows plain-language labels while the CSV stores stable snake-case ids.
+- **worked well (6):** Easy to understand · Understood the user · Handled confusion well ·
+  Adapted language well · Completed task / clear next step · User seemed satisfied
+- **needs fixing (8):** Hard to understand · Wrong language or tone · Misunderstood the user ·
+  Poor clarification or recovery · Missing or wrong information · Repeated or got stuck ·
+  Workflow or tool failed · User seemed frustrated
+- **context (4):** Mixed languages · User unclear or hesitant · Multi-step request · Transcript unclear
+
+This is intentionally an operational debugging checklist rather than a research ontology. It is broad
+enough for onboarding, booking, support, and local-workforce calls. `Adapted language well` /
+`Wrong language or tone` cover transcript-visible multilingual handling without assuming a particular
+company or geography.
+
+Audio-only concepts such as pronunciation, spoken-word intelligibility, accent fit, voice naturalness,
+noise, and microphone quality remain a post-hackathon extension. The current transcript booth must not
+pretend to observe them.
 
 ## Record / CSV schema (`eval/labels_spike.csv`)
 Columns: `call_id, primary_label, confidence, positive_tags, negative_tags, context_tags, note, timestamp`.
