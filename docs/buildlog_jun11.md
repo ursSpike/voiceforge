@@ -415,3 +415,31 @@ visible in the transcript.
 blue context) with solid selected states. The client also falls back to readable id text when connected
 to a stale booth process that lacks the display-label map, preventing a blank left panel; restarting
 the booth is still required to load the current FDE taxonomy and schema.
+
+## BATCH 2R · Phase A — Calibration-slice source audit (Jun 12) · AUDIT ONLY
+**Objective:** the label pool is 44 monolingual-English SpokenWOZ calls (turn median ≈36, max 60) — long + mismatched
+with the multilingual thesis. Audit public sources for a SHORT, multilingual, goal-oriented 40-call slice. No ingest,
+no normalization, no schema/label change. Full table in `docs/batch2R_source_audit.md`.
+
+**Integrity:** `eval/labels_spike.csv` SHA-256 unchanged (`e6d2055…b4eb0`); 2 labels preserved (bolna→success, hero→success);
+booth stopped; `data/normalized/` 46 calls untouched.
+
+**Verified (primary sources):**
+- **Code-Mixed-Dialog** (github.com/sumanbanerjee1/Code-Mixed-Dialog @ `9df1d4dc`, COLING 2018 Banerjee et al.):
+  Hindi/Bengali/Gujarati/Tamil-English, DSTC2 restaurant, human-TRANSLATED, **text-only/no timestamps**. **NO Telugu**
+  (confirmed 3 ways: paper, repo `data/` dirs, agent). License = **Apache-2.0** (repo LICENSE/SPDX) — the "CC BY 4.0" is the
+  arXiv PAPER badge, not the dataset → resolved: ingest under Apache-2.0.
+- Hindi-English dev split = 500 dialogues; **real conversational turns median 8 / p90 11 / max 18; 99% ≤16, 100% ≤20** — ideal.
+- **Telugu-English hunt (parallel agent):** NO licensed public Telugu-English restaurant/service TOD exists. Only Telugu-English
+  TOD = **Code-Mixed-TOD-Medical** (suman101112, CC BY-NC 4.0, MEDICAL domain). Tamil≠Telugu (won't substitute). Hero call
+  (`te-en`) already gives Telugu representation in the slice.
+
+**Failures/blocks:** initial `gh api …?per_page=1` zsh-globbed (no matches) — re-ran with `branches/master` for the SHA.
+Telugu medical paper paywalled (Elsevier) but the CC BY-NC GitHub data is readable.
+
+**Ruling needed (per plan "stop if Telugu unverified"):** (A) drop dataset-Telugu, reallocate to 24 Hindi-English + 14 SpokenWOZ
+controls + 2 existing = 40 (Telugu via hero) — RECOMMENDED; or (B) add 8 Telugu-English medical (CC BY-NC) → 16 Hindi + 8 Tel-med
++ 14 En + 2 = 40.
+
+**Next:** STOP for Codex audit. On approval + Telugu ruling → honest ingest of Hindi-English (Apache-2.0; `timing_observed:false`,
+`stress_profile:unmeasured`, heuristic outcomes) + immutable `eval/label_manifest.json` (entries 1–2 = bolna/hero). No booth restart yet.
