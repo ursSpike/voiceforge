@@ -56,6 +56,23 @@ def validate_proof(proof, agent_id=AGENT_ID):
     return True, ""
 
 
+def build_proof(cfg):
+    """Extract the 5 sanitized fields from a raw Bolna agent-config response. agent_id comes FROM
+    the response (so validate_proof enforces it == the configured agent — a missing id becomes None
+    and FAILS). Used by both the fetch and online preflight, so they validate identically."""
+    fetched_id = cfg.get("agent_id") or cfg.get("id")
+    syn = (cfg.get("tasks") or [{}])[0].get("tools_config", {}).get("synthesizer", {}) or {}
+    pc = syn.get("provider_config", {}) or {}
+    model = pc.get("model")
+    return {
+        "agent_id": fetched_id,
+        "fetched_at": datetime.now().astimezone().isoformat(timespec="seconds"),
+        "synthesizer_provider": syn.get("provider"),
+        "cartesia_voice": pc.get("voice"),
+        "cartesia_model": model if (model is None or str(model).strip()) else None,
+    }
+
+
 def fetch_and_cache():
     import urllib.request
     # load BOLNA_API_KEY from .env (no dependency)
@@ -75,19 +92,9 @@ def fetch_and_cache():
     with urllib.request.urlopen(req, timeout=20) as r:
         cfg = json.loads(r.read().decode())
 
-    fetched_id = cfg.get("agent_id") or cfg.get("id")
-    if fetched_id and fetched_id != AGENT_ID:
-        sys.exit(f"REFUSED: fetched agent id {fetched_id!r} != configured {AGENT_ID!r}.")
-    syn = cfg["tasks"][0]["tools_config"]["synthesizer"]
-    pc = syn.get("provider_config", {}) or {}
-    model = pc.get("model")
-    proof = {
-        "agent_id": AGENT_ID,
-        "fetched_at": datetime.now().astimezone().isoformat(timespec="seconds"),
-        "synthesizer_provider": syn.get("provider"),
-        "cartesia_voice": pc.get("voice"),
-        "cartesia_model": model if (model is None or str(model).strip()) else None,
-    }
+    proof = build_proof(cfg)
+    # validate_proof enforces agent_id == configured (a MISSING/None id FAILS), provider==cartesia,
+    # non-empty voice, tz-aware timestamp — refuse to write on any miss.
     ok, problem = validate_proof(proof)
     if not ok:
         sys.exit(f"REFUSED to write sponsor proof: {problem}\n(sanitized view: "

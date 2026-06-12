@@ -179,15 +179,17 @@ def cartesia_live():
         return check("rule: Bolna synthesizer = cartesia", "SKIP", "no BOLNA_API_KEY")
     try:
         import urllib.request
+        sys.path.insert(0, str(ROOT / "pipeline"))
+        from cache_bolna_cartesia_proof import build_proof, validate_proof
         req = urllib.request.Request(f"https://api.bolna.ai/v2/agent/{AGENT_ID}",
                                      headers={"Authorization": f"Bearer {key}"})
         with urllib.request.urlopen(req, timeout=15) as r:
             cfg = json.loads(r.read().decode())
-        syn = cfg["tasks"][0]["tools_config"]["synthesizer"]
-        pc = syn.get("provider_config", {})
-        ok = syn.get("provider") == "cartesia"
+        proof = build_proof(cfg)                          # SAME strict extraction as the proof fetch
+        ok, problem = validate_proof(proof)               # missing agent id / missing voice -> FAIL
         check("rule: Bolna synthesizer = cartesia", "PASS" if ok else "FAIL",
-              f"{syn.get('provider')}/{pc.get('voice')}/{pc.get('model', '?')}")
+              f"{proof.get('synthesizer_provider')}/{proof.get('cartesia_voice')}/{proof.get('cartesia_model')}"
+              if ok else problem)
     except Exception as e:
         check("rule: Bolna synthesizer = cartesia", "SKIP", f"network: {type(e).__name__}")
 

@@ -804,3 +804,17 @@ corpus in several docs.)
 **Judge run:** continued throughout (now 35/46, 4 failures — to diagnose at Phase F; cache-resume retries them); frozen
 CSV/manifest/snapshot/rubric/calls.json hashes UNCHANGED. **PENDING:** run the one authorized Bolna fetch AFTER the judge
 run completes, validate, commit, prove offline preflight passes. STOP for audit.
+
+## SPONSOR PROOF FETCHED + validator fix (Jun 12, post-judge-run) — Codex repair done
+**Fix:** build_proof(cfg) (shared by fetch + online preflight) takes agent_id FROM the response → validate_proof
+rejects a missing/None id ("None must fail", Codex). Online preflight now runs the SAME strict build_proof+validate_proof
+(cannot pass provider=cartesia with a missing voice/agent id). Validator selftest still 9/9.
+**Authorized one-time Bolna GET** (judge process had exited + both fixes in place, per Codex auto-authorization):
+out/bolna_cartesia_proof.json — EXACTLY 5 fields {agent_id 199b03e7…, fetched_at (tz-aware +05:30),
+synthesizer_provider cartesia, cartesia_voice Devansh, cartesia_model sonic-3}. No bearer/key/prompt/webhook/url
+substrings. Offline preflight PASSES strict validation: "cartesia/Devansh/sonic-3 · captured 2026-06-12T22:19:32+05:30".
+Sponsor chain now provable offline. Committed the artifact.
+**Judge run COMPLETE = PARTIAL: 41/46 judged, 5 failures, all "no valid evidence turn id (cited [])"** — model returned
+empty evidence for absence-of-problem cases (4× user_frustration, 1× repair_quality). Did NOT weaken validation.
+Preserved out/judge_results_partial_run1.json. NEXT (Codex): cache-resume retry once unchanged; if repeats, strengthen
+the user_frustration (+ repair_quality) prompt to require citing representative turns even for "none", record prompt hash.
