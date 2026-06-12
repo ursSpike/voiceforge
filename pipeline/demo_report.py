@@ -13,7 +13,8 @@ HONESTY CONTRACT (enforced, not aspirational):
 - Phenotype tags are single-rater EXPLORATORY — labeled as such, never "calibrated".
 - Archetypes are DERIVED deterministically (documented precedence), never hand-labeled.
 - "failure EVENTS" (signal hits), not "failed calls". Costs say "estimated, prototype".
-  Task completion says "heuristic". Judge fields carry provenance (uncalibrated until kappa).
+  Task completion says "heuristic". Kappa calibrates ONLY the dedicated binary outcome judge;
+  the 5 semantic dims have no per-dimension human gold and stay uncalibrated diagnostics.
 
 Judge artifact contract (produced by the gated Batch E, consumed here when present):
   out/judge_results.json = {"run": {model, temperature, rubric_hash, n_calls, cache_hits, failures, started},
@@ -279,7 +280,8 @@ def to_md(R):
         add(f"\n---\njudge run: model `{jr.get('model')}` · temp {jr.get('temperature')} · rubric {str(jr.get('rubric_hash'))[:12]} "
             f"· {jr.get('n_calls')} calls · cache hits {jr.get('cache_hits')} · failures {jr.get('failures')}")
     add("\n---\n*Every number above is computed from committed artifacts. Heuristic = keyword task-completion; "
-        "estimated = public per-unit prices; uncalibrated = judge before kappa; pending = honestly absent.*")
+        "estimated = public per-unit prices; kappa calibrates the binary outcome judge ONLY — semantic dims stay "
+        "uncalibrated diagnostics; pending = honestly absent.*")
     return "\n".join(L) + "\n"
 
 
@@ -352,7 +354,7 @@ deterministic signals → blind human labels → calibrated judge → call pheno
 {reps or '<div class="pending">Selected once labels exist.</div>'}
 <details><summary>Full markdown report</summary><pre>{H.escape(md)}</pre></details>
 <div class="foot">heuristic = keyword task-completion · estimated = public per-unit prices · uncalibrated = judge
-before kappa · pending = honestly absent · failure events ≠ failed calls · generated from committed artifacts only</div>
+before kappa (and ALWAYS for the 5 semantic dims — κ calibrates the binary outcome judge only) · pending = honestly absent · failure events ≠ failed calls · generated from committed artifacts only</div>
 </div></body></html>"""
 
 

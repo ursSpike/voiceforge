@@ -46,7 +46,7 @@ provider logs (Bolna real call · SpokenWOZ · Code-Mixed-Dialog · constructed 
    └─ normalize (schema constitution · all-or-none timing invariant · provenance)
         └─ deterministic signals (FTO: barge-in, latency; never judged)
              └─ blind human labels (46-call frozen manifest · phenotype tags)
-                  └─ quarantined LLM judge (5 semantic dims · validate-before-cache · uncalibrated until κ)
+                  └─ quarantined LLM judge (5 semantic dims = uncalibrated diagnostics · + 1 binary outcome judgment · validate-before-cache)
                        └─ calibration (raw agreement · confusion · Cohen's κ + bootstrap CI)
                             └─ phenotypes → archetypes → failure clusters → improvement queue
 ```
@@ -56,8 +56,9 @@ provider logs (Bolna real call · SpokenWOZ · Code-Mixed-Dialog · constructed 
 - Calibration is a **pilot**: one rater, n≈40, binary spine only; tags are single-rater exploratory.
 - The hero call is **constructed** (disclosed); SpokenWOZ is protocol-collected; Code-Mixed-Dialog is
   **text-only** — its timing is honestly absent (`unmeasured`), never fabricated.
-- The judge is an LLM with known biases; it stays **uncalibrated** until kappa exists, and the label
-  says so. No training/DPO-quality/statistical-significance claims.
+- The judge is an LLM with known biases. **κ calibrates only its dedicated binary outcome judgment**
+  (the same question the human answered); the 5 semantic dimensions have no per-dimension human gold
+  and remain **uncalibrated diagnostics** — labeled so. No training/DPO-quality/significance claims.
 - Full limitations: `docs/limitations.md`.
 
 ## Known-good state (pre-label gate)

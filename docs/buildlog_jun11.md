@@ -695,3 +695,20 @@ byte → exit 1 (gate closes); restored byte-exact. CSV + snapshot now TRACKED a
 git — deliberate: the artifact is final). Epistemic ruling adopted for E1+: kappa calibrates ONLY the dedicated binary
 outcome judge; the 5 semantic dims stay evidence-cited UNCALIBRATED diagnostics (no per-dim human gold) — wording sweep
 in E1.
+
+## PHASE E1 — judge runner hardened (offline) + epistemic wording sweep (Jun 12 ~21:05)
+**judge_run.py rewritten:** gate is now the FROZEN SNAPSHOT, not a floor — in order: _check_rubric_dims() (rubric drift
+closes) → validate_labels exit 0 → snapshot exists + status complete → CSV raw-byte SHA == snapshot → manifest SHA ==
+snapshot → exactly 46 unique annotations + 45 binary. Added: **--canary** (first 2 manifest calls → out/judge_canary.json,
+never touches judge_results.json) · **--delay** throttle (default 1.0s between non-cached requests) · ATOMIC writes
+(tmp+rename) · started_at/finished_at/elapsed · expected(276)/completed request accounting · **status complete|partial**
+(failures recorded, never hidden) · cache-resume (interrupt-safe). Binary provenance now "pending calibration (binary)".
+**Selftest 18/18 (offline, canonical files untouched):** outcome validation 4 · gate-open-on-frozen-copies · 276 math ·
+mutated-CSV/mutated-manifest/incomplete-snapshot/rubric-drift each CLOSE the gate · complete status · request accounting ·
+timestamps · atomic (no tmp) · 12/12 cache resume · canary separation · partial honesty · invalid-never-cached.
+Dry-run on REAL artifacts: GATE OPEN, 46×6=276 planned.
+**EPISTEMIC SWEEP (Codex ruling):** κ calibrates ONLY the dedicated binary outcome judge; the 5 semantic dims have no
+per-dimension gold and stay uncalibrated diagnostics. Fixed 8 sentences across judge.py, demo_report.py (docstring+md
+footer+html foot), dashboard.py foot, README_DEMO (architecture+limitations), demo_script (calibration section now
+explains the distinction OUT LOUD). Suites re-pass.
+**STOP for Codex audit. NO network call has been made. E2 (canary then full run) awaits explicit authorization.**

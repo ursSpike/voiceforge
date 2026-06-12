@@ -26,7 +26,9 @@ those calls carry an `unmeasured` profile."
 
 ## 2:40–3:50 · Calibration (the centerpiece)
 "Now the judge: 5 semantic dimensions, temperature 0, evidence turn IDs required, validated before
-caching, and marked **uncalibrated** until this number exists: Cohen's kappa against my blind labels.
+caching — those five stay labeled **uncalibrated diagnostics**, because I have no per-dimension human
+gold. What I CAN calibrate is the judge's **binary outcome call** — the same success/fail question I
+answered blind — and that's this number: Cohen's kappa against my blind labels.
 ⟨κ = …, CI …–…, raw agreement …, n = …⟩. [show confusion matrix] Here's where we disagreed —
 ⟨disagreement example⟩ — and that disagreement is *information*: it tells you exactly where not to
 trust the judge."

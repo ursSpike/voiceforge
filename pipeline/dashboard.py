@@ -359,7 +359,7 @@ def render(data):
 <div class="gatechip">{H.escape(gate_note)}<br><br>{H.escape(jr_note)}</div></nav>
 <main><div id="main"></div>
 <div class="foot">every number traces to a committed artifact · heuristic = keyword task-completion ·
-estimated = public per-unit prices · uncalibrated = judge before kappa · failure events ≠ failed calls ·
+estimated = public per-unit prices · κ calibrates the BINARY outcome judge only — the 5 semantic dims stay uncalibrated diagnostics · failure events ≠ failed calls ·
 single-rater tags are exploratory · generated offline, no network</div></main></div>
 <script>window.__DATA__ = {json.dumps(data)};</script>
 <script>{JS}</script></body></html>"""

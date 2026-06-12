@@ -8,7 +8,8 @@ or out-of-range response is never persisted (no poisoned cache).
 
 Batch 4A — JUDGE MACHINERY, QUARANTINED. Scores only the 5 SEMANTIC dims (= rubric.yaml's judge
 dims, enforced at startup); timing/overlap/slots stay DETERMINISTIC (score.py). Every judged dim
-is marked provenance="uncalibrated" until blind human labels + kappa exist. Evidence turn ids are
+is marked provenance="uncalibrated" PERMANENTLY this sprint — kappa calibrates only the separate
+binary outcome judgment (judge_run.py); no per-dimension human gold exists. Evidence turn ids are
 validated against the actual call; at least one valid unique id is required.
 
 QUARANTINE (do NOT lift until Spike labels): never run the 46 real data/normalized calls through
