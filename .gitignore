@@ -19,3 +19,5 @@ node_modules/
 data/spokenwoz/
 data/ami/
 out/dashboard_preview.html
+data/.judge_cache/*
+!data/.judge_cache/.gitkeep

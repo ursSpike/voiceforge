@@ -8,37 +8,43 @@ failure clusters, and an improvement queue.
 
 ```bash
 cd /Users/varsh/voiceforge
-.venv/bin/python web/recorder/serve.py            # booth + /shot + /label on :7861
+open out/dashboard.html                           # ★ PRIMARY demo surface — self-contained, NO server
+.venv/bin/python web/recorder/serve.py            # booth + /shot + /label on :7861 (for the live audio beat)
 open http://localhost:7861/shot                   # money-shot page (hero call, click-to-seek)
-open out/demo_report.html                         # static report — works with NO server
 ```
+
+**`out/dashboard.html` is the demo.** It is the full editorial dashboard (overview · metric trap · Success×Friction ·
+calibration · failure intelligence · improvement queue · sponsor proof), self-contained and offline. Run it from Finder.
 
 Regenerate everything from committed artifacts (deterministic):
 
 ```bash
 .venv/bin/python pipeline/score.py                # out/calls.json + analytics.json (76 calls)
-.venv/bin/python pipeline/demo_report.py          # out/demo_report.{md,html}
+.venv/bin/python pipeline/demo_report.py          # out/demo_report.{md,html} + _data.json (report data)
+.venv/bin/python pipeline/dashboard.py            # out/dashboard.html  ← the demo surface
 .venv/bin/python pipeline/chart.py                # reports/charts/business_value.png
 .venv/bin/python pipeline/validate_labels.py      # label CSV integrity (out/label_validation.json)
 .venv/bin/python pipeline/preflight.py            # the executable checklist
 ```
 
 ## Offline fallback (in failure order)
-1. **`out/demo_report.html`** — fully self-contained static page; open from Finder, zero network.
-2. **Fallback screen recording** (made Batch H) — plays the money shot if live audio dies.
-3. **Screenshots** in `reports/screenshots/` (Batch H) — report page, /shot, booth, chart.
-4. Markdown: `out/demo_report.md` readable in any editor; chart PNG in `reports/charts/`.
+1. **`out/dashboard.html`** — the primary surface itself is fully self-contained (no server, no network); open from Finder.
+2. **`out/demo_report.html`** — static report, same numbers (corpus, metric trap, calibration, archetypes, queue).
+3. **Fallback screen recording** of `/shot` (pending — Spike records) — plays the money-shot audio if the live booth dies.
+4. **Screenshots** in `reports/screenshots/` — dashboard sections + /shot + chart.
+5. **`out/demo_report.md`** readable in any editor; chart PNG in `reports/charts/`.
 
-The demo NEVER requires network: judge results are cached to disk; all pages are local.
+The demo NEVER requires network: judge results + sponsor proof are cached to disk; all pages are local.
 
-## Screenshot checklist (capture in Batch H, after real labels)
-- [ ] `out/demo_report.html` — headline cards (labels + kappa populated)
-- [ ] phenotype bars + archetype table sections
-- [ ] representative-call cards + improvement queue
+## Screenshot checklist (Phase H capture → reports/screenshots/)
+- [ ] `out/dashboard.html` overview — hero + metric-trap signature stat
+- [ ] calibration view — confusion matrix + κ + disagreement list
+- [ ] Success × Friction matrix + phenotype/archetype bars
+- [ ] a call-detail drill-down (transcript + scorecard + judge panel)
+- [ ] Calls table (human vs heuristic columns — the metric trap, per row)
+- [ ] sponsor proof chain (Bolna → Cartesia)
 - [ ] `/shot` with the failure table visible (0:15 barge-in / 0:48 gap)
-- [ ] booth `/label` mid-annotation (shows blindness + review gate)
-- [ ] `reports/charts/business_value.png`
-- [ ] terminal: `preflight.py` output green
+- [ ] terminal: `preflight.py` output
 
 ## Architecture (say it in this order)
 ```
@@ -61,7 +67,9 @@ provider logs (Bolna real call · SpokenWOZ · Code-Mixed-Dialog · constructed 
   and remain **uncalibrated diagnostics** — labeled so. No training/DPO-quality/significance claims.
 - Full limitations: `docs/limitations.md`.
 
-## Known-good state (pre-label gate)
-HEAD with batches A–D: manifest frozen `aec4ba49…` (46 = 2+30+14) · labels CSV `e6d2055…` (2 binary) ·
-pool 76 scored, timing_coverage {timed:46, unmeasured:30} · judge cache = synthetic fixture only.
-Gated until labels: judge run (E) → calibration report (F) → improvement queue (G) → final capture (H).
+## Known-good state (post-judge, demo-ready)
+Labels **complete + frozen**: CSV `b3884f9e…` (46 labeled · 45 binary 37/8 · 1 unsure), snapshot pinned `d592782a…`,
+manifest `aec4ba49…`. Pool 76 scored. **Judge run complete** (`out/judge_results.json` — 46/46, 276 judgments, 0
+failures, gemini-3.1-flash-lite). **Calibration: κ 0.206, raw agreement 0.711, n=45, CI [-0.108, 0.499]** (the finding,
+framed honestly). Metric trap: heuristic agrees with human on 25/45. Sponsor proof cached (`cartesia/Devansh/sonic-3`).
+Dashboard built, self-contained. Remaining: Phase H capture (screenshots + the /shot fallback recording).

@@ -15,8 +15,8 @@ constitution.** Where GPT's plan used different names, the mapping table reconci
 | schemas (machine-checkable) | `schemas/json/*.schema.json` (**9**, via `pipeline/schemas.py`) | pool validates **76/76** (incl. nullable-timing invariant) |
 | normalize | `pipeline/normalize.py` (spokenwoz + hero) + `pipeline/ingest_cmd.py` (Code-Mixed-Dialog hi-en) + `pipeline/ingest_bolna.py` | works |
 | deterministic signals | `pipeline/signals.py` (FTO core: barge-in, latency, p50/p90, failure table) | works, notebook-referenced |
-| LLM judge | `pipeline/judge.py` (Gemini, temp 0, JSON, {score,reason,evidence_turn_ids}, disk cache) | **5-dim pipeline DONE (Batch 4A, GPT PASS)** — validate-before-cache, quarantined: only synthetic fixture judged |
-| label booth | `web/label.html` + `/label*` routes | **booth v2.1 + frozen 46-call manifest** (`eval/label_manifest.json`, aec4ba49…); labels 2/46 (frozen e6d2055…) |
+| LLM judge | `pipeline/judge.py` (Gemini, temp 0, JSON, {score,reason,evidence_turn_ids}, disk cache) | **5-dim judge RUN COMPLETE** — all 46 manifest calls judged (gemini-3.1-flash-lite, 276 judgments, 0 failures), validate-before-cache; out/judge_results.json |
+| label booth | `web/label.html` + `/label*` routes | **labeling COMPLETE** — 46/46 labeled (45 binary 37/8, 1 unsure), CSV frozen b3884f9e…, snapshot pinned d592782a…, manifest aec4ba49… |
 | rubric | `rubric.yaml` (8 dims: 3 deterministic, 5 judge; weights sum 1.0) | live config |
 | normalized pool | `data/normalized/*.json` | **76 calls** (44 SpokenWOZ + hero + Bolna + 30 Code-Mixed-Dialog hi-en) — label slice = 46-call frozen manifest |
 | eval core | `pipeline/score.py` → `out/calls.json` (76 call_records) + `out/analytics.json` (timing_coverage 46 timed/30 unmeasured) | **DONE**; 76/76 valid |
@@ -33,7 +33,7 @@ constitution.** Where GPT's plan used different names, the mapping table reconci
 `pipeline/costs.py` + `pipeline/crosscut.py` are **absorbed into `score.py`** (cost = `build_cost()`,
 analytics/clusters = `build_analytics()`); their stubs now just point to `score.py` as the canonical
 eval-core entrypoint. Chart *images* (from analytics) are Batch 8.
-`out/` holds: `calls.json` (46 records) + 46 `call_<id>.json` + `analytics.json` + `provider_ingest_report.json`.
+`out/` holds: `calls.json` (76 records) + per-call jsons + `analytics.json` + `judge_results.json` (real judged run) + `demo_report.{md,html,_data.json}` (κ 0.206 calibration + metric-trap) + `dashboard.html` (the demo surface) + `bolna_cartesia_proof.json` (sponsor proof).
 
 ## Name-mapping table (GPT plan's names → repo constitution)
 | GPT plan name | repo (canonical) | note |

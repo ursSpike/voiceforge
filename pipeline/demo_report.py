@@ -332,6 +332,13 @@ def to_md(R):
             f"text-only (timing honestly omitted) on {tc.get('unmeasured','?')}")
         add(f"- task-success rate **{c['success_rate_heuristic']}** *(heuristic keyword match — not gold)* · "
             f"cost/successful call **${c['cost_per_success_est']}** *(estimated, prototype)*")
+    mt = R.get("metric_trap")
+    if mt:
+        add("\n## 1b · The metric trap *(signature finding)*")
+        add(f"- The completion **heuristic** (the metric most teams ship) agrees with blind human judgment on only "
+            f"**{mt['agree']}/{mt['n']}** calls ({round(mt['heuristic_agreement'] * 100)}%) — it missed "
+            f"**{mt['missed_successes']}** real successes and passed **{mt['false_passes']}** of {mt['human_failures']} "
+            f"real failures. *A success-rate dashboard is blind exactly where it costs money.*")
     add("\n## 2 · Deterministic failure events *(signal hits — NOT failed calls)*")
     if c["failure_event_clusters"]:
         for cl in c["failure_event_clusters"]:
@@ -349,7 +356,9 @@ def to_md(R):
         k = R["calibration"]
         add(f"- n={k['n']} · raw agreement **{k['raw_agreement']}** · Cohen's κ **{k['kappa']}** "
             f"(bootstrap 95% CI {k['ci95'][0]}–{k['ci95'][1]})")
-        add(f"- confusion: `{k['confusion']}` · disagreements: {', '.join(k['disagreements']) or 'none'}")
+        add(f"- confusion: `{k['confusion']}` · disagreements ({len(k['disagreements'])}): {', '.join(k['disagreements']) or 'none'}")
+        if k.get("caption"):
+            add(f"- *{k['caption']}*")
     else:
         add(f"**PENDING CALIBRATION** — requires ≥{FLOOR} blind binary labels **and** a judged run "
             "(quarantined until labeling completes). No number is shown because none exists yet.")

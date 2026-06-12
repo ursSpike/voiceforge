@@ -1,5 +1,10 @@
 # SUBMISSION PLAN — frozen reference (written Jun 11, 17:33 IST)
 
+> **⚠️ HISTORICAL (Jun 11 planning doc), not operational.** There is no Jun-12-night submission — the
+> requirement is a functional **demo on Jun 13**. Current operational truth lives in `docs/README_DEMO.md`
+> (launch + fallback), `docs/current_state.md` (what exists), and `pipeline/preflight.py` (the live gate).
+> Kept for provenance; do not follow its timeline/deadline as current.
+
 Deadline: **working prototype submitted Jun 12 night** · demo Jun 13 at Bolna HQ.
 Internal freeze: **Jun 12, 22:30 IST** — after that, only packaging, no code.
 Check progress anytime: `.venv/bin/python pipeline/preflight.py` (the executable version of this plan).

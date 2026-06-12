@@ -881,3 +881,21 @@ collapsed; added a .bar grid override. web/dashboard_skin.css = round-2 + 74 com
 **Browser-verified @1440×900:** matrix grid (agree=emerald-soft/disagree=red-soft), Success×Friction band+4 quads, metric
 cards (38px), phenotype(red)/archetype(blue) bars, pipeline strip, κ-note, Calls 76 rows+search, Queue 20 recs — all render,
 0 console errors, self-contained (0 external refs). Raw Fable artifact kept at repo root (dashboard_skin_round2.css) as provenance.
+
+## AUDIT REPAIR (Jun 13) — Codex 3 blockers + warnings (proceed-with-caution → clean)
+Standing channel: audit master drops verdicts at repo audit.md (read every turn).
+**B1 preflight.py stale gate FIXED:** dropped the dpo()/queue.jsonl check (DPO pair export is roadmap, not this sprint)
+→ improvement_queue() reads out/demo_report_data.json (20 entries); kappa check now reads the real calibration in
+demo_report_data.json (κ 0.206/CI/13 disagreements) not a phantom kappa*.json; added judge_run_check (status complete,
+46/46, 0 failures) + dashboard_check (self-contained, no external loading refs — fixed a false-positive that matched the
+skin's "no @import" comment); package() demo-script path fixed (demo_script.md) + fallback/screenshots downgraded to honest
+WARN (dashboard.html IS the offline fallback). **PREFLIGHT: 0 FAIL · 3 WARN · READY** (WARNs = pending recording/screenshots + dirty tree).
+**B2 judge_run --selftest now HERMETIC:** redirects J.CACHE_DIR to a temp dir for the whole selftest, restored after —
+verified the real cache (367 entries) is byte-untouched by a run; passes offline.
+**B3 launch/fallback unified:** README_DEMO now launches out/dashboard.html as the PRIMARY surface (demo_report.html =
+secondary static fallback); fallback order + screenshot checklist rewritten; metric_trap + calibration caption now RENDERED
+into demo_report.md/html (§1b + §4), so the static fallback carries the signature stat too.
+**Warnings:** current_state.md de-staled (judge complete, labels 46/46, out/ 76+judge+dashboard+proof); SUBMISSION-PLAN
+banner = HISTORICAL not operational; data/.judge_cache/* gitignored (dirty tree 357→~16). demo_report selftest 15/15.
+Frozen artifacts untouched (CSV b3884f9e, judge_results 7b76ba48, proof intact). REMAINING (Phase H): screenshots +
+/shot fallback recording (Spike) + fill demo_script ⟨slots⟩ from out/dashboard.html numbers.

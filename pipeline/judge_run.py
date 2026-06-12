@@ -229,6 +229,7 @@ def selftest():
     import tempfile
     J._RETRY_BASE = 0
     ok = True
+    _real_cache = J.CACHE_DIR     # hermetic: the cache is redirected to a temp dir below, restored after
 
     def check(c, msg):
         nonlocal ok
@@ -251,6 +252,7 @@ def selftest():
 
     with tempfile.TemporaryDirectory(prefix="vf_jr_") as td:
         td = Path(td)
+        J.CACHE_DIR = td / ".judge_cache"; J.CACHE_DIR.mkdir(parents=True, exist_ok=True)  # never the real cache
         # --- gate tests against COPIES (canonical files never touched) ---
         csv_c, man_c, snap_c = td / "l.csv", td / "m.json", td / "s.json"
         shutil.copy(CSV_PATH, csv_c); shutil.copy(MAN_PATH, man_c); shutil.copy(SNAP_PATH, snap_c)
@@ -386,6 +388,7 @@ def selftest():
               "interrupted run -> on-disk checkpoint: status running, call 1 preserved, no finished_at")
         for f in J.CACHE_DIR.glob("jrfx*"):
             f.unlink()
+    J.CACHE_DIR = _real_cache   # restore (the subprocess refusal tests below spawn fresh processes anyway)
     # NO-MODE REFUSAL: bare invocation must print help and exit non-zero (never start paid work)
     import subprocess
     r = subprocess.run([sys.executable, str(ROOT / "pipeline" / "judge_run.py")], capture_output=True, text=True)
