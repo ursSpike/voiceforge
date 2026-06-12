@@ -118,7 +118,7 @@ def deterministic_scorecard(call, sig, frac_captured, ncap, n_fields):
 # ---------------------------------------------------------------- cost
 def build_cost(call, sig):
     last = call["turns"][-1]
-    clock = last["end_ms"] if last["end_ms"] is not None else last["start_ms"]
+    clock = last.get("end_ms") if last.get("end_ms") is not None else last.get("start_ms")
     dur = round(clock / 1000, 1) if clock is not None else None   # text-only call: no duration, not a fake 0
     n_turns = len(call["turns"])
     n_agent = sum(1 for t in call["turns"] if t["speaker"] == "agent")

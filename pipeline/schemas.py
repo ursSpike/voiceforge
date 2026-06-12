@@ -61,7 +61,9 @@ CALL_LOG = {
             "type": "array", "minItems": 1,
             "items": {
                 "type": "object",
-                "required": ["turn_id", "speaker", "text", "start_ms"],
+                # end_ms is REQUIRED (present, may be null) — an absent key would slip past the timing
+                # invariant and KeyError downstream. "present-but-null" is the contract, never "absent".
+                "required": ["turn_id", "speaker", "text", "start_ms", "end_ms"],
                 "properties": {
                     "turn_id": {"type": "string"},
                     "speaker": {"enum": ["user", "agent"]},
@@ -319,7 +321,7 @@ def main():
 
     # call_record contract self-test: a well-formed record passes, a missing-scorecard one fails
     sample = {"call_id": "x", "source": "hero", "language": "en", "stress_profile": "clean",
-              "workflow_type": "t", "turns": [{"turn_id": "t1", "speaker": "agent", "text": "hi", "start_ms": 0}],
+              "workflow_type": "t", "turns": [{"turn_id": "t1", "speaker": "agent", "text": "hi", "start_ms": 0, "end_ms": 900}],
               "outcome": {"task_completed": True, "required_fields": []},
               "scorecard": {"dimensions": [{"name": "barge_in", "type": "deterministic", "score": 1.0,
                                             "reason": "no overlap", "evidence_turn_ids": []}], "overall": 1.0},

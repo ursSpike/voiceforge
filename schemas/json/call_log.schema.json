@@ -50,7 +50,8 @@
           "turn_id",
           "speaker",
           "text",
-          "start_ms"
+          "start_ms",
+          "end_ms"
         ],
         "properties": {
           "turn_id": {

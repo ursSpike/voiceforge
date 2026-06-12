@@ -119,6 +119,16 @@ def main():
         build_record(mc); check(False, "build_record should refuse a mixed call")
     except Exception:
         check(True, "build_record refuses a mixed call (never scores a fabricated record)")
+    # an ABSENT end_ms key (not present-null) must be rejected by schema AND boundary, before scoring
+    miss = untimed_call(); del miss["turns"][0]["end_ms"]
+    try:
+        validate(miss, "call_log"); check(False, "schema should reject a turn missing the end_ms key")
+    except Exception:
+        check(True, "JSON Schema rejects a turn missing end_ms (required, present-but-null)")
+    try:
+        validate_call(miss); check(False, "validate_call should reject a turn missing end_ms")
+    except AssertionError:
+        check(True, "normalize.validate_call rejects a turn missing end_ms")
     # and the profile coupling: all-null timing requires stress_profile 'unmeasured'
     try:
         bad_prof = untimed_call(); bad_prof["stress_profile"] = "clean"

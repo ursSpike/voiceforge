@@ -57,6 +57,7 @@ def validate_call(call):
     last_start = -1
     for t in turns:
         assert t["speaker"] in ("user", "agent"), f"bad speaker: {t}"
+        assert "end_ms" in t, f"turn missing end_ms key (must be present, may be null): {t['turn_id']}"
         if mode == "timed":
             assert isinstance(t["start_ms"], int) and t["start_ms"] >= last_start, f"unsorted: {t['turn_id']}"
             assert t["end_ms"] is None or t["end_ms"] > t["start_ms"], f"end<=start: {t['turn_id']}"

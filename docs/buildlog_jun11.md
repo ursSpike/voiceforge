@@ -511,3 +511,18 @@ rejection; chart test now uses an auto-cleaned `tempfile` dir. ALL PASS. Pool 46
 timed-only `avg_overall` scope.)
 
 **Next:** STOP for Codex re-audit. On clear → Phase B ingest + immutable `eval/label_manifest.json`.
+
+## BATCH 2R · nullable-timing repair round 4 (Jun 12) — Codex end_ms blocker
+Final contract-consistency fix. Still NO ingest, labels frozen, pool 46.
+
+**Blocker:** `end_ms` was not in the turn's `required`, so a turn with the key ABSENT (vs present-null) passed `call_log`
+validation + `validate_call`, then KeyError'd in `build_cost`. Fix: `end_ms` added to call_log turn `required` (present, may be
+null — "absent" is never valid); `normalize.validate_call` asserts the key present for every turn; `build_cost` uses
+`last.get("end_ms")`/`get("start_ms")` defensively. Fixed the schemas.py self-test `sample` (its turn omitted end_ms).
+Test added: a turn missing `end_ms` is rejected by JSON Schema AND by `validate_call` (before scoring).
+
+**Verify:** schemas.py self-tests all pass (exit 0), pool 46/46 valid, full nullable suite PASS; `out/calls.json`+`out/analytics.json`
+BYTE-IDENTICAL; CSV SHA e6d2055 frozen; normalized 46. (Codex warning acknowledged: `timed+unmeasured==n_calls` is guaranteed by
+`build_analytics`, not the schema — acceptable.)
+
+**Next:** STOP for Codex re-audit. On clear → Phase B ingest + immutable `eval/label_manifest.json`.
