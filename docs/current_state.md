@@ -23,8 +23,8 @@ constitution.** Where GPT's plan used different names, the mapping table reconci
 | public data | `data/spokenwoz/data.json` (246MB, 4700 dialogues, word-level ms) | **already downloaded** — slice, don't re-fetch |
 | hero call | `data/hero/hero_001.wav` (Cartesia Devansh) + `turns.json` | failures 0:15 barge-in 800ms / 0:48 gap 1620ms |
 | money-shot UI + booths | `web/shot.html` + `web/recorder/serve.py` (local server :7861; validates labels via jsonschema, so not pure-stdlib) | click-to-seek verified |
-| Bolna | agent `199b03e7…` (Cartesia-voiced) + 1 completed execution `246cd9f3…` | ingested (`data/normalized/bolna_246cd9f3.json`) |
-| keys | `.env`: GEMINI ✓, BOLNA ✓, CARTESIA ✓ (all verified) | gitignored |
+| Bolna | agent `199b03e7…` with **Cartesia inside its synthesizer** (provider=cartesia/Devansh/sonic-3) + 1 completed execution `246cd9f3…` (predates that Cartesia config) | ingested (`data/normalized/bolna_246cd9f3.json`) |
+| keys | required: `.env` GEMINI ✓, BOLNA ✓. Cartesia runs inside Bolna → **no separate Cartesia key needed**; CARTESIA_API_KEY is optional/historical (direct-TTS reproduction utilities only) | gitignored |
 | plan + checks | `docs/SUBMISSION-PLAN.md`, `pipeline/preflight.py` | the executable checklist |
 | learning | `notebooks/` 36 books (P00–P04, 00–30), all gate+review clean | reference the schema field names below |
 

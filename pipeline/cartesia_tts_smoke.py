@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
-"""Cartesia TTS smoke — proves the SYNTHESIS path (the binding submission requirement:
-"You must use a Cartesia voice model in your build").
+"""Cartesia TTS smoke — direct synthesis via api.cartesia.ai.
 
-cartesia_smoke.py only proves the key authenticates (GET /voices, no charge). This one
-actually calls POST /tts/bytes with a Sonic model and writes a .wav, so we know the
-credit-spending generation path works end to end. Doubles as the §7.E comparison sample
-(Cartesia agent voice vs the current edge-tts en-IN Neerja) for the hero re-voice call.
+OPTIONAL HISTORICAL / REPRODUCTION UTILITY — NOT required by the current hackathon architecture,
+where Cartesia is configured INSIDE the Bolna agent's synthesizer (provider=cartesia). The build and
+demo need no direct Cartesia call. This utility (POST /tts/bytes with a Sonic model -> .wav) was used
+to originally synthesize the cached hero audio; it stays for reproduction only.
 
     .venv/bin/python pipeline/cartesia_tts_smoke.py [voice_id] ["line to speak"]
 
@@ -84,7 +83,7 @@ def main():
     except urllib.error.HTTPError as e:
         body = e.read().decode()[:500]
         hints = {401: " (key wrong)", 403: " (key wrong / not permitted)",
-                 402: " (out of Cartesia credits — ping the organizers)",
+                 402: " (Cartesia account has no credit — only relevant to this optional direct-TTS utility)",
                  422: " (bad voice id or model — check the value)"}
         sys.exit(f"HTTP {e.code} from /tts/bytes{hints.get(e.code, '')}\n{body}")
     except (TimeoutError, urllib.error.URLError, OSError) as e:

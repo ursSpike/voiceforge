@@ -12,6 +12,11 @@ signals.turn_metrics and ASSERT the engineered sins came out exact — the pipel
 Preprocessing (per clip, cached to raw/proc/): mono @ sample_rate, loudnorm I=-18,
 lead/tail silence trim (start_periods trick — internal pauses are preserved, which is
 what keeps t2's deliberate 2s hesitation intact).
+
+NOTE: the `cartesia` synthesis mode (direct api.cartesia.ai, needs CARTESIA_API_KEY) is an OPTIONAL
+HISTORICAL/REPRODUCTION path — it is how the cached hero audio was originally Cartesia-voiced. The
+hackathon architecture configures Cartesia inside the Bolna agent's synthesizer; the demo plays the
+already-cached hero WAV and needs no Cartesia key.
 """
 import asyncio
 import json

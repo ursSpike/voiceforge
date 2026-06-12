@@ -152,14 +152,25 @@ def bolna_core():
     check("pool: >=9 normalized calls", "PASS" if len(pool) >= 9 else "FAIL", f"{len(pool)} calls")
 
 
-# ---------- rules: live agent still Cartesia-voiced ----------
+# ---------- rule: Cartesia is configured inside the Bolna agent's synthesizer ----------
+# Cartesia runs INSIDE Bolna (synthesizer.provider == cartesia) — verified through the Bolna agent
+# endpoint with BOLNA_API_KEY. We never call api.cartesia.ai. Offline mode validates the cached
+# sponsor-proof artifact (out/bolna_cartesia_proof.json) instead of the live endpoint.
+PROOF = ROOT / "out" / "bolna_cartesia_proof.json"
+
+
 def cartesia_live():
     if OFFLINE:
-        return check("rule: live agent voice = cartesia", "SKIP", "--offline")
+        if PROOF.exists():
+            p = json.loads(PROOF.read_text())
+            ok = p.get("synthesizer_provider") == "cartesia"
+            return check("rule: Bolna synthesizer = cartesia (cached proof)", "PASS" if ok else "FAIL",
+                         f"{p.get('synthesizer_provider')}/{p.get('cartesia_voice')} · captured {p.get('fetched_at')}")
+        return check("rule: Bolna synthesizer = cartesia", "SKIP", "--offline (no cached proof yet)")
     load_env()
     key = os.environ.get("BOLNA_API_KEY")
     if not key:
-        return check("rule: live agent voice = cartesia", "SKIP", "no key")
+        return check("rule: Bolna synthesizer = cartesia", "SKIP", "no BOLNA_API_KEY")
     try:
         import urllib.request
         req = urllib.request.Request(f"https://api.bolna.ai/v2/agent/{AGENT_ID}",
@@ -167,11 +178,12 @@ def cartesia_live():
         with urllib.request.urlopen(req, timeout=15) as r:
             cfg = json.loads(r.read().decode())
         syn = cfg["tasks"][0]["tools_config"]["synthesizer"]
+        pc = syn.get("provider_config", {})
         ok = syn.get("provider") == "cartesia"
-        check("rule: live agent voice = cartesia", "PASS" if ok else "FAIL",
-              f"{syn.get('provider')}/{syn.get('provider_config', {}).get('voice')}")
+        check("rule: Bolna synthesizer = cartesia", "PASS" if ok else "FAIL",
+              f"{syn.get('provider')}/{pc.get('voice')}/{pc.get('model', '?')}")
     except Exception as e:
-        check("rule: live agent voice = cartesia", "SKIP", f"network: {type(e).__name__}")
+        check("rule: Bolna synthesizer = cartesia", "SKIP", f"network: {type(e).__name__}")
 
 
 # ---------- repo hygiene ----------

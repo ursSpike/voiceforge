@@ -768,3 +768,22 @@ uncalibrated; binary pending-calibration. Frozen hashes UNCHANGED (CSV b3884f9e�
 out/calls.json BYTE-IDENTICAL (444956c8…). 12 model-consistent Lite cache entries; fixture untouched.
 Quality consistent w/ flash: bolna all 1.0; hero language_match 0.2 / repair_quality 0.0 / faithfulness 1.0 (correctly
 flags the English-vs-Telugu mismatch + over-demand turn). Binary 2/2 success = human. STOP for fast audit before --full.
+
+## CARTESIA INTEGRATION TRUTH SWEEP (Jun 12, post-label) — Codex correction batch
+**Canonical sponsor architecture:** Cartesia runs INSIDE the Bolna agent's synthesizer (provider=cartesia) — NO separate
+CARTESIA_API_KEY/credit needed for build or demo. Required runtime keys: BOLNA + GEMINI. Did NOT touch the running judge,
+frozen labels/manifest/snapshot/rubric, judge cache, out/judge_results.json, or out/calls.json (all hashes verified
+unchanged; run healthy 27/46, 0 failures throughout).
+**Edits:** .env.example (CARTESIA_API_KEY now commented OPTIONAL/historical; required = GEMINI+BOLNA) · preflight.py
+(cartesia check renamed 'Bolna synthesizer = cartesia', 'no key'→'no BOLNA_API_KEY', now reports provider/voice/model,
+offline validates cached out/bolna_cartesia_proof.json) · cartesia_smoke.py + cartesia_tts_smoke.py + assemble_hero.py
+(docstrings → 'optional historical/reproduction utility'; removed 'binding submission requirement', 'credit-spending path',
+'out of credits — ping organizers'; scripts NOT run) · SUBMISSION-PLAN ('both sponsor keys verified'→Cartesia-inside-Bolna)
+· later.md (re-voice = reproduction-only) · current_state.md (keys row: Cartesia not required).
+**Provenance preserved (step 5):** hero_001 audio is honestly still a Cartesia api.cartesia.ai-synthesized artifact —
+NOT rewritten as Bolna-generated. Three separate proofs stated: real Bolna execution ingested (predates Cartesia config) ·
+live Bolna agent configured Cartesia Devansh/sonic-3 · hero audio = cached Cartesia-synthesized demo artifact.
+SPEC.md + historical buildlogs left as historical record (not current-truth surfaces).
+**PENDING (step 3, after judge run finishes):** write+run a one-shot sanitized Bolna-config fetch → out/bolna_cartesia_proof.json
+(agent_id, fetched_at, synthesizer_provider, cartesia_voice, model only; no prompts/creds/webhooks). preflight already wired to validate it.
+**STOP for audit.** No external Cartesia request made; no judge artifact changed.

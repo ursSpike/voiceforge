@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-"""Cartesia API-key smoke test + voice list. SPEC §7.E (Sonic 3.5 hero re-voice, sponsor flagship).
+"""Cartesia API-key smoke test + voice list.
+
+OPTIONAL HISTORICAL / REPRODUCTION UTILITY — NOT required by the current hackathon architecture,
+where Cartesia is configured INSIDE the Bolna agent's synthesizer (provider=cartesia) and no separate
+Cartesia key is needed to run or demo VoiceForge. Only verifies a direct CARTESIA_API_KEY for
+re-synthesizing the cached hero audio.
 
 Add your key to .env as CARTESIA_API_KEY (format sk_car_...), then:
 

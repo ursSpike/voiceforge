@@ -19,7 +19,8 @@ blocks the demo.
 ## Roadmap (post-hackathon)
 - Multilingual evals: IndicVoices (gated, timestamps undocumented — investigate), code-switch
   detection as a first-class signal
-- Cartesia Sonic re-voice of hero agent if credits didn't land in-sprint
+- Optional: re-synthesize the hero agent with a newer Cartesia Sonic voice (reproduction only — the
+  live Bolna agent already runs Cartesia inside its synthesizer; no separate Cartesia key required)
 - Real billing-data costs instead of estimates
 - Human-review UI for the improvement queue (`needs_human_review` workflow)
 - Larger calibration: 2+ raters, multiple dimensions, per-dimension kappa
