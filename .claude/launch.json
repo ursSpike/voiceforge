@@ -9,6 +9,13 @@
       "autoPort": true
     },
     {
+      "name": "report-static",
+      "runtimeExecutable": "/bin/sh",
+      "runtimeArgs": ["-c", "cd out && exec ../.venv/bin/python -m http.server 7869"],
+      "port": 7869,
+      "autoPort": true
+    },
+    {
       "name": "booth-test",
       "runtimeExecutable": "/bin/sh",
       "runtimeArgs": ["-c", "rm -f /tmp/vf_test_labels.csv; VOICEFORGE_LABELS_CSV=/tmp/vf_test_labels.csv exec .venv/bin/python web/recorder/serve.py"],

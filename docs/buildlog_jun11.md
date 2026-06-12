@@ -607,3 +607,20 @@ architecture diagram, volunteer-first limitations, known-good state + gates. **d
 with artifact-grounded answers (judge-trust, heuristic honesty, constructed-hero disclosure, no-fake-timing, n≈40 pilot
 framing, solo-vs-team). No claims of training/DPO-quality/significance anywhere.
 Batches E–H remain GATED on Spike's labels. Booth still down pending Codex clearance of Batch A.
+
+## SELF-AUDIT of Batches A–D (Jun 12 ~19:30, audit-master style — Codex away; Spike delegated)
+**BLOCKER found+fixed:** validate_labels.py hashed read_text()-normalized content → out/label_validation.json recorded
+e2479e3f (LF hash) instead of the file's byte hash e6d2055 — the validator's own evidence didn't match the disk bytes
+(same read_text class as the Batch A harness incident). Fixed: read_bytes() for hashing, decode for parsing; regenerated
+artifact; recorded hash now == byte hash ✓.
+**Adversarial re-verification:** all suites re-run from scratch (schemas exit 0, nullable PASS, report selftest 15/15);
+demo_report regeneration byte-deterministic; SAVE ROUND-TRIP SIMULATED on an isolated copy (write_label of ref-2 row with
+comma+quote note → frozen rows 1-2 byte-identical, CRLF preserved, proper quoting, validator exit 0 on the 3-row file);
+static report page RENDERED in a browser (cards/pending banner/bars/archetypes correct, 0 console errors); archetype
+derivation verified on the 2 real seeds (bolna→recovered_success via handled_confusion_well+neg, hero→brittle_success).
+**WARNINGS fixed:** docs/current_state.md de-staled (pool 46→76, judge 'smoke only'→4A done+quarantined, booth→manifest,
+bolna ingested). **WARNINGS noted (accepted):** eval/labels_spike.csv deliberately untracked (commit decision deferred to
+submission packaging); improvement queue includes unsure-outcome calls when they carry negative tags (evidence-backed
+either way); missing-analytics path untested (renders PENDING by construction).
+**Integrity at verdict:** CSV e6d2055 ✓ · manifest aec4ba49 ✓ · judge cache fixture-only ✓ · all pushed.
+**Verdict: PASS — booth restart authorized (Batch A clear). Labeling opens; E-H stay gated on ≥40 binary labels.**

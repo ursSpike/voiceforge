@@ -68,7 +68,8 @@ def main():
         print("labels file absent — valid empty state. wrote out/label_validation.json")
         return 0
 
-    raw = CSV_PATH.read_text()
+    raw_bytes = CSV_PATH.read_bytes()          # BYTES-only: the recorded hash must match the file on disk
+    raw = raw_bytes.decode("utf-8")
     rows = list(csv.DictReader(raw.splitlines()))
     header = raw.splitlines()[0].split(",") if raw else []
 
@@ -115,7 +116,7 @@ def main():
         check(f"frozen annotation preserved: {cid}", ok,
               f"{r['primary_label']}/{r['confidence']}" if r else "MISSING")
 
-    result = {"csv_present": True, "csv_sha256": hashlib.sha256(raw.encode()).hexdigest(),
+    result = {"csv_present": True, "csv_sha256": hashlib.sha256(raw_bytes).hexdigest(),
               "manifest_sha256": man_sha, "rows": len(rows), "binary": len(binary),
               "unsure": len(unsure), "floor": FLOOR, "floor_met": len(binary) >= FLOOR,
               "checks": checks, "problems": problems, "ok": not problems}
