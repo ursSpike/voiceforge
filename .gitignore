@@ -18,3 +18,4 @@ node_modules/
 # (normalized per-call JSON in data/normalized/ IS committed)
 data/spokenwoz/
 data/ami/
+out/dashboard_preview.html

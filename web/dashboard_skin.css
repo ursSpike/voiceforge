@@ -480,3 +480,33 @@ tr.row { cursor: pointer; }
 /* key-value helper lines */
 .kv { font-size: 12.5px; color: var(--text-2); }
 .kv b { color: var(--text); }
+
+/* ---- new components (pipeline strip · confusion matrix · κ stats · fixture watermark) ----
+   default styling in skin tokens; round-2 design pass may replace this block */
+.pipeline { display: flex; align-items: stretch; gap: 8px; flex-wrap: wrap; margin: 0 0 26px; }
+.stage { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md);
+  padding: 9px 13px; box-shadow: var(--sh-1); }
+.stage .st { font-size: 11.5px; font-weight: 650; }
+.stage .ss { font-family: var(--mono); font-size: 10.5px; color: var(--text-3); margin-top: 1px; }
+.stage.done { border-color: var(--em-line); background: linear-gradient(180deg, var(--surface), var(--em-tint)); }
+.stage.live { border-color: var(--em); box-shadow: 0 0 0 3px var(--em-tint), var(--sh-1); }
+.stage.gated { opacity: .55; border-style: dashed; }
+.flow { align-self: center; color: var(--text-3); font-size: 13px; }
+.fixturemark { background: oklch(0.30 0.09 25); color: #ffe1e1; border-radius: var(--r-md);
+  padding: 11px 16px; font: 650 12.5px var(--mono); margin: 0 0 18px; letter-spacing: .02em; }
+.cmx { display: grid; grid-template-columns: auto 1fr 1fr; gap: 10px; align-items: stretch; }
+.cmx .ax { font: 600 10.5px var(--mono); color: var(--text-3); align-self: center; text-align: center;
+  text-transform: uppercase; letter-spacing: .06em; }
+.cmx .ax.side { writing-mode: vertical-rl; transform: rotate(180deg); }
+.cmx .cell { border-radius: var(--r-md); padding: 16px 12px; text-align: center; border: 1px solid var(--line);
+  box-shadow: var(--sh-1); }
+.cmx .cell.agree { background: var(--em-tint); border-color: var(--em-line); }
+.cmx .cell.disagree { background: var(--red-tint); border-color: oklch(0.86 0.06 25); }
+.cmx .cv { font: 650 26px var(--mono); font-variant-numeric: tabular-nums; }
+.cmx .cell.agree .cv { color: var(--em-deep); }
+.cmx .cell.disagree .cv { color: oklch(0.46 0.13 25); }
+.cmx .cl { font-size: 10.5px; color: var(--text-3); margin-top: 3px; }
+.kstats { display: flex; gap: 26px; }
+.kstat .kv2 { font: 650 32px var(--mono); letter-spacing: -0.02em; color: var(--em-deep); }
+.kstat .kl { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; color: var(--text-3); }
+.kstat .kn { font-size: 11px; color: var(--text-3); margin-top: 2px; }

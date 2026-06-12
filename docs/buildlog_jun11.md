@@ -656,3 +656,17 @@ beside bubble) → column + .who style · .tag unstyled (dark-on-dark in sidebar
 **Browser-verified at 1280×800:** overview cards/banner/bars render, clusters 4 bars + 2-col split, queue 2 styled recs,
 calls still gated (blindness guard), bar counts visible, tag readable, 0 console errors. Root voiceforge-skin.css kept
 as the unmodified fetched artifact (provenance); web/dashboard_skin.css = integrated version.
+
+## UI ROUND 2 — pipeline strip · confusion-matrix visual · fixture-preview mode (Jun 12 ~21:40)
+**Problem:** the demo-centerpiece views (calibration matrix, Calls drill-down) are gated until labels — undesignable blind.
+**Solution: `dashboard.py --fixture-preview`** → out/dashboard_preview.html — SYNTHETIC data, loud dark-red watermark on
+every view ("every number on this page is fake"), GITIGNORED (never committed, never confusable with the real artifact).
+Real dashboard.html untouched (still honestly gated).
+**New components (markup + styles in built-in CSS AND skin layer):** (1) pipeline strip on Overview — 7 stages
+(raw calls → signals → blind labels → judge → calibration → phenotypes → queue) with live/done/gated states, tells the
+architecture story in one glance; (2) confusion matrix as a proper 2×2 visual (.cmx: green agree diagonal / red
+disagreement cells, axis labels) + big κ/raw-agreement stat block (.kstats) + "disagreements = where NOT to trust the
+judge" framing; (3) fixture watermark component.
+**Browser-verified (fixture preview, 1280×800):** pipeline all-states render, matrix 22/2/2/15 with κ 0.79 / 90%,
+Calls table 6 rows, call detail = Hinglish transcript + deterministic scorecard + judge panel w/ uncalibrated chips,
+.who above bubbles, 0 console errors. Real dashboard regenerated too (still gated, still honest).

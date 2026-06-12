@@ -482,6 +482,36 @@ tr.row { cursor: pointer; }
 /* key-value helper lines */
 .kv { font-size: 12.5px; color: var(--text-2); }
 .kv b { color: var(--text); }
+
+/* ---- new components (pipeline strip · confusion matrix · κ stats · fixture watermark) ----
+   default styling in skin tokens; round-2 design pass may replace this block */
+.pipeline { display: flex; align-items: stretch; gap: 8px; flex-wrap: wrap; margin: 0 0 26px; }
+.stage { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md);
+  padding: 9px 13px; box-shadow: var(--sh-1); }
+.stage .st { font-size: 11.5px; font-weight: 650; }
+.stage .ss { font-family: var(--mono); font-size: 10.5px; color: var(--text-3); margin-top: 1px; }
+.stage.done { border-color: var(--em-line); background: linear-gradient(180deg, var(--surface), var(--em-tint)); }
+.stage.live { border-color: var(--em); box-shadow: 0 0 0 3px var(--em-tint), var(--sh-1); }
+.stage.gated { opacity: .55; border-style: dashed; }
+.flow { align-self: center; color: var(--text-3); font-size: 13px; }
+.fixturemark { background: oklch(0.30 0.09 25); color: #ffe1e1; border-radius: var(--r-md);
+  padding: 11px 16px; font: 650 12.5px var(--mono); margin: 0 0 18px; letter-spacing: .02em; }
+.cmx { display: grid; grid-template-columns: auto 1fr 1fr; gap: 10px; align-items: stretch; }
+.cmx .ax { font: 600 10.5px var(--mono); color: var(--text-3); align-self: center; text-align: center;
+  text-transform: uppercase; letter-spacing: .06em; }
+.cmx .ax.side { writing-mode: vertical-rl; transform: rotate(180deg); }
+.cmx .cell { border-radius: var(--r-md); padding: 16px 12px; text-align: center; border: 1px solid var(--line);
+  box-shadow: var(--sh-1); }
+.cmx .cell.agree { background: var(--em-tint); border-color: var(--em-line); }
+.cmx .cell.disagree { background: var(--red-tint); border-color: oklch(0.86 0.06 25); }
+.cmx .cv { font: 650 26px var(--mono); font-variant-numeric: tabular-nums; }
+.cmx .cell.agree .cv { color: var(--em-deep); }
+.cmx .cell.disagree .cv { color: oklch(0.46 0.13 25); }
+.cmx .cl { font-size: 10.5px; color: var(--text-3); margin-top: 3px; }
+.kstats { display: flex; gap: 26px; }
+.kstat .kv2 { font: 650 32px var(--mono); letter-spacing: -0.02em; color: var(--em-deep); }
+.kstat .kl { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; color: var(--text-3); }
+.kstat .kn { font-size: 11px; color: var(--text-3); margin-top: 2px; }
 </style></head><body><div class="shell">
 <nav><div class="logo">Voice<b>Forge</b></div><div class="tag">eval lab for voice agents</div>
 <a data-v="overview" onclick="nav('overview')">◈ Overview</a>
@@ -493,7 +523,7 @@ tr.row { cursor: pointer; }
 <div class="foot">every number traces to a committed artifact · heuristic = keyword task-completion ·
 estimated = public per-unit prices · uncalibrated = judge before kappa · failure events ≠ failed calls ·
 single-rater tags are exploratory · generated offline, no network</div></main></div>
-<script>window.__DATA__ = {"gate_open": false, "floor": 40, "val": {"binary": 2, "unsure": 0}, "analytics": {"n_calls": 76, "success_rate": 0.566, "avg_overall": 0.711, "timing_coverage": {"timed": 46, "unmeasured": 30}, "cost_per_successful_call": 0.1188, "by_stress_profile": [{"stress_profile": "unmeasured", "n": 30, "n_completed": 26, "cost": 0.9650000000000005, "success_rate": 0.867, "cost_per_successful_call": 0.0371}, {"stress_profile": "interruption", "n": 21, "n_completed": 8, "cost": 1.965, "success_rate": 0.381, "cost_per_successful_call": 0.2456}, {"stress_profile": "clean", "n": 20, "n_completed": 8, "cost": 1.8496, "success_rate": 0.4, "cost_per_successful_call": 0.2312}, {"stress_profile": "pause_heavy", "n": 5, "n_completed": 1, "cost": 0.33, "success_rate": 0.2, "cost_per_successful_call": 0.33}], "failure_clusters": [{"dimension": "latency_gap", "count": 183, "example_call_ids": ["hero_001", "swz_MUL0035", "swz_MUL0056", "swz_MUL0069", "swz_MUL0106"]}, {"dimension": "barge_in", "count": 107, "example_call_ids": ["hero_001", "swz_MUL0035", "swz_MUL0043", "swz_MUL0056", "swz_MUL0071"]}], "note": "deterministic eval only (judge dims add in Batch 4); costs estimated, prototype. avg_overall is over TIMED calls only (consistent dim basis) \u2014 see timing_coverage."}, "report": {"manifest_total": 46, "corpus": {"n_scored": 76, "timing_coverage": {"timed": 46, "unmeasured": 30}, "success_rate_heuristic": 0.566, "cost_per_success_est": 0.1188, "failure_event_clusters": [{"dimension": "latency_gap", "count": 183, "example_call_ids": ["hero_001", "swz_MUL0035", "swz_MUL0056", "swz_MUL0069", "swz_MUL0106"]}, {"dimension": "barge_in", "count": 107, "example_call_ids": ["hero_001", "swz_MUL0035", "swz_MUL0043", "swz_MUL0056", "swz_MUL0071"]}]}, "labels": {"total": 2, "binary": 2, "unsure": 0, "floor": 40, "floor_met": false, "distribution": {"success": 2}}, "calibration": null, "tags": {"positive": {"user_satisfied": 2, "understood_user": 2, "completed_or_clear_next_step": 2, "handled_confusion_well": 1}, "negative": {"wrong_language_or_tone": 2}, "context": {"mixed_languages": 2}, "co_occurrence_top": [{"pair": ["completed_or_clear_next_step", "mixed_languages"], "n": 2}, {"pair": ["completed_or_clear_next_step", "understood_user"], "n": 2}, {"pair": ["completed_or_clear_next_step", "user_satisfied"], "n": 2}, {"pair": ["completed_or_clear_next_step", "wrong_language_or_tone"], "n": 2}, {"pair": ["mixed_languages", "understood_user"], "n": 2}, {"pair": ["mixed_languages", "user_satisfied"], "n": 2}, {"pair": ["mixed_languages", "wrong_language_or_tone"], "n": 2}, {"pair": ["understood_user", "user_satisfied"], "n": 2}], "caveat": "single-rater exploratory (n=1 annotator) \u2014 NOT calibrated"}, "archetypes": {"counts": {"seamless_success": 0, "brittle_success": 1, "recovered_success": 1, "language_mismatch_failure": 0, "intent_or_slot_loss_failure": 0, "repair_loop_failure": 0, "workflow_failure": 0, "ambiguous_or_unassessable": 0}, "derivation": "deterministic from Level-1 outcome + Level-2 tags (precedence: workflow > language > intent/slot > repair-loop); never hand-labeled"}, "representatives": [{"call_id": "bolna_246cd9f3", "human": "success/high", "archetype": "recovered_success", "tags": ["wrong_language_or_tone"], "deterministic_failures": [], "judge": "pending", "recommendation": "detect caller language/register in the first 2 turns and switch the response style"}, {"call_id": "hero_001", "human": "success/high", "archetype": "brittle_success", "tags": ["wrong_language_or_tone"], "deterministic_failures": ["barge_in", "latency_gap"], "judge": "pending", "recommendation": "detect caller language/register in the first 2 turns and switch the response style"}], "improvement_queue": [{"call_id": "bolna_246cd9f3", "human": "success/high", "archetype": "recovered_success", "evidence_tags": ["wrong_language_or_tone"], "recommendation": "detect caller language/register in the first 2 turns and switch the response style"}, {"call_id": "hero_001", "human": "success/high", "archetype": "brittle_success", "evidence_tags": ["wrong_language_or_tone"], "recommendation": "detect caller language/register in the first 2 turns and switch the response style"}], "judge_run": null}, "judge_run": null, "rows": []};</script>
+<script>window.__DATA__ = {"gate_open": false, "floor": 40, "val": {"binary": 2, "unsure": 0}, "analytics": {"n_calls": 76, "success_rate": 0.566, "avg_overall": 0.711, "timing_coverage": {"timed": 46, "unmeasured": 30}, "cost_per_successful_call": 0.1188, "by_stress_profile": [{"stress_profile": "unmeasured", "n": 30, "n_completed": 26, "cost": 0.9650000000000005, "success_rate": 0.867, "cost_per_successful_call": 0.0371}, {"stress_profile": "interruption", "n": 21, "n_completed": 8, "cost": 1.965, "success_rate": 0.381, "cost_per_successful_call": 0.2456}, {"stress_profile": "clean", "n": 20, "n_completed": 8, "cost": 1.8496, "success_rate": 0.4, "cost_per_successful_call": 0.2312}, {"stress_profile": "pause_heavy", "n": 5, "n_completed": 1, "cost": 0.33, "success_rate": 0.2, "cost_per_successful_call": 0.33}], "failure_clusters": [{"dimension": "latency_gap", "count": 183, "example_call_ids": ["hero_001", "swz_MUL0035", "swz_MUL0056", "swz_MUL0069", "swz_MUL0106"]}, {"dimension": "barge_in", "count": 107, "example_call_ids": ["hero_001", "swz_MUL0035", "swz_MUL0043", "swz_MUL0056", "swz_MUL0071"]}], "note": "deterministic eval only (judge dims add in Batch 4); costs estimated, prototype. avg_overall is over TIMED calls only (consistent dim basis) \u2014 see timing_coverage."}, "report": {"manifest_total": 46, "corpus": {"n_scored": 76, "timing_coverage": {"timed": 46, "unmeasured": 30}, "success_rate_heuristic": 0.566, "cost_per_success_est": 0.1188, "failure_event_clusters": [{"dimension": "latency_gap", "count": 183, "example_call_ids": ["hero_001", "swz_MUL0035", "swz_MUL0056", "swz_MUL0069", "swz_MUL0106"]}, {"dimension": "barge_in", "count": 107, "example_call_ids": ["hero_001", "swz_MUL0035", "swz_MUL0043", "swz_MUL0056", "swz_MUL0071"]}]}, "labels": {"total": 2, "binary": 2, "unsure": 0, "floor": 40, "floor_met": false, "distribution": {"success": 2}}, "calibration": null, "tags": {"positive": {"user_satisfied": 2, "understood_user": 2, "completed_or_clear_next_step": 2, "handled_confusion_well": 1}, "negative": {"wrong_language_or_tone": 2}, "context": {"mixed_languages": 2}, "co_occurrence_top": [{"pair": ["completed_or_clear_next_step", "mixed_languages"], "n": 2}, {"pair": ["completed_or_clear_next_step", "understood_user"], "n": 2}, {"pair": ["completed_or_clear_next_step", "user_satisfied"], "n": 2}, {"pair": ["completed_or_clear_next_step", "wrong_language_or_tone"], "n": 2}, {"pair": ["mixed_languages", "understood_user"], "n": 2}, {"pair": ["mixed_languages", "user_satisfied"], "n": 2}, {"pair": ["mixed_languages", "wrong_language_or_tone"], "n": 2}, {"pair": ["understood_user", "user_satisfied"], "n": 2}], "caveat": "single-rater exploratory (n=1 annotator) \u2014 NOT calibrated"}, "archetypes": {"counts": {"seamless_success": 0, "brittle_success": 1, "recovered_success": 1, "language_mismatch_failure": 0, "intent_or_slot_loss_failure": 0, "repair_loop_failure": 0, "workflow_failure": 0, "ambiguous_or_unassessable": 0}, "derivation": "deterministic from Level-1 outcome + Level-2 tags (precedence: workflow > language > intent/slot > repair-loop); never hand-labeled"}, "representatives": [{"call_id": "bolna_246cd9f3", "human": "success/high", "archetype": "recovered_success", "tags": ["wrong_language_or_tone"], "deterministic_failures": [], "judge": "pending", "recommendation": "detect caller language/register in the first 2 turns and switch the response style"}, {"call_id": "hero_001", "human": "success/high", "archetype": "brittle_success", "tags": ["wrong_language_or_tone"], "deterministic_failures": ["barge_in", "latency_gap"], "judge": "pending", "recommendation": "detect caller language/register in the first 2 turns and switch the response style"}], "improvement_queue": [{"call_id": "bolna_246cd9f3", "human": "success/high", "archetype": "recovered_success", "evidence_tags": ["wrong_language_or_tone"], "recommendation": "detect caller language/register in the first 2 turns and switch the response style"}, {"call_id": "hero_001", "human": "success/high", "archetype": "brittle_success", "evidence_tags": ["wrong_language_or_tone"], "recommendation": "detect caller language/register in the first 2 turns and switch the response style"}], "judge_run": null}, "judge_run": null, "rows": [], "fixture": false};</script>
 <script>
 const D = window.__DATA__;
 const $ = s => document.querySelector(s);
@@ -505,6 +535,20 @@ function bars(obj, cls, max){ const m = max||Math.max(1,...Object.values(obj));
   <span class="bf ${cls}" style="width:${Math.max(8,Math.round(330*v/m))}px"></span><b>${v}</b></div>`).join(''); }
 function gated(msg){ return `<div class="pending">🔒 ${msg}</div>`; }
 
+function pipeline(){
+  const cal=D.report.calibration, lab=D.val;
+  const stages=[
+    ['raw calls','76 ingested · 4 sources','done'],
+    ['deterministic signals','FTO: barge-in · latency','done'],
+    ['blind labels',`${lab.binary}/${D.floor} binary`, lab.binary>=D.floor?'done':'live'],
+    ['quarantined judge', D.judge_run?'5 dims + outcome':'gate closed', D.judge_run?'done':'gated'],
+    ['calibration', cal?`κ ${cal.kappa}`:'pending κ', cal?'done':'gated'],
+    ['phenotypes','archetypes derived', Object.values(D.report.archetypes.counts).some(v=>v)?'done':'gated'],
+    ['improvement queue',`${(D.report.improvement_queue||[]).length} entries`, (D.report.improvement_queue||[]).length?'done':'gated'],
+  ];
+  return `<div class="pipeline">${stages.map(([t,s,st],i)=>
+    `${i?'<span class="flow">→</span>':''}<div class="stage ${st}"><div class="st">${t}</div><div class="ss">${s}</div></div>`).join('')}</div>`;
+}
 function overview(){
   const A=D.analytics, R=D.report, c=R.corpus, t=A.timing_coverage||{}, cal=R.calibration;
   const cards = [
@@ -517,9 +561,11 @@ function overview(){
   ].map(([l,v,n])=>`<div class="card"><div class="v">${v}</div><div class="l">${l}</div><div class="n">${n}</div></div>`).join('');
   const arch = Object.fromEntries(Object.entries(R.archetypes.counts).filter(([,v])=>v));
   const neg = R.tags.negative;
-  return `<h1>Voice<b style="color:var(--brand)">Forge</b> — eval lab</h1>
+  return `${D.fixture?'<div class="fixturemark">⚠ SYNTHETIC FIXTURE PREVIEW — design verification only. Every number on this page is fake. The real dashboard is out/dashboard.html.</div>':''}
+  <h1>Voice<b style="color:var(--brand)">Forge</b> — eval lab</h1>
   <p class="sub">Most voice-agent demos show a cherry-picked call. VoiceForge shows the <b>failure
   distribution</b>: deterministic signals → blind human labels → calibrated judge → call phenotypes → an improvement queue.</p>
+  ${pipeline()}
   <div class="cards">${cards}</div>
   ${cal?'':gated('Calibration pending — requires ≥'+D.floor+' blind binary labels and the quarantined judge run. Nothing is faked while it waits.')}
   <div class="split"><div class="panel"><h2 style="margin-top:0">Failure phenotypes <span class="mono">(single-rater exploratory)</span></h2>
@@ -533,13 +579,20 @@ function overview(){
 function calblock(){
   const cal=D.report.calibration; if(!cal) return '';
   const cm=cal.confusion;
-  return `<h2>Human ↔ judge calibration</h2><div class="panel">
-  <div class="kv">raw agreement <b>${cal.raw_agreement}</b> · Cohen's κ <b>${cal.kappa}</b>
-  (bootstrap 95% CI ${cal.ci95[0]}–${cal.ci95[1]}) · n=<b>${cal.n}</b></div>
-  <table style="max-width:430px;margin-top:10px"><tr><th></th><th>judge: success</th><th>judge: fail</th></tr>
-  <tr><td><b>human: success</b></td><td>${cm['h_success|j_success']||0}</td><td>${cm['h_success|j_fail']||0}</td></tr>
-  <tr><td><b>human: fail</b></td><td>${cm['h_fail|j_success']||0}</td><td>${cm['h_fail|j_fail']||0}</td></tr></table>
-  <div class="kv" style="margin-top:8px">disagreements: ${cal.disagreements.map(d=>`<span class="mono">${d}</span>`).join(', ')||'none'}</div></div>`;
+  const cell=(k,agree,hl,jl)=>`<div class="cell ${agree?'agree':'disagree'}">
+    <div class="cv">${cm[k]||0}</div><div class="cl">human ${hl} · judge ${jl}</div></div>`;
+  return `<h2>Human ↔ judge calibration <span class="mono">(the number everything hangs on)</span></h2>
+  <div class="split"><div class="panel"><div class="cmx">
+    <div class="ax corner"></div><div class="ax">judge: success</div><div class="ax">judge: fail</div>
+    <div class="ax side">human: success</div>${cell('h_success|j_success',true,'✓','✓')}${cell('h_success|j_fail',false,'✓','✗')}
+    <div class="ax side">human: fail</div>${cell('h_fail|j_success',false,'✗','✓')}${cell('h_fail|j_fail',true,'✗','✗')}
+  </div></div>
+  <div class="panel"><div class="kstats">
+    <div class="kstat"><div class="kv2">${cal.kappa}</div><div class="kl">Cohen's κ</div><div class="kn">bootstrap 95% CI ${cal.ci95[0]}–${cal.ci95[1]}</div></div>
+    <div class="kstat"><div class="kv2">${Math.round(cal.raw_agreement*100)}%</div><div class="kl">raw agreement</div><div class="kn">n=${cal.n} blind binary labels</div></div>
+  </div>
+  <div class="kv" style="margin-top:12px">disagreements (where NOT to trust the judge):<br>
+  ${cal.disagreements.map(d=>`<span class="mono">${d}</span>`).join(' · ')||'none'}</div></div></div>`;
 }
 function callsView(){
   if(!D.gate_open) return `<h1>Calls</h1>`+gated(`Per-call rows are hidden until blind labeling completes

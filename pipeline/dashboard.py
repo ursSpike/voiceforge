@@ -57,8 +57,67 @@ def build():
 
     data = {"gate_open": gate_open, "floor": FLOOR, "val": {"binary": val.get("binary", 0),
             "unsure": val.get("unsure", 0)}, "analytics": A, "report": R,
-            "judge_run": (judge or {}).get("run"), "rows": rows}
+            "judge_run": (judge or {}).get("run"), "rows": rows, "fixture": False}
     return data
+
+
+def build_fixture():
+    """SYNTHETIC preview data — design verification for the gated (post-label) views ONLY.
+    Watermarked everywhere; written to a separate local-only file; never the real dashboard."""
+    real = build()
+    R = json.loads(json.dumps(real["report"]))
+    R["calibration"] = {"n": 41, "raw_agreement": 0.902, "kappa": 0.79, "ci95": [0.62, 0.91],
+                        "confusion": {"h_success|j_success": 22, "h_success|j_fail": 2,
+                                      "h_fail|j_success": 2, "h_fail|j_fail": 15},
+                        "disagreements": ["fx_brittle_02", "fx_repair_07", "fx_lang_11", "fx_slot_04"]}
+    R["labels"] = {"total": 44, "binary": 41, "unsure": 3}
+    R["archetypes"]["counts"] = {"seamless_success": 12, "brittle_success": 7, "recovered_success": 5,
+                                 "language_mismatch_failure": 6, "intent_or_slot_loss_failure": 5,
+                                 "repair_loop_failure": 3, "workflow_failure": 3, "ambiguous_or_unassessable": 3}
+    R["tags"]["negative"] = {"wrong_language_or_tone": 9, "repeated_or_stuck": 7, "misunderstood_user": 6,
+                             "missing_or_wrong_information": 5, "workflow_or_tool_failed": 4, "user_frustrated": 4}
+    R["improvement_queue"] = [
+        {"call_id": "fx_repair_07", "human": "fail/high", "archetype": "repair_loop_failure",
+         "evidence_tags": ["repeated_or_stuck", "user_frustrated"],
+         "recommendation": "cap repeats at 2, then rephrase with a concrete example instead of repeating verbatim"},
+        {"call_id": "fx_lang_11", "human": "fail/medium", "archetype": "language_mismatch_failure",
+         "evidence_tags": ["wrong_language_or_tone"],
+         "recommendation": "detect caller language/register in the first 2 turns and switch the response style"},
+        {"call_id": "fx_brittle_02", "human": "success/medium", "archetype": "brittle_success",
+         "evidence_tags": ["repeated_or_stuck"],
+         "recommendation": "cap repeats at 2, then rephrase with a concrete example instead of repeating verbatim"}]
+    fx_turns = [{"s": "agent", "x": "Hello, Cambridge restaurant system mein aapka swagat hai. Kaise help karu?"},
+                {"s": "user", "x": "south side mein koi sasta restaurant?"},
+                {"s": "agent", "x": "Aap kaunse type ka khana chahenge?"},
+                {"s": "user", "x": "koi bhi chalega"},
+                {"s": "agent", "x": "the_lucky_star south mein hai, cheap range. Address chahiye?"},
+                {"s": "user", "x": "haan address aur phone dono"},
+                {"s": "agent", "x": "the_lucky_star_address, phone the_lucky_star_phone. Aur kuch?"},
+                {"s": "user", "x": "bas, thank you!"}]
+    dims = [{"name": "task_completion", "type": "deterministic", "score": 1.0,
+             "reason": "captured 4/4 required fields (heuristic from goal/workflow)", "evidence_turn_ids": []}]
+    jdims = [{"name": n, "type": "judge", "score": s, "provenance": "uncalibrated",
+              "reason": r, "evidence_turn_ids": ["t2", "t5"]}
+             for n, s, r in [("language_match", 0.95, "agent mirrors the caller's Hinglish throughout"),
+                             ("faithfulness", 1.0, "all venue facts grounded in the KB result"),
+                             ("repair_quality", 0.8, "one targeted follow-up on cuisine; no over-demand"),
+                             ("conciseness", 0.9, "short single-action turns"),
+                             ("user_frustration", 1.0, "no frustration; caller thanks the agent")]]
+    rows = [{"id": f"fx_{a}_{i:02d}", "source": "code_mixed_dialog" if i % 2 else "spokenwoz",
+             "lang": "hi-en" if i % 2 else "en", "profile": "unmeasured" if i % 2 else "clean",
+             "wf": "restaurant_reservation", "turns": 8 + i, "outcome": a.startswith("s"),
+             "overall": round(0.55 + i * 0.05, 2), "dims": dims, "failures": [],
+             "transcript": fx_turns, "in_manifest": True,
+             "judge": {"dims": jdims, "binary": {"label": "success" if a.startswith("s") else "fail",
+                                                 "reason": "goal achieved and confirmed" if a.startswith("s")
+                                                           else "goal unresolved at hangup",
+                                                 "rule": "fixture", "provenance": "uncalibrated"}}}
+            for i, a in enumerate(["seamless", "brittle", "recovered", "lang", "slot", "repair"], 1)]
+    return {"gate_open": True, "floor": FLOOR, "val": {"binary": 41, "unsure": 3},
+            "analytics": real["analytics"], "report": R,
+            "judge_run": {"model": "gemini-2.5-flash", "temperature": 0, "rubric_hash": "fixture000000000",
+                          "n_calls": 46, "cache_hits": 0, "failures": 0, "binary_rule": "fixture"},
+            "rows": rows, "fixture": True}
 
 
 CSS = """
@@ -112,6 +171,21 @@ padding:12px 16px;margin:9px 0;font-size:13px;box-shadow:var(--glow)}
 .search{padding:9px 13px;border:1px solid var(--line);border-radius:10px;width:280px;font:13px inherit;margin-bottom:12px;background:#fff}
 .foot{margin-top:44px;border-top:1px solid var(--line);padding-top:14px;font-size:11px;color:var(--faint)}
 .kv{font-size:12.5px;color:var(--mut)}.kv b{color:var(--ink)}
+.pipeline{display:flex;align-items:stretch;gap:6px;flex-wrap:wrap;margin:0 0 22px}
+.stage{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 12px;box-shadow:var(--glow)}
+.stage .st{font-size:11.5px;font-weight:650}.stage .ss{font-size:10.5px;color:var(--mut)}
+.stage.done{border-color:#bfe3d4}.stage.live{border-color:var(--brand);box-shadow:0 0 0 2px rgba(15,138,98,.15)}
+.stage.gated{opacity:.55;border-style:dashed}.flow{align-self:center;color:var(--faint)}
+.fixturemark{background:#3a1212;color:#ffd9d9;border-radius:10px;padding:10px 16px;font-size:12.5px;font-weight:650;margin-bottom:16px}
+.cmx{display:grid;grid-template-columns:auto 1fr 1fr;gap:8px;align-items:stretch}
+.cmx .ax{font-size:11px;color:var(--mut);align-self:center;text-align:center}
+.cmx .ax.side{writing-mode:vertical-rl;transform:rotate(180deg)}
+.cmx .cell{border-radius:10px;padding:14px;text-align:center;border:1px solid var(--line)}
+.cmx .cell.agree{background:#e7f6ef}.cmx .cell.disagree{background:#fbeaea}
+.cmx .cv{font-size:24px;font-weight:760}.cmx .cl{font-size:10.5px;color:var(--mut)}
+.kstats{display:flex;gap:18px}.kstat .kv2{font-size:30px;font-weight:760}
+.kstat .kl{font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:.6px}
+.kstat .kn{font-size:10.5px;color:var(--faint)}
 """
 
 JS = """
@@ -125,6 +199,20 @@ function bars(obj, cls, max){ const m = max||Math.max(1,...Object.values(obj));
   <span class="bf ${cls}" style="width:${Math.max(8,Math.round(330*v/m))}px"></span><b>${v}</b></div>`).join(''); }
 function gated(msg){ return `<div class="pending">🔒 ${msg}</div>`; }
 
+function pipeline(){
+  const cal=D.report.calibration, lab=D.val;
+  const stages=[
+    ['raw calls','76 ingested · 4 sources','done'],
+    ['deterministic signals','FTO: barge-in · latency','done'],
+    ['blind labels',`${lab.binary}/${D.floor} binary`, lab.binary>=D.floor?'done':'live'],
+    ['quarantined judge', D.judge_run?'5 dims + outcome':'gate closed', D.judge_run?'done':'gated'],
+    ['calibration', cal?`κ ${cal.kappa}`:'pending κ', cal?'done':'gated'],
+    ['phenotypes','archetypes derived', Object.values(D.report.archetypes.counts).some(v=>v)?'done':'gated'],
+    ['improvement queue',`${(D.report.improvement_queue||[]).length} entries`, (D.report.improvement_queue||[]).length?'done':'gated'],
+  ];
+  return `<div class="pipeline">${stages.map(([t,s,st],i)=>
+    `${i?'<span class="flow">→</span>':''}<div class="stage ${st}"><div class="st">${t}</div><div class="ss">${s}</div></div>`).join('')}</div>`;
+}
 function overview(){
   const A=D.analytics, R=D.report, c=R.corpus, t=A.timing_coverage||{}, cal=R.calibration;
   const cards = [
@@ -137,9 +225,11 @@ function overview(){
   ].map(([l,v,n])=>`<div class="card"><div class="v">${v}</div><div class="l">${l}</div><div class="n">${n}</div></div>`).join('');
   const arch = Object.fromEntries(Object.entries(R.archetypes.counts).filter(([,v])=>v));
   const neg = R.tags.negative;
-  return `<h1>Voice<b style="color:var(--brand)">Forge</b> — eval lab</h1>
+  return `${D.fixture?'<div class="fixturemark">⚠ SYNTHETIC FIXTURE PREVIEW — design verification only. Every number on this page is fake. The real dashboard is out/dashboard.html.</div>':''}
+  <h1>Voice<b style="color:var(--brand)">Forge</b> — eval lab</h1>
   <p class="sub">Most voice-agent demos show a cherry-picked call. VoiceForge shows the <b>failure
   distribution</b>: deterministic signals → blind human labels → calibrated judge → call phenotypes → an improvement queue.</p>
+  ${pipeline()}
   <div class="cards">${cards}</div>
   ${cal?'':gated('Calibration pending — requires ≥'+D.floor+' blind binary labels and the quarantined judge run. Nothing is faked while it waits.')}
   <div class="split"><div class="panel"><h2 style="margin-top:0">Failure phenotypes <span class="mono">(single-rater exploratory)</span></h2>
@@ -153,13 +243,20 @@ function overview(){
 function calblock(){
   const cal=D.report.calibration; if(!cal) return '';
   const cm=cal.confusion;
-  return `<h2>Human ↔ judge calibration</h2><div class="panel">
-  <div class="kv">raw agreement <b>${cal.raw_agreement}</b> · Cohen's κ <b>${cal.kappa}</b>
-  (bootstrap 95% CI ${cal.ci95[0]}–${cal.ci95[1]}) · n=<b>${cal.n}</b></div>
-  <table style="max-width:430px;margin-top:10px"><tr><th></th><th>judge: success</th><th>judge: fail</th></tr>
-  <tr><td><b>human: success</b></td><td>${cm['h_success|j_success']||0}</td><td>${cm['h_success|j_fail']||0}</td></tr>
-  <tr><td><b>human: fail</b></td><td>${cm['h_fail|j_success']||0}</td><td>${cm['h_fail|j_fail']||0}</td></tr></table>
-  <div class="kv" style="margin-top:8px">disagreements: ${cal.disagreements.map(d=>`<span class="mono">${d}</span>`).join(', ')||'none'}</div></div>`;
+  const cell=(k,agree,hl,jl)=>`<div class="cell ${agree?'agree':'disagree'}">
+    <div class="cv">${cm[k]||0}</div><div class="cl">human ${hl} · judge ${jl}</div></div>`;
+  return `<h2>Human ↔ judge calibration <span class="mono">(the number everything hangs on)</span></h2>
+  <div class="split"><div class="panel"><div class="cmx">
+    <div class="ax corner"></div><div class="ax">judge: success</div><div class="ax">judge: fail</div>
+    <div class="ax side">human: success</div>${cell('h_success|j_success',true,'✓','✓')}${cell('h_success|j_fail',false,'✓','✗')}
+    <div class="ax side">human: fail</div>${cell('h_fail|j_success',false,'✗','✓')}${cell('h_fail|j_fail',true,'✗','✗')}
+  </div></div>
+  <div class="panel"><div class="kstats">
+    <div class="kstat"><div class="kv2">${cal.kappa}</div><div class="kl">Cohen's κ</div><div class="kn">bootstrap 95% CI ${cal.ci95[0]}–${cal.ci95[1]}</div></div>
+    <div class="kstat"><div class="kv2">${Math.round(cal.raw_agreement*100)}%</div><div class="kl">raw agreement</div><div class="kn">n=${cal.n} blind binary labels</div></div>
+  </div>
+  <div class="kv" style="margin-top:12px">disagreements (where NOT to trust the judge):<br>
+  ${cal.disagreements.map(d=>`<span class="mono">${d}</span>`).join(' · ')||'none'}</div></div></div>`;
 }
 function callsView(){
   if(!D.gate_open) return `<h1>Calls</h1>`+gated(`Per-call rows are hidden until blind labeling completes
@@ -269,10 +366,20 @@ single-rater tags are exploratory · generated offline, no network</div></main><
 
 
 def main():
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--fixture-preview", action="store_true",
+                    help="SYNTHETIC watermarked preview of the gated views -> out/dashboard_preview.html (gitignored)")
+    args = ap.parse_args()
+    _, skin = active_css()
+    if args.fixture_preview:
+        out = OUT / "dashboard_preview.html"
+        out.write_text(render(build_fixture()))
+        print(f"wrote {out.relative_to(ROOT)} — SYNTHETIC fixture preview (watermarked, local-only) · {skin}")
+        return
     data = build()
     out = OUT / "dashboard.html"
     out.write_text(render(data))
-    _, skin = active_css()
     print(f"wrote out/dashboard.html — gate_open={data['gate_open']} "
           f"({data['val']['binary']}/{data['floor']} binary), rows embedded: {len(data['rows'])}, "
           f"judge: {'present' if data['judge_run'] else 'pending'} · {skin}")
