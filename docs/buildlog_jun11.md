@@ -410,3 +410,8 @@ visible in the transcript.
   `wrong_language_or_tone`, and `mixed_languages`.
 - An obsolete tag (`clear_and_concise`) was rejected with HTTP 400 by schema validation.
 - `pipeline/schemas.py`: 9 schemas emitted, 46/46 normalized calls valid, call_record self-test passed.
+
+**Rendering follow-up:** unselected tags now carry visible category tints (green strengths, red issues,
+blue context) with solid selected states. The client also falls back to readable id text when connected
+to a stale booth process that lacks the display-label map, preventing a blank left panel; restarting
+the booth is still required to load the current FDE taxonomy and schema.

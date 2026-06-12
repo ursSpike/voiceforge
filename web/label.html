@@ -54,10 +54,20 @@
   .prim.no.on { background: var(--red); border-color: var(--red); color: #fff; }
   .prim.uns.on { background: var(--amber); border-color: var(--amber); color: #fff; }
   .lab { font: 11px var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: .4px; margin: 10px 0 3px; }
-  .tag { font-size: 12px; padding: 6px 10px; border-radius: 7px; }
-  .tag.pos.on { background: #e5f4ed; border-color: var(--green); color: #0d6d4c; }
-  .tag.neg.on { background: #fae9ea; border-color: var(--red); color: #a5383e; }
-  .tag.ctx.on { background: #e8f1f8; border-color: var(--blue); color: #286491; }
+  .tag { font-size: 12px; padding: 7px 11px; border-radius: 8px; font-weight: 600;
+         transition: background .12s, border-color .12s, box-shadow .12s, color .12s; }
+  .tag.pos { background: #f0f8f4; border-color: #badccb; color: #17694f; }
+  .tag.neg { background: #fff3f3; border-color: #ebc5c7; color: #9b3f44; }
+  .tag.ctx { background: #f0f6fb; border-color: #c4d9ea; color: #326b98; }
+  .tag.pos:hover { background: #e5f4ed; border-color: #75b99c; }
+  .tag.neg:hover { background: #fae7e8; border-color: #d98e92; }
+  .tag.ctx:hover { background: #e5f0f8; border-color: #8fb8d7; }
+  .tag.pos.on { background: var(--green); border-color: var(--green); color: #fff;
+                box-shadow: 0 0 0 2px rgba(22,132,95,.14); }
+  .tag.neg.on { background: var(--red); border-color: var(--red); color: #fff;
+                box-shadow: 0 0 0 2px rgba(193,77,82,.14); }
+  .tag.ctx.on { background: var(--blue); border-color: var(--blue); color: #fff;
+                box-shadow: 0 0 0 2px rgba(57,119,173,.14); }
   .conf button.on { background: #e4eff7; border-color: var(--blue); color: #245b85; }
   textarea { width: 100%; background: var(--card); border: 1px solid var(--border); border-radius: 8px;
              color: var(--text); padding: 8px 10px; font: 13px inherit; resize: vertical; min-height: 58px; }
@@ -178,7 +188,8 @@ function render() {
 }
 
 function chips(list, kind, set) {
-  return list.map(t => `<button class="tag ${kind} ${set.has(t) ? "on" : ""}" data-k="${kind}" data-t="${t}">${esc(TAGS.labels[t] || t.replace(/_/g, " "))}</button>`).join("");
+  const labels = TAGS.labels || {};  // old running booth processes may not serve display labels yet
+  return list.map(t => `<button class="tag ${kind} ${set.has(t) ? "on" : ""}" data-k="${kind}" data-t="${t}">${esc(labels[t] || t.replace(/_/g, " "))}</button>`).join("");
 }
 
 function renderDock() {
