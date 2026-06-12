@@ -1,0 +1,474 @@
+{
+  "meta": {
+    "seed": 13,
+    "n_boot": 2000,
+    "min_n_rule": 5,
+    "positive_class": "fail",
+    "n_paired": 45,
+    "excluded_human_unsure": [
+      "swz_MUL0815"
+    ],
+    "labels_csv": "eval/labels_spike.csv",
+    "judge_json": "out/judge_results.json",
+    "existing_kappa_in_run": null,
+    "note_metrics_answer_different_questions": "kappa (chance-corrected agreement), balanced_accuracy (mean of recall+specificity, prevalence-robust class performance), and the confusion matrix (raw counts) answer DIFFERENT questions. They are reported side by side; the uncomfortable kappa is NOT swapped for a flattering metric."
+  },
+  "overall": {
+    "n": 45,
+    "confusion_matrix_human_x_judge": {
+      "tp_h_fail_j_fail": 4,
+      "fp_h_success_j_fail": 9,
+      "fn_h_fail_j_success": 4,
+      "tn_h_success_j_success": 28
+    },
+    "raw_agreement": 0.7111,
+    "agree_count": 32,
+    "kappa": 0.2062,
+    "balanced_accuracy": 0.6284,
+    "youden_j": 0.2568,
+    "failure_recall": 0.5,
+    "failure_precision": 0.3077,
+    "specificity": 0.7568,
+    "f1_failure": 0.381,
+    "mcc": 0.2166
+  },
+  "bootstrap_ci_95": {
+    "kappa": [
+      -0.1077,
+      0.4986,
+      2000
+    ],
+    "raw_agreement": [
+      0.5778,
+      0.8444,
+      2000
+    ],
+    "balanced_accuracy": [
+      0.4274,
+      0.8233,
+      1999
+    ],
+    "failure_recall": [
+      0.125,
+      0.875,
+      1999
+    ],
+    "failure_precision": [
+      0.0769,
+      0.5714,
+      2000
+    ],
+    "mcc": [
+      -0.1147,
+      0.5167,
+      1999
+    ]
+  },
+  "slices": {
+    "language": {
+      "en": {
+        "n": 13,
+        "agree_count": 9,
+        "agreement_fraction": "9/13",
+        "agreement_rate": 0.6923,
+        "n_human_fail": 0,
+        "n_human_success": 13,
+        "kappa": 0.0,
+        "failure_recall": null,
+        "failure_precision": 0.0,
+        "specificity": 0.6923,
+        "balanced_accuracy": null,
+        "mcc": null,
+        "too_small_to_rank": false
+      },
+      "hi-en": {
+        "n": 31,
+        "agree_count": 22,
+        "agreement_fraction": "22/31",
+        "agreement_rate": 0.7097,
+        "n_human_fail": 8,
+        "n_human_success": 23,
+        "kappa": 0.2715,
+        "failure_recall": 0.5,
+        "failure_precision": 0.4444,
+        "specificity": 0.7826,
+        "balanced_accuracy": 0.6413,
+        "mcc": 0.2724,
+        "too_small_to_rank": false
+      },
+      "te-en": {
+        "n": 1,
+        "agree_count": 1,
+        "agreement_fraction": "1/1",
+        "agreement_rate": 1.0,
+        "n_human_fail": 0,
+        "n_human_success": 1,
+        "kappa": 0.0,
+        "failure_recall": null,
+        "failure_precision": null,
+        "specificity": 1.0,
+        "balanced_accuracy": null,
+        "mcc": null,
+        "too_small_to_rank": true,
+        "note": "too small to rank \u2014 not a finding"
+      }
+    },
+    "source": {
+      "bolna": {
+        "n": 1,
+        "agree_count": 1,
+        "agreement_fraction": "1/1",
+        "agreement_rate": 1.0,
+        "n_human_fail": 0,
+        "n_human_success": 1,
+        "kappa": 0.0,
+        "failure_recall": null,
+        "failure_precision": null,
+        "specificity": 1.0,
+        "balanced_accuracy": null,
+        "mcc": null,
+        "too_small_to_rank": true,
+        "note": "too small to rank \u2014 not a finding"
+      },
+      "code_mixed_dialog": {
+        "n": 30,
+        "agree_count": 21,
+        "agreement_fraction": "21/30",
+        "agreement_rate": 0.7,
+        "n_human_fail": 8,
+        "n_human_success": 22,
+        "kappa": 0.2623,
+        "failure_recall": 0.5,
+        "failure_precision": 0.4444,
+        "specificity": 0.7727,
+        "balanced_accuracy": 0.6364,
+        "mcc": 0.2632,
+        "too_small_to_rank": false
+      },
+      "hero": {
+        "n": 1,
+        "agree_count": 1,
+        "agreement_fraction": "1/1",
+        "agreement_rate": 1.0,
+        "n_human_fail": 0,
+        "n_human_success": 1,
+        "kappa": 0.0,
+        "failure_recall": null,
+        "failure_precision": null,
+        "specificity": 1.0,
+        "balanced_accuracy": null,
+        "mcc": null,
+        "too_small_to_rank": true,
+        "note": "too small to rank \u2014 not a finding"
+      },
+      "spokenwoz": {
+        "n": 13,
+        "agree_count": 9,
+        "agreement_fraction": "9/13",
+        "agreement_rate": 0.6923,
+        "n_human_fail": 0,
+        "n_human_success": 13,
+        "kappa": 0.0,
+        "failure_recall": null,
+        "failure_precision": 0.0,
+        "specificity": 0.6923,
+        "balanced_accuracy": null,
+        "mcc": null,
+        "too_small_to_rank": false
+      }
+    },
+    "stress_profile": {
+      "clean": {
+        "n": 6,
+        "agree_count": 6,
+        "agreement_fraction": "6/6",
+        "agreement_rate": 1.0,
+        "n_human_fail": 0,
+        "n_human_success": 6,
+        "kappa": 0.0,
+        "failure_recall": null,
+        "failure_precision": null,
+        "specificity": 1.0,
+        "balanced_accuracy": null,
+        "mcc": null,
+        "too_small_to_rank": false
+      },
+      "interruption": {
+        "n": 5,
+        "agree_count": 3,
+        "agreement_fraction": "3/5",
+        "agreement_rate": 0.6,
+        "n_human_fail": 0,
+        "n_human_success": 5,
+        "kappa": 0.0,
+        "failure_recall": null,
+        "failure_precision": 0.0,
+        "specificity": 0.6,
+        "balanced_accuracy": null,
+        "mcc": null,
+        "too_small_to_rank": false
+      },
+      "pause_heavy": {
+        "n": 4,
+        "agree_count": 2,
+        "agreement_fraction": "2/4",
+        "agreement_rate": 0.5,
+        "n_human_fail": 0,
+        "n_human_success": 4,
+        "kappa": 0.0,
+        "failure_recall": null,
+        "failure_precision": 0.0,
+        "specificity": 0.5,
+        "balanced_accuracy": null,
+        "mcc": null,
+        "too_small_to_rank": true,
+        "note": "too small to rank \u2014 not a finding"
+      },
+      "unmeasured": {
+        "n": 30,
+        "agree_count": 21,
+        "agreement_fraction": "21/30",
+        "agreement_rate": 0.7,
+        "n_human_fail": 8,
+        "n_human_success": 22,
+        "kappa": 0.2623,
+        "failure_recall": 0.5,
+        "failure_precision": 0.4444,
+        "specificity": 0.7727,
+        "balanced_accuracy": 0.6364,
+        "mcc": 0.2632,
+        "too_small_to_rank": false
+      }
+    },
+    "length_bucket": {
+      "long (>=18 turns)": {
+        "n": 14,
+        "agree_count": 10,
+        "agreement_fraction": "10/14",
+        "agreement_rate": 0.7143,
+        "n_human_fail": 0,
+        "n_human_success": 14,
+        "kappa": 0.0,
+        "failure_recall": null,
+        "failure_precision": 0.0,
+        "specificity": 0.7143,
+        "balanced_accuracy": null,
+        "mcc": null,
+        "too_small_to_rank": false
+      },
+      "medium (12-17 turns)": {
+        "n": 17,
+        "agree_count": 15,
+        "agreement_fraction": "15/17",
+        "agreement_rate": 0.8824,
+        "n_human_fail": 4,
+        "n_human_success": 13,
+        "kappa": 0.6047,
+        "failure_recall": 0.5,
+        "failure_precision": 1.0,
+        "specificity": 1.0,
+        "balanced_accuracy": 0.75,
+        "mcc": 0.6583,
+        "too_small_to_rank": false
+      },
+      "short (<=11 turns)": {
+        "n": 14,
+        "agree_count": 7,
+        "agreement_fraction": "7/14",
+        "agreement_rate": 0.5,
+        "n_human_fail": 4,
+        "n_human_success": 10,
+        "kappa": 0.0,
+        "failure_recall": 0.5,
+        "failure_precision": 0.2857,
+        "specificity": 0.5,
+        "balanced_accuracy": 0.5,
+        "mcc": 0.0,
+        "too_small_to_rank": false
+      }
+    },
+    "human_confidence": {
+      "high": {
+        "n": 29,
+        "agree_count": 24,
+        "agreement_fraction": "24/29",
+        "agreement_rate": 0.8276,
+        "n_human_fail": 1,
+        "n_human_success": 28,
+        "kappa": 0.2408,
+        "failure_recall": 1.0,
+        "failure_precision": 0.1667,
+        "specificity": 0.8214,
+        "balanced_accuracy": 0.9107,
+        "mcc": 0.37,
+        "too_small_to_rank": false
+      },
+      "medium": {
+        "n": 16,
+        "agree_count": 8,
+        "agreement_fraction": "8/16",
+        "agreement_rate": 0.5,
+        "n_human_fail": 7,
+        "n_human_success": 9,
+        "kappa": -0.0159,
+        "failure_recall": 0.4286,
+        "failure_precision": 0.4286,
+        "specificity": 0.5556,
+        "balanced_accuracy": 0.4921,
+        "mcc": -0.0159,
+        "too_small_to_rank": false
+      }
+    },
+    "archetype": {
+      "brittle_success": {
+        "n": 5,
+        "agree_count": 4,
+        "agreement_fraction": "4/5",
+        "agreement_rate": 0.8,
+        "n_human_fail": 0,
+        "n_human_success": 5,
+        "kappa": 0.0,
+        "failure_recall": null,
+        "failure_precision": 0.0,
+        "specificity": 0.8,
+        "balanced_accuracy": null,
+        "mcc": null,
+        "too_small_to_rank": false
+      },
+      "intent_or_slot_loss_failure": {
+        "n": 3,
+        "agree_count": 1,
+        "agreement_fraction": "1/3",
+        "agreement_rate": 0.3333,
+        "n_human_fail": 3,
+        "n_human_success": 0,
+        "kappa": 0.0,
+        "failure_recall": 0.3333,
+        "failure_precision": 1.0,
+        "specificity": null,
+        "balanced_accuracy": null,
+        "mcc": null,
+        "too_small_to_rank": true,
+        "note": "too small to rank \u2014 not a finding"
+      },
+      "recovered_success": {
+        "n": 7,
+        "agree_count": 5,
+        "agreement_fraction": "5/7",
+        "agreement_rate": 0.7143,
+        "n_human_fail": 0,
+        "n_human_success": 7,
+        "kappa": 0.0,
+        "failure_recall": null,
+        "failure_precision": 0.0,
+        "specificity": 0.7143,
+        "balanced_accuracy": null,
+        "mcc": null,
+        "too_small_to_rank": false
+      },
+      "seamless_success": {
+        "n": 25,
+        "agree_count": 19,
+        "agreement_fraction": "19/25",
+        "agreement_rate": 0.76,
+        "n_human_fail": 0,
+        "n_human_success": 25,
+        "kappa": 0.0,
+        "failure_recall": null,
+        "failure_precision": 0.0,
+        "specificity": 0.76,
+        "balanced_accuracy": null,
+        "mcc": null,
+        "too_small_to_rank": false
+      },
+      "workflow_failure": {
+        "n": 5,
+        "agree_count": 3,
+        "agreement_fraction": "3/5",
+        "agreement_rate": 0.6,
+        "n_human_fail": 5,
+        "n_human_success": 0,
+        "kappa": 0.0,
+        "failure_recall": 0.6,
+        "failure_precision": 1.0,
+        "specificity": null,
+        "balanced_accuracy": null,
+        "mcc": null,
+        "too_small_to_rank": false
+      }
+    }
+  },
+  "reproduction_targets": {
+    "all": {
+      "claim": "32/45",
+      "observed": "32/45",
+      "match": true
+    },
+    "hi_en": {
+      "claim": "22/31",
+      "observed": "22/31",
+      "match": true
+    },
+    "english": {
+      "claim": "9/13",
+      "observed": "9/13",
+      "match": true
+    },
+    "high_confidence": {
+      "claim": "24/29",
+      "observed": "24/29",
+      "match": true
+    },
+    "medium_confidence": {
+      "claim": "8/16",
+      "observed": "8/16",
+      "match": true
+    },
+    "balanced_accuracy": {
+      "claim": "~0.628",
+      "observed": 0.6284,
+      "match": true
+    },
+    "failure_recall": {
+      "claim": "0.500",
+      "observed": 0.5,
+      "match": true
+    },
+    "failure_precision": {
+      "claim": "~0.308",
+      "observed": 0.3077,
+      "match": true
+    },
+    "specificity": {
+      "claim": "~0.757",
+      "observed": 0.7568,
+      "match": true
+    },
+    "mcc": {
+      "claim": "~0.217",
+      "observed": 0.2166,
+      "match": true
+    },
+    "kappa_vs_existing": {
+      "claim": "0.206 (existing dashboard rounding)",
+      "observed": 0.206,
+      "match": true
+    }
+  },
+  "unsupported_claim_flag": {
+    "claim_in_dashboard": "9 of 13 disagreements are code-switched, so the judge is least reliable there",
+    "verdict": "UNSUPPORTED",
+    "n_disagreements_total": 13,
+    "n_disagreements_hi_en": 9,
+    "n_disagreements_en": 4,
+    "hi_en_agreement": "22/31 = 71.0%",
+    "en_agreement": "9/13 = 69.2%",
+    "why": "hi-en and en agreement RATES are ~equal (71.0% vs 69.2%); the raw disagreement COUNT is a base-rate artifact because hi-en dominates the paired set (31 of 45). A higher count of disagreements where most calls live is not evidence of lower reliability there.",
+    "better_supported_slice": {
+      "dimension": "human_confidence",
+      "high": "24/29 = 82.8%",
+      "medium": "8/16 = 50.0%",
+      "caveat": "confidence is only known AFTER annotation, so it cannot route calls at inference time. It supports a human REVIEW QUEUE (re-check low-confidence-prone calls), NOT an auto-router."
+    }
+  }
+}

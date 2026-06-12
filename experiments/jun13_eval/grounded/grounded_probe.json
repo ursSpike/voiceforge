@@ -1,0 +1,3757 @@
+{
+  "meta": {
+    "n_total_manifest": 46,
+    "n_public": 44,
+    "n_swz": 14,
+    "n_cmd": 30,
+    "keyword_baseline_note": "reproduces production build_outcome (frac>=0.7)"
+  },
+  "coverage": {
+    "spokenwoz.constraint_supplied": {
+      "computable": 14,
+      "applicable": 14,
+      "of_all_family": 14,
+      "applicable_coverage": 1.0,
+      "conditional": false
+    },
+    "spokenwoz.constraint_preserved_frac": {
+      "computable": 14,
+      "applicable": 14,
+      "of_all_family": 14,
+      "applicable_coverage": 1.0,
+      "conditional": false
+    },
+    "spokenwoz.reqt_supplied_frac": {
+      "computable": 12,
+      "applicable": 14,
+      "of_all_family": 14,
+      "applicable_coverage": 0.857,
+      "conditional": false
+    },
+    "spokenwoz.booking_confirmed": {
+      "computable": 9,
+      "applicable": 9,
+      "of_all_family": 14,
+      "applicable_coverage": 1.0,
+      "conditional": true
+    },
+    "spokenwoz.terminal_resolution": {
+      "computable": 14,
+      "applicable": 14,
+      "of_all_family": 14,
+      "applicable_coverage": 1.0,
+      "conditional": false
+    },
+    "code_mixed_dialog.constraints_in_api_call_frac": {
+      "computable": 28,
+      "applicable": 30,
+      "of_all_family": 30,
+      "applicable_coverage": 0.933,
+      "conditional": false
+    },
+    "code_mixed_dialog.entity_voiced": {
+      "computable": 26,
+      "applicable": 30,
+      "of_all_family": 30,
+      "applicable_coverage": 0.867,
+      "conditional": false
+    },
+    "code_mixed_dialog.info_requests_frac": {
+      "computable": 27,
+      "applicable": 30,
+      "of_all_family": 30,
+      "applicable_coverage": 0.9,
+      "conditional": false
+    },
+    "code_mixed_dialog.no_result_recovered": {
+      "computable": 14,
+      "applicable": 14,
+      "of_all_family": 30,
+      "applicable_coverage": 1.0,
+      "conditional": true
+    },
+    "code_mixed_dialog.agent_contradicts_backend": {
+      "computable": 30,
+      "applicable": 30,
+      "of_all_family": 30,
+      "applicable_coverage": 1.0,
+      "conditional": false
+    }
+  },
+  "agreement_vs_human_binary": {
+    "keyword": {
+      "agree": 23,
+      "of": 43,
+      "disagreements": [
+        "cmd_hi_0000",
+        "cmd_hi_0001",
+        "cmd_hi_0004",
+        "cmd_hi_0007",
+        "cmd_hi_0015",
+        "cmd_hi_0017",
+        "cmd_hi_0018",
+        "cmd_hi_0019",
+        "cmd_hi_0024",
+        "cmd_hi_0029",
+        "swz_MUL2483",
+        "swz_MUL2658",
+        "swz_MUL0211",
+        "swz_MUL1685",
+        "swz_MUL1552",
+        "swz_MUL1560",
+        "swz_MUL0035",
+        "swz_MUL0280",
+        "swz_MUL1004",
+        "swz_MUL0271"
+      ]
+    },
+    "grounded": {
+      "agree": 33,
+      "of": 41,
+      "disagreements": [
+        "cmd_hi_0001",
+        "cmd_hi_0004",
+        "cmd_hi_0007",
+        "cmd_hi_0015",
+        "cmd_hi_0025",
+        "swz_MUL1552",
+        "swz_MUL0035",
+        "swz_MUL0280"
+      ],
+      "note": "grounded `unknown` excluded from the denominator (never guessed)"
+    }
+  },
+  "grounded_unknown_calls": [
+    "bolna_246cd9f3",
+    "hero_001",
+    "cmd_hi_0000",
+    "cmd_hi_0024"
+  ],
+  "results": [
+    {
+      "call_id": "bolna_246cd9f3",
+      "family": "non_public",
+      "human_label": "success",
+      "keyword_verdict": "success",
+      "keyword_detail": "2/2 fields, frac=1.0",
+      "grounded_verdict": "unknown",
+      "grounded_reason": "not a public-source dataset family (frozen bolna/hero) \u2014 no source ground truth",
+      "grounded_raw_id": null,
+      "evidence": {},
+      "signals": {}
+    },
+    {
+      "call_id": "hero_001",
+      "family": "non_public",
+      "human_label": "success",
+      "keyword_verdict": "success",
+      "keyword_detail": "3/3 fields, frac=1.0",
+      "grounded_verdict": "unknown",
+      "grounded_reason": "not a public-source dataset family (frozen bolna/hero) \u2014 no source ground truth",
+      "grounded_raw_id": null,
+      "evidence": {},
+      "signals": {}
+    },
+    {
+      "call_id": "cmd_hi_0000",
+      "family": "code_mixed_dialog",
+      "human_label": "fail",
+      "keyword_verdict": "success",
+      "keyword_detail": "4/4 fields, frac=1.0",
+      "grounded_verdict": "unknown",
+      "grounded_reason": "no api_call / no KB entity / no miss \u2014 nothing groundable in trace",
+      "grounded_raw_id": "dialog#0",
+      "evidence": {
+        "user_turns": [
+          "south part of town meh expensive restaurant hai",
+          "koi bhi",
+          "pata",
+          "food ki type",
+          "Thank you , good bye ."
+        ],
+        "api_calls": [],
+        "no_results": 0,
+        "kb_entities": [],
+        "sys_spoken_tail": [
+          "jarur , the good luck chinese food takeaway the_good_luck_chinese_food_takeaway_address pe hai",
+          "good luck chinese food takeaway ek accha place hain south of town mein jo expensive price range mein hain",
+          "Welcome , alvida"
+        ]
+      },
+      "signals": {
+        "constraints_in_api_call": "unknown",
+        "constraints_in_api_call_frac": "unknown",
+        "selected_entity": null,
+        "kb_candidate_count": 0,
+        "kb_attributes": {},
+        "entity_voiced": "unknown",
+        "info_requests": "unknown",
+        "info_requests_frac": "unknown",
+        "no_result_count": 0,
+        "no_result_recovered": "unknown",
+        "agent_contradicts_backend": false,
+        "contradiction_detail": []
+      }
+    },
+    {
+      "call_id": "cmd_hi_0001",
+      "family": "code_mixed_dialog",
+      "human_label": "fail",
+      "keyword_verdict": "success",
+      "keyword_detail": "4/4 fields, frac=1.0",
+      "grounded_verdict": "success",
+      "grounded_reason": "entity found+voiced, constraints reached backend, requested info supplied, no contradiction",
+      "grounded_raw_id": "dialog#1",
+      "evidence": {
+        "user_turns": [
+          "west part of town mein lebanese restaurant",
+          "lebanese",
+          "shehar ke west me thai food",
+          "pata",
+          "phone number",
+          "price range",
+          "price range kya hai",
+          "Thank you , good bye ."
+        ],
+        "api_calls": [
+          "lebanese west R_price",
+          "thai west R_price"
+        ],
+        "no_results": 1,
+        "kb_entities": [
+          "sala_thong"
+        ],
+        "sys_spoken_tail": [
+          "kya main aapki aur kuch madad kar sakta hu ?",
+          "sala_thong expensive range mein hai",
+          "Welcome , alvida"
+        ]
+      },
+      "signals": {
+        "constraints_in_api_call": {
+          "west": true,
+          "thai": true,
+          "lebanese": true
+        },
+        "constraints_in_api_call_frac": 1.0,
+        "selected_entity": "sala_thong",
+        "kb_candidate_count": 1,
+        "kb_attributes": {
+          "post_code": "sala_thong_post_code",
+          "cuisine": "thai",
+          "location": "west",
+          "phone": "sala_thong_phone",
+          "address": "sala_thong_address",
+          "price": "expensive",
+          "rating": "9"
+        },
+        "entity_voiced": true,
+        "info_requests": {
+          "phone": true,
+          "price": true
+        },
+        "info_requests_frac": 1.0,
+        "no_result_count": 1,
+        "no_result_recovered": true,
+        "agent_contradicts_backend": false,
+        "contradiction_detail": []
+      }
+    },
+    {
+      "call_id": "cmd_hi_0002",
+      "family": "code_mixed_dialog",
+      "human_label": "success",
+      "keyword_verdict": "success",
+      "keyword_detail": "4/4 fields, frac=1.0",
+      "grounded_verdict": "success",
+      "grounded_reason": "entity found+voiced, constraints reached backend, requested info supplied, no contradiction",
+      "grounded_raw_id": "dialog#2",
+      "evidence": {
+        "user_turns": [
+          "cheap",
+          "pata nahi per kya ye vegetarian khana hai",
+          "aur fir indian me kya hain",
+          "cheap indian khana",
+          "cheap price range me",
+          "kya mujhe address mil sakta hai",
+          "Thank you , good bye ."
+        ],
+        "api_calls": [
+          "vegetarian R_location cheap",
+          "indian R_location cheap"
+        ],
+        "no_results": 1,
+        "kb_entities": [
+          "kohinoor",
+          "mahal_of_cambridge",
+          "royal_spice",
+          "the_gandhi"
+        ],
+        "sys_spoken_tail": [
+          "mahal_of_cambridge cheap range mein hai",
+          "Bilkul , mahal_of_cambridge mahal_of_cambridge_address par hai",
+          "Welcome , alvida"
+        ]
+      },
+      "signals": {
+        "constraints_in_api_call": {
+          "vegetarian": true,
+          "indian": true,
+          "cheap": true
+        },
+        "constraints_in_api_call_frac": 1.0,
+        "selected_entity": "mahal_of_cambridge",
+        "kb_candidate_count": 4,
+        "kb_attributes": {
+          "post_code": "mahal_of_cambridge_post_code",
+          "cuisine": "indian",
+          "location": "centre",
+          "phone": "mahal_of_cambridge_phone",
+          "address": "mahal_of_cambridge_address",
+          "price": "cheap",
+          "rating": "8"
+        },
+        "entity_voiced": true,
+        "info_requests": {
+          "price": true,
+          "address": true
+        },
+        "info_requests_frac": 1.0,
+        "no_result_count": 1,
+        "no_result_recovered": true,
+        "agent_contradicts_backend": false,
+        "contradiction_detail": []
+      }
+    },
+    {
+      "call_id": "cmd_hi_0003",
+      "family": "code_mixed_dialog",
+      "human_label": "success",
+      "keyword_verdict": "success",
+      "keyword_detail": "3/4 fields, frac=0.75",
+      "grounded_verdict": "success",
+      "grounded_reason": "entity found+voiced, constraints reached backend, requested info supplied, no contradiction",
+      "grounded_raw_id": "dialog#3",
+      "evidence": {
+        "user_turns": [
+          "expensive restaurant dekh raha hoon jo serve karta ho",
+          "cantonese khana",
+          "okay north_american food ke baare mein bataiye",
+          "kyaa mujhe phone number mil sakta hai",
+          "kya meh post code leh sakta hoon",
+          "Thank you , good bye ."
+        ],
+        "api_calls": [
+          "cantonese R_location expensive",
+          "north_american R_location expensive"
+        ],
+        "no_results": 1,
+        "kb_entities": [
+          "gourmet_burger_kitchen"
+        ],
+        "sys_spoken_tail": [
+          "gourmet_burger_kitchen ka phone number hai gourmet_burger_kitchen_phone",
+          "gourmet_burger_kitchen ka post code gourmet_burger_kitchen_post_code hai .",
+          "Welcome , alvida"
+        ]
+      },
+      "signals": {
+        "constraints_in_api_call": {
+          "north_american": true,
+          "expensive": true
+        },
+        "constraints_in_api_call_frac": 1.0,
+        "selected_entity": "gourmet_burger_kitchen",
+        "kb_candidate_count": 1,
+        "kb_attributes": {
+          "post_code": "gourmet_burger_kitchen_post_code",
+          "cuisine": "north_american",
+          "location": "north",
+          "phone": "gourmet_burger_kitchen_phone",
+          "address": "gourmet_burger_kitchen_address",
+          "price": "expensive",
+          "rating": "9"
+        },
+        "entity_voiced": true,
+        "info_requests": {
+          "phone": true,
+          "post": true
+        },
+        "info_requests_frac": 1.0,
+        "no_result_count": 1,
+        "no_result_recovered": true,
+        "agent_contradicts_backend": false,
+        "contradiction_detail": []
+      }
+    },
+    {
+      "call_id": "cmd_hi_0004",
+      "family": "code_mixed_dialog",
+      "human_label": "fail",
+      "keyword_verdict": "success",
+      "keyword_detail": "3/4 fields, frac=0.75",
+      "grounded_verdict": "success",
+      "grounded_reason": "entity found+voiced, constraints reached backend, requested info supplied, no contradiction",
+      "grounded_raw_id": "dialog#4",
+      "evidence": {
+        "user_turns": [
+          "expensive restaurant jo persian khana serve karta ho",
+          "european type ka khaana",
+          "pata",
+          "phone number",
+          "venue ka area",
+          "Thank you , good bye ."
+        ],
+        "api_calls": [
+          "persian R_location expensive",
+          "european R_location expensive"
+        ],
+        "no_results": 1,
+        "kb_entities": [
+          "cambridge_lodge_restaurant",
+          "darrys_cookhouse_and_wine_shop",
+          "eraina",
+          "michaelhouse_cafe"
+        ],
+        "sys_spoken_tail": [
+          "eraina ka phone number hai eraina_phone",
+          "eraina badiya restaurant hai serving european food aur woh expensive price range me hai",
+          "Welcome , alvida"
+        ]
+      },
+      "signals": {
+        "constraints_in_api_call": {
+          "european": true,
+          "persian": true,
+          "expensive": true
+        },
+        "constraints_in_api_call_frac": 1.0,
+        "selected_entity": "eraina",
+        "kb_candidate_count": 4,
+        "kb_attributes": {
+          "post_code": "eraina_post_code",
+          "cuisine": "european",
+          "location": "centre",
+          "phone": "eraina_phone",
+          "address": "eraina_address",
+          "price": "expensive",
+          "rating": "10"
+        },
+        "entity_voiced": true,
+        "info_requests": {
+          "phone": true
+        },
+        "info_requests_frac": 1.0,
+        "no_result_count": 1,
+        "no_result_recovered": true,
+        "agent_contradicts_backend": false,
+        "contradiction_detail": []
+      }
+    },
+    {
+      "call_id": "cmd_hi_0005",
+      "family": "code_mixed_dialog",
+      "human_label": "success",
+      "keyword_verdict": "success",
+      "keyword_detail": "3/4 fields, frac=0.75",
+      "grounded_verdict": "success",
+      "grounded_reason": "entity found+voiced, constraints reached backend, requested info supplied, no contradiction",
+      "grounded_raw_id": "dialog#5",
+      "evidence": {
+        "user_turns": [
+          "shehar ke east part mein international khana",
+          "phone number",
+          "Thank you , good bye ."
+        ],
+        "api_calls": [
+          "international east R_price"
+        ],
+        "no_results": 0,
+        "kb_entities": [
+          "the_missing_sock"
+        ],
+        "sys_spoken_tail": [
+          "the_missing_sock ek achha restaurant hai nagar ke east bhaag mein jo international khana serve karta hai",
+          "the_missing_sock ka phone number hai the_missing_sock_phone",
+          "Welcome , alvida"
+        ]
+      },
+      "signals": {
+        "constraints_in_api_call": {
+          "international": true,
+          "east": true
+        },
+        "constraints_in_api_call_frac": 1.0,
+        "selected_entity": "the_missing_sock",
+        "kb_candidate_count": 1,
+        "kb_attributes": {
+          "post_code": "the_missing_sock_post_code",
+          "cuisine": "international",
+          "location": "east",
+          "phone": "the_missing_sock_phone",
+          "address": "the_missing_sock_address",
+          "price": "cheap",
+          "rating": "10"
+        },
+        "entity_voiced": true,
+        "info_requests": {
+          "phone": true
+        },
+        "info_requests_frac": 1.0,
+        "no_result_count": 0,
+        "no_result_recovered": "unknown",
+        "agent_contradicts_backend": false,
+        "contradiction_detail": []
+      }
+    },
+    {
+      "call_id": "cmd_hi_0006",
+      "family": "code_mixed_dialog",
+      "human_label": "success",
+      "keyword_verdict": "success",
+      "keyword_detail": "3/4 fields, frac=0.75",
+      "grounded_verdict": "success",
+      "grounded_reason": "entity found+voiced, constraints reached backend, requested info supplied, no contradiction",
+      "grounded_raw_id": "dialog#6",
+      "evidence": {
+        "user_turns": [
+          "moderately priced priced restaurant jaha chinese food hai",
+          "address aur postcode",
+          "thank you goodbye"
+        ],
+        "api_calls": [
+          "chinese R_location moderate"
+        ],
+        "no_results": 0,
+        "kb_entities": [
+          "golden_wok",
+          "jinling_noodle_bar",
+          "lan_hong_house",
+          "shanghai_family_restaurant"
+        ],
+        "sys_spoken_tail": [
+          "golden_wok badiya restaurant hai serving chinese food aur woh moderate price range me hai",
+          "golden_wok golden_wok_address me hai",
+          "Welcome , alvida"
+        ]
+      },
+      "signals": {
+        "constraints_in_api_call": {
+          "chinese": true
+        },
+        "constraints_in_api_call_frac": 1.0,
+        "selected_entity": "golden_wok",
+        "kb_candidate_count": 4,
+        "kb_attributes": {
+          "post_code": "golden_wok_post_code",
+          "cuisine": "chinese",
+          "location": "north",
+          "phone": "golden_wok_phone",
+          "address": "golden_wok_address",
+          "price": "moderate",
+          "rating": "9"
+        },
+        "entity_voiced": true,
+        "info_requests": {
+          "price": true,
+          "address": true,
+          "post": false
+        },
+        "info_requests_frac": 0.667,
+        "no_result_count": 0,
+        "no_result_recovered": "unknown",
+        "agent_contradicts_backend": false,
+        "contradiction_detail": []
+      }
+    },
+    {
+      "call_id": "cmd_hi_0007",
+      "family": "code_mixed_dialog",
+      "human_label": "success",
+      "keyword_verdict": "fail",
+      "keyword_detail": "2/4 fields, frac=0.5",
+      "grounded_verdict": "fail",
+      "grounded_reason": "KB returned no result and no alternative entity ever surfaced",
+      "grounded_raw_id": "dialog#7",
+      "evidence": {
+        "user_turns": [
+          "sea food",
+          "koi bhi",
+          "pata",
+          "Thank you , good bye ."
+        ],
+        "api_calls": [
+          "R_cuisine R_location R_price"
+        ],
+        "no_results": 1,
+        "kb_entities": [],
+        "sys_spoken_tail": [
+          "ask centre part of town mein hai .",
+          "Bilkul , ask ask_address par hai",
+          "Welcome , alvida"
+        ]
+      },
+      "signals": {
+        "constraints_in_api_call": "unknown",
+        "constraints_in_api_call_frac": "unknown",
+        "selected_entity": null,
+        "kb_candidate_count": 0,
+        "kb_attributes": {},
+        "entity_voiced": "unknown",
+        "info_requests": "unknown",
+        "info_requests_frac": "unknown",
+        "no_result_count": 1,
+        "no_result_recovered": false,
+        "agent_contradicts_backend": false,
+        "contradiction_detail": []
+      }
+    },
+    {
+      "call_id": "cmd_hi_0008",
+      "family": "code_mixed_dialog",
+      "human_label": "success",
+      "keyword_verdict": "success",
+      "keyword_detail": "3/4 fields, frac=0.75",
+      "grounded_verdict": "success",
+      "grounded_reason": "entity found+voiced, constraints reached backend, requested info supplied, no contradiction",
+      "grounded_raw_id": "dialog#8",
+      "evidence": {
+        "user_turns": [
+          "cheap restaurant doond rahe hai jo spanish food serve karte hai",
+          "address kya hai",
+          "aur post code kya hai ?",
+          "thank you goodbye"
+        ],
+        "api_calls": [
+          "spanish R_location cheap"
+        ],
+        "no_results": 0,
+        "kb_entities": [
+          "la_raza"
+        ],
+        "sys_spoken_tail": [
+          "Bilkul , la_raza la_raza_address par hai",
+          "la_raza ka post code la_raza_post_code hai .",
+          "Welcome , alvida"
+        ]
+      },
+      "signals": {
+        "constraints_in_api_call": {
+          "cheap": true,
+          "spanish": true
+        },
+        "constraints_in_api_call_frac": 1.0,
+        "selected_entity": "la_raza",
+        "kb_candidate_count": 1,
+        "kb_attributes": {
+          "post_code": "la_raza_post_code",
+          "cuisine": "spanish",
+          "location": "centre",
+          "phone": "la_raza_phone",
+          "address": "la_raza_address",
+          "price": "cheap",
+          "rating": "10"
+        },
+        "entity_voiced": true,
+        "info_requests": {
+          "address": true,
+          "post": true
+        },
+        "info_requests_frac": 1.0,
+        "no_result_count": 0,
+        "no_result_recovered": "unknown",
+        "agent_contradicts_backend": false,
+        "contradiction_detail": []
+      }
+    },
+    {
+      "call_id": "cmd_hi_0009",
+      "family": "code_mixed_dialog",
+      "human_label": "success",
+      "keyword_verdict": "success",
+      "keyword_detail": "3/4 fields, frac=0.75",
+      "grounded_verdict": "success",
+      "grounded_reason": "entity found+voiced, constraints reached backend, requested info supplied, no contradiction",
+      "grounded_raw_id": "dialog#9",
+      "evidence": {
+        "user_turns": [
+          "south part of town meh ek moderately priced restaurant doond raha hoon",
+          "address kya hai",
+          "aur phone number kya hai",
+          "Thank you , good bye ."
+        ],
+        "api_calls": [
+          "R_cuisine south moderate"
+        ],
+        "no_results": 0,
+        "kb_entities": [
+          "pizza_hut_cherry_hinton",
+          "restaurant_alimentum"
+        ],
+        "sys_spoken_tail": [
+          "Bilkul , pizza_hut_cherry_hinton pizza_hut_cherry_hinton_address par hai",
+          "pizza_hut_cherry_hinton ka phone number hai pizza_hut_cherry_hinton_phone",
+          "Welcome , alvida"
+        ]
+      },
+      "signals": {
+        "constraints_in_api_call": {
+          "south": true
+        },
+        "constraints_in_api_call_frac": 1.0,
+        "selected_entity": "pizza_hut_cherry_hinton",
+        "kb_candidate_count": 2,
+        "kb_attributes": {
+          "post_code": "pizza_hut_cherry_hinton_post_code",
+          "cuisine": "italian",
+          "location": "south",
+          "phone": "pizza_hut_cherry_hinton_phone",
+          "address": "pizza_hut_cherry_hinton_address",
+          "price": "moderate",
+          "rating": "10"
+        },
+        "entity_voiced": true,
+        "info_requests": {
+          "price": true,
+          "address": true,
+          "phone": true
+        },
+        "info_requests_frac": 1.0,
+        "no_result_count": 0,
+        "no_result_recovered": "unknown",
+        "agent_contradicts_backend": false,
+        "contradiction_detail": []
+      }
+    },
+    {
+      "call_id": "cmd_hi_0010",
+      "family": "code_mixed_dialog",
+      "human_label": "success",
+      "keyword_verdict": "success",
+      "keyword_detail": "3/4 fields, frac=0.75",
+      "grounded_verdict": "success",
+      "grounded_reason": "entity found+voiced, constraints reached backend, requested info supplied, no contradiction",
+      "grounded_raw_id": "dialog#10",
+      "evidence": {
+        "user_turns": [
+          "mujhe ek portuguese restaurant pasand hai",
+          "address kya hai",
+          "Thank you , good bye ."
+        ],
+        "api_calls": [
+          "portuguese R_location R_price"
+        ],
+        "no_results": 0,
+        "kb_entities": [
+          "nandos"
+        ],
+        "sys_spoken_tail": [
+          "nandos_city_centre portuguese khana serve karte hain .",
+          "Bilkul , nandos_city_centre nandos_city_centre_address par hai",
+          "Welcome , alvida"
+        ]
+      },
+      "signals": {
+        "constraints_in_api_call": {
+          "portuguese": true
+        },
+        "constraints_in_api_call_frac": 1.0,
+        "selected_entity": "nandos",
+        "kb_candidate_count": 1,
+        "kb_attributes": {
+          "post_code": "nandos_post_code",
+          "cuisine": "portuguese",
+          "location": "centre",
+          "phone": "nandos_phone",
+          "address": "nandos_address",
+          "price": "cheap",
+          "rating": "2"
+        },
+        "entity_voiced": true,
+        "info_requests": {
+          "address": true
+        },
+        "info_requests_frac": 1.0,
+        "no_result_count": 0,
+        "no_result_recovered": "unknown",
+        "agent_contradicts_backend": false,
+        "contradiction_detail": []
+      }
+    },
+    {
+      "call_id": "cmd_hi_0011",
+      "family": "code_mixed_dialog",
+      "human_label": "success",
+      "keyword_verdict": "success",
+      "keyword_detail": "3/4 fields, frac=0.75",
+      "grounded_verdict": "success",
+      "grounded_reason": "entity found+voiced, constraints reached backend, requested info supplied, no contradiction",
+      "grounded_raw_id": "dialog#11",
+      "evidence": {
+        "user_turns": [
+          "town ka west part cuban food",
+          "italian",
+          "phone number",
+          "yes",
+          "Phone number kya hain",
+          "alvida"
+        ],
+        "api_calls": [
+          "cuban west R_price",
+          "italian west R_price"
+        ],
+        "no_results": 1,
+        "kb_entities": [
+          "la_margherita",
+          "prezzo"
+        ],
+        "sys_spoken_tail": [
+          "prezzo ek achha restaurant hai nagar ke west bhaag mein jo italian khana serve karta hai",
+          "prezzo ka phone number hai prezzo_phone",
+          "Welcome , alvida"
+        ]
+      },
+      "signals": {
+        "constraints_in_api_call": {
+          "west": true,
+          "italian": true,
+          "cuban": true
+        },
+        "constraints_in_api_call_frac": 1.0,
+        "selected_entity": "prezzo",
+        "kb_candidate_count": 2,
+        "kb_attributes": {
+          "post_code": "prezzo_post_code",
+          "cuisine": "italian",
+          "location": "west",
+          "phone": "prezzo_phone",
+          "address": "prezzo_address",
+          "price": "moderate",
+          "rating": "10"
+        },
+        "entity_voiced": true,
+        "info_requests": {
+          "phone": true
+        },
+        "info_requests_frac": 1.0,
+        "no_result_count": 1,
+        "no_result_recovered": true,
+        "agent_contradicts_backend": false,
+        "contradiction_detail": []
+      }
+    },
+    {
+      "call_id": "cmd_hi_0012",
+      "family": "code_mixed_dialog",
+      "human_label": "success",
+      "keyword_verdict": "success",
+      "keyword_detail": "4/4 fields, frac=1.0",
+      "grounded_verdict": "success",
+      "grounded_reason": "entity found+voiced, constraints reached backend, requested info supplied, no contradiction",
+      "grounded_raw_id": "dialog#12",
+      "evidence": {
+        "user_turns": [
+          "north part of town meh mujhe ek moderately priced restaurant pasand hai",
+          "address kya hai",
+          "woh kis type ka food serve karte hain",
+          "Thank you , good bye ."
+        ],
+        "api_calls": [
+          "R_cuisine north moderate"
+        ],
+        "no_results": 0,
+        "kb_entities": [
+          "golden_wok",
+          "meghna",
+          "the_nirala"
+        ],
+        "sys_spoken_tail": [
+          "Bilkul , meghna meghna_address par hai",
+          "meghna indian khana serve karte hain",
+          "Welcome , alvida"
+        ]
+      },
+      "signals": {
+        "constraints_in_api_call": {
+          "north": true
+        },
+        "constraints_in_api_call_frac": 1.0,
+        "selected_entity": "meghna",
+        "kb_candidate_count": 3,
+        "kb_attributes": {
+          "post_code": "meghna_post_code",
+          "cuisine": "indian",
+          "location": "north",
+          "phone": "meghna_phone",
+          "address": "meghna_address",
+          "price": "moderate",
+          "rating": "9"
+        },
+        "entity_voiced": true,
+        "info_requests": {
+          "price": true,
+          "address": true
+        },
+        "info_requests_frac": 1.0,
+        "no_result_count": 0,
+        "no_result_recovered": "unknown",
+        "agent_contradicts_backend": false,
+        "contradiction_detail": []
+      }
+    },
+    {
+      "call_id": "cmd_hi_0013",
+      "family": "code_mixed_dialog",
+      "human_label": "success",
+      "keyword_verdict": "success",
+      "keyword_detail": "3/4 fields, frac=0.75",
+      "grounded_verdict": "success",
+      "grounded_reason": "entity found+voiced, constraints reached backend, requested info supplied, no contradiction",
+      "grounded_raw_id": "dialog#13",
+      "evidence": {
+        "user_turns": [
+          "moderate price town ke north mein",
+          "yes",
+          "address aur phone number kya hai",
+          "Thank you , good bye ."
+        ],
+        "api_calls": [
+          "R_cuisine north moderate"
+        ],
+        "no_results": 0,
+        "kb_entities": [
+          "golden_wok",
+          "meghna",
+          "the_nirala"
+        ],
+        "sys_spoken_tail": [
+          "golden_wok ek acha restaurant hai town ka north mein aur moderate price range mein",
+          "golden_wok ka phone number hai golden_wok_phone",
+          "Welcome , alvida"
+        ]
+      },
+      "signals": {
+        "constraints_in_api_call": {
+          "moderate": true,
+          "north": true
+        },
+        "constraints_in_api_call_frac": 1.0,
+        "selected_entity": "golden_wok",
+        "kb_candidate_count": 3,
+        "kb_attributes": {
+          "post_code": "golden_wok_post_code",
+          "cuisine": "chinese",
+          "location": "north",
+          "phone": "golden_wok_phone",
+          "address": "golden_wok_address",
+          "price": "moderate",
+          "rating": "9"
+        },
+        "entity_voiced": true,
+        "info_requests": {
+          "price": true,
+          "phone": true,
+          "address": false
+        },
+        "info_requests_frac": 0.667,
+        "no_result_count": 0,
+        "no_result_recovered": "unknown",
+        "agent_contradicts_backend": false,
+        "contradiction_detail": []
+      }
+    },
+    {
+      "call_id": "cmd_hi_0014",
+      "family": "code_mixed_dialog",
+      "human_label": "success",
+      "keyword_verdict": "success",
+      "keyword_detail": "4/4 fields, frac=1.0",
+      "grounded_verdict": "success",
+      "grounded_reason": "entity found+voiced, constraints reached backend, requested info supplied, no contradiction",
+      "grounded_raw_id": "dialog#14",
+      "evidence": {
+        "user_turns": [
+          "expensive",
+          "south",
+          "parvah nahin",
+          "address kya hai",
+          "Thank you , good bye ."
+        ],
+        "api_calls": [
+          "R_cuisine south expensive"
+        ],
+        "no_results": 0,
+        "kb_entities": [
+          "chiquito_restaurant_bar",
+          "frankie_and_bennys",
+          "peking_restaurant",
+          "taj_tandoori"
+        ],
+        "sys_spoken_tail": [
+          "peking_restaurant ek achha restaurant hai nagar ke south bhaag mein jo chinese khana serve karta hai",
+          "Bilkul , peking_restaurant peking_restaurant_address par hai",
+          "Welcome , alvida"
+        ]
+      },
+      "signals": {
+        "constraints_in_api_call": {
+          "south": true,
+          "expensive": true
+        },
+        "constraints_in_api_call_frac": 1.0,
+        "selected_entity": "peking_restaurant",
+        "kb_candidate_count": 4,
+        "kb_attributes": {
+          "post_code": "peking_restaurant_post_code",
+          "cuisine": "chinese",
+          "location": "south",
+          "phone": "peking_restaurant_phone",
+          "address": "peking_restaurant_address",
+          "price": "expensive",
+          "rating": "10"
+        },
+        "entity_voiced": true,
+        "info_requests": {
+          "address": true
+        },
+        "info_requests_frac": 1.0,
+        "no_result_count": 0,
+        "no_result_recovered": "unknown",
+        "agent_contradicts_backend": false,
+        "contradiction_detail": []
+      }
+    },
+    {
+      "call_id": "cmd_hi_0015",
+      "family": "code_mixed_dialog",
+      "human_label": "fail",
+      "keyword_verdict": "success",
+      "keyword_detail": "3/4 fields, frac=0.75",
+      "grounded_verdict": "success",
+      "grounded_reason": "entity found+voiced, constraints reached backend, requested info supplied, no contradiction",
+      "grounded_raw_id": "dialog#15",
+      "evidence": {
+        "user_turns": [
+          "mediterranean",
+          "cheap",
+          "mediterranean",
+          "phone number aur post code kya hai",
+          "Thank you , good bye ."
+        ],
+        "api_calls": [
+          "jamaican R_location cheap",
+          "mediterranean R_location cheap"
+        ],
+        "no_results": 1,
+        "kb_entities": [
+          "the_gardenia"
+        ],
+        "sys_spoken_tail": [
+          "the_gardenia badiya restaurant hai serving mediterranean food aur woh cheap price range me hai",
+          "the_gardenia ka phone number hai the_gardenia_phone",
+          "Welcome , alvida"
+        ]
+      },
+      "signals": {
+        "constraints_in_api_call": {
+          "cheap": true,
+          "mediterranean": true
+        },
+        "constraints_in_api_call_frac": 1.0,
+        "selected_entity": "the_gardenia",
+        "kb_candidate_count": 1,
+        "kb_attributes": {
+          "post_code": "the_gardenia_post_code",
+          "cuisine": "mediterranean",
+          "location": "centre",
+          "phone": "the_gardenia_phone",
+          "address": "the_gardenia_address",
+          "price": "cheap",
+          "rating": "9"
+        },
+        "entity_voiced": true,
+        "info_requests": {
+          "phone": true,
+          "post": false
+        },
+        "info_requests_frac": 0.5,
+        "no_result_count": 1,
+        "no_result_recovered": true,
+        "agent_contradicts_backend": false,
+        "contradiction_detail": []
+      }
+    },
+    {
+      "call_id": "cmd_hi_0016",
+      "family": "code_mixed_dialog",
+      "human_label": "success",
+      "keyword_verdict": "success",
+      "keyword_detail": "4/4 fields, frac=1.0",
+      "grounded_verdict": "success",
+      "grounded_reason": "entity found+voiced, constraints reached backend, requested info supplied, no contradiction",
+      "grounded_raw_id": "dialog#16",
+      "evidence": {
+        "user_turns": [
+          "european food",
+          "european",
+          "parvah nahin",
+          "expensive",
+          "Phone number kya hain",
+          "Thank you , good bye ."
+        ],
+        "api_calls": [
+          "european R_location R_price",
+          "european R_location expensive"
+        ],
+        "no_results": 0,
+        "kb_entities": [
+          "cambridge_lodge_restaurant",
+          "darrys_cookhouse_and_wine_shop",
+          "de_luca_cucina_and_bar",
+          "eraina",
+          "galleria",
+          "michaelhouse_cafe",
+          "restaurant_alimentum",
+          "riverside_brasserie"
+        ],
+        "sys_spoken_tail": [
+          "eraina badiya restaurant hai serving european food aur woh expensive price range me hai",
+          "eraina ka phone number hai eraina_phone",
+          "Welcome , alvida"
+        ]
+      },
+      "signals": {
+        "constraints_in_api_call": {
+          "european": true,
+          "expensive": true
+        },
+        "constraints_in_api_call_frac": 1.0,
+        "selected_entity": "eraina",
+        "kb_candidate_count": 8,
+        "kb_attributes": {
+          "post_code": "eraina_post_code",
+          "cuisine": "european",
+          "location": "centre",
+          "phone": "eraina_phone",
+          "address": "eraina_address",
+          "price": "expensive",
+          "rating": "9"
+        },
+        "entity_voiced": true,
+        "info_requests": {
+          "phone": true
+        },
+        "info_requests_frac": 1.0,
+        "no_result_count": 0,
+        "no_result_recovered": "unknown",
+        "agent_contradicts_backend": false,
+        "contradiction_detail": []
+      }
+    },
+    {
+      "call_id": "cmd_hi_0017",
+      "family": "code_mixed_dialog",
+      "human_label": "success",
+      "keyword_verdict": "fail",
+      "keyword_detail": "2/4 fields, frac=0.5",
+      "grounded_verdict": "success",
+      "grounded_reason": "entity found+voiced, constraints reached backend, requested info supplied, no contradiction",
+      "grounded_raw_id": "dialog#17",
+      "evidence": {
+        "user_turns": [
+          "gastropub",
+          "gastropub",
+          "gastropub food",
+          "address kya hai",
+          "Phone number kya hain",
+          "Thank you , good bye ."
+        ],
+        "api_calls": [
+          "gastropub R_location R_price"
+        ],
+        "no_results": 0,
+        "kb_entities": [
+          "royal_standard",
+          "the_slug_and_lettuce"
+        ],
+        "sys_spoken_tail": [
+          "royal_standard gastropub khana serve karte hain .",
+          "royal_standard ka phone number hai royal_standard_phone",
+          "Welcome , alvida"
+        ]
+      },
+      "signals": {
+        "constraints_in_api_call": {
+          "gastropub": true
+        },
+        "constraints_in_api_call_frac": 1.0,
+        "selected_entity": "royal_standard",
+        "kb_candidate_count": 2,
+        "kb_attributes": {
+          "post_code": "royal_standard_post_code",
+          "cuisine": "gastropub",
+          "location": "east",
+          "phone": "royal_standard_phone",
+          "address": "royal_standard_address",
+          "price": "expensive",
+          "rating": "7"
+        },
+        "entity_voiced": true,
+        "info_requests": {
+          "address": true,
+          "phone": true
+        },
+        "info_requests_frac": 1.0,
+        "no_result_count": 0,
+        "no_result_recovered": "unknown",
+        "agent_contradicts_backend": false,
+        "contradiction_detail": []
+      }
+    },
+    {
+      "call_id": "cmd_hi_0018",
+      "family": "code_mixed_dialog",
+      "human_label": "fail",
+      "keyword_verdict": "success",
+      "keyword_detail": "3/4 fields, frac=0.75",
+      "grounded_verdict": "fail",
+      "grounded_reason": "KB returned no result and no alternative entity ever surfaced",
+      "grounded_raw_id": "dialog#18",
+      "evidence": {
+        "user_turns": [
+          "italian food",
+          "moderate",
+          "north",
+          "Thank you , good bye ."
+        ],
+        "api_calls": [
+          "italian north moderate"
+        ],
+        "no_results": 1,
+        "kb_entities": [],
+        "sys_spoken_tail": [
+          "aapke mind me town ka kaun sa part hai ?",
+          "Sorry , north of town me italian food serve karne vala koye moderate restaurant nahi hai .",
+          "Welcome , alvida"
+        ]
+      },
+      "signals": {
+        "constraints_in_api_call": {
+          "italian": true,
+          "north": true,
+          "moderate": true
+        },
+        "constraints_in_api_call_frac": 1.0,
+        "selected_entity": null,
+        "kb_candidate_count": 0,
+        "kb_attributes": {},
+        "entity_voiced": "unknown",
+        "info_requests": "unknown",
+        "info_requests_frac": "unknown",
+        "no_result_count": 1,
+        "no_result_recovered": false,
+        "agent_contradicts_backend": false,
+        "contradiction_detail": []
+      }
+    },
+    {
+      "call_id": "cmd_hi_0019",
+      "family": "code_mixed_dialog",
+      "human_label": "success",
+      "keyword_verdict": "fail",
+      "keyword_detail": "2/4 fields, frac=0.5",
+      "grounded_verdict": "success",
+      "grounded_reason": "entity found+voiced, constraints reached backend, requested info supplied, no contradiction",
+      "grounded_raw_id": "dialog#19",
+      "evidence": {
+        "user_turns": [
+          "portuguese food",
+          "address kya hai",
+          "Thank you , good bye ."
+        ],
+        "api_calls": [
+          "portuguese R_location R_price"
+        ],
+        "no_results": 0,
+        "kb_entities": [
+          "nandos"
+        ],
+        "sys_spoken_tail": [
+          "nandos portuguese khana serve karte hain .",
+          "Bilkul , nandos nandos_address par hai",
+          "Welcome , alvida"
+        ]
+      },
+      "signals": {
+        "constraints_in_api_call": {
+          "portuguese": true
+        },
+        "constraints_in_api_call_frac": 1.0,
+        "selected_entity": "nandos",
+        "kb_candidate_count": 1,
+        "kb_attributes": {
+          "post_code": "nandos_post_code",
+          "cuisine": "portuguese",
+          "location": "centre",
+          "phone": "nandos_phone",
+          "address": "nandos_address",
+          "price": "cheap",
+          "rating": "10"
+        },
+        "entity_voiced": true,
+        "info_requests": {
+          "address": true
+        },
+        "info_requests_frac": 1.0,
+        "no_result_count": 0,
+        "no_result_recovered": "unknown",
+        "agent_contradicts_backend": false,
+        "contradiction_detail": []
+      }
+    },
+    {
+      "call_id": "cmd_hi_0020",
+      "family": "code_mixed_dialog",
+      "human_label": "success",
+      "keyword_verdict": "success",
+      "keyword_detail": "4/4 fields, frac=1.0",
+      "grounded_verdict": "success",
+      "grounded_reason": "entity found+voiced, constraints reached backend, requested info supplied, no contradiction",
+      "grounded_raw_id": "dialog#20",
+      "evidence": {
+        "user_turns": [
+          "hello swagat",
+          "south",
+          "kya aap kuch pasand karenge",
+          "steak house",
+          "indian",
+          "aur phone number kya hai",
+          "Thank you , good bye ."
+        ],
+        "api_calls": [
+          "R_cuisine south R_price",
+          "indian south R_price"
+        ],
+        "no_results": 0,
+        "kb_entities": [
+          "chiquito_restaurant_bar",
+          "frankie_and_bennys",
+          "peking_restaurant",
+          "pizza_hut_cherry_hinton",
+          "restaurant_alimentum",
+          "taj_tandoori",
+          "the_lucky_star"
+        ],
+        "sys_spoken_tail": [
+          "taj_tandoori ek achha restaurant hai nagar ke south bhaag mein jo indian khana serve karta hai",
+          "taj_tandoori ka phone number hai taj_tandoori_phone",
+          "Welcome , alvida"
+        ]
+      },
+      "signals": {
+        "constraints_in_api_call": {
+          "indian": true,
+          "south": true
+        },
+        "constraints_in_api_call_frac": 1.0,
+        "selected_entity": "taj_tandoori",
+        "kb_candidate_count": 7,
+        "kb_attributes": {
+          "post_code": "taj_tandoori_post_code",
+          "cuisine": "indian",
+          "location": "south",
+          "phone": "taj_tandoori_phone",
+          "address": "taj_tandoori_address",
+          "price": "expensive",
+          "rating": "9"
+        },
+        "entity_voiced": true,
+        "info_requests": {
+          "phone": true
+        },
+        "info_requests_frac": 1.0,
+        "no_result_count": 0,
+        "no_result_recovered": "unknown",
+        "agent_contradicts_backend": false,
+        "contradiction_detail": []
+      }
+    },
+    {
+      "call_id": "cmd_hi_0022",
+      "family": "code_mixed_dialog",
+      "human_label": "fail",
+      "keyword_verdict": "fail",
+      "keyword_detail": "2/4 fields, frac=0.5",
+      "grounded_verdict": "fail",
+      "grounded_reason": "agent claim contradicts KB trace: [{'facet': 'area', 'kb': 'north', 'voiced': ['centre']}]",
+      "grounded_raw_id": "dialog#22",
+      "evidence": {
+        "user_turns": [
+          "mein center mein ek restaurant dundh raha hun jo corsia food serve karta ho .",
+          "north_american kaisa rahega",
+          "north_american type ke khaane ke baare me kya khayal hai",
+          "north_american type ke khaane ke baare me kya khayal hai",
+          "phone number kya hain",
+          "Thank you , good bye ."
+        ],
+        "api_calls": [
+          "corsica R_location R_price",
+          "north_american R_location R_price"
+        ],
+        "no_results": 1,
+        "kb_entities": [
+          "gourmet_burger_kitchen"
+        ],
+        "sys_spoken_tail": [
+          "gourmet_burger_kitchen ek achha restaurant hai nagar ke centre bhaag mein jo north_american khana serve karta hai",
+          "gourmet_burger_kitchen ka phone number hai gourmet_burger_kitchen_phone",
+          "Welcome , alvida"
+        ]
+      },
+      "signals": {
+        "constraints_in_api_call": {
+          "center": false,
+          "north_american": true
+        },
+        "constraints_in_api_call_frac": 0.5,
+        "selected_entity": "gourmet_burger_kitchen",
+        "kb_candidate_count": 1,
+        "kb_attributes": {
+          "post_code": "gourmet_burger_kitchen_post_code",
+          "cuisine": "north_american",
+          "location": "north",
+          "phone": "gourmet_burger_kitchen_phone",
+          "address": "gourmet_burger_kitchen_address",
+          "price": "expensive",
+          "rating": "9"
+        },
+        "entity_voiced": true,
+        "info_requests": {
+          "phone": true
+        },
+        "info_requests_frac": 1.0,
+        "no_result_count": 1,
+        "no_result_recovered": true,
+        "agent_contradicts_backend": true,
+        "contradiction_detail": [
+          {
+            "facet": "area",
+            "kb": "north",
+            "voiced": [
+              "centre"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "call_id": "cmd_hi_0024",
+      "family": "code_mixed_dialog",
+      "human_label": "fail",
+      "keyword_verdict": "success",
+      "keyword_detail": "3/4 fields, frac=0.75",
+      "grounded_verdict": "unknown",
+      "grounded_reason": "partial grounding; insufficient to assert success or fail",
+      "grounded_raw_id": "dialog#24",
+      "evidence": {
+        "user_turns": [
+          "Main japanese food dhoondhna pasand karoonga .",
+          "koi bhi",
+          "kya mujhe address mil sakata hai",
+          "kaisa rahega phone number ke baare main",
+          "aur kis prakar ka khana"
+        ],
+        "api_calls": [
+          "japanese R_location R_price"
+        ],
+        "no_results": 0,
+        "kb_entities": [
+          "wagamama"
+        ],
+        "sys_spoken_tail": [
+          "Bilkul , the_gandhi the_gandhi_address par hai",
+          "the_gandhi ka phone number hai the_gandhi_phone",
+          "Welcome , alvida"
+        ]
+      },
+      "signals": {
+        "constraints_in_api_call": {
+          "japanese": true
+        },
+        "constraints_in_api_call_frac": 1.0,
+        "selected_entity": "wagamama",
+        "kb_candidate_count": 1,
+        "kb_attributes": {
+          "post_code": "wagamama_post_code",
+          "cuisine": "japanese",
+          "location": "centre",
+          "phone": "wagamama_phone",
+          "address": "wagamama_address",
+          "price": "expensive",
+          "rating": "0"
+        },
+        "entity_voiced": false,
+        "info_requests": {
+          "address": true,
+          "phone": true
+        },
+        "info_requests_frac": 1.0,
+        "no_result_count": 0,
+        "no_result_recovered": "unknown",
+        "agent_contradicts_backend": false,
+        "contradiction_detail": []
+      }
+    },
+    {
+      "call_id": "cmd_hi_0025",
+      "family": "code_mixed_dialog",
+      "human_label": "success",
+      "keyword_verdict": "success",
+      "keyword_detail": "3/4 fields, frac=0.75",
+      "grounded_verdict": "fail",
+      "grounded_reason": "agent claim contradicts KB trace: [{'facet': 'area', 'kb': 'centre', 'voiced': ['south']}]",
+      "grounded_raw_id": "dialog#25",
+      "evidence": {
+        "user_turns": [
+          "south part of town meh ek find karna hai",
+          "danish",
+          "portuguese",
+          "kya mujhe address mil sakata hai",
+          "phone number",
+          "Thank you , good bye ."
+        ],
+        "api_calls": [
+          "danish south R_price",
+          "portuguese R_location R_price"
+        ],
+        "no_results": 1,
+        "kb_entities": [
+          "nandos"
+        ],
+        "sys_spoken_tail": [
+          "Bilkul , nandos nandos_address par hai",
+          "nandos ka phone number hai nandos_phone",
+          "Welcome , alvida"
+        ]
+      },
+      "signals": {
+        "constraints_in_api_call": {
+          "danish": true,
+          "south": true,
+          "portuguese": true
+        },
+        "constraints_in_api_call_frac": 1.0,
+        "selected_entity": "nandos",
+        "kb_candidate_count": 1,
+        "kb_attributes": {
+          "post_code": "nandos_post_code",
+          "cuisine": "portuguese",
+          "location": "centre",
+          "phone": "nandos_phone",
+          "address": "nandos_address",
+          "price": "cheap",
+          "rating": "9"
+        },
+        "entity_voiced": true,
+        "info_requests": {
+          "address": true,
+          "phone": true
+        },
+        "info_requests_frac": 1.0,
+        "no_result_count": 1,
+        "no_result_recovered": true,
+        "agent_contradicts_backend": true,
+        "contradiction_detail": [
+          {
+            "facet": "area",
+            "kb": "centre",
+            "voiced": [
+              "south"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "call_id": "cmd_hi_0026",
+      "family": "code_mixed_dialog",
+      "human_label": "success",
+      "keyword_verdict": "success",
+      "keyword_detail": "4/4 fields, frac=1.0",
+      "grounded_verdict": "success",
+      "grounded_reason": "entity found+voiced, constraints reached backend, requested info supplied, no contradiction",
+      "grounded_raw_id": "dialog#26",
+      "evidence": {
+        "user_turns": [
+          "moderately priced restaurant",
+          "koi bhi part",
+          "lebanese",
+          "pata",
+          "aur yeh phone number",
+          "Thank you , good bye ."
+        ],
+        "api_calls": [
+          "lebanese R_location moderate"
+        ],
+        "no_results": 0,
+        "kb_entities": [
+          "ali_baba"
+        ],
+        "sys_spoken_tail": [
+          "Bilkul , ali_baba ali_baba_address par hai",
+          "ali_baba ka phone number hai ali_baba_phone",
+          "Welcome , alvida"
+        ]
+      },
+      "signals": {
+        "constraints_in_api_call": {
+          "lebanese": true
+        },
+        "constraints_in_api_call_frac": 1.0,
+        "selected_entity": "ali_baba",
+        "kb_candidate_count": 1,
+        "kb_attributes": {
+          "post_code": "ali_baba_post_code",
+          "cuisine": "lebanese",
+          "location": "centre",
+          "phone": "ali_baba_phone",
+          "address": "ali_baba_address",
+          "price": "moderate",
+          "rating": "10"
+        },
+        "entity_voiced": true,
+        "info_requests": {
+          "price": true,
+          "phone": true
+        },
+        "info_requests_frac": 1.0,
+        "no_result_count": 0,
+        "no_result_recovered": "unknown",
+        "agent_contradicts_backend": false,
+        "contradiction_detail": []
+      }
+    },
+    {
+      "call_id": "cmd_hi_0027",
+      "family": "code_mixed_dialog",
+      "human_label": "success",
+      "keyword_verdict": "success",
+      "keyword_detail": "4/4 fields, frac=1.0",
+      "grounded_verdict": "success",
+      "grounded_reason": "entity found+voiced, constraints reached backend, requested info supplied, no contradiction",
+      "grounded_raw_id": "dialog#27",
+      "evidence": {
+        "user_turns": [
+          "uh koi farak nahi padta",
+          "expensive",
+          "japanese",
+          "italian",
+          "moderate",
+          "phone number",
+          "Thank you , good bye ."
+        ],
+        "api_calls": [
+          "japanese west expensive",
+          "italian west expensive",
+          "italian R_location moderate"
+        ],
+        "no_results": 2,
+        "kb_entities": [
+          "pizza_express",
+          "pizza_hut_cherry_hinton",
+          "pizza_hut_fen_ditton",
+          "prezzo"
+        ],
+        "sys_spoken_tail": [
+          "prezzo ek achha restaurant hai nagar ke west bhaag mein jo italian khana serve karta hai",
+          "prezzo ka phone number hai prezzo_phone",
+          "Welcome , alvida"
+        ]
+      },
+      "signals": {
+        "constraints_in_api_call": {
+          "italian": true,
+          "moderate": true,
+          "expensive": true,
+          "japanese": true
+        },
+        "constraints_in_api_call_frac": 1.0,
+        "selected_entity": "prezzo",
+        "kb_candidate_count": 4,
+        "kb_attributes": {
+          "post_code": "prezzo_post_code",
+          "cuisine": "italian",
+          "location": "west",
+          "phone": "prezzo_phone",
+          "address": "prezzo_address",
+          "price": "moderate",
+          "rating": "10"
+        },
+        "entity_voiced": true,
+        "info_requests": {
+          "phone": true
+        },
+        "info_requests_frac": 1.0,
+        "no_result_count": 2,
+        "no_result_recovered": true,
+        "agent_contradicts_backend": false,
+        "contradiction_detail": []
+      }
+    },
+    {
+      "call_id": "cmd_hi_0028",
+      "family": "code_mixed_dialog",
+      "human_label": "success",
+      "keyword_verdict": "success",
+      "keyword_detail": "4/4 fields, frac=1.0",
+      "grounded_verdict": "success",
+      "grounded_reason": "entity found+voiced, constraints reached backend, requested info supplied, no contradiction",
+      "grounded_raw_id": "dialog#28",
+      "evidence": {
+        "user_turns": [
+          "caribbean khana",
+          "thai food",
+          "town ka west part",
+          "thai",
+          "price range",
+          "phone number",
+          "pata",
+          "pata",
+          "Thank you , good bye ."
+        ],
+        "api_calls": [
+          "caribbean west R_price",
+          "thai west R_price"
+        ],
+        "no_results": 1,
+        "kb_entities": [
+          "sala_thong"
+        ],
+        "sys_spoken_tail": [
+          "kya main aapki aur kuch madad kar sakta hu ?",
+          "Bilkul , sala_thong sala_thong_address par hai",
+          "Welcome , alvida"
+        ]
+      },
+      "signals": {
+        "constraints_in_api_call": {
+          "caribbean": true,
+          "west": true,
+          "thai": true
+        },
+        "constraints_in_api_call_frac": 1.0,
+        "selected_entity": "sala_thong",
+        "kb_candidate_count": 1,
+        "kb_attributes": {
+          "post_code": "sala_thong_post_code",
+          "cuisine": "thai",
+          "location": "west",
+          "phone": "sala_thong_phone",
+          "address": "sala_thong_address",
+          "price": "expensive",
+          "rating": "9"
+        },
+        "entity_voiced": true,
+        "info_requests": {
+          "price": true,
+          "phone": true
+        },
+        "info_requests_frac": 1.0,
+        "no_result_count": 1,
+        "no_result_recovered": true,
+        "agent_contradicts_backend": false,
+        "contradiction_detail": []
+      }
+    },
+    {
+      "call_id": "cmd_hi_0029",
+      "family": "code_mixed_dialog",
+      "human_label": "fail",
+      "keyword_verdict": "success",
+      "keyword_detail": "4/4 fields, frac=1.0",
+      "grounded_verdict": "fail",
+      "grounded_reason": "KB returned no result and no alternative entity ever surfaced",
+      "grounded_raw_id": "dialog#29",
+      "evidence": {
+        "user_turns": [
+          "venetian",
+          "center",
+          "vegetarian",
+          "phone number",
+          "phone number",
+          "Thank you , good bye ."
+        ],
+        "api_calls": [
+          "venetian R_location R_price"
+        ],
+        "no_results": 1,
+        "kb_entities": [],
+        "sys_spoken_tail": [
+          "dojo_noodle_bar ek achha restaurant hai nagar ke centre bhaag mein jo asian_oriental khana serve karta hai",
+          "dojo_noodle_bar ka phone number hai dojo_noodle_bar_phone",
+          "Welcome , alvida"
+        ]
+      },
+      "signals": {
+        "constraints_in_api_call": {
+          "vegetarian": false,
+          "center": false,
+          "venetian": true
+        },
+        "constraints_in_api_call_frac": 0.333,
+        "selected_entity": null,
+        "kb_candidate_count": 0,
+        "kb_attributes": {},
+        "entity_voiced": "unknown",
+        "info_requests": {
+          "phone": true
+        },
+        "info_requests_frac": 1.0,
+        "no_result_count": 1,
+        "no_result_recovered": false,
+        "agent_contradicts_backend": false,
+        "contradiction_detail": []
+      }
+    },
+    {
+      "call_id": "cmd_hi_0030",
+      "family": "code_mixed_dialog",
+      "human_label": "success",
+      "keyword_verdict": "success",
+      "keyword_detail": "4/4 fields, frac=1.0",
+      "grounded_verdict": "success",
+      "grounded_reason": "entity found+voiced, constraints reached backend, requested info supplied, no contradiction",
+      "grounded_raw_id": "dialog#30",
+      "evidence": {
+        "user_turns": [
+          "expensive restaurant jo vegetarian khana serve kare",
+          "dhanyavaad humein",
+          "vegetarian khana",
+          "asian_oriental type ka khaana",
+          "expensive restaurant asian khana",
+          "Phone number kya hain",
+          "aur woh area",
+          "Thank you , good bye ."
+        ],
+        "api_calls": [
+          "asian_oriental R_location expensive"
+        ],
+        "no_results": 0,
+        "kb_entities": [
+          "kymmoy",
+          "saigon_city"
+        ],
+        "sys_spoken_tail": [
+          "kymmoy ka phone number hai kymmoy_phone",
+          "centre nagar me is kymmoy acha jagah tha",
+          "Welcome , alvida"
+        ]
+      },
+      "signals": {
+        "constraints_in_api_call": {
+          "vegetarian": false,
+          "asian": true,
+          "expensive": true,
+          "asian_oriental": true
+        },
+        "constraints_in_api_call_frac": 0.75,
+        "selected_entity": "kymmoy",
+        "kb_candidate_count": 2,
+        "kb_attributes": {
+          "post_code": "kymmoy_post_code",
+          "cuisine": "asian_oriental",
+          "location": "centre",
+          "phone": "kymmoy_phone",
+          "address": "kymmoy_address",
+          "price": "expensive",
+          "rating": "7"
+        },
+        "entity_voiced": true,
+        "info_requests": {
+          "phone": true
+        },
+        "info_requests_frac": 1.0,
+        "no_result_count": 0,
+        "no_result_recovered": "unknown",
+        "agent_contradicts_backend": false,
+        "contradiction_detail": []
+      }
+    },
+    {
+      "call_id": "cmd_hi_0031",
+      "family": "code_mixed_dialog",
+      "human_label": "success",
+      "keyword_verdict": "success",
+      "keyword_detail": "3/4 fields, frac=0.75",
+      "grounded_verdict": "success",
+      "grounded_reason": "entity found+voiced, constraints reached backend, requested info supplied, no contradiction",
+      "grounded_raw_id": "dialog#31",
+      "evidence": {
+        "user_turns": [
+          "moderately priced restaurant dekh raha hoon jo creative food serve karey",
+          "british food kaisa rahega",
+          "creative food kaisa rahega",
+          "creative food kaisa rahega",
+          "aur british KHANA",
+          "telephone number kya hai",
+          "Thank you , good bye ."
+        ],
+        "api_calls": [
+          "R_cuisine R_location R_price",
+          "creative R_location moderate",
+          "british R_location moderate",
+          "british R_location R_price"
+        ],
+        "no_results": 2,
+        "kb_entities": [
+          "cotto",
+          "fitzbillies_restaurant",
+          "graffiti",
+          "grafton_hotel_restaurant",
+          "midsummer_house_restaurant",
+          "restaurant_one_seven",
+          "saint_johns_chop_house",
+          "the_cambridge_chop_house",
+          "the_copper_kettle",
+          "travellers_rest"
+        ],
+        "sys_spoken_tail": [
+          "saint_johns_chop_house badiya restaurant hai serving british food aur woh moderate price range me hai",
+          "saint_johns_chop_house ka phone number hai saint_johns_chop_house_phone",
+          "Welcome , alvida"
+        ]
+      },
+      "signals": {
+        "constraints_in_api_call": {
+          "creative": true,
+          "british": true
+        },
+        "constraints_in_api_call_frac": 1.0,
+        "selected_entity": "restaurant_one_seven",
+        "kb_candidate_count": 10,
+        "kb_attributes": {
+          "post_code": "restaurant_one_seven_post_code",
+          "cuisine": "british",
+          "location": "centre",
+          "phone": "restaurant_one_seven_phone",
+          "address": "restaurant_one_seven_address",
+          "price": "moderate",
+          "rating": "4"
+        },
+        "entity_voiced": true,
+        "info_requests": {
+          "price": true,
+          "phone": true
+        },
+        "info_requests_frac": 1.0,
+        "no_result_count": 2,
+        "no_result_recovered": true,
+        "agent_contradicts_backend": false,
+        "contradiction_detail": []
+      }
+    },
+    {
+      "call_id": "swz_MUL2483",
+      "family": "spokenwoz",
+      "human_label": "success",
+      "keyword_verdict": "fail",
+      "keyword_detail": "7/11 fields, frac=0.64",
+      "grounded_verdict": "success",
+      "grounded_reason": "constraints preserved, requested info supplied, booking ok, clean close",
+      "grounded_raw_id": "MUL2483",
+      "evidence": {
+        "goal_info": [
+          [
+            "hotel",
+            "internet",
+            "yes"
+          ],
+          [
+            "hotel",
+            "pricerange",
+            "cheap"
+          ],
+          [
+            "hotel",
+            "type",
+            "hotel"
+          ],
+          [
+            "profile",
+            "name",
+            "cynthia flores"
+          ],
+          [
+            "restaurant",
+            "name",
+            "wagamama"
+          ]
+        ],
+        "goal_book": [
+          [
+            "hotel",
+            "day",
+            "tuesday"
+          ],
+          [
+            "hotel",
+            "people",
+            "8"
+          ],
+          [
+            "hotel",
+            "stay",
+            "3"
+          ],
+          [
+            "restaurant",
+            "day",
+            "tuesday"
+          ],
+          [
+            "restaurant",
+            "people",
+            "8"
+          ],
+          [
+            "restaurant",
+            "time",
+            "12:45"
+          ]
+        ],
+        "goal_reqt": [],
+        "n_turns": 20
+      },
+      "signals": {
+        "constraint_supplied": true,
+        "constraint_preserved": [
+          {
+            "dom": "hotel",
+            "slot": "internet",
+            "goal": "yes",
+            "tracked": "yes",
+            "ok": true
+          },
+          {
+            "dom": "hotel",
+            "slot": "pricerange",
+            "goal": "cheap",
+            "tracked": "cheap",
+            "ok": true
+          },
+          {
+            "dom": "hotel",
+            "slot": "type",
+            "goal": "hotel",
+            "tracked": "hotel",
+            "ok": true
+          },
+          {
+            "dom": "profile",
+            "slot": "name",
+            "goal": "cynthia flores",
+            "tracked": "cynthia flores",
+            "ok": true
+          },
+          {
+            "dom": "restaurant",
+            "slot": "name",
+            "goal": "wagamama",
+            "tracked": "wagamama",
+            "ok": true
+          }
+        ],
+        "constraint_preserved_frac": 1.0,
+        "reqt_supplied": "unknown",
+        "reqt_supplied_frac": "unknown",
+        "booking_required": true,
+        "booking_confirmed": true,
+        "terminal_resolution": true
+      }
+    },
+    {
+      "call_id": "swz_MUL2658",
+      "family": "spokenwoz",
+      "human_label": "success",
+      "keyword_verdict": "fail",
+      "keyword_detail": "1/9 fields, frac=0.11",
+      "grounded_verdict": "success",
+      "grounded_reason": "constraints preserved, requested info supplied, booking ok, clean close",
+      "grounded_raw_id": "MUL2658",
+      "evidence": {
+        "goal_info": [
+          [
+            "hotel",
+            "area",
+            "centre"
+          ],
+          [
+            "hotel",
+            "internet",
+            "yes"
+          ],
+          [
+            "hotel",
+            "type",
+            "guesthouse"
+          ],
+          [
+            "train",
+            "arriveBy",
+            "11:30"
+          ],
+          [
+            "train",
+            "departure",
+            "cambridge"
+          ],
+          [
+            "train",
+            "destination",
+            "kings lynn"
+          ]
+        ],
+        "goal_book": [],
+        "goal_reqt": [
+          [
+            "hotel",
+            "postcode"
+          ],
+          [
+            "hotel",
+            "stars"
+          ],
+          [
+            "train",
+            "duration"
+          ]
+        ],
+        "n_turns": 20
+      },
+      "signals": {
+        "constraint_supplied": true,
+        "constraint_preserved": [
+          {
+            "dom": "hotel",
+            "slot": "area",
+            "goal": "centre",
+            "tracked": "centre",
+            "ok": true
+          },
+          {
+            "dom": "hotel",
+            "slot": "internet",
+            "goal": "yes",
+            "tracked": "yes",
+            "ok": true
+          },
+          {
+            "dom": "hotel",
+            "slot": "type",
+            "goal": "guesthouse",
+            "tracked": "guest house",
+            "ok": true
+          },
+          {
+            "dom": "train",
+            "slot": "arriveBy",
+            "goal": "11:30",
+            "tracked": null,
+            "ok": false
+          },
+          {
+            "dom": "train",
+            "slot": "departure",
+            "goal": "cambridge",
+            "tracked": "cambridge",
+            "ok": true
+          },
+          {
+            "dom": "train",
+            "slot": "destination",
+            "goal": "kings lynn",
+            "tracked": "kings lynn",
+            "ok": true
+          }
+        ],
+        "constraint_preserved_frac": 0.833,
+        "reqt_supplied": [
+          {
+            "dom": "hotel",
+            "slot": "postcode",
+            "informed": false
+          },
+          {
+            "dom": "hotel",
+            "slot": "stars",
+            "informed": true
+          },
+          {
+            "dom": "train",
+            "slot": "duration",
+            "informed": true
+          }
+        ],
+        "reqt_supplied_frac": 0.667,
+        "booking_required": false,
+        "booking_confirmed": "unknown",
+        "terminal_resolution": true
+      }
+    },
+    {
+      "call_id": "swz_MUL0211",
+      "family": "spokenwoz",
+      "human_label": "success",
+      "keyword_verdict": "fail",
+      "keyword_detail": "5/8 fields, frac=0.62",
+      "grounded_verdict": "success",
+      "grounded_reason": "constraints preserved, requested info supplied, booking ok, clean close",
+      "grounded_raw_id": "MUL0211",
+      "evidence": {
+        "goal_info": [
+          [
+            "hotel",
+            "parking",
+            "yes"
+          ],
+          [
+            "hotel",
+            "pricerange",
+            "expensive"
+          ],
+          [
+            "hotel",
+            "type",
+            "hotel"
+          ],
+          [
+            "profile",
+            "email",
+            "rpatrickwhib@outlook.com"
+          ],
+          [
+            "profile",
+            "name",
+            "ross patrick"
+          ],
+          [
+            "restaurant",
+            "name",
+            "the copper kettle"
+          ]
+        ],
+        "goal_book": [
+          [
+            "hotel",
+            "day",
+            "friday"
+          ]
+        ],
+        "goal_reqt": [
+          [
+            "restaurant",
+            "area"
+          ]
+        ],
+        "n_turns": 22
+      },
+      "signals": {
+        "constraint_supplied": true,
+        "constraint_preserved": [
+          {
+            "dom": "hotel",
+            "slot": "parking",
+            "goal": "yes",
+            "tracked": "yes",
+            "ok": true
+          },
+          {
+            "dom": "hotel",
+            "slot": "pricerange",
+            "goal": "expensive",
+            "tracked": "expensive",
+            "ok": true
+          },
+          {
+            "dom": "hotel",
+            "slot": "type",
+            "goal": "hotel",
+            "tracked": "hotel",
+            "ok": true
+          },
+          {
+            "dom": "profile",
+            "slot": "email",
+            "goal": "rpatrickwhib@outlook.com",
+            "tracked": "rpatrickwhib@outlook.com",
+            "ok": true
+          },
+          {
+            "dom": "profile",
+            "slot": "name",
+            "goal": "ross patrick",
+            "tracked": "ross patrick",
+            "ok": true
+          },
+          {
+            "dom": "restaurant",
+            "slot": "name",
+            "goal": "the copper kettle",
+            "tracked": "the copper kettle",
+            "ok": true
+          }
+        ],
+        "constraint_preserved_frac": 1.0,
+        "reqt_supplied": [
+          {
+            "dom": "restaurant",
+            "slot": "area",
+            "informed": true
+          }
+        ],
+        "reqt_supplied_frac": 1.0,
+        "booking_required": true,
+        "booking_confirmed": true,
+        "terminal_resolution": true
+      }
+    },
+    {
+      "call_id": "swz_MUL0247",
+      "family": "spokenwoz",
+      "human_label": "success",
+      "keyword_verdict": "success",
+      "keyword_detail": "7/9 fields, frac=0.78",
+      "grounded_verdict": "success",
+      "grounded_reason": "constraints preserved, requested info supplied, booking ok, clean close",
+      "grounded_raw_id": "MUL0247",
+      "evidence": {
+        "goal_info": [
+          [
+            "hotel",
+            "area",
+            "centre"
+          ],
+          [
+            "profile",
+            "email",
+            "MThompsonyt2e@yahoo.com"
+          ],
+          [
+            "profile",
+            "name",
+            "melissa thompson"
+          ],
+          [
+            "restaurant",
+            "food",
+            "gastropub"
+          ],
+          [
+            "restaurant",
+            "pricerange",
+            "expensive"
+          ]
+        ],
+        "goal_book": [
+          [
+            "hotel",
+            "day",
+            "tuesday"
+          ],
+          [
+            "hotel",
+            "people",
+            "7"
+          ],
+          [
+            "hotel",
+            "stay",
+            "3"
+          ]
+        ],
+        "goal_reqt": [
+          [
+            "restaurant",
+            "address"
+          ]
+        ],
+        "n_turns": 22
+      },
+      "signals": {
+        "constraint_supplied": true,
+        "constraint_preserved": [
+          {
+            "dom": "hotel",
+            "slot": "area",
+            "goal": "centre",
+            "tracked": "centre",
+            "ok": true
+          },
+          {
+            "dom": "profile",
+            "slot": "email",
+            "goal": "MThompsonyt2e@yahoo.com",
+            "tracked": "no",
+            "ok": false
+          },
+          {
+            "dom": "profile",
+            "slot": "name",
+            "goal": "melissa thompson",
+            "tracked": "melissa thompson",
+            "ok": true
+          },
+          {
+            "dom": "restaurant",
+            "slot": "food",
+            "goal": "gastropub",
+            "tracked": "gastropub",
+            "ok": true
+          },
+          {
+            "dom": "restaurant",
+            "slot": "pricerange",
+            "goal": "expensive",
+            "tracked": "expensive",
+            "ok": true
+          }
+        ],
+        "constraint_preserved_frac": 0.8,
+        "reqt_supplied": [
+          {
+            "dom": "restaurant",
+            "slot": "address",
+            "informed": true
+          }
+        ],
+        "reqt_supplied_frac": 1.0,
+        "booking_required": true,
+        "booking_confirmed": true,
+        "terminal_resolution": true
+      }
+    },
+    {
+      "call_id": "swz_MUL1685",
+      "family": "spokenwoz",
+      "human_label": "success",
+      "keyword_verdict": "fail",
+      "keyword_detail": "4/8 fields, frac=0.5",
+      "grounded_verdict": "success",
+      "grounded_reason": "constraints preserved, requested info supplied, booking ok, clean close",
+      "grounded_raw_id": "MUL1685",
+      "evidence": {
+        "goal_info": [
+          [
+            "restaurant",
+            "name",
+            "don pasquale pizzeria"
+          ],
+          [
+            "train",
+            "day",
+            "wednesday"
+          ],
+          [
+            "train",
+            "departure",
+            "cambridge"
+          ],
+          [
+            "train",
+            "destination",
+            "london kings cross"
+          ],
+          [
+            "train",
+            "leaveAt",
+            "16:15"
+          ]
+        ],
+        "goal_book": [],
+        "goal_reqt": [
+          [
+            "restaurant",
+            "pricerange"
+          ],
+          [
+            "restaurant",
+            "address"
+          ],
+          [
+            "train",
+            "arriveBy"
+          ]
+        ],
+        "n_turns": 24
+      },
+      "signals": {
+        "constraint_supplied": true,
+        "constraint_preserved": [
+          {
+            "dom": "restaurant",
+            "slot": "name",
+            "goal": "don pasquale pizzeria",
+            "tracked": "don pasquale pizzeria",
+            "ok": true
+          },
+          {
+            "dom": "train",
+            "slot": "day",
+            "goal": "wednesday",
+            "tracked": "wednesday",
+            "ok": true
+          },
+          {
+            "dom": "train",
+            "slot": "departure",
+            "goal": "cambridge",
+            "tracked": "cambridge",
+            "ok": true
+          },
+          {
+            "dom": "train",
+            "slot": "destination",
+            "goal": "london kings cross",
+            "tracked": "london kings cross",
+            "ok": true
+          },
+          {
+            "dom": "train",
+            "slot": "leaveAt",
+            "goal": "16:15",
+            "tracked": "16:15",
+            "ok": true
+          }
+        ],
+        "constraint_preserved_frac": 1.0,
+        "reqt_supplied": [
+          {
+            "dom": "restaurant",
+            "slot": "pricerange",
+            "informed": true
+          },
+          {
+            "dom": "restaurant",
+            "slot": "address",
+            "informed": true
+          },
+          {
+            "dom": "train",
+            "slot": "arriveBy",
+            "informed": true
+          }
+        ],
+        "reqt_supplied_frac": 1.0,
+        "booking_required": false,
+        "booking_confirmed": "unknown",
+        "terminal_resolution": true
+      }
+    },
+    {
+      "call_id": "swz_MUL0069",
+      "family": "spokenwoz",
+      "human_label": "success",
+      "keyword_verdict": "success",
+      "keyword_detail": "9/11 fields, frac=0.82",
+      "grounded_verdict": "success",
+      "grounded_reason": "constraints preserved, requested info supplied, booking ok, clean close",
+      "grounded_raw_id": "MUL0069",
+      "evidence": {
+        "goal_info": [
+          [
+            "attraction",
+            "name",
+            "the man on the moon"
+          ],
+          [
+            "hotel",
+            "internet",
+            "yes"
+          ],
+          [
+            "hotel",
+            "parking",
+            "yes"
+          ],
+          [
+            "hotel",
+            "stars",
+            "4"
+          ],
+          [
+            "hotel",
+            "type",
+            "hotel"
+          ],
+          [
+            "profile",
+            "name",
+            "john anderson"
+          ]
+        ],
+        "goal_book": [
+          [
+            "hotel",
+            "day",
+            "tuesday"
+          ],
+          [
+            "hotel",
+            "people",
+            "2"
+          ],
+          [
+            "hotel",
+            "stay",
+            "2"
+          ]
+        ],
+        "goal_reqt": [
+          [
+            "attraction",
+            "area"
+          ],
+          [
+            "attraction",
+            "address"
+          ]
+        ],
+        "n_turns": 26
+      },
+      "signals": {
+        "constraint_supplied": true,
+        "constraint_preserved": [
+          {
+            "dom": "attraction",
+            "slot": "name",
+            "goal": "the man on the moon",
+            "tracked": "the man on the moon",
+            "ok": true
+          },
+          {
+            "dom": "hotel",
+            "slot": "internet",
+            "goal": "yes",
+            "tracked": "yes",
+            "ok": true
+          },
+          {
+            "dom": "hotel",
+            "slot": "parking",
+            "goal": "yes",
+            "tracked": "yes",
+            "ok": true
+          },
+          {
+            "dom": "hotel",
+            "slot": "stars",
+            "goal": "4",
+            "tracked": "4",
+            "ok": true
+          },
+          {
+            "dom": "hotel",
+            "slot": "type",
+            "goal": "hotel",
+            "tracked": "hotel",
+            "ok": true
+          },
+          {
+            "dom": "profile",
+            "slot": "name",
+            "goal": "john anderson",
+            "tracked": "john anderson",
+            "ok": true
+          }
+        ],
+        "constraint_preserved_frac": 1.0,
+        "reqt_supplied": [
+          {
+            "dom": "attraction",
+            "slot": "area",
+            "informed": true
+          },
+          {
+            "dom": "attraction",
+            "slot": "address",
+            "informed": true
+          }
+        ],
+        "reqt_supplied_frac": 1.0,
+        "booking_required": true,
+        "booking_confirmed": true,
+        "terminal_resolution": true
+      }
+    },
+    {
+      "call_id": "swz_MUL0815",
+      "family": "spokenwoz",
+      "human_label": "unsure",
+      "keyword_verdict": "fail",
+      "keyword_detail": "4/11 fields, frac=0.36",
+      "grounded_verdict": "success",
+      "grounded_reason": "constraints preserved, requested info supplied, booking ok, clean close",
+      "grounded_raw_id": "MUL0815",
+      "evidence": {
+        "goal_info": [
+          [
+            "profile",
+            "email",
+            "dgovanaya2@hotmail.com"
+          ],
+          [
+            "profile",
+            "name",
+            "debra govan"
+          ],
+          [
+            "restaurant",
+            "name",
+            "ali baba"
+          ],
+          [
+            "train",
+            "arriveBy",
+            "13:45"
+          ],
+          [
+            "train",
+            "day",
+            "sunday"
+          ],
+          [
+            "train",
+            "departure",
+            "cambridge"
+          ],
+          [
+            "train",
+            "destination",
+            "ely"
+          ]
+        ],
+        "goal_book": [
+          [
+            "restaurant",
+            "day",
+            "saturday"
+          ],
+          [
+            "restaurant",
+            "people",
+            "2"
+          ],
+          [
+            "restaurant",
+            "time",
+            "14:15"
+          ]
+        ],
+        "goal_reqt": [
+          [
+            "train",
+            "leaveAt"
+          ]
+        ],
+        "n_turns": 26
+      },
+      "signals": {
+        "constraint_supplied": true,
+        "constraint_preserved": [
+          {
+            "dom": "profile",
+            "slot": "email",
+            "goal": "dgovanaya2@hotmail.com",
+            "tracked": "dgovanaya2@hotmail.com",
+            "ok": true
+          },
+          {
+            "dom": "profile",
+            "slot": "name",
+            "goal": "debra govan",
+            "tracked": "debra govan",
+            "ok": true
+          },
+          {
+            "dom": "restaurant",
+            "slot": "name",
+            "goal": "ali baba",
+            "tracked": "ali baba",
+            "ok": true
+          },
+          {
+            "dom": "train",
+            "slot": "arriveBy",
+            "goal": "13:45",
+            "tracked": "13:45",
+            "ok": true
+          },
+          {
+            "dom": "train",
+            "slot": "day",
+            "goal": "sunday",
+            "tracked": "sunday",
+            "ok": true
+          },
+          {
+            "dom": "train",
+            "slot": "departure",
+            "goal": "cambridge",
+            "tracked": "cambridge",
+            "ok": true
+          },
+          {
+            "dom": "train",
+            "slot": "destination",
+            "goal": "ely",
+            "tracked": "ely",
+            "ok": true
+          }
+        ],
+        "constraint_preserved_frac": 1.0,
+        "reqt_supplied": [
+          {
+            "dom": "train",
+            "slot": "leaveAt",
+            "informed": true
+          }
+        ],
+        "reqt_supplied_frac": 1.0,
+        "booking_required": true,
+        "booking_confirmed": true,
+        "terminal_resolution": true
+      }
+    },
+    {
+      "call_id": "swz_MUL1552",
+      "family": "spokenwoz",
+      "human_label": "success",
+      "keyword_verdict": "fail",
+      "keyword_detail": "5/9 fields, frac=0.56",
+      "grounded_verdict": "fail",
+      "grounded_reason": "required booking never confirmed in trace",
+      "grounded_raw_id": "MUL1552",
+      "evidence": {
+        "goal_info": [
+          [
+            "attraction",
+            "area",
+            "west"
+          ],
+          [
+            "profile",
+            "name",
+            "kent schneeman"
+          ],
+          [
+            "restaurant",
+            "area",
+            "west"
+          ],
+          [
+            "restaurant",
+            "food",
+            "indian"
+          ],
+          [
+            "restaurant",
+            "pricerange",
+            "expensive"
+          ]
+        ],
+        "goal_book": [
+          [
+            "restaurant",
+            "day",
+            "friday"
+          ],
+          [
+            "restaurant",
+            "people",
+            "8"
+          ],
+          [
+            "restaurant",
+            "time",
+            "11:30"
+          ]
+        ],
+        "goal_reqt": [
+          [
+            "attraction",
+            "type"
+          ]
+        ],
+        "n_turns": 26
+      },
+      "signals": {
+        "constraint_supplied": true,
+        "constraint_preserved": [
+          {
+            "dom": "attraction",
+            "slot": "area",
+            "goal": "west",
+            "tracked": "west",
+            "ok": true
+          },
+          {
+            "dom": "profile",
+            "slot": "name",
+            "goal": "kent schneeman",
+            "tracked": "kent schneeman",
+            "ok": true
+          },
+          {
+            "dom": "restaurant",
+            "slot": "area",
+            "goal": "west",
+            "tracked": "west",
+            "ok": true
+          },
+          {
+            "dom": "restaurant",
+            "slot": "food",
+            "goal": "indian",
+            "tracked": "indian",
+            "ok": true
+          },
+          {
+            "dom": "restaurant",
+            "slot": "pricerange",
+            "goal": "expensive",
+            "tracked": "expensive",
+            "ok": true
+          }
+        ],
+        "constraint_preserved_frac": 1.0,
+        "reqt_supplied": [
+          {
+            "dom": "attraction",
+            "slot": "type",
+            "informed": true
+          }
+        ],
+        "reqt_supplied_frac": 1.0,
+        "booking_required": true,
+        "booking_confirmed": false,
+        "terminal_resolution": true
+      }
+    },
+    {
+      "call_id": "swz_MUL1560",
+      "family": "spokenwoz",
+      "human_label": "success",
+      "keyword_verdict": "fail",
+      "keyword_detail": "3/8 fields, frac=0.38",
+      "grounded_verdict": "success",
+      "grounded_reason": "constraints preserved, requested info supplied, booking ok, clean close",
+      "grounded_raw_id": "MUL1560",
+      "evidence": {
+        "goal_info": [
+          [
+            "attraction",
+            "type",
+            "museum"
+          ],
+          [
+            "restaurant",
+            "food",
+            "british"
+          ],
+          [
+            "restaurant",
+            "pricerange",
+            "moderate"
+          ]
+        ],
+        "goal_book": [],
+        "goal_reqt": [
+          [
+            "attraction",
+            "phone"
+          ],
+          [
+            "attraction",
+            "address"
+          ],
+          [
+            "restaurant",
+            "address"
+          ],
+          [
+            "restaurant",
+            "area"
+          ],
+          [
+            "restaurant",
+            "postcode"
+          ]
+        ],
+        "n_turns": 26
+      },
+      "signals": {
+        "constraint_supplied": true,
+        "constraint_preserved": [
+          {
+            "dom": "attraction",
+            "slot": "type",
+            "goal": "museum",
+            "tracked": "museum",
+            "ok": true
+          },
+          {
+            "dom": "restaurant",
+            "slot": "food",
+            "goal": "british",
+            "tracked": "british",
+            "ok": true
+          },
+          {
+            "dom": "restaurant",
+            "slot": "pricerange",
+            "goal": "moderate",
+            "tracked": "moderate",
+            "ok": true
+          }
+        ],
+        "constraint_preserved_frac": 1.0,
+        "reqt_supplied": [
+          {
+            "dom": "attraction",
+            "slot": "phone",
+            "informed": true
+          },
+          {
+            "dom": "attraction",
+            "slot": "address",
+            "informed": true
+          },
+          {
+            "dom": "restaurant",
+            "slot": "address",
+            "informed": true
+          },
+          {
+            "dom": "restaurant",
+            "slot": "area",
+            "informed": true
+          },
+          {
+            "dom": "restaurant",
+            "slot": "postcode",
+            "informed": false
+          }
+        ],
+        "reqt_supplied_frac": 0.8,
+        "booking_required": false,
+        "booking_confirmed": "unknown",
+        "terminal_resolution": true
+      }
+    },
+    {
+      "call_id": "swz_MUL0035",
+      "family": "spokenwoz",
+      "human_label": "success",
+      "keyword_verdict": "fail",
+      "keyword_detail": "4/9 fields, frac=0.44",
+      "grounded_verdict": "fail",
+      "grounded_reason": "agent never supplied any requested info slot",
+      "grounded_raw_id": "MUL0035",
+      "evidence": {
+        "goal_info": [
+          [
+            "attraction",
+            "area",
+            "centre"
+          ],
+          [
+            "attraction",
+            "type",
+            "college"
+          ],
+          [
+            "profile",
+            "idnumber",
+            "1088170252057006"
+          ],
+          [
+            "train",
+            "arriveBy",
+            "21:45"
+          ],
+          [
+            "train",
+            "day",
+            "thursday"
+          ],
+          [
+            "train",
+            "departure",
+            "cambridge"
+          ],
+          [
+            "train",
+            "destination",
+            "leicester"
+          ]
+        ],
+        "goal_book": [
+          [
+            "train",
+            "people",
+            "3"
+          ]
+        ],
+        "goal_reqt": [
+          [
+            "attraction",
+            "postcode"
+          ]
+        ],
+        "n_turns": 28
+      },
+      "signals": {
+        "constraint_supplied": true,
+        "constraint_preserved": [
+          {
+            "dom": "attraction",
+            "slot": "area",
+            "goal": "centre",
+            "tracked": "centre",
+            "ok": true
+          },
+          {
+            "dom": "attraction",
+            "slot": "type",
+            "goal": "college",
+            "tracked": "college",
+            "ok": true
+          },
+          {
+            "dom": "profile",
+            "slot": "idnumber",
+            "goal": "1088170252057006",
+            "tracked": "108817025",
+            "ok": true
+          },
+          {
+            "dom": "train",
+            "slot": "arriveBy",
+            "goal": "21:45",
+            "tracked": "21:45",
+            "ok": true
+          },
+          {
+            "dom": "train",
+            "slot": "day",
+            "goal": "thursday",
+            "tracked": "thursday",
+            "ok": true
+          },
+          {
+            "dom": "train",
+            "slot": "departure",
+            "goal": "cambridge",
+            "tracked": "cambridge",
+            "ok": true
+          },
+          {
+            "dom": "train",
+            "slot": "destination",
+            "goal": "leicester",
+            "tracked": "leicester",
+            "ok": true
+          }
+        ],
+        "constraint_preserved_frac": 1.0,
+        "reqt_supplied": [
+          {
+            "dom": "attraction",
+            "slot": "postcode",
+            "informed": false
+          }
+        ],
+        "reqt_supplied_frac": 0.0,
+        "booking_required": true,
+        "booking_confirmed": true,
+        "terminal_resolution": true
+      }
+    },
+    {
+      "call_id": "swz_MUL0280",
+      "family": "spokenwoz",
+      "human_label": "success",
+      "keyword_verdict": "fail",
+      "keyword_detail": "5/10 fields, frac=0.5",
+      "grounded_verdict": "fail",
+      "grounded_reason": "required booking never confirmed in trace",
+      "grounded_raw_id": "MUL0280",
+      "evidence": {
+        "goal_info": [
+          [
+            "profile",
+            "name",
+            "eric wilkerson"
+          ],
+          [
+            "restaurant",
+            "name",
+            "curry prince"
+          ],
+          [
+            "train",
+            "day",
+            "friday"
+          ],
+          [
+            "train",
+            "departure",
+            "cambridge"
+          ],
+          [
+            "train",
+            "destination",
+            "leicester"
+          ],
+          [
+            "train",
+            "leaveAt",
+            "17:45"
+          ]
+        ],
+        "goal_book": [
+          [
+            "restaurant",
+            "day",
+            "thursday"
+          ],
+          [
+            "restaurant",
+            "people",
+            "4"
+          ],
+          [
+            "restaurant",
+            "time",
+            "13:15"
+          ]
+        ],
+        "goal_reqt": [
+          [
+            "train",
+            "arriveBy"
+          ]
+        ],
+        "n_turns": 28
+      },
+      "signals": {
+        "constraint_supplied": true,
+        "constraint_preserved": [
+          {
+            "dom": "profile",
+            "slot": "name",
+            "goal": "eric wilkerson",
+            "tracked": "eric wilkerson",
+            "ok": true
+          },
+          {
+            "dom": "restaurant",
+            "slot": "name",
+            "goal": "curry prince",
+            "tracked": "curry prince",
+            "ok": true
+          },
+          {
+            "dom": "train",
+            "slot": "day",
+            "goal": "friday",
+            "tracked": "friday",
+            "ok": true
+          },
+          {
+            "dom": "train",
+            "slot": "departure",
+            "goal": "cambridge",
+            "tracked": "cambridge",
+            "ok": true
+          },
+          {
+            "dom": "train",
+            "slot": "destination",
+            "goal": "leicester",
+            "tracked": "leicester",
+            "ok": true
+          },
+          {
+            "dom": "train",
+            "slot": "leaveAt",
+            "goal": "17:45",
+            "tracked": "17:45",
+            "ok": true
+          }
+        ],
+        "constraint_preserved_frac": 1.0,
+        "reqt_supplied": [
+          {
+            "dom": "train",
+            "slot": "arriveBy",
+            "informed": true
+          }
+        ],
+        "reqt_supplied_frac": 1.0,
+        "booking_required": true,
+        "booking_confirmed": false,
+        "terminal_resolution": true
+      }
+    },
+    {
+      "call_id": "swz_MUL1004",
+      "family": "spokenwoz",
+      "human_label": "success",
+      "keyword_verdict": "fail",
+      "keyword_detail": "3/10 fields, frac=0.3",
+      "grounded_verdict": "success",
+      "grounded_reason": "constraints preserved, requested info supplied, booking ok, clean close",
+      "grounded_raw_id": "MUL1004",
+      "evidence": {
+        "goal_info": [
+          [
+            "restaurant",
+            "area",
+            "centre"
+          ],
+          [
+            "restaurant",
+            "food",
+            "turkish"
+          ],
+          [
+            "train",
+            "arriveBy",
+            "09:30"
+          ],
+          [
+            "train",
+            "day",
+            "thursday"
+          ],
+          [
+            "train",
+            "departure",
+            "leicester"
+          ],
+          [
+            "train",
+            "destination",
+            "cambridge"
+          ]
+        ],
+        "goal_book": [],
+        "goal_reqt": [
+          [
+            "restaurant",
+            "pricerange"
+          ],
+          [
+            "restaurant",
+            "postcode"
+          ],
+          [
+            "train",
+            "leaveAt"
+          ],
+          [
+            "train",
+            "trainID"
+          ]
+        ],
+        "n_turns": 28
+      },
+      "signals": {
+        "constraint_supplied": true,
+        "constraint_preserved": [
+          {
+            "dom": "restaurant",
+            "slot": "area",
+            "goal": "centre",
+            "tracked": "centre",
+            "ok": true
+          },
+          {
+            "dom": "restaurant",
+            "slot": "food",
+            "goal": "turkish",
+            "tracked": "turkish",
+            "ok": true
+          },
+          {
+            "dom": "train",
+            "slot": "arriveBy",
+            "goal": "09:30",
+            "tracked": "09:30",
+            "ok": true
+          },
+          {
+            "dom": "train",
+            "slot": "day",
+            "goal": "thursday",
+            "tracked": "thursday",
+            "ok": true
+          },
+          {
+            "dom": "train",
+            "slot": "departure",
+            "goal": "leicester",
+            "tracked": "leicester",
+            "ok": true
+          },
+          {
+            "dom": "train",
+            "slot": "destination",
+            "goal": "cambridge",
+            "tracked": "cambridge",
+            "ok": true
+          }
+        ],
+        "constraint_preserved_frac": 1.0,
+        "reqt_supplied": [
+          {
+            "dom": "restaurant",
+            "slot": "pricerange",
+            "informed": true
+          },
+          {
+            "dom": "restaurant",
+            "slot": "postcode",
+            "informed": false
+          },
+          {
+            "dom": "train",
+            "slot": "leaveAt",
+            "informed": true
+          },
+          {
+            "dom": "train",
+            "slot": "trainID",
+            "informed": false
+          }
+        ],
+        "reqt_supplied_frac": 0.5,
+        "booking_required": false,
+        "booking_confirmed": "unknown",
+        "terminal_resolution": true
+      }
+    },
+    {
+      "call_id": "swz_MUL0239",
+      "family": "spokenwoz",
+      "human_label": "success",
+      "keyword_verdict": "success",
+      "keyword_detail": "12/14 fields, frac=0.86",
+      "grounded_verdict": "success",
+      "grounded_reason": "constraints preserved, requested info supplied, booking ok, clean close",
+      "grounded_raw_id": "MUL0239",
+      "evidence": {
+        "goal_info": [
+          [
+            "hotel",
+            "area",
+            "west"
+          ],
+          [
+            "hotel",
+            "internet",
+            "yes"
+          ],
+          [
+            "hotel",
+            "parking",
+            "no"
+          ],
+          [
+            "hotel",
+            "stars",
+            "4"
+          ],
+          [
+            "profile",
+            "name",
+            "misty imbert"
+          ],
+          [
+            "restaurant",
+            "area",
+            "west"
+          ],
+          [
+            "restaurant",
+            "food",
+            "italian"
+          ],
+          [
+            "restaurant",
+            "pricerange",
+            "moderate"
+          ]
+        ],
+        "goal_book": [
+          [
+            "hotel",
+            "day",
+            "friday"
+          ],
+          [
+            "hotel",
+            "people",
+            "4"
+          ],
+          [
+            "hotel",
+            "stay",
+            "2"
+          ],
+          [
+            "restaurant",
+            "day",
+            "friday"
+          ],
+          [
+            "restaurant",
+            "people",
+            "4"
+          ],
+          [
+            "restaurant",
+            "time",
+            "12:15"
+          ]
+        ],
+        "goal_reqt": [],
+        "n_turns": 32
+      },
+      "signals": {
+        "constraint_supplied": true,
+        "constraint_preserved": [
+          {
+            "dom": "hotel",
+            "slot": "area",
+            "goal": "west",
+            "tracked": "west",
+            "ok": true
+          },
+          {
+            "dom": "hotel",
+            "slot": "internet",
+            "goal": "yes",
+            "tracked": "yes",
+            "ok": true
+          },
+          {
+            "dom": "hotel",
+            "slot": "parking",
+            "goal": "no",
+            "tracked": "no",
+            "ok": true
+          },
+          {
+            "dom": "hotel",
+            "slot": "stars",
+            "goal": "4",
+            "tracked": "4",
+            "ok": true
+          },
+          {
+            "dom": "profile",
+            "slot": "name",
+            "goal": "misty imbert",
+            "tracked": "misty imbert",
+            "ok": true
+          },
+          {
+            "dom": "restaurant",
+            "slot": "area",
+            "goal": "west",
+            "tracked": "west",
+            "ok": true
+          },
+          {
+            "dom": "restaurant",
+            "slot": "food",
+            "goal": "italian",
+            "tracked": "italian",
+            "ok": true
+          },
+          {
+            "dom": "restaurant",
+            "slot": "pricerange",
+            "goal": "moderate",
+            "tracked": "moderate",
+            "ok": true
+          }
+        ],
+        "constraint_preserved_frac": 1.0,
+        "reqt_supplied": "unknown",
+        "reqt_supplied_frac": "unknown",
+        "booking_required": true,
+        "booking_confirmed": true,
+        "terminal_resolution": true
+      }
+    },
+    {
+      "call_id": "swz_MUL0271",
+      "family": "spokenwoz",
+      "human_label": "success",
+      "keyword_verdict": "fail",
+      "keyword_detail": "7/12 fields, frac=0.58",
+      "grounded_verdict": "success",
+      "grounded_reason": "constraints preserved, requested info supplied, booking ok, clean close",
+      "grounded_raw_id": "MUL0271",
+      "evidence": {
+        "goal_info": [
+          [
+            "restaurant",
+            "area",
+            "centre"
+          ],
+          [
+            "restaurant",
+            "pricerange",
+            "cheap"
+          ],
+          [
+            "train",
+            "arriveBy",
+            "10:30"
+          ],
+          [
+            "train",
+            "day",
+            "thursday"
+          ],
+          [
+            "train",
+            "departure",
+            "cambridge"
+          ],
+          [
+            "train",
+            "destination",
+            "bishops stortford"
+          ]
+        ],
+        "goal_book": [],
+        "goal_reqt": [
+          [
+            "restaurant",
+            "phone"
+          ],
+          [
+            "restaurant",
+            "address"
+          ],
+          [
+            "restaurant",
+            "food"
+          ],
+          [
+            "train",
+            "price"
+          ],
+          [
+            "train",
+            "trainID"
+          ],
+          [
+            "train",
+            "duration"
+          ]
+        ],
+        "n_turns": 32
+      },
+      "signals": {
+        "constraint_supplied": true,
+        "constraint_preserved": [
+          {
+            "dom": "restaurant",
+            "slot": "area",
+            "goal": "centre",
+            "tracked": "centre",
+            "ok": true
+          },
+          {
+            "dom": "restaurant",
+            "slot": "pricerange",
+            "goal": "cheap",
+            "tracked": "cheap",
+            "ok": true
+          },
+          {
+            "dom": "train",
+            "slot": "arriveBy",
+            "goal": "10:30",
+            "tracked": "10:30",
+            "ok": true
+          },
+          {
+            "dom": "train",
+            "slot": "day",
+            "goal": "thursday",
+            "tracked": "thursday",
+            "ok": true
+          },
+          {
+            "dom": "train",
+            "slot": "departure",
+            "goal": "cambridge",
+            "tracked": "cambridge",
+            "ok": true
+          },
+          {
+            "dom": "train",
+            "slot": "destination",
+            "goal": "bishops stortford",
+            "tracked": "bishops stortford",
+            "ok": true
+          }
+        ],
+        "constraint_preserved_frac": 1.0,
+        "reqt_supplied": [
+          {
+            "dom": "restaurant",
+            "slot": "phone",
+            "informed": true
+          },
+          {
+            "dom": "restaurant",
+            "slot": "address",
+            "informed": true
+          },
+          {
+            "dom": "restaurant",
+            "slot": "food",
+            "informed": true
+          },
+          {
+            "dom": "train",
+            "slot": "price",
+            "informed": false
+          },
+          {
+            "dom": "train",
+            "slot": "trainID",
+            "informed": false
+          },
+          {
+            "dom": "train",
+            "slot": "duration",
+            "informed": true
+          }
+        ],
+        "reqt_supplied_frac": 0.667,
+        "booking_required": false,
+        "booking_confirmed": "unknown",
+        "terminal_resolution": true
+      }
+    }
+  ]
+}

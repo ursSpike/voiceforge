@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "outcome_evidence (ADDITIVE — investigation prototype, jun13_eval)",
+  "description": "An ADDITIVE, source-grounded evidence block proposed to sit ALONGSIDE the existing `outcome` field on a call_record. It NEVER replaces `outcome.task_completed`. Where the public source dataset (SpokenWOZ raw log / Code-Mixed-Dialog backend trace) provides ground truth, this block records inspectable per-signal evidence and a conservative roll-up verdict in {success, fail, unknown}. `unknown` is a first-class value: it is emitted whenever the source trace does not contain enough evidence to decide, and the probe NEVER guesses.",
+  "type": "object",
+  "required": ["call_id", "family", "groundable", "verdict", "verdict_reason", "signals"],
+  "properties": {
+    "call_id": {"type": "string"},
+    "family": {"type": "string", "enum": ["spokenwoz", "code_mixed_dialog", "non_public"]},
+    "groundable": {"type": "boolean", "description": "false for non_public families (frozen bolna/hero) — no source ground truth exists, verdict is forced to `unknown`."},
+    "source_ref": {"type": ["string", "null"], "description": "raw dialogue id / index used as the ground-truth pointer (e.g. SpokenWOZ MUL0035, or dialog#12)."},
+    "verdict": {"type": "string", "enum": ["success", "fail", "unknown"]},
+    "verdict_reason": {"type": "string"},
+    "signals": {
+      "type": "object",
+      "description": "Per-signal evidence. Each signal is the source-truth value, or the string \"unknown\" when not computable / not applicable. A non-applicable conditional signal (e.g. booking on a no-booking call) is \"unknown\", never a fabricated pass.",
+      "properties": {
+        "constraint_supplied": {"description": "swz: user declared >=1 info constraint in the goal."},
+        "constraint_preserved_frac": {"description": "swz: fraction of goal.info constraints present in the FINAL belief-state (semi/book)."},
+        "reqt_supplied_frac": {"description": "swz: fraction of goal.reqt slots the system informed via *-inform/*-recommend dialog acts."},
+        "booking_required": {"description": "swz: goal contains a book block."},
+        "booking_confirmed": {"description": "swz: booking-book act w/ payload, OR non-empty booked list, OR *-ack carrying committed book* slots; \"unknown\" when no booking required."},
+        "terminal_resolution": {"description": "swz: clean close (general-bye/thanks/welcome in tail)."},
+        "constraints_in_api_call_frac": {"description": "cmd: fraction of user-named facet VALUES (area/price/cuisine) that appear in some api_call query."},
+        "selected_entity": {"description": "cmd: the KB entity the agent actually voiced (delex token in a system turn); null if none."},
+        "kb_candidate_count": {"description": "cmd: number of distinct KB entities returned across all api_calls."},
+        "entity_voiced": {"description": "cmd: a returned KB entity was voiced in a system turn."},
+        "info_requests_frac": {"description": "cmd: fraction of user info requests (phone/address/postcode/price) the system voiced."},
+        "no_result_count": {"description": "cmd: count of `api_call no result` backend misses."},
+        "no_result_recovered": {"description": "cmd: an entity surfaced after a miss; \"unknown\" when no miss occurred."},
+        "agent_contradicts_backend": {"description": "cmd: a facet (area/price/cuisine) the agent voiced about the SELECTED entity conflicts with that entity's KB row. A true here is a hard fail."},
+        "contradiction_detail": {"type": "array"}
+      }
+    }
+  },
+  "rollup_rules": {
+    "note": "Conservative. A single hard grounding failure forces `fail`; success requires positive evidence on every applicable signal; otherwise `unknown`.",
+    "spokenwoz_fail_if": ["booking_required AND booking_confirmed==false", "reqt_supplied_frac==0", "constraint_preserved_frac<0.5"],
+    "spokenwoz_success_if": ["constraint_preserved_frac>=0.75 (or unknown)", "AND reqt_supplied_frac>=0.5 (or unknown)", "AND (no booking required OR booking_confirmed)", "AND terminal_resolution (or unknown)"],
+    "code_mixed_fail_if": ["agent_contradicts_backend==true", "no_result_count>0 AND no_result_recovered==false", "info_requests_frac==0", "constraints_in_api_call_frac<0.5"],
+    "code_mixed_success_if": ["selected_entity present", "AND entity_voiced (or unknown)", "AND info_requests_frac>=0.5 (or unknown)", "AND constraints_in_api_call_frac>=0.5 (or unknown)", "AND no_result_recovered (or unknown)"],
+    "else": "unknown"
+  }
+}

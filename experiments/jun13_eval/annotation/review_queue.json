@@ -1,0 +1,1715 @@
+{
+  "provenance": {
+    "generator": "experiments/jun13_eval/annotation/review_queue.py",
+    "deterministic": true,
+    "tie_break": "priority_score DESC, then call_id ASC (stable)",
+    "reason_weights": {
+      "R1_LOW_CONFIDENCE": 5,
+      "R1_MEDIUM_CONFIDENCE": 3,
+      "R2_JUDGE_DISAGREE": 4,
+      "R3_HEURISTIC_DISAGREE": 2,
+      "R4_HEAVY_NEGATIVE_TAGS": 2,
+      "R5_CONFLICTING_TAGS": 3,
+      "R6_UNSURE_LABEL": 4
+    },
+    "negative_phenotype_tags": [
+      "hard_to_understand",
+      "missing_or_wrong_information",
+      "misunderstood_user",
+      "poor_clarification_or_recovery",
+      "repeated_or_stuck",
+      "user_frustrated",
+      "workflow_or_tool_failed",
+      "wrong_language_or_tone"
+    ],
+    "positive_phenotype_tags": [
+      "adapted_language_well",
+      "completed_or_clear_next_step",
+      "easy_to_understand",
+      "handled_confusion_well",
+      "understood_user",
+      "user_satisfied"
+    ],
+    "inputs": {
+      "labels_spike_csv_sha256": "b3884f9ede7d753a18a5011801c25ddc930d1543e7858736ce4d08c328c25338",
+      "judge_results_json_sha256": "7b76ba489b10a1f7d4e3d72b0d2389059cf0b9d743da966a6b5adda70effbd66",
+      "calls_json_sha256": "444956c8b204ad521566db576c3eafa96f90c9df677d1f4cba9394a99938f39f"
+    },
+    "judge_run_meta": {
+      "model": "gemini-3.1-flash-lite",
+      "temperature": 0,
+      "rubric_hash": "c1cc81415e230e74",
+      "judge_prompt_hash": "079d57698a629192",
+      "binary_rule": "dedicated outcome judgment per call (temperature 0, JSON, evidence-cited); label in {success,fail}; same question the blind annotator answered. NOT derived from the 5 semantic dims; kappa calibrates THIS judgment only — the semantic dims remain uncalibrated diagnostics."
+    },
+    "honesty": "Annotation operations only. Priority score is a heuristic over difficulty-correlated signals; it is NOT model self-knowledge of uncertainty. True human confidence is observed only AFTER rater-2 annotates. Disagreement is preserved as signal (arXiv:2304.14803), never silently reconciled.",
+    "reason_descriptions": {
+      "R1_LOW_CONFIDENCE": "Human annotator marked confidence = low.",
+      "R1_MEDIUM_CONFIDENCE": "Human annotator marked confidence = medium.",
+      "R2_JUDGE_DISAGREE": "LLM-judge binary outcome disagrees with human binary outcome.",
+      "R3_HEURISTIC_DISAGREE": "Heuristic task_completed disagrees with human binary outcome.",
+      "R4_HEAVY_NEGATIVE_TAGS": "Two or more negative phenotype tags present.",
+      "R5_CONFLICTING_TAGS": "Both positive AND negative tags present (internally tense judgment).",
+      "R6_UNSURE_LABEL": "Human primary_label is non-decisive (e.g. 'unsure'); inherently needs a second read."
+    }
+  },
+  "summary": {
+    "n_calls": 46,
+    "n_flagged_for_review": 35,
+    "n_clean_no_signal": 11,
+    "by_confidence": {
+      "medium": 16,
+      "high": 30
+    },
+    "by_primary_label": {
+      "fail": 8,
+      "success": 37,
+      "unsure": 1
+    },
+    "reason_code_distribution": {
+      "R1_LOW_CONFIDENCE": 0,
+      "R1_MEDIUM_CONFIDENCE": 16,
+      "R2_JUDGE_DISAGREE": 13,
+      "R3_HEURISTIC_DISAGREE": 20,
+      "R4_HEAVY_NEGATIVE_TAGS": 15,
+      "R5_CONFLICTING_TAGS": 20,
+      "R6_UNSURE_LABEL": 1
+    },
+    "disagreement": {
+      "judge_vs_human": 13,
+      "heuristic_vs_human": 20,
+      "both_judge_and_heuristic": 7
+    },
+    "negative_phenotype_tag_load": {
+      "0": 26,
+      "1": 5,
+      "2": 3,
+      "3+": 12
+    },
+    "conflicting_pos_and_neg_tags": 20
+  },
+  "queue": [
+    {
+      "call_id": "cmd_hi_0001",
+      "priority_score": 14,
+      "reason_codes": [
+        "R1_MEDIUM_CONFIDENCE",
+        "R2_JUDGE_DISAGREE",
+        "R3_HEURISTIC_DISAGREE",
+        "R4_HEAVY_NEGATIVE_TAGS",
+        "R5_CONFLICTING_TAGS"
+      ],
+      "n_reasons": 5,
+      "human": {
+        "primary_label": "fail",
+        "human_binary": "fail",
+        "confidence": "medium",
+        "positive_tags": [
+          "understood_user"
+        ],
+        "negative_tags": [
+          "missing_or_wrong_information",
+          "repeated_or_stuck",
+          "poor_clarification_or_recovery"
+        ],
+        "context_tags": [
+          "mixed_languages",
+          "multi_step_request",
+          "user_unclear_or_hesitant"
+        ],
+        "n_negative_phenotype": 3,
+        "note": ""
+      },
+      "judge_binary": "success",
+      "heuristic_binary": "success",
+      "disagreement": {
+        "judge_vs_human": true,
+        "heuristic_vs_human": true
+      },
+      "rank": 1
+    },
+    {
+      "call_id": "cmd_hi_0024",
+      "priority_score": 14,
+      "reason_codes": [
+        "R1_MEDIUM_CONFIDENCE",
+        "R2_JUDGE_DISAGREE",
+        "R3_HEURISTIC_DISAGREE",
+        "R4_HEAVY_NEGATIVE_TAGS",
+        "R5_CONFLICTING_TAGS"
+      ],
+      "n_reasons": 5,
+      "human": {
+        "primary_label": "fail",
+        "human_binary": "fail",
+        "confidence": "medium",
+        "positive_tags": [
+          "adapted_language_well",
+          "understood_user"
+        ],
+        "negative_tags": [
+          "workflow_or_tool_failed",
+          "poor_clarification_or_recovery",
+          "misunderstood_user"
+        ],
+        "context_tags": [
+          "mixed_languages",
+          "multi_step_request"
+        ],
+        "n_negative_phenotype": 3,
+        "note": ""
+      },
+      "judge_binary": "success",
+      "heuristic_binary": "success",
+      "disagreement": {
+        "judge_vs_human": true,
+        "heuristic_vs_human": true
+      },
+      "rank": 2
+    },
+    {
+      "call_id": "swz_MUL0035",
+      "priority_score": 14,
+      "reason_codes": [
+        "R1_MEDIUM_CONFIDENCE",
+        "R2_JUDGE_DISAGREE",
+        "R3_HEURISTIC_DISAGREE",
+        "R4_HEAVY_NEGATIVE_TAGS",
+        "R5_CONFLICTING_TAGS"
+      ],
+      "n_reasons": 5,
+      "human": {
+        "primary_label": "success",
+        "human_binary": "success",
+        "confidence": "medium",
+        "positive_tags": [
+          "handled_confusion_well",
+          "adapted_language_well",
+          "completed_or_clear_next_step"
+        ],
+        "negative_tags": [
+          "wrong_language_or_tone",
+          "hard_to_understand",
+          "poor_clarification_or_recovery"
+        ],
+        "context_tags": [
+          "transcript_unclear",
+          "mixed_languages",
+          "multi_step_request"
+        ],
+        "n_negative_phenotype": 3,
+        "note": ""
+      },
+      "judge_binary": "fail",
+      "heuristic_binary": "fail",
+      "disagreement": {
+        "judge_vs_human": true,
+        "heuristic_vs_human": true
+      },
+      "rank": 3
+    },
+    {
+      "call_id": "cmd_hi_0013",
+      "priority_score": 12,
+      "reason_codes": [
+        "R1_MEDIUM_CONFIDENCE",
+        "R2_JUDGE_DISAGREE",
+        "R4_HEAVY_NEGATIVE_TAGS",
+        "R5_CONFLICTING_TAGS"
+      ],
+      "n_reasons": 4,
+      "human": {
+        "primary_label": "success",
+        "human_binary": "success",
+        "confidence": "medium",
+        "positive_tags": [
+          "user_satisfied",
+          "adapted_language_well"
+        ],
+        "negative_tags": [
+          "missing_or_wrong_information",
+          "workflow_or_tool_failed"
+        ],
+        "context_tags": [
+          "multi_step_request",
+          "mixed_languages"
+        ],
+        "n_negative_phenotype": 2,
+        "note": ""
+      },
+      "judge_binary": "fail",
+      "heuristic_binary": "success",
+      "disagreement": {
+        "judge_vs_human": true,
+        "heuristic_vs_human": false
+      },
+      "rank": 4
+    },
+    {
+      "call_id": "cmd_hi_0022",
+      "priority_score": 12,
+      "reason_codes": [
+        "R1_MEDIUM_CONFIDENCE",
+        "R2_JUDGE_DISAGREE",
+        "R4_HEAVY_NEGATIVE_TAGS",
+        "R5_CONFLICTING_TAGS"
+      ],
+      "n_reasons": 4,
+      "human": {
+        "primary_label": "fail",
+        "human_binary": "fail",
+        "confidence": "medium",
+        "positive_tags": [
+          "adapted_language_well"
+        ],
+        "negative_tags": [
+          "missing_or_wrong_information",
+          "workflow_or_tool_failed",
+          "repeated_or_stuck",
+          "misunderstood_user"
+        ],
+        "context_tags": [
+          "mixed_languages",
+          "multi_step_request"
+        ],
+        "n_negative_phenotype": 4,
+        "note": ""
+      },
+      "judge_binary": "success",
+      "heuristic_binary": "fail",
+      "disagreement": {
+        "judge_vs_human": true,
+        "heuristic_vs_human": false
+      },
+      "rank": 5
+    },
+    {
+      "call_id": "swz_MUL1560",
+      "priority_score": 12,
+      "reason_codes": [
+        "R1_MEDIUM_CONFIDENCE",
+        "R2_JUDGE_DISAGREE",
+        "R3_HEURISTIC_DISAGREE",
+        "R5_CONFLICTING_TAGS"
+      ],
+      "n_reasons": 4,
+      "human": {
+        "primary_label": "success",
+        "human_binary": "success",
+        "confidence": "medium",
+        "positive_tags": [
+          "handled_confusion_well",
+          "completed_or_clear_next_step",
+          "user_satisfied",
+          "understood_user"
+        ],
+        "negative_tags": [
+          "wrong_language_or_tone"
+        ],
+        "context_tags": [
+          "transcript_unclear",
+          "mixed_languages",
+          "multi_step_request"
+        ],
+        "n_negative_phenotype": 1,
+        "note": ""
+      },
+      "judge_binary": "fail",
+      "heuristic_binary": "fail",
+      "disagreement": {
+        "judge_vs_human": true,
+        "heuristic_vs_human": true
+      },
+      "rank": 6
+    },
+    {
+      "call_id": "cmd_hi_0000",
+      "priority_score": 10,
+      "reason_codes": [
+        "R1_MEDIUM_CONFIDENCE",
+        "R3_HEURISTIC_DISAGREE",
+        "R4_HEAVY_NEGATIVE_TAGS",
+        "R5_CONFLICTING_TAGS"
+      ],
+      "n_reasons": 4,
+      "human": {
+        "primary_label": "fail",
+        "human_binary": "fail",
+        "confidence": "medium",
+        "positive_tags": [
+          "completed_or_clear_next_step"
+        ],
+        "negative_tags": [
+          "missing_or_wrong_information",
+          "poor_clarification_or_recovery",
+          "workflow_or_tool_failed"
+        ],
+        "context_tags": [
+          "multi_step_request",
+          "mixed_languages"
+        ],
+        "n_negative_phenotype": 3,
+        "note": ""
+      },
+      "judge_binary": "fail",
+      "heuristic_binary": "success",
+      "disagreement": {
+        "judge_vs_human": false,
+        "heuristic_vs_human": true
+      },
+      "rank": 7
+    },
+    {
+      "call_id": "cmd_hi_0004",
+      "priority_score": 10,
+      "reason_codes": [
+        "R1_MEDIUM_CONFIDENCE",
+        "R3_HEURISTIC_DISAGREE",
+        "R4_HEAVY_NEGATIVE_TAGS",
+        "R5_CONFLICTING_TAGS"
+      ],
+      "n_reasons": 4,
+      "human": {
+        "primary_label": "fail",
+        "human_binary": "fail",
+        "confidence": "medium",
+        "positive_tags": [
+          "easy_to_understand",
+          "adapted_language_well"
+        ],
+        "negative_tags": [
+          "workflow_or_tool_failed",
+          "missing_or_wrong_information",
+          "misunderstood_user"
+        ],
+        "context_tags": [],
+        "n_negative_phenotype": 3,
+        "note": ""
+      },
+      "judge_binary": "fail",
+      "heuristic_binary": "success",
+      "disagreement": {
+        "judge_vs_human": false,
+        "heuristic_vs_human": true
+      },
+      "rank": 8
+    },
+    {
+      "call_id": "cmd_hi_0015",
+      "priority_score": 10,
+      "reason_codes": [
+        "R1_MEDIUM_CONFIDENCE",
+        "R3_HEURISTIC_DISAGREE",
+        "R4_HEAVY_NEGATIVE_TAGS",
+        "R5_CONFLICTING_TAGS"
+      ],
+      "n_reasons": 4,
+      "human": {
+        "primary_label": "fail",
+        "human_binary": "fail",
+        "confidence": "medium",
+        "positive_tags": [
+          "adapted_language_well",
+          "understood_user"
+        ],
+        "negative_tags": [
+          "missing_or_wrong_information",
+          "repeated_or_stuck",
+          "poor_clarification_or_recovery",
+          "hard_to_understand"
+        ],
+        "context_tags": [
+          "multi_step_request",
+          "mixed_languages"
+        ],
+        "n_negative_phenotype": 4,
+        "note": ""
+      },
+      "judge_binary": "fail",
+      "heuristic_binary": "success",
+      "disagreement": {
+        "judge_vs_human": false,
+        "heuristic_vs_human": true
+      },
+      "rank": 9
+    },
+    {
+      "call_id": "cmd_hi_0017",
+      "priority_score": 10,
+      "reason_codes": [
+        "R1_MEDIUM_CONFIDENCE",
+        "R3_HEURISTIC_DISAGREE",
+        "R4_HEAVY_NEGATIVE_TAGS",
+        "R5_CONFLICTING_TAGS"
+      ],
+      "n_reasons": 4,
+      "human": {
+        "primary_label": "success",
+        "human_binary": "success",
+        "confidence": "medium",
+        "positive_tags": [
+          "understood_user",
+          "adapted_language_well"
+        ],
+        "negative_tags": [
+          "repeated_or_stuck",
+          "workflow_or_tool_failed",
+          "poor_clarification_or_recovery",
+          "misunderstood_user"
+        ],
+        "context_tags": [
+          "user_unclear_or_hesitant",
+          "multi_step_request",
+          "mixed_languages"
+        ],
+        "n_negative_phenotype": 4,
+        "note": ""
+      },
+      "judge_binary": "success",
+      "heuristic_binary": "fail",
+      "disagreement": {
+        "judge_vs_human": false,
+        "heuristic_vs_human": true
+      },
+      "rank": 10
+    },
+    {
+      "call_id": "cmd_hi_0018",
+      "priority_score": 9,
+      "reason_codes": [
+        "R1_MEDIUM_CONFIDENCE",
+        "R2_JUDGE_DISAGREE",
+        "R3_HEURISTIC_DISAGREE"
+      ],
+      "n_reasons": 3,
+      "human": {
+        "primary_label": "fail",
+        "human_binary": "fail",
+        "confidence": "medium",
+        "positive_tags": [
+          "handled_confusion_well",
+          "adapted_language_well",
+          "understood_user",
+          "easy_to_understand",
+          "completed_or_clear_next_step"
+        ],
+        "negative_tags": [],
+        "context_tags": [
+          "user_unclear_or_hesitant",
+          "mixed_languages",
+          "multi_step_request"
+        ],
+        "n_negative_phenotype": 0,
+        "note": ""
+      },
+      "judge_binary": "success",
+      "heuristic_binary": "success",
+      "disagreement": {
+        "judge_vs_human": true,
+        "heuristic_vs_human": true
+      },
+      "rank": 11
+    },
+    {
+      "call_id": "cmd_hi_0020",
+      "priority_score": 8,
+      "reason_codes": [
+        "R1_MEDIUM_CONFIDENCE",
+        "R4_HEAVY_NEGATIVE_TAGS",
+        "R5_CONFLICTING_TAGS"
+      ],
+      "n_reasons": 3,
+      "human": {
+        "primary_label": "success",
+        "human_binary": "success",
+        "confidence": "medium",
+        "positive_tags": [
+          "adapted_language_well",
+          "handled_confusion_well",
+          "user_satisfied"
+        ],
+        "negative_tags": [
+          "missing_or_wrong_information",
+          "hard_to_understand"
+        ],
+        "context_tags": [
+          "multi_step_request",
+          "mixed_languages",
+          "user_unclear_or_hesitant"
+        ],
+        "n_negative_phenotype": 2,
+        "note": ""
+      },
+      "judge_binary": "success",
+      "heuristic_binary": "success",
+      "disagreement": {
+        "judge_vs_human": false,
+        "heuristic_vs_human": false
+      },
+      "rank": 12
+    },
+    {
+      "call_id": "cmd_hi_0028",
+      "priority_score": 8,
+      "reason_codes": [
+        "R1_MEDIUM_CONFIDENCE",
+        "R4_HEAVY_NEGATIVE_TAGS",
+        "R5_CONFLICTING_TAGS"
+      ],
+      "n_reasons": 3,
+      "human": {
+        "primary_label": "success",
+        "human_binary": "success",
+        "confidence": "medium",
+        "positive_tags": [
+          "user_satisfied",
+          "adapted_language_well"
+        ],
+        "negative_tags": [
+          "repeated_or_stuck",
+          "hard_to_understand",
+          "missing_or_wrong_information",
+          "poor_clarification_or_recovery"
+        ],
+        "context_tags": [
+          "transcript_unclear",
+          "mixed_languages",
+          "multi_step_request"
+        ],
+        "n_negative_phenotype": 4,
+        "note": ""
+      },
+      "judge_binary": "success",
+      "heuristic_binary": "success",
+      "disagreement": {
+        "judge_vs_human": false,
+        "heuristic_vs_human": false
+      },
+      "rank": 13
+    },
+    {
+      "call_id": "cmd_hi_0031",
+      "priority_score": 8,
+      "reason_codes": [
+        "R1_MEDIUM_CONFIDENCE",
+        "R4_HEAVY_NEGATIVE_TAGS",
+        "R5_CONFLICTING_TAGS"
+      ],
+      "n_reasons": 3,
+      "human": {
+        "primary_label": "success",
+        "human_binary": "success",
+        "confidence": "medium",
+        "positive_tags": [
+          "handled_confusion_well",
+          "user_satisfied",
+          "adapted_language_well",
+          "understood_user"
+        ],
+        "negative_tags": [
+          "missing_or_wrong_information",
+          "repeated_or_stuck",
+          "workflow_or_tool_failed"
+        ],
+        "context_tags": [
+          "multi_step_request",
+          "mixed_languages"
+        ],
+        "n_negative_phenotype": 3,
+        "note": ""
+      },
+      "judge_binary": "success",
+      "heuristic_binary": "success",
+      "disagreement": {
+        "judge_vs_human": false,
+        "heuristic_vs_human": false
+      },
+      "rank": 14
+    },
+    {
+      "call_id": "cmd_hi_0029",
+      "priority_score": 7,
+      "reason_codes": [
+        "R3_HEURISTIC_DISAGREE",
+        "R4_HEAVY_NEGATIVE_TAGS",
+        "R5_CONFLICTING_TAGS"
+      ],
+      "n_reasons": 3,
+      "human": {
+        "primary_label": "fail",
+        "human_binary": "fail",
+        "confidence": "high",
+        "positive_tags": [
+          "adapted_language_well"
+        ],
+        "negative_tags": [
+          "poor_clarification_or_recovery",
+          "workflow_or_tool_failed",
+          "misunderstood_user",
+          "repeated_or_stuck",
+          "missing_or_wrong_information",
+          "user_frustrated"
+        ],
+        "context_tags": [
+          "user_unclear_or_hesitant",
+          "multi_step_request",
+          "mixed_languages"
+        ],
+        "n_negative_phenotype": 6,
+        "note": ""
+      },
+      "judge_binary": "fail",
+      "heuristic_binary": "success",
+      "disagreement": {
+        "judge_vs_human": false,
+        "heuristic_vs_human": true
+      },
+      "rank": 15
+    },
+    {
+      "call_id": "swz_MUL0247",
+      "priority_score": 7,
+      "reason_codes": [
+        "R1_MEDIUM_CONFIDENCE",
+        "R2_JUDGE_DISAGREE"
+      ],
+      "n_reasons": 2,
+      "human": {
+        "primary_label": "success",
+        "human_binary": "success",
+        "confidence": "medium",
+        "positive_tags": [
+          "easy_to_understand",
+          "adapted_language_well",
+          "user_satisfied",
+          "understood_user",
+          "completed_or_clear_next_step"
+        ],
+        "negative_tags": [],
+        "context_tags": [
+          "transcript_unclear",
+          "mixed_languages",
+          "multi_step_request"
+        ],
+        "n_negative_phenotype": 0,
+        "note": ""
+      },
+      "judge_binary": "fail",
+      "heuristic_binary": "success",
+      "disagreement": {
+        "judge_vs_human": true,
+        "heuristic_vs_human": false
+      },
+      "rank": 16
+    },
+    {
+      "call_id": "swz_MUL0815",
+      "priority_score": 7,
+      "reason_codes": [
+        "R6_UNSURE_LABEL",
+        "R5_CONFLICTING_TAGS"
+      ],
+      "n_reasons": 2,
+      "human": {
+        "primary_label": "unsure",
+        "human_binary": null,
+        "confidence": "high",
+        "positive_tags": [
+          "handled_confusion_well",
+          "completed_or_clear_next_step"
+        ],
+        "negative_tags": [
+          "poor_clarification_or_recovery"
+        ],
+        "context_tags": [
+          "transcript_unclear",
+          "mixed_languages",
+          "multi_step_request"
+        ],
+        "n_negative_phenotype": 1,
+        "note": ""
+      },
+      "judge_binary": "success",
+      "heuristic_binary": "fail",
+      "disagreement": {
+        "judge_vs_human": false,
+        "heuristic_vs_human": false
+      },
+      "rank": 17
+    },
+    {
+      "call_id": "cmd_hi_0007",
+      "priority_score": 6,
+      "reason_codes": [
+        "R2_JUDGE_DISAGREE",
+        "R3_HEURISTIC_DISAGREE"
+      ],
+      "n_reasons": 2,
+      "human": {
+        "primary_label": "success",
+        "human_binary": "success",
+        "confidence": "high",
+        "positive_tags": [
+          "easy_to_understand",
+          "understood_user",
+          "user_satisfied",
+          "completed_or_clear_next_step",
+          "adapted_language_well"
+        ],
+        "negative_tags": [],
+        "context_tags": [
+          "mixed_languages",
+          "multi_step_request"
+        ],
+        "n_negative_phenotype": 0,
+        "note": ""
+      },
+      "judge_binary": "fail",
+      "heuristic_binary": "fail",
+      "disagreement": {
+        "judge_vs_human": true,
+        "heuristic_vs_human": true
+      },
+      "rank": 18
+    },
+    {
+      "call_id": "cmd_hi_0030",
+      "priority_score": 6,
+      "reason_codes": [
+        "R1_MEDIUM_CONFIDENCE",
+        "R5_CONFLICTING_TAGS"
+      ],
+      "n_reasons": 2,
+      "human": {
+        "primary_label": "success",
+        "human_binary": "success",
+        "confidence": "medium",
+        "positive_tags": [
+          "understood_user",
+          "adapted_language_well"
+        ],
+        "negative_tags": [
+          "poor_clarification_or_recovery"
+        ],
+        "context_tags": [
+          "transcript_unclear",
+          "user_unclear_or_hesitant"
+        ],
+        "n_negative_phenotype": 1,
+        "note": ""
+      },
+      "judge_binary": "success",
+      "heuristic_binary": "success",
+      "disagreement": {
+        "judge_vs_human": false,
+        "heuristic_vs_human": false
+      },
+      "rank": 19
+    },
+    {
+      "call_id": "swz_MUL2483",
+      "priority_score": 6,
+      "reason_codes": [
+        "R2_JUDGE_DISAGREE",
+        "R3_HEURISTIC_DISAGREE"
+      ],
+      "n_reasons": 2,
+      "human": {
+        "primary_label": "success",
+        "human_binary": "success",
+        "confidence": "high",
+        "positive_tags": [
+          "understood_user",
+          "handled_confusion_well",
+          "adapted_language_well",
+          "user_satisfied"
+        ],
+        "negative_tags": [],
+        "context_tags": [
+          "user_unclear_or_hesitant",
+          "mixed_languages",
+          "multi_step_request"
+        ],
+        "n_negative_phenotype": 0,
+        "note": ""
+      },
+      "judge_binary": "fail",
+      "heuristic_binary": "fail",
+      "disagreement": {
+        "judge_vs_human": true,
+        "heuristic_vs_human": true
+      },
+      "rank": 20
+    },
+    {
+      "call_id": "cmd_hi_0011",
+      "priority_score": 5,
+      "reason_codes": [
+        "R4_HEAVY_NEGATIVE_TAGS",
+        "R5_CONFLICTING_TAGS"
+      ],
+      "n_reasons": 2,
+      "human": {
+        "primary_label": "success",
+        "human_binary": "success",
+        "confidence": "high",
+        "positive_tags": [
+          "understood_user",
+          "handled_confusion_well",
+          "user_satisfied"
+        ],
+        "negative_tags": [
+          "workflow_or_tool_failed",
+          "misunderstood_user",
+          "poor_clarification_or_recovery"
+        ],
+        "context_tags": [
+          "mixed_languages",
+          "multi_step_request"
+        ],
+        "n_negative_phenotype": 3,
+        "note": ""
+      },
+      "judge_binary": "success",
+      "heuristic_binary": "success",
+      "disagreement": {
+        "judge_vs_human": false,
+        "heuristic_vs_human": false
+      },
+      "rank": 21
+    },
+    {
+      "call_id": "cmd_hi_0016",
+      "priority_score": 5,
+      "reason_codes": [
+        "R4_HEAVY_NEGATIVE_TAGS",
+        "R5_CONFLICTING_TAGS"
+      ],
+      "n_reasons": 2,
+      "human": {
+        "primary_label": "success",
+        "human_binary": "success",
+        "confidence": "high",
+        "positive_tags": [
+          "understood_user",
+          "handled_confusion_well",
+          "user_satisfied",
+          "easy_to_understand"
+        ],
+        "negative_tags": [
+          "repeated_or_stuck",
+          "workflow_or_tool_failed"
+        ],
+        "context_tags": [
+          "mixed_languages",
+          "multi_step_request"
+        ],
+        "n_negative_phenotype": 2,
+        "note": ""
+      },
+      "judge_binary": "success",
+      "heuristic_binary": "success",
+      "disagreement": {
+        "judge_vs_human": false,
+        "heuristic_vs_human": false
+      },
+      "rank": 22
+    },
+    {
+      "call_id": "cmd_hi_0006",
+      "priority_score": 4,
+      "reason_codes": [
+        "R2_JUDGE_DISAGREE"
+      ],
+      "n_reasons": 1,
+      "human": {
+        "primary_label": "success",
+        "human_binary": "success",
+        "confidence": "high",
+        "positive_tags": [
+          "easy_to_understand",
+          "understood_user",
+          "user_satisfied",
+          "completed_or_clear_next_step",
+          "adapted_language_well"
+        ],
+        "negative_tags": [],
+        "context_tags": [
+          "mixed_languages",
+          "multi_step_request"
+        ],
+        "n_negative_phenotype": 0,
+        "note": ""
+      },
+      "judge_binary": "fail",
+      "heuristic_binary": "success",
+      "disagreement": {
+        "judge_vs_human": true,
+        "heuristic_vs_human": false
+      },
+      "rank": 23
+    },
+    {
+      "call_id": "cmd_hi_0009",
+      "priority_score": 4,
+      "reason_codes": [
+        "R2_JUDGE_DISAGREE"
+      ],
+      "n_reasons": 1,
+      "human": {
+        "primary_label": "success",
+        "human_binary": "success",
+        "confidence": "high",
+        "positive_tags": [
+          "easy_to_understand",
+          "user_satisfied",
+          "completed_or_clear_next_step",
+          "understood_user",
+          "adapted_language_well"
+        ],
+        "negative_tags": [],
+        "context_tags": [
+          "mixed_languages",
+          "multi_step_request"
+        ],
+        "n_negative_phenotype": 0,
+        "note": ""
+      },
+      "judge_binary": "fail",
+      "heuristic_binary": "success",
+      "disagreement": {
+        "judge_vs_human": true,
+        "heuristic_vs_human": false
+      },
+      "rank": 24
+    },
+    {
+      "call_id": "cmd_hi_0014",
+      "priority_score": 4,
+      "reason_codes": [
+        "R2_JUDGE_DISAGREE"
+      ],
+      "n_reasons": 1,
+      "human": {
+        "primary_label": "success",
+        "human_binary": "success",
+        "confidence": "high",
+        "positive_tags": [
+          "easy_to_understand",
+          "user_satisfied",
+          "understood_user",
+          "handled_confusion_well",
+          "completed_or_clear_next_step"
+        ],
+        "negative_tags": [],
+        "context_tags": [
+          "mixed_languages",
+          "multi_step_request",
+          "user_unclear_or_hesitant"
+        ],
+        "n_negative_phenotype": 0,
+        "note": ""
+      },
+      "judge_binary": "fail",
+      "heuristic_binary": "success",
+      "disagreement": {
+        "judge_vs_human": true,
+        "heuristic_vs_human": false
+      },
+      "rank": 25
+    },
+    {
+      "call_id": "bolna_246cd9f3",
+      "priority_score": 3,
+      "reason_codes": [
+        "R5_CONFLICTING_TAGS"
+      ],
+      "n_reasons": 1,
+      "human": {
+        "primary_label": "success",
+        "human_binary": "success",
+        "confidence": "high",
+        "positive_tags": [
+          "handled_confusion_well",
+          "user_satisfied",
+          "understood_user",
+          "completed_or_clear_next_step"
+        ],
+        "negative_tags": [
+          "wrong_language_or_tone"
+        ],
+        "context_tags": [
+          "mixed_languages"
+        ],
+        "n_negative_phenotype": 1,
+        "note": ""
+      },
+      "judge_binary": "success",
+      "heuristic_binary": "success",
+      "disagreement": {
+        "judge_vs_human": false,
+        "heuristic_vs_human": false
+      },
+      "rank": 26
+    },
+    {
+      "call_id": "hero_001",
+      "priority_score": 3,
+      "reason_codes": [
+        "R5_CONFLICTING_TAGS"
+      ],
+      "n_reasons": 1,
+      "human": {
+        "primary_label": "success",
+        "human_binary": "success",
+        "confidence": "high",
+        "positive_tags": [
+          "understood_user",
+          "completed_or_clear_next_step",
+          "user_satisfied"
+        ],
+        "negative_tags": [
+          "wrong_language_or_tone"
+        ],
+        "context_tags": [
+          "mixed_languages"
+        ],
+        "n_negative_phenotype": 1,
+        "note": ""
+      },
+      "judge_binary": "success",
+      "heuristic_binary": "success",
+      "disagreement": {
+        "judge_vs_human": false,
+        "heuristic_vs_human": false
+      },
+      "rank": 27
+    },
+    {
+      "call_id": "cmd_hi_0019",
+      "priority_score": 2,
+      "reason_codes": [
+        "R3_HEURISTIC_DISAGREE"
+      ],
+      "n_reasons": 1,
+      "human": {
+        "primary_label": "success",
+        "human_binary": "success",
+        "confidence": "high",
+        "positive_tags": [
+          "easy_to_understand",
+          "understood_user",
+          "adapted_language_well",
+          "user_satisfied",
+          "completed_or_clear_next_step"
+        ],
+        "negative_tags": [],
+        "context_tags": [
+          "mixed_languages",
+          "multi_step_request"
+        ],
+        "n_negative_phenotype": 0,
+        "note": ""
+      },
+      "judge_binary": "success",
+      "heuristic_binary": "fail",
+      "disagreement": {
+        "judge_vs_human": false,
+        "heuristic_vs_human": true
+      },
+      "rank": 28
+    },
+    {
+      "call_id": "swz_MUL0211",
+      "priority_score": 2,
+      "reason_codes": [
+        "R3_HEURISTIC_DISAGREE"
+      ],
+      "n_reasons": 1,
+      "human": {
+        "primary_label": "success",
+        "human_binary": "success",
+        "confidence": "high",
+        "positive_tags": [
+          "understood_user",
+          "easy_to_understand",
+          "user_satisfied",
+          "adapted_language_well",
+          "completed_or_clear_next_step",
+          "handled_confusion_well"
+        ],
+        "negative_tags": [],
+        "context_tags": [
+          "mixed_languages",
+          "multi_step_request"
+        ],
+        "n_negative_phenotype": 0,
+        "note": ""
+      },
+      "judge_binary": "success",
+      "heuristic_binary": "fail",
+      "disagreement": {
+        "judge_vs_human": false,
+        "heuristic_vs_human": true
+      },
+      "rank": 29
+    },
+    {
+      "call_id": "swz_MUL0271",
+      "priority_score": 2,
+      "reason_codes": [
+        "R3_HEURISTIC_DISAGREE"
+      ],
+      "n_reasons": 1,
+      "human": {
+        "primary_label": "success",
+        "human_binary": "success",
+        "confidence": "high",
+        "positive_tags": [
+          "user_satisfied",
+          "completed_or_clear_next_step",
+          "understood_user",
+          "handled_confusion_well",
+          "adapted_language_well",
+          "easy_to_understand"
+        ],
+        "negative_tags": [],
+        "context_tags": [
+          "multi_step_request"
+        ],
+        "n_negative_phenotype": 0,
+        "note": ""
+      },
+      "judge_binary": "success",
+      "heuristic_binary": "fail",
+      "disagreement": {
+        "judge_vs_human": false,
+        "heuristic_vs_human": true
+      },
+      "rank": 30
+    },
+    {
+      "call_id": "swz_MUL0280",
+      "priority_score": 2,
+      "reason_codes": [
+        "R3_HEURISTIC_DISAGREE"
+      ],
+      "n_reasons": 1,
+      "human": {
+        "primary_label": "success",
+        "human_binary": "success",
+        "confidence": "high",
+        "positive_tags": [
+          "handled_confusion_well",
+          "adapted_language_well",
+          "completed_or_clear_next_step",
+          "user_satisfied",
+          "understood_user"
+        ],
+        "negative_tags": [],
+        "context_tags": [
+          "multi_step_request",
+          "transcript_unclear"
+        ],
+        "n_negative_phenotype": 0,
+        "note": ""
+      },
+      "judge_binary": "success",
+      "heuristic_binary": "fail",
+      "disagreement": {
+        "judge_vs_human": false,
+        "heuristic_vs_human": true
+      },
+      "rank": 31
+    },
+    {
+      "call_id": "swz_MUL1004",
+      "priority_score": 2,
+      "reason_codes": [
+        "R3_HEURISTIC_DISAGREE"
+      ],
+      "n_reasons": 1,
+      "human": {
+        "primary_label": "success",
+        "human_binary": "success",
+        "confidence": "high",
+        "positive_tags": [
+          "handled_confusion_well",
+          "understood_user",
+          "completed_or_clear_next_step",
+          "user_satisfied"
+        ],
+        "negative_tags": [],
+        "context_tags": [
+          "multi_step_request"
+        ],
+        "n_negative_phenotype": 0,
+        "note": ""
+      },
+      "judge_binary": "success",
+      "heuristic_binary": "fail",
+      "disagreement": {
+        "judge_vs_human": false,
+        "heuristic_vs_human": true
+      },
+      "rank": 32
+    },
+    {
+      "call_id": "swz_MUL1552",
+      "priority_score": 2,
+      "reason_codes": [
+        "R3_HEURISTIC_DISAGREE"
+      ],
+      "n_reasons": 1,
+      "human": {
+        "primary_label": "success",
+        "human_binary": "success",
+        "confidence": "high",
+        "positive_tags": [
+          "understood_user",
+          "handled_confusion_well",
+          "user_satisfied",
+          "adapted_language_well",
+          "completed_or_clear_next_step"
+        ],
+        "negative_tags": [],
+        "context_tags": [
+          "mixed_languages",
+          "multi_step_request"
+        ],
+        "n_negative_phenotype": 0,
+        "note": ""
+      },
+      "judge_binary": "success",
+      "heuristic_binary": "fail",
+      "disagreement": {
+        "judge_vs_human": false,
+        "heuristic_vs_human": true
+      },
+      "rank": 33
+    },
+    {
+      "call_id": "swz_MUL1685",
+      "priority_score": 2,
+      "reason_codes": [
+        "R3_HEURISTIC_DISAGREE"
+      ],
+      "n_reasons": 1,
+      "human": {
+        "primary_label": "success",
+        "human_binary": "success",
+        "confidence": "high",
+        "positive_tags": [
+          "easy_to_understand",
+          "completed_or_clear_next_step",
+          "user_satisfied",
+          "understood_user",
+          "handled_confusion_well",
+          "adapted_language_well"
+        ],
+        "negative_tags": [],
+        "context_tags": [
+          "multi_step_request",
+          "mixed_languages"
+        ],
+        "n_negative_phenotype": 0,
+        "note": ""
+      },
+      "judge_binary": "success",
+      "heuristic_binary": "fail",
+      "disagreement": {
+        "judge_vs_human": false,
+        "heuristic_vs_human": true
+      },
+      "rank": 34
+    },
+    {
+      "call_id": "swz_MUL2658",
+      "priority_score": 2,
+      "reason_codes": [
+        "R3_HEURISTIC_DISAGREE"
+      ],
+      "n_reasons": 1,
+      "human": {
+        "primary_label": "success",
+        "human_binary": "success",
+        "confidence": "high",
+        "positive_tags": [
+          "easy_to_understand",
+          "completed_or_clear_next_step",
+          "user_satisfied",
+          "handled_confusion_well",
+          "adapted_language_well",
+          "understood_user"
+        ],
+        "negative_tags": [],
+        "context_tags": [
+          "multi_step_request",
+          "mixed_languages"
+        ],
+        "n_negative_phenotype": 0,
+        "note": ""
+      },
+      "judge_binary": "success",
+      "heuristic_binary": "fail",
+      "disagreement": {
+        "judge_vs_human": false,
+        "heuristic_vs_human": true
+      },
+      "rank": 35
+    },
+    {
+      "call_id": "cmd_hi_0002",
+      "priority_score": 0,
+      "reason_codes": [],
+      "n_reasons": 0,
+      "human": {
+        "primary_label": "success",
+        "human_binary": "success",
+        "confidence": "high",
+        "positive_tags": [
+          "adapted_language_well",
+          "user_satisfied",
+          "handled_confusion_well",
+          "understood_user",
+          "completed_or_clear_next_step"
+        ],
+        "negative_tags": [],
+        "context_tags": [
+          "mixed_languages",
+          "multi_step_request"
+        ],
+        "n_negative_phenotype": 0,
+        "note": ""
+      },
+      "judge_binary": "success",
+      "heuristic_binary": "success",
+      "disagreement": {
+        "judge_vs_human": false,
+        "heuristic_vs_human": false
+      },
+      "rank": 36
+    },
+    {
+      "call_id": "cmd_hi_0003",
+      "priority_score": 0,
+      "reason_codes": [],
+      "n_reasons": 0,
+      "human": {
+        "primary_label": "success",
+        "human_binary": "success",
+        "confidence": "high",
+        "positive_tags": [
+          "understood_user",
+          "adapted_language_well",
+          "easy_to_understand",
+          "user_satisfied",
+          "completed_or_clear_next_step"
+        ],
+        "negative_tags": [],
+        "context_tags": [
+          "mixed_languages",
+          "multi_step_request"
+        ],
+        "n_negative_phenotype": 0,
+        "note": ""
+      },
+      "judge_binary": "success",
+      "heuristic_binary": "success",
+      "disagreement": {
+        "judge_vs_human": false,
+        "heuristic_vs_human": false
+      },
+      "rank": 37
+    },
+    {
+      "call_id": "cmd_hi_0005",
+      "priority_score": 0,
+      "reason_codes": [],
+      "n_reasons": 0,
+      "human": {
+        "primary_label": "success",
+        "human_binary": "success",
+        "confidence": "high",
+        "positive_tags": [
+          "easy_to_understand",
+          "user_satisfied",
+          "understood_user",
+          "completed_or_clear_next_step",
+          "adapted_language_well"
+        ],
+        "negative_tags": [],
+        "context_tags": [
+          "mixed_languages",
+          "multi_step_request"
+        ],
+        "n_negative_phenotype": 0,
+        "note": ""
+      },
+      "judge_binary": "success",
+      "heuristic_binary": "success",
+      "disagreement": {
+        "judge_vs_human": false,
+        "heuristic_vs_human": false
+      },
+      "rank": 38
+    },
+    {
+      "call_id": "cmd_hi_0008",
+      "priority_score": 0,
+      "reason_codes": [],
+      "n_reasons": 0,
+      "human": {
+        "primary_label": "success",
+        "human_binary": "success",
+        "confidence": "high",
+        "positive_tags": [
+          "understood_user",
+          "user_satisfied",
+          "easy_to_understand",
+          "adapted_language_well",
+          "completed_or_clear_next_step"
+        ],
+        "negative_tags": [],
+        "context_tags": [
+          "multi_step_request",
+          "mixed_languages"
+        ],
+        "n_negative_phenotype": 0,
+        "note": ""
+      },
+      "judge_binary": "success",
+      "heuristic_binary": "success",
+      "disagreement": {
+        "judge_vs_human": false,
+        "heuristic_vs_human": false
+      },
+      "rank": 39
+    },
+    {
+      "call_id": "cmd_hi_0010",
+      "priority_score": 0,
+      "reason_codes": [],
+      "n_reasons": 0,
+      "human": {
+        "primary_label": "success",
+        "human_binary": "success",
+        "confidence": "high",
+        "positive_tags": [
+          "easy_to_understand",
+          "understood_user",
+          "user_satisfied",
+          "adapted_language_well",
+          "completed_or_clear_next_step"
+        ],
+        "negative_tags": [],
+        "context_tags": [
+          "mixed_languages",
+          "multi_step_request"
+        ],
+        "n_negative_phenotype": 0,
+        "note": ""
+      },
+      "judge_binary": "success",
+      "heuristic_binary": "success",
+      "disagreement": {
+        "judge_vs_human": false,
+        "heuristic_vs_human": false
+      },
+      "rank": 40
+    },
+    {
+      "call_id": "cmd_hi_0012",
+      "priority_score": 0,
+      "reason_codes": [],
+      "n_reasons": 0,
+      "human": {
+        "primary_label": "success",
+        "human_binary": "success",
+        "confidence": "high",
+        "positive_tags": [
+          "easy_to_understand",
+          "understood_user",
+          "adapted_language_well",
+          "user_satisfied",
+          "completed_or_clear_next_step"
+        ],
+        "negative_tags": [],
+        "context_tags": [
+          "mixed_languages",
+          "multi_step_request"
+        ],
+        "n_negative_phenotype": 0,
+        "note": ""
+      },
+      "judge_binary": "success",
+      "heuristic_binary": "success",
+      "disagreement": {
+        "judge_vs_human": false,
+        "heuristic_vs_human": false
+      },
+      "rank": 41
+    },
+    {
+      "call_id": "cmd_hi_0025",
+      "priority_score": 0,
+      "reason_codes": [],
+      "n_reasons": 0,
+      "human": {
+        "primary_label": "success",
+        "human_binary": "success",
+        "confidence": "high",
+        "positive_tags": [
+          "easy_to_understand",
+          "understood_user",
+          "adapted_language_well",
+          "user_satisfied",
+          "completed_or_clear_next_step",
+          "handled_confusion_well"
+        ],
+        "negative_tags": [],
+        "context_tags": [
+          "mixed_languages",
+          "multi_step_request"
+        ],
+        "n_negative_phenotype": 0,
+        "note": ""
+      },
+      "judge_binary": "success",
+      "heuristic_binary": "success",
+      "disagreement": {
+        "judge_vs_human": false,
+        "heuristic_vs_human": false
+      },
+      "rank": 42
+    },
+    {
+      "call_id": "cmd_hi_0026",
+      "priority_score": 0,
+      "reason_codes": [],
+      "n_reasons": 0,
+      "human": {
+        "primary_label": "success",
+        "human_binary": "success",
+        "confidence": "high",
+        "positive_tags": [
+          "easy_to_understand",
+          "understood_user",
+          "completed_or_clear_next_step",
+          "user_satisfied",
+          "handled_confusion_well",
+          "adapted_language_well"
+        ],
+        "negative_tags": [],
+        "context_tags": [
+          "multi_step_request",
+          "mixed_languages"
+        ],
+        "n_negative_phenotype": 0,
+        "note": ""
+      },
+      "judge_binary": "success",
+      "heuristic_binary": "success",
+      "disagreement": {
+        "judge_vs_human": false,
+        "heuristic_vs_human": false
+      },
+      "rank": 43
+    },
+    {
+      "call_id": "cmd_hi_0027",
+      "priority_score": 0,
+      "reason_codes": [],
+      "n_reasons": 0,
+      "human": {
+        "primary_label": "success",
+        "human_binary": "success",
+        "confidence": "high",
+        "positive_tags": [
+          "easy_to_understand",
+          "completed_or_clear_next_step",
+          "user_satisfied",
+          "understood_user",
+          "adapted_language_well"
+        ],
+        "negative_tags": [],
+        "context_tags": [
+          "multi_step_request",
+          "mixed_languages"
+        ],
+        "n_negative_phenotype": 0,
+        "note": ""
+      },
+      "judge_binary": "success",
+      "heuristic_binary": "success",
+      "disagreement": {
+        "judge_vs_human": false,
+        "heuristic_vs_human": false
+      },
+      "rank": 44
+    },
+    {
+      "call_id": "swz_MUL0069",
+      "priority_score": 0,
+      "reason_codes": [],
+      "n_reasons": 0,
+      "human": {
+        "primary_label": "success",
+        "human_binary": "success",
+        "confidence": "high",
+        "positive_tags": [
+          "completed_or_clear_next_step",
+          "adapted_language_well",
+          "user_satisfied",
+          "understood_user",
+          "handled_confusion_well"
+        ],
+        "negative_tags": [],
+        "context_tags": [
+          "multi_step_request",
+          "mixed_languages"
+        ],
+        "n_negative_phenotype": 0,
+        "note": ""
+      },
+      "judge_binary": "success",
+      "heuristic_binary": "success",
+      "disagreement": {
+        "judge_vs_human": false,
+        "heuristic_vs_human": false
+      },
+      "rank": 45
+    },
+    {
+      "call_id": "swz_MUL0239",
+      "priority_score": 0,
+      "reason_codes": [],
+      "n_reasons": 0,
+      "human": {
+        "primary_label": "success",
+        "human_binary": "success",
+        "confidence": "high",
+        "positive_tags": [
+          "understood_user",
+          "handled_confusion_well",
+          "user_satisfied",
+          "completed_or_clear_next_step"
+        ],
+        "negative_tags": [],
+        "context_tags": [
+          "transcript_unclear",
+          "multi_step_request"
+        ],
+        "n_negative_phenotype": 0,
+        "note": ""
+      },
+      "judge_binary": "success",
+      "heuristic_binary": "success",
+      "disagreement": {
+        "judge_vs_human": false,
+        "heuristic_vs_human": false
+      },
+      "rank": 46
+    }
+  ]
+}

@@ -899,3 +899,21 @@ into demo_report.md/html (§1b + §4), so the static fallback carries the signat
 banner = HISTORICAL not operational; data/.judge_cache/* gitignored (dirty tree 357→~16). demo_report selftest 15/15.
 Frozen artifacts untouched (CSV b3884f9e, judge_results 7b76ba48, proof intact). REMAINING (Phase H): screenshots +
 /shot fallback recording (Spike) + fill demo_script ⟨slots⟩ from out/dashboard.html numbers.
+
+## EVAL-RESEARCH FIRST WAVE (Jun 13) — 5 isolated agents, coordinator-audited, NO integration
+Audit-master plan (CLAUDE_EVAL_BACKGROUND_AGENTS.md + docs/engineering_research_plan_jun13.md). I coordinated 5 background
+agents, each sandboxed to experiments/jun13_eval/<name>/ or reports/research_jun13/. **Protected artifacts BYTE-IDENTICAL
+before/after** (re-hash diff clean: CSV b3884f9e, judge 7b76ba48, calls 444956c8, demo_report_data f0372f03, dashboard
+f29f3ea6, rubric c1cc8141, normalized 7e76dd04). No API/packages/downloads/commits by agents.
+**Findings (ranked, all reproduced/cross-checked):** (1) grounded-outcome probe agrees w/ human 33/41=80.5% vs keyword
+25/45=55.6% (~25pt lift; catches hallucination cmd_hi_0007, wrong-area cmd_hi_0025, unclosed bookings) — INVESTIGATION, additive
+contract, not a drop-in. (2) TRUTH CORRECTION: "code-switched least reliable" is a base-rate fallacy — hi-en 71.0%≈en 69.2%;
+real slice = human confidence 82.8% vs 50% (post-annotation → review queue not router); CALL LENGTH is the inference-time
+routing candidate (50%→88%). (3) balanced accuracy 0.628 / Youden's J 0.257 / failure recall 0.500 / precision 0.308 / MCC
+0.217 beside κ 0.206 — fully executable on frozen artifacts. (4) timing thresholds robust to one-notch moves (Jaccard≥0.79),
+robustness-not-correctness (no human fails in timed slice). (5) 35/46 second-rater review queue + LeWiDi rater2 schema +
+selective-judge spec. All 6 primary papers verified. **Cross-agent consistency:** κ 0.206, 13 judge-disagreements, 20
+heuristic-disagreements, 107/183 timing — all agree across independent agents. Tests: reliability 8/8, timing 8/8.
+**RECOMMENDED INTEGRATION (ONE, NOT applied):** patch pipeline/demo_report.py — fix the false code-switch caption + add
+balanced-accuracy/Youden/failure-recall beside κ; regenerate demo_report + dashboard ONLY after Codex audit (they're frozen
+this wave). reports/research_jun13/STATUS_REPORT.md has the exact next command. STOP for Codex audit.
