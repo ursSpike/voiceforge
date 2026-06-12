@@ -644,3 +644,15 @@ Failure clusters (events vs archetypes + by-profile incl n/a cost), Improvement 
 prevents anchoring on heuristic outcomes mid-labeling; queue shows only already-labeled calls by construction.
 Verified in browser: gate notice, 6 cards, clusters/profile tables, kappa pending, 0 console errors. Regenerate after
 labels+judge → full drill-down.
+
+## DESIGN SKIN INTEGRATED (Jun 12 ~21:05) — Claude-design CSS via Spike's credits
+Spike fetched the skin (prompt I authored) → voiceforge-skin.css (444 lines: oklch palette, tabular-nums, loud amber
+honesty banner w/ ! badge, track-style bars, ink sidebar w/ inset emerald active state, 13" breakpoint, reduced-motion).
+**Audited against the DOM contract before install — 5 gaps found + fixed in a clearly-marked COMPATIBILITY LAYER**
+appended to web/dashboard_skin.css: .split missing (two-col layouts would collapse) · .bar styled for 2 children but
+markup has 3 (count <b> would wrap) → 3-col grid + track offset · .msg styled as flex ROW (speaker label would sit
+beside bubble) → column + .who style · .tag unstyled (dark-on-dark in sidebar) · cursor/spacing details (.row, .crumb,
+.search, .kv, .dim alignment). Regenerated via the drop-in mechanism (dashboard.py untouched).
+**Browser-verified at 1280×800:** overview cards/banner/bars render, clusters 4 bars + 2-col split, queue 2 styled recs,
+calls still gated (blindness guard), bar counts visible, tag readable, 0 console errors. Root voiceforge-skin.css kept
+as the unmodified fetched artifact (provenance); web/dashboard_skin.css = integrated version.
