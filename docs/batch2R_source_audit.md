@@ -1,6 +1,7 @@
 # Batch 2R · Phase A — Source audit (calibration-slice repair)
 
-**Status:** AUDIT ONLY — no ingest, no normalization, no schema change, no booth restart. Awaiting Codex ruling.
+**Status:** Source audit + **nullable-timing contract (built + tested)**. NO ingest, NO new normalized calls, NO booth restart,
+labels frozen. Ruling = **Option A**. Existing 46 outputs byte-identical. Awaiting Codex re-audit before any ingest.
 **Why this batch:** the current label pool is 44 monolingual-English SpokenWOZ calls (turn median ≈36, max 60) —
 long to label and mismatched with VoiceForge's multilingual thesis. Goal: a 40-call slice of SHORT, multilingual,
 goal-oriented calls.
@@ -12,42 +13,68 @@ goal-oriented calls.
 
 ## Candidate table (verified from primary sources)
 
-| source | language | license | dialogues | turn-length (real turns) | task-oriented | real/translated/synthetic | verdict |
+**Turn-counting note (corrected per Codex):** VoiceForge counts **each speaker utterance as a turn**. My Phase-A
+first pass counted user↔system *exchanges* (median 8) — an undercount of ~2×. Corrected utterance-based distribution
+below. Selection filters on the **ingest adapter's exact per-utterance turn count ≤20**.
+
+| source | language | license | dialogues | turn-length (**utterance turns**) | task-oriented | real/translated/synthetic | verdict |
 |---|---|---|---|---|---|---|---|
-| **Code-Mixed-Dialog** (sumanbanerjee1) @ `9df1d4dc` | **Hindi-English** (romanized Hinglish) | **Apache-2.0** (repo LICENSE) | dev 500 (train/test larger; DSTC2 splits) | **median 8 · p90 11 · max 18 · 99% ≤16 · 100% ≤20** | YES (DSTC2 restaurant reservation: `api_call` + `R_` KB slots) | human-**translated** from English DSTC2 | **INCLUDE** — short, code-mixed, goal-oriented, permissive license |
-| Code-Mixed-Dialog — bengali / gujarati / **tamil** / english splits | Bn/Gu/**Ta**/En-English | Apache-2.0 | same DSTC2 dialogues, translated | same (short) | translated | **EXCLUDE for now** — Tamil≠Telugu; en + other langs are PARALLEL translations of the same dialogues (would double-count); English control comes from SpokenWOZ instead |
-| **Code-Mixed-TOD-Medical** (suman101112) | **Telugu-English** (Telugu script + romanized Tenglish) | **CC BY-NC 4.0** | paper 3,005 / repo snapshot ~1,023 files | task-oriented (intent/slot) | **real** (transcribed patient↔doctor audio) | **RULING NEEDED** — the ONLY verified Telugu-English TOD, but **medical domain** (not restaurant/service) + non-commercial |
+| **Code-Mixed-Dialog** (sumanbanerjee1) @ `9df1d4dc` | **Hindi-English** (romanized Hinglish) | repo LICENSE = Apache-2.0 (text) | dev 500 (train/test larger; DSTC2 splits) | **median 15 · p90 21 · max 35 · ~85–88% ≤20 · 423+ candidates ≤20 in dev alone** | YES (DSTC2 restaurant reservation: `api_call` + `R_` KB slots) | human-**translated** from English DSTC2 | **INCLUDE** — short, code-mixed, goal-oriented |
+| Code-Mixed-Dialog — bengali / gujarati / **tamil** / english splits | Bn/Gu/**Ta**/En-English | Apache-2.0 (text) | same DSTC2 dialogues, translated | same (short) | translated | **EXCLUDE** — Tamil≠Telugu; en + other langs are PARALLEL translations of the same dialogues (would double-count); English control comes from SpokenWOZ instead |
+| **Code-Mixed-TOD-Medical-Dataset** (suman101112) | **Telugu-English** (Telugu script + romanized Tenglish) | **CC BY-NC 4.0** | paper 3,005 / repo snapshot ~1,024 transcript files + 2 docs | **not computed** (dropped — see below) | YES — **medical** (patient↔doctor), not restaurant/service | **real** (transcribed audio) | **DROPPED** (Option A) — only verified Telugu-English TOD, but medical domain + non-commercial; not pursued this sprint |
 | SpokenWOZ `swz_*` (already in pool) | English | CC BY-NC 4.0 | 44 present | median 36 (long); pick the shortest/most diverse | real (audio-derived) | **INCLUDE (controls)** — select 14 short, diverse |
 | _excluded:_ Telugu sentence-pairs, monolingual Telugu, dialog-act-tagging code, social/abusive corpora | — | — | — | — | not dialogue / not task-oriented / no license | **EXCLUDE** (see Telugu hunt report) |
 
-## License discrepancy — resolved
-- The **GitHub repo LICENSE is Apache-2.0** (verbatim Apache 2.0 text; SPDX-detected Apache-2.0). The copyright line is the
-  unfilled stock template (`[yyyy] [name of copyright owner]`) — authors dropped in the standard license without editing the
-  header, but SPDX still classifies it Apache-2.0. **This is the license that governs the dialogue DATA we would ingest.**
+## License discrepancy — what the two artifacts say (not a conclusive legal opinion)
+- The **GitHub repo ships an Apache-2.0 LICENSE file** (verbatim Apache 2.0 text; GitHub/SPDX detect Apache-2.0). Caveat: the
+  copyright line is the **unfilled stock template** (`[yyyy] [name of copyright owner]`) — the authors dropped in the standard
+  license without editing the header. So the repo *presents* Apache-2.0, but I do **not** declare its precise legal scope or call
+  it "commercial-safe."
 - The **"CC BY 4.0"** seen on the paper is the **arXiv submission license badge** (it licenses the paper PDF/source on
   arxiv.org/abs/1806.05997), NOT the dataset. The paper body only says the data is "made publicly available for research purposes."
-- **Resolution:** ingest under **Apache-2.0** (repo license). No real conflict — CC BY 4.0 applies to a different artifact (the paper).
-  Both are permissive-attribution; we attribute Banerjee et al. (COLING 2018) + repo URL + commit SHA regardless. Apache-2.0 is
-  even commercial-safe (unlike SpokenWOZ CC BY-NC).
+- **For this hackathon (non-commercial research eval):** either license — repo Apache-2.0 *or* paper CC BY 4.0 — permits research
+  use with attribution, and SpokenWOZ is already CC BY-NC, so the slice is non-commercial regardless. We attribute Banerjee et al.
+  (COLING 2018) + repo URL + commit `9df1d4dc`. Any commercial decision is out of scope and would need counsel given the template gap.
 
-## Telugu-English verdict — STOP FOR RULING (per plan)
-A licensed public **Telugu-English** *restaurant/service/booking* goal-oriented dialogue dataset **does not exist** (verified hunt).
+## Telugu-English verdict — RULED: Option A (drop dataset-Telugu)
+**No suitable Telugu-English** *restaurant/service/booking* goal-oriented dialogue dataset **was found in this audit** (not a proof
+of non-existence — a thorough hunt came up empty).
 - The only Telugu-English TOD is **medical-domain** (Code-Mixed-TOD-Medical, CC BY-NC 4.0) — real Tenglish, wrong task family.
 - Tamil-English ("Tanglish") in Code-Mixed-Dialog is **NOT** a substitute (different language) — will not silently swap.
 - **Already in-pool:** the **hero call is `te-en` Telugu-English** and is one of the 2 fixed labels — so Telugu IS represented
   in the slice even with no Telugu dataset.
 
-### Telugu options for the ruling
-- **(A) Recommended — drop the dataset-Telugu slice; reallocate to Hindi-English.** Telugu stays represented by the hero call.
-  Slice: 2 existing (`bolna` hi-en + `hero` te-en) + **24 Hindi-English** (Code-Mixed-Dialog) + **14 short SpokenWOZ English controls** = 40.
-  Cleanest: all short, multilingual via Hinglish + the Telugu hero, licenses Apache-2.0 + CC BY-NC (both eval-safe).
-- **(B) Add real Tenglish from the medical set.** 2 existing + 16 Hindi-English + **8 Telugu-English medical (CC BY-NC)** + 14 English = 40.
-  Pro: genuine Telugu-English breadth. Con: introduces a 3rd source + a medical domain + a non-commercial license; domain heterogeneity.
+### Ruling: **Option A** (Codex). Do NOT introduce medical Telugu data this sprint.
+**Chosen slice (40):** 2 existing fixed first (`bolna` hi-en + `hero` te-en) + **24 distinct Hindi-English** (Code-Mixed-Dialog,
+each ≤20 utterance turns, no parallel-dialogue duplicates) + **14 short, diverse SpokenWOZ English controls**. Telugu stays honestly
+represented by the **`te-en` hero call** already in the slice — no medical-domain or licensing complexity added.
+- _(B) rejected:_ 8 Telugu-English medical (CC BY-NC) — real Tenglish but wrong domain + NC license + a 3rd source. Not pursued.
+
+## Disclosure — why the sample changed after 2 labels
+The pool change is a **usability + language-coverage correction made BEFORE any judge exposure**, not outcome-based tuning:
+Spike hit a 40-turn monolingual-English call at position 3 and stopped; the 44 SpokenWOZ calls are long (turn median ≈36) and
+all English, which is hard to label and off-thesis. The judge has **not** run on any real call (quarantine still active), the 2
+existing labels are frozen byte-for-byte, and the new calls are selected by length/language only — never by their outcomes.
+
+## Nullable-timing contract — BUILT + TESTED (Codex blocker 3)
+`call_log` previously **required integer `start_ms`** per turn, so a text-only source could not be ingested without faking
+timestamps. Designed, implemented, and tested a nullable-timing contract — **no synthetic timestamps anywhere**:
+- **schema (`pipeline/schemas.py`):** turn `start_ms` → `["integer","null"]`; `stress_profile` enum += `unmeasured`; `source`
+  enum += `code_mixed_dialog`; cost `duration_s` → `["number","null"]`. `call_record` inherits these (it reuses `CALL_LOG`
+  properties + `_embed(COST)`). Added a self-test: a null-timing record validates; a non-int `start_ms` is rejected.
+- **`signals.py`:** `turn_metrics` drops turns with no `start_ms` before sorting → an all-untimed call yields **no** FTO events,
+  **no** barge-ins, latency `None`/0, **no** fabricated timing failures.
+- **`score.py`:** `barge_in` + `latency_gap` dims are emitted **only when timing is observed**; text-only calls carry **only**
+  `task_completion`, and `overall` re-normalizes over the present dims (never a fake perfect-1.0 timing score). `cost.duration_s`
+  is `null` when there is no clock (cost itself stays turn-count based).
+- **tests:** `pipeline/test_nullable_timing.py` (committed) — untimed call → `{task_completion}` only, `duration_s` null, no
+  failures; timed call → all 3 dims + real duration (regression guard). All pass. **Existing 46 `out/calls.json` + `out/analytics.json`
+  re-generated BYTE-IDENTICAL** (hash `9e68bab5…`) — the real pool is provably untouched.
 
 ## Honest-normalization notes (for the LATER ingest phase, not done now)
-- Code-Mixed-Dialog is **text-only, no timestamps** → on ingest: `timing_observed: false`, `stress_profile: unmeasured` (new honest
-  value), and timing/overlap dimensions **omitted** (never fabricate ms spacing). Parse only real user↔system exchange lines
-  (TAB-separated); skip `api_call`/`R_` KB lines.
+- Code-Mixed-Dialog is **text-only, no timestamps** → on ingest: `timing_observed: false` (metadata), `stress_profile: unmeasured`,
+  `start_ms/end_ms: null` per turn; timing/overlap dimensions **omitted by the contract above** (never fabricate ms spacing). Parse
+  only real user↔system exchange lines (TAB-separated); skip `api_call`/`R_` KB lines.
 - **Outcome derivation:** DSTC2 has `api_call`/KB structure but this repo ships no explicit per-dialogue success label → outcomes
   would be the same documented HEURISTIC as SpokenWOZ (api_call resolved + requested slots provided). Must be labeled HEURISTIC; do
   not invent gold outcomes.
@@ -57,9 +84,15 @@ A licensed public **Telugu-English** *restaurant/service/booking* goal-oriented 
 ## Commands run (audit)
 - `gh api repos/sumanbanerjee1/Code-Mixed-Dialog …` → license Apache-2.0, branch master, commit `9df1d4dc800548a883f8bc1a9ce4116c77aebc02` (2018-06-20), data dirs = bengali/english/gujarati/hindi/tamil (NO telugu).
 - `WebFetch arxiv 1806.05997` → COLING 2018, Banerjee/Moghe/Arora/Khapra; langs Hi/Bn/Gu/Ta-En (no Telugu); DSTC2 restaurant; translated; arXiv badge CC BY 4.0.
-- range-fetch + parse of `data/hindi/dialog-dstc2-dev.txt` (500 dialogues) → real-turn distribution median 8 / p90 11 / max 18.
-- parallel agent → Telugu-English hunt (verdict PARTIAL: only medical CC BY-NC Telugu TOD exists).
+- range-fetch + parse of `data/hindi/dialog-dstc2-dev.txt` (500 dialogues) → **utterance-turn** distribution median 15 / p90 21 /
+  max 35 (matches Codex; my first pass counted exchanges = median 8, ~2× undercount); 423+ dialogues ≤20 turns.
+- parallel agent → Telugu-English hunt (no suitable restaurant/service Telugu TOD found; only medical CC BY-NC).
+- nullable-timing contract: edited `schemas.py`/`signals.py`/`score.py` + new `pipeline/test_nullable_timing.py`; ran
+  `schemas.py` (9 schemas, pool 46/46 valid, self-tests pass) + the contract test (PASS) + `score.py` (out/ byte-identical, hash `9e68bab5…`).
 
 ## Next step
-**STOP for Codex audit.** On approval: ingest Hindi-English (Apache-2.0) honestly + build `eval/label_manifest.json` (immutable order,
-entries 1–2 = bolna/hero) + `label_order()` reads manifest & fails on dup/missing. No ingest until the Telugu ruling (A vs B) lands.
+**STOP for Codex re-audit** of (a) the corrected turn-counting, (b) the documentation/honesty fixes, and (c) the nullable-timing
+contract. On approval — Phase B ingest: a `code_mixed_dialog` adapter parsing only TAB user↔system lines into `unmeasured`,
+`timing_observed:false`, null-timing call_logs (24 distinct Hindi-English, each ≤20 utterance turns, no parallel duplicates,
+heuristic outcomes, full provenance) + 14 short SpokenWOZ controls + immutable `eval/label_manifest.json` (entries 1–2 = bolna/hero,
+`label_order()` reads it and fails on dup/missing, UI "Call N of 40"). **No ingest, no booth restart until re-audit clears.**

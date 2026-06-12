@@ -443,3 +443,32 @@ controls + 2 existing = 40 (Telugu via hero) — RECOMMENDED; or (B) add 8 Telug
 
 **Next:** STOP for Codex audit. On approval + Telugu ruling → honest ingest of Hindi-English (Apache-2.0; `timing_observed:false`,
 `stress_profile:unmeasured`, heuristic outcomes) + immutable `eval/label_manifest.json` (entries 1–2 = bolna/hero). No booth restart yet.
+
+## BATCH 2R · Phase A repair + nullable-timing contract (Jun 12) — Codex blockers
+**Codex verdict on the audit:** PASS w/ 3 blockers. Repaired all; still NO ingest, labels frozen.
+
+**Warnings fixed (docs/batch2R_source_audit.md):** "no Telugu dataset exists" → "none found in this audit"; softened
+Apache-2.0 (stock LICENSE has unfilled copyright template — no "commercial-safe" claim); disclosed the sample change as a
+usability/language correction made BEFORE any judge exposure (judge quarantine still active, 2 labels frozen).
+
+**Blocker 1 — turn-count corrected.** VoiceForge counts each *utterance* as a turn; my Phase-A median 8 counted *exchanges*
+(~2× undercount). Recomputed Hindi-English dev (500 dialogues): **median 15 / p90 21 / max 35** (matches Codex), ~85–88% ≤20
+turns, 423+ candidates ≤20. Selection filters on the adapter's exact per-utterance count ≤20.
+
+**Blocker 2 — Option A ruled.** Medical Telugu (correct repo `suman101112/Code-Mixed-TOD-Medical-Dataset`) DROPPED — medical
+domain + CC BY-NC, not pursued. Slice = 2 existing + 24 Hindi-English (≤20 turns, no parallel dups) + 14 SpokenWOZ controls;
+Telugu via the `te-en` hero call. Fixed the misaligned/missing turn-length cell in the table.
+
+**Blocker 3 — nullable-timing contract BUILT + TESTED (no synthetic timestamps):**
+- `schemas.py`: turn `start_ms` → `["integer","null"]`; `stress_profile` += `unmeasured`; `source` += `code_mixed_dialog`;
+  cost `duration_s` → `["number","null"]`; new self-test (null record validates, non-int start_ms rejected).
+- `signals.py`: `turn_metrics` drops untimed turns → all-untimed call = no events/barge-ins/failures, latency None.
+- `score.py`: barge_in + latency_gap emitted ONLY when timing observed (else omitted, never faked 1.0); `overall`
+  re-normalizes over present dims; `cost.duration_s` null when no clock.
+- `pipeline/test_nullable_timing.py` (new, committed): untimed → {task_completion} only, duration null, no failures;
+  timed → all 3 dims + real duration. PASS.
+- **Proof real pool untouched:** `schemas.py` pool 46/46 valid; `score.py` re-run → `out/calls.json`+`out/analytics.json`
+  BYTE-IDENTICAL (hash `9e68bab5…`, git shows no out/ diff). `eval/labels_spike.csv` SHA unchanged; normalized still 46.
+
+**Next:** STOP for Codex re-audit. On clear → Phase B: `code_mixed_dialog` ingest adapter + immutable `eval/label_manifest.json`
+(entries 1–2 = bolna/hero). No ingest / no booth restart until re-audit clears.

@@ -32,9 +32,11 @@ CALL_LOG = {
     "required": ["call_id", "source", "language", "stress_profile", "workflow_type", "turns"],
     "properties": {
         "call_id": {"type": "string"},
-        "source": {"enum": ["spokenwoz", "ami", "hero", "bolna"]},
+        "source": {"enum": ["spokenwoz", "ami", "hero", "bolna", "code_mixed_dialog"]},
         "language": {"type": "string"},
-        "stress_profile": {"enum": ["clean", "pause_heavy", "interruption", "ambiguous", "kb_gap"]},
+        # "unmeasured": timing was never observed (e.g. text-only translated corpora). NOT a stress
+        # level — an honest "no clock" marker so timing dimensions are omitted, never faked.
+        "stress_profile": {"enum": ["clean", "pause_heavy", "interruption", "ambiguous", "kb_gap", "unmeasured"]},
         "workflow_type": {"type": "string"},
         "turns": {
             "type": "array", "minItems": 1,
@@ -45,7 +47,9 @@ CALL_LOG = {
                     "turn_id": {"type": "string"},
                     "speaker": {"enum": ["user", "agent"]},
                     "text": {"type": "string"},
-                    "start_ms": {"type": "integer", "minimum": 0},
+                    # start_ms null = timing unobserved for this turn (text-only source). Present-but-null,
+                    # never a fabricated number. signals.py skips untimed turns; score.py omits timing dims.
+                    "start_ms": {"type": ["integer", "null"], "minimum": 0},
                     "end_ms": {"type": ["integer", "null"]},
                 },
             },
@@ -102,7 +106,7 @@ COST = {
     "title": "cost", "type": "object",
     "required": ["call_id", "duration_s", "turn_count", "est_cost_total", "est_cost_per_success_note"],
     "properties": {
-        "call_id": {"type": "string"}, "duration_s": {"type": "number"},
+        "call_id": {"type": "string"}, "duration_s": {"type": ["number", "null"]},
         "turn_count": {"type": "integer"}, "est_llm_calls": {"type": "integer"},
         "est_cost_total": {"type": "number"},
         "est_cost_per_success_note": {"type": "string"},
@@ -304,6 +308,27 @@ def main():
         print("  call_record self-test FAILED: missing scorecard wrongly accepted"); bad += 1
     except jsonschema.ValidationError:
         print("call_record contract self-test: well-formed PASS, missing-scorecard correctly REJECTED")
+
+    # nullable-timing contract self-test: a text-only call (no clock) must validate with
+    # start_ms/end_ms null, stress_profile 'unmeasured', source 'code_mixed_dialog', timing dims OMITTED.
+    unmeasured = {"call_id": "u1", "source": "code_mixed_dialog", "language": "hi-en",
+                  "stress_profile": "unmeasured", "workflow_type": "restaurant_reservation",
+                  "turns": [{"turn_id": "t1", "speaker": "agent", "text": "namaste", "start_ms": None, "end_ms": None},
+                            {"turn_id": "t2", "speaker": "user", "text": "table chahiye", "start_ms": None, "end_ms": None}],
+                  "outcome": {"task_completed": True, "required_fields": []},
+                  "scorecard": {"dimensions": [{"name": "task_completion", "type": "deterministic", "score": 1.0,
+                                                "reason": "captured 1/1 (heuristic)", "evidence_turn_ids": []}], "overall": 1.0},
+                  "cost": {"call_id": "u1", "duration_s": None, "turn_count": 2, "est_cost_total": 0.005,
+                           "est_cost_per_success_note": "estimated, prototype"},
+                  "failures": []}
+    validate(unmeasured, "call_record")
+    # and a turn with a FABRICATED-looking 0 is still fine, but a non-int non-null start_ms must reject
+    try:
+        bad_t = json.loads(json.dumps(unmeasured)); bad_t["turns"][0]["start_ms"] = "0"
+        validate(bad_t, "call_record")
+        print("  nullable-timing self-test FAILED: string start_ms wrongly accepted"); bad += 1
+    except jsonschema.ValidationError:
+        print("nullable-timing contract self-test: null-timing record PASS, non-int start_ms correctly REJECTED")
     sys.exit(1 if bad else 0)
 
 

@@ -35,7 +35,10 @@ def load_rubric(path=None):
 
 
 def turn_metrics(turns):
-    """Pairwise floor-transfer events between consecutive turns (sorted by start_ms)."""
+    """Pairwise floor-transfer events between consecutive turns (sorted by start_ms).
+    Turns with no start_ms (timing unobserved, e.g. text-only sources) yield NO floor-transfer
+    events — overlap/gap are never inferred or faked. An all-untimed call gives [] (no timing dims)."""
+    turns = [t for t in turns if t.get("start_ms") is not None]
     turns = sorted(turns, key=lambda t: t["start_ms"])
     out = []
     for a, b in zip(turns, turns[1:]):

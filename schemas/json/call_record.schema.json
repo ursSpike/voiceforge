@@ -25,7 +25,8 @@
         "spokenwoz",
         "ami",
         "hero",
-        "bolna"
+        "bolna",
+        "code_mixed_dialog"
       ]
     },
     "language": {
@@ -37,7 +38,8 @@
         "pause_heavy",
         "interruption",
         "ambiguous",
-        "kb_gap"
+        "kb_gap",
+        "unmeasured"
       ]
     },
     "workflow_type": {
@@ -68,7 +70,10 @@
             "type": "string"
           },
           "start_ms": {
-            "type": "integer",
+            "type": [
+              "integer",
+              "null"
+            ],
             "minimum": 0
           },
           "end_ms": {
@@ -204,7 +209,10 @@
           "type": "string"
         },
         "duration_s": {
-          "type": "number"
+          "type": [
+            "number",
+            "null"
+          ]
         },
         "turn_count": {
           "type": "integer"

@@ -15,7 +15,10 @@
       "type": "string"
     },
     "duration_s": {
-      "type": "number"
+      "type": [
+        "number",
+        "null"
+      ]
     },
     "turn_count": {
       "type": "integer"

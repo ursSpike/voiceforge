@@ -76,25 +76,30 @@ def build_outcome(call):
 # ---------------------------------------------------------------- deterministic scorecard
 def deterministic_scorecard(call, sig, frac_captured, ncap, n_fields):
     dims = []
-    # barge_in: only AGENT-interrupts-user counts against the agent
-    agent_bi = [b for b in sig["barge_ins"] if b.get("kind") == "agent_interrupts_user"]
-    bi_score = max(0.0, 1.0 - 0.34 * len(agent_bi))
-    bi_reason = ("no agent barge-ins" if not agent_bi else
-                 f"agent interrupted the caller {len(agent_bi)}x (overlap "
-                 f"{', '.join(str(b['overlap_ms'])+'ms' for b in agent_bi[:3])})")
-    bi_ev = [tid for b in agent_bi for tid in (b["prev_turn_id"], b["next_turn_id"]) if tid]
-    dims.append({"name": "barge_in", "type": "deterministic", "score": round(bi_score, 3),
-                 "reason": bi_reason, "evidence_turn_ids": bi_ev[:6]})
+    # Timing dims (barge_in, latency_gap) need an observed clock. Text-only sources (start_ms null)
+    # OMIT them entirely — never score a perfect 1.0 on timing that was never measured. task_completion
+    # is text-based and always present. `overall` re-normalizes over whatever dims are present.
+    timing_observed = any(t.get("start_ms") is not None for t in call["turns"])
+    if timing_observed:
+        # barge_in: only AGENT-interrupts-user counts against the agent
+        agent_bi = [b for b in sig["barge_ins"] if b.get("kind") == "agent_interrupts_user"]
+        bi_score = max(0.0, 1.0 - 0.34 * len(agent_bi))
+        bi_reason = ("no agent barge-ins" if not agent_bi else
+                     f"agent interrupted the caller {len(agent_bi)}x (overlap "
+                     f"{', '.join(str(b['overlap_ms'])+'ms' for b in agent_bi[:3])})")
+        bi_ev = [tid for b in agent_bi for tid in (b["prev_turn_id"], b["next_turn_id"]) if tid]
+        dims.append({"name": "barge_in", "type": "deterministic", "score": round(bi_score, 3),
+                     "reason": bi_reason, "evidence_turn_ids": bi_ev[:6]})
 
-    # latency_gap: fraction of snappy user->agent responses
-    lat = sig["latency"]
-    nh, nl = lat["n_handoffs"], lat["n_laggy"]
-    lat_score = 1.0 if nh == 0 else round(1.0 - nl / nh, 3)
-    lat_reason = (f"median {lat['median_gap_ms']}ms / p90 {lat['p90_gap_ms']}ms; "
-                  f"{nl}/{nh} responses laggy (>{lat['laggy_threshold_ms']}ms)" if nh else "no user→agent handoffs")
-    lat_ev = [f["evidence_turn_ids"][1] for f in sig["failures"] if f["dimension"] == "latency_gap"]
-    dims.append({"name": "latency_gap", "type": "deterministic", "score": lat_score,
-                 "reason": lat_reason, "evidence_turn_ids": [e for e in lat_ev if e][:6]})
+        # latency_gap: fraction of snappy user->agent responses
+        lat = sig["latency"]
+        nh, nl = lat["n_handoffs"], lat["n_laggy"]
+        lat_score = 1.0 if nh == 0 else round(1.0 - nl / nh, 3)
+        lat_reason = (f"median {lat['median_gap_ms']}ms / p90 {lat['p90_gap_ms']}ms; "
+                      f"{nl}/{nh} responses laggy (>{lat['laggy_threshold_ms']}ms)" if nh else "no user→agent handoffs")
+        lat_ev = [f["evidence_turn_ids"][1] for f in sig["failures"] if f["dimension"] == "latency_gap"]
+        dims.append({"name": "latency_gap", "type": "deterministic", "score": lat_score,
+                     "reason": lat_reason, "evidence_turn_ids": [e for e in lat_ev if e][:6]})
 
     # task_completion: fraction of required fields captured
     dims.append({"name": "task_completion", "type": "deterministic", "score": round(frac_captured, 3),
@@ -111,12 +116,14 @@ def deterministic_scorecard(call, sig, frac_captured, ncap, n_fields):
 
 # ---------------------------------------------------------------- cost
 def build_cost(call, sig):
-    dur = (call["turns"][-1]["end_ms"] or call["turns"][-1]["start_ms"]) / 1000
+    last = call["turns"][-1]
+    clock = last["end_ms"] if last["end_ms"] is not None else last["start_ms"]
+    dur = round(clock / 1000, 1) if clock is not None else None   # text-only call: no duration, not a fake 0
     n_turns = len(call["turns"])
     n_agent = sum(1 for t in call["turns"] if t["speaker"] == "agent")
     real = call["metadata"].get("total_cost_cents")
     est = (real / 100.0) if real is not None else round(n_agent * PER_TURN_USD, 4)
-    return {"call_id": call["call_id"], "duration_s": round(dur, 1), "turn_count": n_turns,
+    return {"call_id": call["call_id"], "duration_s": dur, "turn_count": n_turns,
             "est_llm_calls": n_agent, "est_cost_total": est,
             "est_cost_per_success_note": "estimated, prototype" + (" (real provider cost)" if real is not None else "")}
 
