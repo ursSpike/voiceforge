@@ -1,0 +1,59 @@
+{
+  "csv_present": true,
+  "csv_sha256": "e2479e3f3e86577183bfe4f4d217baa8e101630cc1c3cf2735b38464acaaf82d",
+  "manifest_sha256": "aec4ba49000c9f4fdfa203cfca4bc787b71004abb47e4a7eff899175446cae33",
+  "rows": 2,
+  "binary": 2,
+  "unsure": 0,
+  "floor": 40,
+  "floor_met": false,
+  "checks": [
+    {
+      "check": "columns exact + ordered",
+      "ok": true,
+      "detail": "got ['call_id', 'primary_label', 'confidence', 'positive_tags', 'negative_tags', 'context_tags', 'note', 'timestamp']"
+    },
+    {
+      "check": "call_id unique (file holds last-label-wins state)",
+      "ok": true,
+      "detail": "2 rows"
+    },
+    {
+      "check": "manifest SHA frozen",
+      "ok": true,
+      "detail": "aec4ba49000c9f4f"
+    },
+    {
+      "check": "every call_id in frozen manifest",
+      "ok": true,
+      "detail": "2 ids"
+    },
+    {
+      "check": "enums + tag allowlists",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "check": "csv quoting intact (no field bleed)",
+      "ok": true,
+      "detail": "bad rows: []"
+    },
+    {
+      "check": "usable binary count (floor 40)",
+      "ok": true,
+      "detail": "2 binary + 0 unsure of 46 \u2014 38 more needed"
+    },
+    {
+      "check": "frozen annotation preserved: bolna_246cd9f3",
+      "ok": true,
+      "detail": "success/high"
+    },
+    {
+      "check": "frozen annotation preserved: hero_001",
+      "ok": true,
+      "detail": "success/high"
+    }
+  ],
+  "problems": [],
+  "ok": true
+}

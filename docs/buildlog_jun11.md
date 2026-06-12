@@ -562,3 +562,23 @@ Confirmed canonical repo (toplevel /Users/varsh/voiceforge), booth launches from
 manifest idempotent + dup/missing rejected + resumes ref2=cmd_hi_0000; CSV e6d2055 frozen; 44 swz intact.
 
 **Next:** STOP for Codex audit of the 46-call pool + frozen manifest. On clear → restart booth from /Users/varsh/voiceforge.
+
+## BATCH A — Labeling readiness + data safety (Jun 12 ~18:00) · FINAL EXECUTION PLAN
+**Status at start:** HEAD 594698e · manifest aec4ba49 (46 = 2+30+14) · CSV e6d2055 (2 binary, 0 unsure) ·
+pool 76 scored, timing_coverage{timed:46,unmeasured:30} · booth DOWN · judge cache = fixture_4a only (quarantine intact) ·
+preflight 4 FAIL (the gated back-half) / 2 WARN.
+
+**Built `pipeline/validate_labels.py`** (read-only; writes out/label_validation.json): exact column set/order ·
+call_id uniqueness · membership in the FROZEN manifest + manifest-SHA check (aec4ba49) · primary/confidence/tag
+allowlists from schemas.py · csv-quoting integrity · binary-vs-unsure counts vs the ≥40 floor · the two frozen
+annotations preserved exactly (bolna+hero success/high). Absent CSV = valid empty state. Exit 0/1 for scripting.
+Verified: 9/9 checks green on the real CSV; 5 negative tests (bad enum, unknown tag, non-manifest call, frozen-label
+drift, duplicate row) each correctly rejected via temp byte-level injections; real CSV restored byte-exact.
+
+**INCIDENT (disclosed): line-ending corruption + recovery.** My first negative-test harness used Path.read_text()/
+write_text(), which normalized the CSV's CRLF terminators (csv module default) to LF — content identical, bytes not
+(SHA drifted to e2479e3f). Caught immediately by the post-test hash check; reconstructed LF→CRLF (notes empty → unambiguous),
+verified the reconstruction matched the frozen e6d2055 BEFORE writing, restored. Harness rewritten to read_bytes/write_bytes.
+Rule adopted: all label-CSV handling is BYTES-only.
+
+**Booth NOT restarted** (waits for Codex clearing Batch A). Manifest untouched. Next: Batch B (report engine, fixture-only).
