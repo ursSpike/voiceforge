@@ -352,3 +352,33 @@ derivation post-label).
 
 **Next (STOP — awaiting audit-master sign-off, then Spike labels):** on "go", start the real-CSV
 server (`booth` config) and Spike labels ≥40 at /label. Judge quarantine stays active until labels exist.
+
+---
+
+## Labeling workspace layout — light split view (Jun 12)
+**Goal:** make one-pass annotation comfortable on a laptop before real labeling starts: transcript and
+controls visible side by side, every phenotype group in one controls panel, explicit Previous / Save &
+next navigation, and a clear completion state.
+
+**Changed:**
+- `web/label.html` only — light theme; fixed-height two-panel desktop workspace; annotation controls on
+  the left; scrollable call transcript on the right; Level 1/2/3 + transcript-only guidance directly
+  below the call; persistent bottom navigation with Previous at left and Save & next at right.
+- All outcome, confidence, positive, negative, context, note, and review controls are visible in the
+  same annotation panel (no hidden Stage 2). Save still requires outcome + confidence + deliberate
+  phenotype-review confirmation.
+- Previous preserves the current unsaved draft in memory. Saved annotations still restore every tag,
+  confidence, and note while resetting review confirmation.
+- Resume behavior keeps the canonical server order and opens the first unlabeled call. A 45/46 session
+  resumes at Call 46 of 46; saving it immediately shows the completion screen.
+
+**Verified against an isolated temporary CSV (real `eval/labels_spike.csv` remained absent):**
+- Light split layout visually inspected at desktop size; transcript and label panels scroll independently.
+- Positive + negative tags coexist; Save gating unchanged; Save & next advances and persists.
+- Previous returns to the prior saved call and the unsaved next-call draft survives the round trip.
+- A generated 45-label test state resumed at Call 46 of 46 with Previous enabled and Complete labeling
+  gated until required fields were set; final save rendered "All 46 calls reviewed."
+- `pipeline/schemas.py`: 46/46 normalized calls valid; call_record self-test passed.
+
+**Contracts unchanged:** no schema, tag allowlist, CSV format, blindness route, judge output, or normalized
+data change. Judge quarantine remains active.

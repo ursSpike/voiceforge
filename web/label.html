@@ -6,34 +6,42 @@
 <title>VoiceForge — blind phenotype labeling</title>
 <style>
   :root {
-    --bg: #09090b; --card: #18181b; --card2: #1f1f23; --border: #27272a; --text: #e4e4e7;
-    --muted: #8b8b94; --green: #34d399; --red: #f87171; --blue: #93c5fd; --amber: #fbbf24;
+    --bg: #f3f5f7; --card: #ffffff; --card2: #eef2f5; --border: #dce2e8; --text: #17212b;
+    --muted: #66717e; --green: #16845f; --red: #c14d52; --blue: #3977ad; --amber: #a86f16;
     --mono: ui-monospace, "SF Mono", Menlo, monospace;
   }
   * { box-sizing: border-box; }
-  body { margin: 0; background: var(--bg); color: var(--text);
+  html, body { height: 100%; }
+  body { margin: 0; background: var(--bg); color: var(--text); overflow: hidden;
          font: 15px/1.55 -apple-system, "Segoe UI", Inter, sans-serif; }
-  .wrap { max-width: 720px; margin: 0 auto; padding: 22px 20px 230px; }
-  header { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .app { width: min(1500px, 100%); height: 100%; margin: 0 auto; padding: 16px 18px 18px;
+         display: flex; flex-direction: column; gap: 11px; }
+  header { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
   h1 { font-size: 19px; margin: 0; } h1 b { color: var(--green); font-weight: 650; }
-  .blindbar { margin: 12px 0 8px; padding: 10px 14px; border: 1px solid #3f3f1a; background: #1a1a0c;
-              border-radius: 10px; color: var(--amber); font-size: 12.5px; line-height: 1.5; }
-  .prog { display: flex; align-items: center; gap: 12px; margin: 10px 0 16px; }
+  .blindbar { color: var(--amber); font-size: 12px; line-height: 1.45; }
+  .prog { display: flex; align-items: center; gap: 12px; }
   .bar { flex: 1; height: 8px; background: var(--card2); border-radius: 99px; overflow: hidden; }
   .bar i { display: block; height: 100%; width: 0%; background: var(--green); transition: width .2s; }
   .progtext { font: 12.5px var(--mono); color: var(--muted); white-space: nowrap; }
+  .workspace { min-height: 0; flex: 1; display: grid; grid-template-columns: minmax(430px, .92fr) minmax(520px, 1.08fr);
+               gap: 14px; }
+  .panel { min-height: 0; background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+           overflow: hidden; box-shadow: 0 8px 28px rgba(31, 42, 55, .06); }
+  .label-panel { display: flex; flex-direction: column; }
+  #dock { min-height: 0; flex: 1; overflow-y: auto; padding: 18px 18px 8px; scrollbar-gutter: stable; }
+  .call-panel { display: flex; flex-direction: column; }
+  #card { min-height: 0; flex: 1; overflow-y: auto; padding: 18px 20px; scrollbar-gutter: stable; }
+  .panel-title { font: 700 11px var(--mono); color: var(--muted); letter-spacing: .8px;
+                 text-transform: uppercase; margin-bottom: 10px; }
   .meta { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
   .chip { font: 11.5px var(--mono); padding: 2px 9px; border-radius: 99px; border: 1px solid var(--border); color: var(--muted); }
   .convo { display: flex; flex-direction: column; gap: 9px; }
   .msg { max-width: 80%; } .msg .who { font: 11px var(--mono); color: var(--muted); margin: 0 6px 3px; }
-  .msg .bub { padding: 9px 13px; border-radius: 14px; background: var(--card); border: 1px solid var(--border); }
-  .msg.agent { align-self: flex-start; } .msg.agent .bub { border-bottom-left-radius: 4px; border-left: 2px solid #3b5b80; }
+  .msg .bub { padding: 9px 13px; border-radius: 14px; background: #f8fafb; border: 1px solid var(--border); }
+  .msg.agent { align-self: flex-start; } .msg.agent .bub { border-bottom-left-radius: 4px; border-left: 2px solid #79a6cc; }
   .msg.agent .who b { color: var(--blue); }
-  .msg.user { align-self: flex-end; text-align: right; } .msg.user .bub { border-bottom-right-radius: 4px; border-right: 2px solid #1d6b50; text-align: left; }
+  .msg.user { align-self: flex-end; text-align: right; } .msg.user .bub { border-bottom-right-radius: 4px; border-right: 2px solid #58a587; background: #f3faf7; text-align: left; }
   .msg.user .who b { color: var(--green); }
-  .dock { position: fixed; left: 0; right: 0; bottom: 0; background: rgba(9,9,11,.96);
-          backdrop-filter: blur(8px); border-top: 1px solid var(--border); max-height: 62vh; overflow-y: auto; }
-  .dock .wrap { padding: 12px 20px 16px; max-width: 720px; }
   .q { font-size: 15px; font-weight: 550; margin: 2px 0; }
   .hint { font-size: 12px; color: var(--muted); margin: 2px 0 8px; line-height: 1.5; }
   .hint b { color: var(--amber); font-weight: 600; }
@@ -41,60 +49,84 @@
   .row { display: flex; gap: 8px; flex-wrap: wrap; margin: 6px 0; }
   button { font: 600 14px/1 inherit; border-radius: 9px; border: 1px solid var(--border);
            background: var(--card); color: var(--text); padding: 11px 15px; cursor: pointer; }
-  button:hover { filter: brightness(1.12); }
-  .prim { flex: 1; } .prim.yes.on { background: var(--green); border-color: var(--green); color: #052e22; }
-  .prim.no.on { background: var(--red); border-color: var(--red); color: #2a0606; }
-  .prim.uns.on { background: var(--amber); border-color: var(--amber); color: #2a1e02; }
+  button:hover { border-color: #aeb8c3; background: #f8fafb; }
+  .prim { flex: 1; } .prim.yes.on { background: var(--green); border-color: var(--green); color: #fff; }
+  .prim.no.on { background: var(--red); border-color: var(--red); color: #fff; }
+  .prim.uns.on { background: var(--amber); border-color: var(--amber); color: #fff; }
   .lab { font: 11px var(--mono); color: var(--muted); text-transform: uppercase; letter-spacing: .4px; margin: 10px 0 3px; }
   .tag { font-size: 12px; padding: 6px 10px; border-radius: 7px; }
-  .tag.pos.on { background: #0d3b2e; border-color: var(--green); color: var(--green); }
-  .tag.neg.on { background: #3a1212; border-color: var(--red); color: var(--red); }
-  .tag.ctx.on { background: #16263a; border-color: var(--blue); color: var(--blue); }
-  .conf button.on { background: var(--blue); border-color: var(--blue); color: #04263f; }
+  .tag.pos.on { background: #e5f4ed; border-color: var(--green); color: #0d6d4c; }
+  .tag.neg.on { background: #fae9ea; border-color: var(--red); color: #a5383e; }
+  .tag.ctx.on { background: #e8f1f8; border-color: var(--blue); color: #286491; }
+  .conf button.on { background: #e4eff7; border-color: var(--blue); color: #245b85; }
   textarea { width: 100%; background: var(--card); border: 1px solid var(--border); border-radius: 8px;
-             color: var(--text); padding: 8px 10px; font: 13px inherit; resize: vertical; min-height: 38px; }
-  .save { width: 100%; background: var(--green); border-color: var(--green); color: #052e22; font-size: 15px; padding: 13px; margin-top: 10px; }
+             color: var(--text); padding: 8px 10px; font: 13px inherit; resize: vertical; min-height: 58px; }
+  .save { min-width: 180px; background: var(--green); border-color: var(--green); color: #fff; font-size: 14px; padding: 12px 18px; }
+  .save:hover { background: #116f50; border-color: #116f50; }
   .save:disabled { opacity: .4; cursor: default; }
-  .stage2 { display: none; } .stage2.show { display: block; }
   kbd { font: 11px var(--mono); border: 1px solid var(--border); border-radius: 4px; padding: 1px 5px; color: var(--muted); }
-  .done { text-align: center; padding: 40px 0; } .done h2 { color: var(--green); }
-  .howto { margin: 8px 0; padding: 11px 14px; border: 1px solid var(--border); background: var(--card);
-           border-radius: 10px; font-size: 12.5px; line-height: 1.55; }
+  .done { text-align: center; padding: 70px 24px; } .done h2 { color: var(--green); margin-bottom: 8px; }
+  .done p { color: var(--muted); max-width: 520px; margin: 0 auto 18px; }
+  .call-guidance { flex: none; border-top: 1px solid var(--border); background: #f8fafb; padding: 12px 16px 14px; }
+  .howto { padding: 0; font-size: 11.5px; line-height: 1.5; display: grid; gap: 3px; }
   .howto .lvl { margin: 4px 0; color: var(--muted); } .howto .lvl b { color: var(--text); }
   .howto .co { color: var(--amber); }
-  .scopewarn { margin: 8px 0 4px; padding: 9px 14px; border: 1px solid #4a2a12; background: #1e1206;
-               border-radius: 10px; color: #f0a868; font-size: 12.5px; line-height: 1.5; }
+  .scopewarn { margin-top: 7px; padding-top: 8px; border-top: 1px solid #ead7b8;
+               color: #8d5c10; font-size: 11.5px; line-height: 1.45; }
   .labq { font-size: 13px; font-weight: 600; color: var(--text); margin: 12px 0 4px; }
   .grouphint { font-size: 11.5px; color: var(--muted); margin: 2px 0 7px; line-height: 1.5; }
   .reviewconf { display: flex; align-items: flex-start; gap: 9px; margin: 13px 0 2px; padding: 10px 12px;
                 border: 1px solid var(--border); background: var(--card2); border-radius: 9px;
                 font-size: 12.5px; color: var(--text); cursor: pointer; line-height: 1.45; }
-  .reviewconf.on { border-color: var(--green); background: #0d2a20; }
+  .reviewconf.on { border-color: var(--green); background: #e9f6f0; }
   .reviewconf input { margin-top: 1px; width: 15px; height: 15px; accent-color: var(--green); cursor: pointer; flex: none; }
+  .nav { flex: none; display: flex; justify-content: space-between; align-items: center; gap: 12px;
+         padding: 12px 18px; border-top: 1px solid var(--border); background: #f8fafb; }
+  .prev { min-width: 110px; background: transparent; color: var(--muted); }
+  .prev:disabled { opacity: .35; cursor: default; }
+  .nav-status { color: var(--muted); font: 11px var(--mono); text-align: center; }
+  @media (max-width: 900px) {
+    body { overflow: auto; }
+    .app { height: auto; min-height: 100%; padding: 12px; }
+    .workspace { display: flex; flex-direction: column-reverse; }
+    .panel { min-height: 540px; }
+    .call-panel { max-height: 72vh; }
+    .label-panel { min-height: 760px; }
+    .blindbar { max-width: 100%; }
+  }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header><h1>Voice<b>Forge</b> — blind phenotype labeling</h1></header>
-  <div class="blindbar">🔒 You see <b>only the raw conversation</b> — no scores, no failure flags, no call id,
-    no source. Label honestly; don't aim for any split. One pass per call, one save.</div>
-  <div class="howto">
-    <div class="lvl"><b>Level 1 — Outcome.</b> Choose exactly one: <b>success</b>, <b>fail</b>, or <b>unsure</b>. Did the caller ultimately achieve their goal?</div>
-    <div class="lvl"><b>Level 2 — Phenotype primitives.</b> Review every group and select all tags that apply. Zero tags is valid <i>only after deliberate review</i>. <span class="co">Positive and negative tags may coexist — a call can succeed with friction or fail despite good handling. Judge each tag independently.</span></div>
-    <div class="lvl"><b>Level 3 — Derived archetypes.</b> Not labeled here. VoiceForge derives these later from your outcome + primitive tags + deterministic signals.</div>
-  </div>
-  <div class="scopewarn">⚠️ This labeling view is <b>transcript-only</b>. Do <b>not</b> infer audio quality, accent, noise,
-    network conditions, or voice naturalness — these are <b>unavailable for nearly all current calls</b>. Do <b>not</b> hand-label
-    latency or overlap; where timestamp data permits, VoiceForge computes those deterministically elsewhere.</div>
+<div class="app">
+  <header>
+    <h1>Voice<b>Forge</b> — blind phenotype labeling</h1>
+    <div class="blindbar">🔒 Raw conversation only · no scores, flags, call id, or source · label honestly</div>
+  </header>
   <div class="prog"><div class="bar"><i id="fill"></i></div><span class="progtext" id="progtext">…</span></div>
-  <div id="card"></div>
+  <main class="workspace">
+    <section class="panel label-panel" aria-label="Annotation controls">
+      <div id="dock"></div>
+      <div class="nav" id="nav"></div>
+    </section>
+    <section class="panel call-panel" aria-label="Call transcript">
+      <div id="card"></div>
+      <div class="call-guidance">
+        <div class="howto">
+          <div class="lvl"><b>Level 1 — Outcome:</b> did the caller ultimately achieve the goal?</div>
+          <div class="lvl"><b>Level 2 — Phenotypes:</b> review every group; select all that apply. <span class="co">Positive and negative may coexist.</span></div>
+          <div class="lvl"><b>Level 3 — Derived later:</b> VoiceForge combines outcome, primitives, and deterministic signals.</div>
+        </div>
+        <div class="scopewarn"><b>Transcript-only:</b> do not infer audio quality, accent, noise, network, or voice naturalness.
+          Do not hand-label latency or overlap; VoiceForge computes those where timestamps permit.</div>
+      </div>
+    </section>
+  </main>
 </div>
-<div class="dock"><div class="wrap" id="dock"></div></div>
 <script>
 const $ = id => document.getElementById(id);
 let CALLS = [], TAGS = { positive: [], negative: [], context: [] }, labeled = {}, cur = 0, saving = false;
 const TARGET = 40;
-let sel = null;
+let sel = null, drafts = {};
 
 function fresh() { return { primary: null, confidence: null, pos: new Set(), neg: new Set(), ctx: new Set(), note: "", reviewed: false }; }
 function fromRow(r) {
@@ -105,6 +137,11 @@ function fromRow(r) {
 }
 // only success/fail count toward the >=40 floor; unsure is NOT usable for calibration
 function binaryCount() { return Object.values(labeled).filter(r => r.primary_label === "success" || r.primary_label === "fail").length; }
+function completesSession() {
+  if (cur >= CALLS.length) return true;
+  const alreadySaved = CALLS[cur].ref in labeled;
+  return Object.keys(labeled).length + (alreadySaved ? 0 : 1) >= CALLS.length;
+}
 const esc = s => (s || "").replace(/</g, "&lt;");
 
 function renderProgress() {
@@ -117,16 +154,19 @@ function render() {
   renderProgress();
   if (cur >= CALLS.length) {
     const b = binaryCount();
-    $("card").innerHTML = `<div class="done"><h2>✓ ${b} usable labels</h2>
-      <p>${b >= TARGET ? "Past the ≥40 usable floor — calibration can run." : `${TARGET - b} more success/fail to reach the floor.`}
-      Saved to <code>eval/labels_spike.csv</code>. Re-open any call to revise (full annotation restored).</p></div>`;
-    $("dock").innerHTML = `<button onclick="cur=0;render()">↻ review from start</button>`;
+    $("dock").innerHTML = `<div class="done"><div class="panel-title">Session complete</div><h2>✓ All ${CALLS.length} calls reviewed</h2>
+      <p>${b >= TARGET ? `${b} usable success/fail labels — calibration can run.` : `${b} usable labels; ${TARGET - b} more success/fail needed for calibration.`}</p>
+      <button onclick="cur=CALLS.length-1;render()">← Review last call</button></div>`;
+    $("card").innerHTML = `<div class="done"><h2>Labeling complete</h2>
+      <p>Your annotations are saved to <code>eval/labels_spike.csv</code>. You can review earlier calls without losing any tags or notes.</p></div>`;
+    $("nav").innerHTML = "";
     return;
   }
   const c = CALLS[cur];
-  sel = labeled[c.ref] ? fromRow(labeled[c.ref]) : fresh();   // restore FULL prior annotation on reopen
+  sel = drafts[c.ref] || (labeled[c.ref] ? fromRow(labeled[c.ref]) : fresh());
   const prev = labeled[c.ref];
   $("card").innerHTML = `
+    <div class="panel-title">Call transcript</div>
     <div class="meta"><span class="chip">Call ${cur + 1} of ${CALLS.length}</span>
       <span class="chip">${esc(c.workflow_type).replace(/_/g," ")}</span><span class="chip">${esc(c.language)}</span>
       ${prev ? `<span class="chip" style="color:var(--amber)">prior: ${prev.primary_label}</span>` : ""}</div>
@@ -134,7 +174,7 @@ function render() {
       <div class="msg ${t.speaker}"><div class="who"><b>${t.speaker === "agent" ? "agent" : "caller"}</b></div>
         <div class="bub">${t.text ? esc(t.text) : "<i>(silence)</i>"}</div></div>`).join("")}</div>`;
   renderDock();
-  window.scrollTo(0, 0);
+  $("card").scrollTop = 0;
 }
 
 function chips(list, kind, set) {
@@ -143,6 +183,7 @@ function chips(list, kind, set) {
 
 function renderDock() {
   $("dock").innerHTML = `
+    <div class="panel-title">Annotate this call</div>
     <div class="err" id="err"></div>
     <div class="q">Did this call succeed at its task? <span class="hint" style="display:inline">(required)</span></div>
     <div class="row">
@@ -150,20 +191,22 @@ function renderDock() {
       <button class="prim no ${sel.primary==="fail"?"on":""}" data-p="fail">✗ Failed <kbd>2</kbd></button>
       <button class="prim uns ${sel.primary==="unsure"?"on":""}" data-p="unsure">unsure <kbd>3</kbd></button>
     </div>
-    <div class="stage2 ${sel.primary?"show":""}">
-      <div class="lab">your confidence (required)</div>
-      <div class="row conf">${["high","medium","low"].map(c =>
-        `<button class="${sel.confidence===c?"on":""}" data-c="${c}">${c}</button>`).join("")}</div>
-      <div class="labq">What was good? Select all that apply.</div>
-      <div class="grouphint">Positive and negative tags may coexist — judge each independently.</div>
-      <div class="row">${chips(TAGS.positive,"pos",sel.pos)}</div>
-      <div class="labq">What went wrong? Select all that apply.</div><div class="row">${chips(TAGS.negative,"neg",sel.neg)}</div>
-      <div class="labq">Context present? Select all that apply.</div><div class="row">${chips(TAGS.context,"ctx",sel.ctx)}</div>
-      <div class="lab">note — only for something the tags don't capture</div><textarea id="note" placeholder="anything the taxonomy misses…">${esc(sel.note)}</textarea>
-      <label class="reviewconf ${sel.reviewed?"on":""}"><input type="checkbox" id="reviewchk" ${sel.reviewed?"checked":""}>
-        <span>I reviewed all three phenotype groups; zero tags means none applied. <span style="color:var(--muted)">(required)</span></span></label>
-      <button class="save" id="savebtn" ${sel.primary && sel.confidence && sel.reviewed && !saving ? "" : "disabled"} onclick="save()">${saving ? "saving…" : "✓ Save & next →"}</button>
-    </div>`;
+    <div class="lab">your confidence (required)</div>
+    <div class="row conf">${["high","medium","low"].map(c =>
+      `<button class="${sel.confidence===c?"on":""}" data-c="${c}">${c}</button>`).join("")}</div>
+    <div class="labq">What was good? Select all that apply.</div>
+    <div class="grouphint">Positive and negative tags may coexist — judge each independently.</div>
+    <div class="row">${chips(TAGS.positive,"pos",sel.pos)}</div>
+    <div class="labq">What went wrong? Select all that apply.</div><div class="row">${chips(TAGS.negative,"neg",sel.neg)}</div>
+    <div class="labq">Context present? Select all that apply.</div><div class="row">${chips(TAGS.context,"ctx",sel.ctx)}</div>
+    <div class="lab">note — only for something the tags don't capture</div><textarea id="note" placeholder="anything the taxonomy misses…">${esc(sel.note)}</textarea>
+    <label class="reviewconf ${sel.reviewed?"on":""}"><input type="checkbox" id="reviewchk" ${sel.reviewed?"checked":""}>
+      <span>I reviewed all three phenotype groups; zero tags means none applied. <span style="color:var(--muted)">(required)</span></span></label>`;
+  $("nav").innerHTML = `
+    <button class="prev" ${cur === 0 || saving ? "disabled" : ""} onclick="goPrev()">← Previous</button>
+    <span class="nav-status">${labeled[CALLS[cur].ref] ? "Saved annotation · edit and resave" : "Not saved yet"}</span>
+    <button class="save" id="savebtn" ${sel.primary && sel.confidence && sel.reviewed && !saving ? "" : "disabled"} onclick="save()">
+      ${saving ? "Saving…" : (completesSession() ? "Complete labeling ✓" : "Save & next →")}</button>`;
   $("dock").querySelectorAll("[data-p]").forEach(b => b.onclick = () => { sel.primary = b.dataset.p; renderDock(); });
   $("dock").querySelectorAll("[data-c]").forEach(b => b.onclick = () => { sel.confidence = b.dataset.c; renderDock(); });
   $("dock").querySelectorAll("[data-k]").forEach(b => b.onclick = () => {
@@ -173,6 +216,13 @@ function renderDock() {
 }
 
 function showErr(msg) { const e = $("err"); if (e) { e.textContent = msg; e.style.display = "block"; } }
+
+function goPrev() {
+  if (saving || cur === 0) return;
+  drafts[CALLS[cur].ref] = sel;
+  cur--;
+  render();
+}
 
 async function save() {
   if (saving || !sel.primary || !sel.confidence || !sel.reviewed) return;   // guard double-submit / missing required / unconfirmed review
@@ -191,7 +241,10 @@ async function save() {
     labeled[c.ref] = { primary_label: payload.primary_label, confidence: payload.confidence,
       positive_tags: payload.positive_tags, negative_tags: payload.negative_tags,
       context_tags: payload.context_tags, note: payload.note };
-    saving = false; cur++; render();
+    delete drafts[c.ref];
+    saving = false;
+    cur = Object.keys(labeled).length === CALLS.length ? CALLS.length : cur + 1;
+    render();
   } catch (err) {
     saving = false; renderDock(); showErr("Network error — your label was NOT saved. Retry.");
   }
@@ -208,8 +261,8 @@ document.addEventListener("keydown", e => {
   CALLS = (await (await fetch("/label/calls")).json()).calls;
   TAGS = await (await fetch("/label/tags")).json();             // taxonomy from server (no client duplication)
   labeled = (await (await fetch("/label/state")).json()).labeled || {};
-  const un = CALLS.filter(c => !(c.ref in labeled)), done = CALLS.filter(c => c.ref in labeled);
-  CALLS = [...un, ...done];   // unlabeled first (stable server-side stratified order within)
+  const firstUnlabeled = CALLS.findIndex(c => !(c.ref in labeled));
+  cur = firstUnlabeled === -1 ? CALLS.length : firstUnlabeled;
   render();
 })();
 </script>
