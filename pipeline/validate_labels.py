@@ -36,6 +36,9 @@ OUT = ROOT / "out" / "label_validation.json"
 EXPECTED_COLS = ["call_id", "primary_label", "confidence", "positive_tags",
                  "negative_tags", "context_tags", "note", "timestamp"]
 FROZEN_MANIFEST_SHA = "aec4ba49000c9f4fdfa203cfca4bc787b71004abb47e4a7eff899175446cae33"
+# the AUDITED snapshot itself is pinned by raw-byte SHA — "CSV matches snapshot" proves nothing
+# unless the snapshot is the one that was audited. Editing CSV+snapshot together cannot open the gate.
+FROZEN_SNAPSHOT_SHA = "d592782aafb61a442c1b5d71f0f6aa2fdc3e84a3735f49bd333a16f91534220a"
 FLOOR = 40
 
 # the two seed annotations (pre-date the slice repair) — full tag sets must never drift
@@ -124,6 +127,9 @@ def main():
     # 9 POST-FREEZE contract (active once eval/label_snapshot.json exists): byte-hash equality,
     # complete coverage (every manifest call exactly once), and counts match the snapshot.
     if SNAPSHOT.exists():
+        snap_sha = hashlib.sha256(SNAPSHOT.read_bytes()).hexdigest()
+        check("SNAPSHOT: snapshot file IS the audited frozen artifact (pinned raw-byte SHA)",
+              snap_sha == FROZEN_SNAPSHOT_SHA, snap_sha[:16])
         snap = json.loads(SNAPSHOT.read_text())
         csv_sha = hashlib.sha256(raw_bytes).hexdigest()
         check("SNAPSHOT: csv raw-byte hash matches frozen snapshot",

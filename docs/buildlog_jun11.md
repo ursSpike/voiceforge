@@ -732,3 +732,16 @@ rejected; timestamps now timezone-aware (local offset); counters renamed expecte
 no-mode refusal, mutual exclusion, negative delay, interrupted checkpoint. Dry-run: GATE OPEN 46×6=276.
 Hashes: CSV b3884f9ede7d753a… · manifest aec4ba49000c9f4f… · snapshot d592782aafb61a44… · cache fixture_4a only.
 **STOP for Codex audit. Still no network call.**
+
+## FINAL E1 FREEZE REPAIR (Jun 12 ~21:45) — snapshot independently anchored (Codex blocker)
+**Gap (Codex repro):** edit CSV + rewrite snapshot hash/counts consistently → gate opened with altered 36/9 labels.
+The gate proved "CSV matches snapshot" but not "snapshot IS the audited snapshot".
+**Fix:** the audited snapshot's RAW-BYTE SHA (d592782aafb61a442c1b5d71f0f6aa2fdc3e84a3735f49bd333a16f91534220a) is now
+PINNED in both validate_labels.py and judge_run.py — checked BEFORE any value inside the snapshot is trusted; a re-written
+snapshot can never open the gate. **Plus git-HEAD anchoring for real runs:** labels_spike.csv, label_manifest.json,
+label_snapshot.json must each be tracked AND byte-identical to HEAD (unrelated dirty/untracked files ignored).
+**Adversarial selftest added (Codex's exact attack):** mutate a label AND rewrite the snapshot's CSV hash + counts (37/8→
+36/9) consistently → gate STILL closes ("snapshot not audited"). Rewritten-snapshot test updated (closes via pinned SHA).
+**Verified:** validator green incl new pinned check (out/label_validation.json regenerated + committed) · judge selftest
+PASS · judge_run selftest PASS (incl adversarial) · dry-run on real artifacts GATE OPEN 276 · git diff --check clean.
+**STOP. Still no Gemini call. Trust chain now: pinned code constant → audited snapshot bytes → CSV/manifest bytes → git HEAD.**

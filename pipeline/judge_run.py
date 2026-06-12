@@ -46,6 +46,9 @@ MAN_PATH = ROOT / "eval" / "label_manifest.json"
 SNAP_PATH = ROOT / "eval" / "label_snapshot.json"
 OUT_REAL = ROOT / "out" / "judge_results.json"
 OUT_CANARY = ROOT / "out" / "judge_canary.json"
+# the AUDITED snapshot is itself pinned — editing CSV + snapshot together cannot open the gate,
+# because a re-written snapshot is no longer the audited artifact.
+FROZEN_SNAPSHOT_SHA = "d592782aafb61a442c1b5d71f0f6aa2fdc3e84a3735f49bd333a16f91534220a"
 
 BINARY_RULE = ("dedicated outcome judgment per call (temperature 0, JSON, evidence-cited); "
                "label in {success,fail}; same question the blind annotator answered. "
@@ -105,15 +108,31 @@ def judge_outcome(client, call):
 
 
 def gate(csv_path=CSV_PATH, man_path=MAN_PATH, snap_path=SNAP_PATH, run_validator=True):
-    """The frozen-snapshot gate. Returns (manifest, csv_sha, man_sha, snapshot) or sys.exits."""
+    """The frozen-snapshot gate. Returns (manifest, csv_sha, man_sha, snapshot) or sys.exits.
+    Real runs (run_validator=True) additionally anchor the three frozen artifacts to git HEAD:
+    each must be tracked AND byte-identical to its committed state (unrelated dirty files ignored)."""
     import csv as csvmod
     J._check_rubric_dims()                                              # rubric drift -> SystemExit
     if run_validator:
         r = subprocess.run([sys.executable, str(ROOT / "pipeline" / "validate_labels.py"), "--quiet"])
         if r.returncode != 0:
             sys.exit("GATE CLOSED: validate_labels.py failed — labels do not validate.")
+        for rel in ("eval/labels_spike.csv", "eval/label_manifest.json", "eval/label_snapshot.json"):
+            tracked = subprocess.run(["git", "-C", str(ROOT), "ls-files", "--error-unmatch", rel],
+                                     capture_output=True).returncode == 0
+            clean = subprocess.run(["git", "-C", str(ROOT), "diff", "--quiet", "HEAD", "--", rel],
+                                   capture_output=True).returncode == 0
+            if not (tracked and clean):
+                sys.exit(f"GATE CLOSED: {rel} is not byte-identical to git HEAD "
+                         f"({'untracked' if not tracked else 'modified'}) — commit the audited "
+                         "artifacts before a real run.")
     if not snap_path.exists():
         sys.exit("GATE CLOSED: eval/label_snapshot.json missing — freeze the labels first (Phase E0).")
+    snap_sha = hashlib.sha256(snap_path.read_bytes()).hexdigest()
+    if snap_sha != FROZEN_SNAPSHOT_SHA:
+        sys.exit(f"GATE CLOSED: snapshot is NOT the audited frozen artifact "
+                 f"({snap_sha[:12]}… != pinned {FROZEN_SNAPSHOT_SHA[:12]}…) — a re-written snapshot "
+                 "cannot open the gate; only the audited one can.")
     snap = json.loads(snap_path.read_text())
     if snap.get("annotation_status") != "complete":
         sys.exit("GATE CLOSED: snapshot annotation_status != complete.")
@@ -248,15 +267,30 @@ def selftest():
         except SystemExit as e:
             check("manifest mutated" in str(e), "mutated manifest closes the gate")
         shutil.copy(MAN_PATH, man_c)
-        # incomplete snapshot -> closed
+        # modified snapshot (any rewrite) -> closed by the PINNED SHA, regardless of content
         s = json.loads(snap_c.read_text()); s["annotation_status"] = "in_progress"
         snap_c.write_text(json.dumps(s))
         try:
             gate(csv_c, man_c, snap_c, run_validator=False)
-            check(False, "incomplete snapshot should close the gate")
+            check(False, "modified snapshot should close the gate")
         except SystemExit as e:
-            check("annotation_status" in str(e), "incomplete snapshot closes the gate")
+            check("audited" in str(e), "rewritten snapshot closes the gate (pinned SHA)")
         shutil.copy(SNAP_PATH, snap_c)
+        # ADVERSARIAL: mutate a label AND rewrite the snapshot's CSV hash + counts to match
+        # (Codex's reproduction: 37/8 -> 36/9 with a consistent snapshot). Gate must STILL close,
+        # because the rewritten snapshot is no longer the audited artifact.
+        mutated = CSV_PATH.read_bytes().replace(b"success", b"fail", 1)
+        csv_c.write_bytes(mutated)
+        s = json.loads(SNAP_PATH.read_text())
+        s["labels_csv_sha256"] = hashlib.sha256(mutated).hexdigest()
+        s["success"], s["fail"] = 36, 9
+        snap_c.write_text(json.dumps(s, indent=2) + "\n")
+        try:
+            gate(csv_c, man_c, snap_c, run_validator=False)
+            check(False, "ADVERSARIAL consistent CSV+snapshot rewrite should close the gate")
+        except SystemExit as e:
+            check("audited" in str(e), "ADVERSARIAL: consistent CSV+snapshot rewrite still closes (snapshot not audited)")
+        shutil.copy(CSV_PATH, csv_c); shutil.copy(SNAP_PATH, snap_c)
         # rubric drift -> closed (patch JUDGE_DIMS)
         saved = dict(J.JUDGE_DIMS)
         try:

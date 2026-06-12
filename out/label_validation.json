@@ -54,6 +54,11 @@
       "detail": "success/high"
     },
     {
+      "check": "SNAPSHOT: snapshot file IS the audited frozen artifact (pinned raw-byte SHA)",
+      "ok": true,
+      "detail": "d592782aafb61a44"
+    },
+    {
       "check": "SNAPSHOT: csv raw-byte hash matches frozen snapshot",
       "ok": true,
       "detail": "b3884f9ede7d753a == b3884f9ede7d753a"
