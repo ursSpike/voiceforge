@@ -598,3 +598,12 @@ floor+judge fixtures → agreement 0.9 exact, kappa inside its CI, html renders,
 **Real render** = honest gated state (2 labels, calibration PENDING). CSV untouched (e6d2055).
 Batch C satisfied by the same artifact: light-theme single page in the demo presentation order (thesis/corpus →
 deterministic signals → calibration → phenotypes → clusters → representatives/queue), pending sections show gated state.
+
+## BATCH D — Demo + submission materials (Jun 12 ~19:00)
+**docs/README_DEMO.md**: launch commands (canonical repo), deterministic regen commands, 4-level offline fallback
+(static html → recording → screenshots → md+png), screenshot checklist (deferred to Batch H so shots show REAL numbers),
+architecture diagram, volunteer-first limitations, known-good state + gates. **docs/demo_script.md**: 7–8 min script with
+⟨slots⟩ for real numbers (rule: never speak a number not in a committed artifact), 60-second compressed pitch, judge Q&A
+with artifact-grounded answers (judge-trust, heuristic honesty, constructed-hero disclosure, no-fake-timing, n≈40 pilot
+framing, solo-vs-team). No claims of training/DPO-quality/significance anywhere.
+Batches E–H remain GATED on Spike's labels. Booth still down pending Codex clearance of Batch A.
