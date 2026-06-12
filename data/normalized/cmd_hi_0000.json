@@ -1,0 +1,100 @@
+{
+  "call_id": "cmd_hi_0000",
+  "source": "code_mixed_dialog",
+  "language": "hi-en",
+  "stress_profile": "unmeasured",
+  "workflow_type": "restaurant_reservation",
+  "turns": [
+    {
+      "turn_id": "t1",
+      "speaker": "agent",
+      "text": "Hello , Cambridge restaurant system mein aapka swagat hai . Aap pa sakte hai restaurant by area , price range ya food type . Aap ko kaise help kar sakta hu main ?",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "turn_id": "t2",
+      "speaker": "user",
+      "text": "south part of town meh expensive restaurant hai",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "turn_id": "t3",
+      "speaker": "agent",
+      "text": "Aap kaunse type ka food lene chahege ?",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "turn_id": "t4",
+      "speaker": "user",
+      "text": "koi bhi",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "turn_id": "t5",
+      "speaker": "agent",
+      "text": "town ke south mein good luck chinese food takeaway achha restaurant hai jo chinese food serve karta hai",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "turn_id": "t6",
+      "speaker": "user",
+      "text": "pata",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "turn_id": "t7",
+      "speaker": "agent",
+      "text": "jarur , the good luck chinese food takeaway the_good_luck_chinese_food_takeaway_address pe hai",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "turn_id": "t8",
+      "speaker": "user",
+      "text": "food ki type",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "turn_id": "t9",
+      "speaker": "agent",
+      "text": "good luck chinese food takeaway ek accha place hain south of town mein jo expensive price range mein hain",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "turn_id": "t10",
+      "speaker": "user",
+      "text": "Thank you , good bye .",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "turn_id": "t11",
+      "speaker": "agent",
+      "text": "Welcome , alvida",
+      "start_ms": null,
+      "end_ms": null
+    }
+  ],
+  "audio_path": null,
+  "metadata": {
+    "timing_observed": false,
+    "source_dataset": "Code-Mixed-Dialog",
+    "source_repo": "https://github.com/sumanbanerjee1/Code-Mixed-Dialog",
+    "source_commit": "9df1d4dc800548a883f8bc1a9ce4116c77aebc02",
+    "source_split": "dev",
+    "source_dialog_index": 0,
+    "license": "Apache-2.0 (repo LICENSE); CC BY 4.0 on the arXiv paper",
+    "translation_status": "translated (human, from English DSTC2)",
+    "domain": "DSTC2 restaurant reservation",
+    "utterance_turns": 11,
+    "selection_rule": "deterministic file-order; 4<=utterance_turns<=20; deduped by transcript"
+  }
+}

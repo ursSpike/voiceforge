@@ -1,0 +1,14 @@
+{
+  "dataset": "Code-Mixed-Dialog",
+  "repo": "https://github.com/sumanbanerjee1/Code-Mixed-Dialog",
+  "commit": "9df1d4dc800548a883f8bc1a9ce4116c77aebc02",
+  "paper": "Banerjee et al., COLING 2018 (arXiv:1806.05997)",
+  "license": "Apache-2.0 (repo LICENSE)",
+  "language": "hi-en (romanized Hinglish)",
+  "domain": "DSTC2 restaurant reservation",
+  "nature": "human-translated from English DSTC2",
+  "files": [
+    "dialog-dstc2-dev.txt"
+  ],
+  "note": "Cached dev split (500 dialogues) at pinned commit for reproducible + offline ingest. Apache-2.0 permits redistribution. 24 selected deterministically."
+}

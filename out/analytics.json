@@ -1,13 +1,21 @@
 {
-  "n_calls": 46,
-  "success_rate": 0.37,
+  "n_calls": 70,
+  "success_rate": 0.529,
   "avg_overall": 0.711,
   "timing_coverage": {
     "timed": 46,
-    "unmeasured": 0
+    "unmeasured": 24
   },
-  "cost_per_successful_call": 0.2438,
+  "cost_per_successful_call": 0.1315,
   "by_stress_profile": [
+    {
+      "stress_profile": "unmeasured",
+      "n": 24,
+      "n_completed": 20,
+      "cost": 0.7200000000000003,
+      "success_rate": 0.833,
+      "cost_per_successful_call": 0.036
+    },
     {
       "stress_profile": "interruption",
       "n": 21,

@@ -526,3 +526,24 @@ BYTE-IDENTICAL; CSV SHA e6d2055 frozen; normalized 46. (Codex warning acknowledg
 `build_analytics`, not the schema — acceptable.)
 
 **Next:** STOP for Codex re-audit. On clear → Phase B ingest + immutable `eval/label_manifest.json`.
+
+## BATCH 2R · Phase B — Code-Mixed-Dialog ingest + immutable manifest (Jun 12) — Codex CLEARED
+Booth NOT restarted yet (per protocol). Labels frozen (e6d2055), 44 swz_ intact, existing 46 outputs byte-identical.
+
+**Ingest** (`pipeline/ingest_cmd.py`): cached Hindi dev split @9df1d4dc (`data/code_mixed_dialog/`, Apache-2.0, committed for
+reproducible/offline ingest) → **24** `cmd_hi_*` call_logs. bAbI parse keeps only real user/agent NL utterances (skips `<SILENCE>`,
+`api_call` actions, `R_` KB rows), merges same-speaker, filters 4≤turns≤20 (got 7–17, median 11), dedups by transcript, deterministic
+file order. All timing **null**, `stress_profile:unmeasured`, `source:code_mixed_dialog`, `hi-en`, full provenance; each
+`validate_call()`'d before write. **Heuristic outcome:** `restaurant_reservation` added to `WORKFLOW_FIELDS` (cuisine/area/price/contact)
+— new calls only (20/24 completed); existing 46 untouched.
+
+**Manifest** (`pipeline/build_manifest.py` → `eval/label_manifest.json`, immutable + idempotent): 40 = 2 frozen (bolna,hero) + 24 cmd +
+14 shortest swz controls (20–32 turns). Booth (`serve.py label_order`) now reads the manifest, **fails loudly on dup/missing**, serves in
+manifest order, resumes at ref 2 = cmd_hi_0000, UI "Call N of 40", blind-strip intact.
+
+**Verify:** pool 70/70 call_log-valid (24 unmeasured against the timing invariant); existing 46 per-call outputs byte-identical;
+analytics `timing_coverage{timed:46,unmeasured:24}`; nullable suite PASS; manifest idempotent; dup/missing rejected; CSV SHA frozen.
+**Open (flagged for audit):** 40 calls vs ≥40-binary floor = zero unsure-slack; recommend bumping controls to 20 → 46 (one-line). No
+judge calls; source fetch was one cached GitHub-raw text pull at the pinned SHA.
+
+**Next:** STOP for Codex audit of the new pool + manifest (+ slack ruling). No booth restart until clear.

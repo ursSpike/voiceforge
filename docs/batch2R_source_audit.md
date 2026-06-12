@@ -1,7 +1,7 @@
 # Batch 2R · Phase A — Source audit (calibration-slice repair)
 
-**Status:** Source audit + **nullable-timing contract (built + tested)**. NO ingest, NO new normalized calls, NO booth restart,
-labels frozen. Ruling = **Option A**. Existing 46 outputs byte-identical. Awaiting Codex re-audit before any ingest.
+**Status:** **Phase B BUILT** — 24 Hindi-English ingested, immutable manifest written, booth wired to it. NO booth restart yet,
+labels frozen (`e6d2055…`), existing 46 outputs byte-identical. Awaiting Codex audit of the new pool + manifest before restart.
 **Why this batch:** the current label pool is 44 monolingual-English SpokenWOZ calls (turn median ≈36, max 60) —
 long to label and mismatched with VoiceForge's multilingual thesis. Goal: a 40-call slice of SHORT, multilingual,
 goal-oriented calls.
@@ -103,9 +103,32 @@ timestamps. Designed, implemented, and tested a nullable-timing contract — **n
 - nullable-timing contract: edited `schemas.py`/`signals.py`/`score.py` + new `pipeline/test_nullable_timing.py`; ran
   `schemas.py` (9 schemas, pool 46/46 valid, self-tests pass) + the contract test (PASS) + `score.py` (out/ byte-identical, hash `9e68bab5…`).
 
+## Phase B — BUILT (awaiting audit; booth NOT restarted)
+- **Source cached** at the pinned commit: `data/code_mixed_dialog/dialog-dstc2-dev.txt` (+ `SOURCE.json` provenance). Apache-2.0
+  permits redistribution; committed for reproducible + offline ingest.
+- **`pipeline/ingest_cmd.py`** → **24** `cmd_hi_*` call_logs in `data/normalized/`. Parses bAbI: keeps only real user/agent
+  natural-language utterances (skips `<SILENCE>`, `api_call` actions, and `R_` KB rows), merges consecutive same-speaker turns,
+  filters **4 ≤ utterance-turns ≤ 20** (selected span **7–17**, median 11), dedups by transcript, deterministic file-order.
+  Every turn `start_ms`/`end_ms` **null**, `stress_profile: unmeasured`, `source: code_mixed_dialog`, `language: hi-en`,
+  `workflow_type: restaurant_reservation`; full provenance (repo, commit `9df1d4dc`, split, dialog index, license, translated).
+  **Each call is `validate_call()`'d before writing** (Codex warning).
+- **Heuristic outcome:** added `restaurant_reservation` to `score.py` `WORKFLOW_FIELDS` (cuisine/area/price/contact facets) — a
+  coarse, documented heuristic over the negotiated search; affects ONLY the new calls (20/24 task_completed). Existing 46 unchanged.
+- **`pipeline/build_manifest.py`** → **`eval/label_manifest.json`** (immutable, idempotent): 40 calls = 2 frozen
+  (`bolna_246cd9f3`, `hero_001`) + 24 `cmd_hi_*` + 14 shortest `swz_*` controls (turns 20–32). Asserts no dup / all present.
+- **Booth wired:** `serve.py label_order()` now reads the manifest and **fails loudly on duplicate or missing call**; serves in
+  manifest order; resumes at the first unlabeled = **ref 2 = `cmd_hi_0000`** (short, Hinglish); UI shows "Call N of 40". Blind-strip
+  intact (no call_id/source/stress_profile/score leaves the server).
+
+**Verification:** pool 70/70 valid against the timing invariant; existing 46 per-call outputs **byte-identical**; `out/analytics.json`
+`timing_coverage {timed:46, unmeasured:24}`; nullable-timing suite PASS; manifest idempotent; dup/missing rejected; CSV SHA `e6d2055…`
+frozen; 44 `swz_*` intact (none deleted). No judge calls. (Source fetch = one cached GitHub-raw text pull at the pinned SHA — not audio,
+not a provider/judge API.)
+
+**⚠️ For the audit — slack flag:** the slice is exactly 40 and the calibration floor is **≥40 binary** (unsure excluded), so any
+`unsure` drops below 40. Two options: (a) accept tight (label all 40, minimal unsure); (b) bump controls to 20 → **46** total for a
+6-label buffer (one-line change: `N_CONTROLS=20`). Recommend (b); deferring to your ruling rather than silently changing the composition.
+
 ## Next step
-**STOP for Codex re-audit** of (a) the corrected turn-counting, (b) the documentation/honesty fixes, and (c) the nullable-timing
-contract. On approval — Phase B ingest: a `code_mixed_dialog` adapter parsing only TAB user↔system lines into `unmeasured`,
-`timing_observed:false`, null-timing call_logs (24 distinct Hindi-English, each ≤20 utterance turns, no parallel duplicates,
-heuristic outcomes, full provenance) + 14 short SpokenWOZ controls + immutable `eval/label_manifest.json` (entries 1–2 = bolna/hero,
-`label_order()` reads it and fails on dup/missing, UI "Call N of 40"). **No ingest, no booth restart until re-audit clears.**
+**STOP for Codex audit** of the new pool + manifest. On clear (and the slack ruling): restart the booth for blind labeling. No
+booth restart until then.

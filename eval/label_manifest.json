@@ -1,0 +1,67 @@
+{
+  "version": 1,
+  "total": 40,
+  "frozen_prefix": [
+    "bolna_246cd9f3",
+    "hero_001"
+  ],
+  "order": [
+    "bolna_246cd9f3",
+    "hero_001",
+    "cmd_hi_0000",
+    "cmd_hi_0001",
+    "cmd_hi_0002",
+    "cmd_hi_0003",
+    "cmd_hi_0004",
+    "cmd_hi_0005",
+    "cmd_hi_0006",
+    "cmd_hi_0007",
+    "cmd_hi_0008",
+    "cmd_hi_0009",
+    "cmd_hi_0010",
+    "cmd_hi_0011",
+    "cmd_hi_0012",
+    "cmd_hi_0013",
+    "cmd_hi_0014",
+    "cmd_hi_0015",
+    "cmd_hi_0016",
+    "cmd_hi_0017",
+    "cmd_hi_0018",
+    "cmd_hi_0019",
+    "cmd_hi_0020",
+    "cmd_hi_0022",
+    "cmd_hi_0024",
+    "cmd_hi_0025",
+    "swz_MUL2483",
+    "swz_MUL2658",
+    "swz_MUL0211",
+    "swz_MUL0247",
+    "swz_MUL1685",
+    "swz_MUL0069",
+    "swz_MUL0815",
+    "swz_MUL1552",
+    "swz_MUL1560",
+    "swz_MUL0035",
+    "swz_MUL0280",
+    "swz_MUL1004",
+    "swz_MUL0239",
+    "swz_MUL0271"
+  ],
+  "composition": {
+    "existing_labeled": 2,
+    "code_mixed_dialog_hi": 24,
+    "spokenwoz_controls": 14
+  },
+  "selection_rules": {
+    "frozen_prefix": "the two already-labeled calls (bolna hi-en, hero te-en), in label order \u2014 immutable",
+    "code_mixed_dialog_hi": "first 24 cmd_hi_* (sorted); each 4<=utterance_turns<=20, deduped; repo @9df1d4dc",
+    "spokenwoz_controls": "14 SHORTEST swz_* by (turn_count, call_id)"
+  },
+  "source_revisions": {
+    "code_mixed_dialog": "9df1d4dc800548a883f8bc1a9ce4116c77aebc02 (Apache-2.0)",
+    "spokenwoz": "dev split (CC BY-NC 4.0)",
+    "hero": "constructed (assembly_timeline)",
+    "bolna": "execution 246cd9f3"
+  },
+  "note": "IMMUTABLE blind-label order. Booth serves in this order, 'Call N of 40'. Do not add/remove data/normalized/ during a labeling session. Tags are exploratory; the binary spine is the kappa anchor."
+}

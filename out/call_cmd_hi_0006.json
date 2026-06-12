@@ -1,0 +1,132 @@
+{
+  "call_id": "cmd_hi_0006",
+  "source": "code_mixed_dialog",
+  "language": "hi-en",
+  "stress_profile": "unmeasured",
+  "workflow_type": "restaurant_reservation",
+  "turns": [
+    {
+      "turn_id": "t1",
+      "speaker": "agent",
+      "text": "Hello , Cambridge restaurant system mein aapka swagat hai . Aap pa sakte hai restaurant by area , price range ya food type . Aap ko kaise help kar sakta hu main ?",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "turn_id": "t2",
+      "speaker": "user",
+      "text": "moderately priced priced restaurant jaha chinese food hai",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "turn_id": "t3",
+      "speaker": "agent",
+      "text": "golden_wok badiya restaurant hai serving chinese food aur woh moderate price range me hai",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "turn_id": "t4",
+      "speaker": "user",
+      "text": "address aur postcode",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "turn_id": "t5",
+      "speaker": "agent",
+      "text": "golden_wok golden_wok_address me hai",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "turn_id": "t6",
+      "speaker": "user",
+      "text": "thank you goodbye",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "turn_id": "t7",
+      "speaker": "agent",
+      "text": "Welcome , alvida",
+      "start_ms": null,
+      "end_ms": null
+    }
+  ],
+  "audio_path": null,
+  "metadata": {
+    "timing_observed": false,
+    "source_dataset": "Code-Mixed-Dialog",
+    "source_repo": "https://github.com/sumanbanerjee1/Code-Mixed-Dialog",
+    "source_commit": "9df1d4dc800548a883f8bc1a9ce4116c77aebc02",
+    "source_split": "dev",
+    "source_dialog_index": 6,
+    "license": "Apache-2.0 (repo LICENSE); CC BY 4.0 on the arXiv paper",
+    "translation_status": "translated (human, from English DSTC2)",
+    "domain": "DSTC2 restaurant reservation",
+    "utterance_turns": 7,
+    "selection_rule": "deterministic file-order; 4<=utterance_turns<=20; deduped by transcript"
+  },
+  "outcome": {
+    "call_id": "cmd_hi_0006",
+    "task_completed": true,
+    "required_fields": [
+      {
+        "name": "cuisine",
+        "captured": true,
+        "value": null
+      },
+      {
+        "name": "area",
+        "captured": false,
+        "value": null
+      },
+      {
+        "name": "price",
+        "captured": true,
+        "value": null
+      },
+      {
+        "name": "contact_provided",
+        "captured": true,
+        "value": null
+      }
+    ],
+    "escalation_needed": false,
+    "confidence": 0.75
+  },
+  "scorecard": {
+    "call_id": "cmd_hi_0006",
+    "dimensions": [
+      {
+        "name": "task_completion",
+        "type": "deterministic",
+        "score": 0.75,
+        "reason": "captured 3/4 required fields (heuristic from goal/workflow)",
+        "evidence_turn_ids": []
+      }
+    ],
+    "overall": 0.75
+  },
+  "cost": {
+    "call_id": "cmd_hi_0006",
+    "duration_s": null,
+    "turn_count": 7,
+    "est_llm_calls": 4,
+    "est_cost_total": 0.02,
+    "est_cost_per_success_note": "estimated, prototype"
+  },
+  "failures": [],
+  "signals": {
+    "latency": {
+      "n_handoffs": 0,
+      "median_gap_ms": null,
+      "p90_gap_ms": null,
+      "laggy_threshold_ms": 800,
+      "n_laggy": 0
+    },
+    "n_barge_ins": 0
+  }
+}

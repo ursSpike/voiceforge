@@ -54,21 +54,23 @@ LABEL_COLS = ["call_id", "primary_label", "confidence", "positive_tags",
               "negative_tags", "context_tags", "note", "timestamp"]
 
 
+LABEL_MANIFEST = ROOT / "eval" / "label_manifest.json"
+
+
 def label_order():
-    """Deterministic SERVER-side stratified order over data/normalized: round-robin across
-    stress_profiles, sorted call_id within each. Stable -> ref index <-> call_id is consistent
-    across requests. Returns the full call dicts in order (call_id never leaves the server for
-    display; only the ref index does)."""
-    calls = [json.loads(f.read_text()) for f in sorted((ROOT / "data" / "normalized").glob("*.json"))]
-    groups = OrderedDict()
-    for c in sorted(calls, key=lambda c: c["call_id"]):
-        groups.setdefault(c["stress_profile"], []).append(c)
-    order, profs = [], list(groups)
-    while any(groups[p] for p in profs):
-        for p in profs:
-            if groups[p]:
-                order.append(groups[p].pop(0))
-    return order
+    """The IMMUTABLE blind-label order from eval/label_manifest.json. Fails loudly on a duplicate or a
+    missing call so the booth can never silently drift from the audited slice. Returns the full call
+    dicts in manifest order (call_id never leaves the server for display; only the ref index does)."""
+    order = json.loads(LABEL_MANIFEST.read_text())["order"]
+    if len(order) != len(set(order)):
+        raise ValueError("label_manifest.json has duplicate call_ids")
+    calls = []
+    for cid in order:
+        p = ROOT / "data" / "normalized" / f"{cid}.json"
+        if not p.exists():
+            raise FileNotFoundError(f"manifest references a missing normalized call: {cid}")
+        calls.append(json.loads(p.read_text()))
+    return calls
 
 
 def read_labels():

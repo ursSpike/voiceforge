@@ -32,6 +32,17 @@ WORKFLOW_FIELDS = {   # for calls with no SpokenWOZ goal (hero/bolna): slot -> k
     "appointment_booking": {"location": ["street", "bangalore", "बैंगलोर", "road", "near", "metro"],
                            "date_time": ["june", "pm", "am", "five", "ten", "thirteenth",
                                          "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]},
+    # DSTC2 restaurant reservation (code_mixed_dialog): coarse HEURISTIC over the negotiated search
+    # facets + whether the agent surfaced contact info (delexicalized *_address/_phone slot tokens).
+    "restaurant_reservation": {
+        "cuisine": ["chinese", "thai", "indian", "italian", "french", "british", "european", "asian",
+                    "international", "korean", "lebanese", "spanish", "turkish", "vietnamese", "portuguese",
+                    "mediterranean", "gastropub", "seafood", "japanese", "persian", "african", "catalan",
+                    "jamaican", "cuban", "moroccan", "modern", "fusion", "steakhouse", "barbeque"],
+        "area": ["north", "south", "east", "west", "centre", "center"],
+        "price": ["cheap", "moderate", "expensive"],
+        "contact_provided": ["address", "phone", "post"],   # delex slot tokens appear in agent turns
+    },
 }
 
 
