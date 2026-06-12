@@ -7,6 +7,13 @@
       "runtimeArgs": ["web/recorder/serve.py"],
       "port": 7861,
       "autoPort": true
+    },
+    {
+      "name": "booth-test",
+      "runtimeExecutable": "/bin/sh",
+      "runtimeArgs": ["-c", "VOICEFORGE_LABELS_CSV=/tmp/vf_test_labels.csv exec .venv/bin/python web/recorder/serve.py"],
+      "port": 7861,
+      "autoPort": true
     }
   ]
 }

@@ -47,7 +47,9 @@ EXT = {"audio/mp4": ".m4a", "audio/webm": ".webm", "audio/ogg": ".ogg",
        "audio/mpeg": ".mp3", "audio/wav": ".wav"}
 
 # ---------------- blind-label booth v2 (phenotype) helpers ----------------
-LABELS_CSV = ROOT / "eval" / "labels_spike.csv"
+# Default path is unchanged; VOICEFORGE_LABELS_CSV lets verification point at a throwaway file
+# so testing never touches the real eval/labels_spike.csv.
+LABELS_CSV = Path(os.environ.get("VOICEFORGE_LABELS_CSV", str(ROOT / "eval" / "labels_spike.csv")))
 LABEL_COLS = ["call_id", "primary_label", "confidence", "positive_tags",
               "negative_tags", "context_tags", "note", "timestamp"]
 

@@ -320,3 +320,33 @@ cached, gated behind blind labels) OR Spike's blind labels (Block 4) which the c
 STOP here per the leash.
 
 ---
+
+## Booth-v2.1 — one-pass hierarchy clarification (Jun 12, audit-master spec)
+**Goal:** make the labeling booth explicitly ONE-PASS + hierarchical (Spike read "Stage 2 optional"
+as "come back later / listen to audio later"). Wording + UX gate only — **no schema, allowlist,
+blindness, CSV-format, or judge-quarantine change.**
+
+**Changed (3 files, +46/-12):**
+- `web/label.html` — Level 1/2/3 explainer at top (outcome → primitives → derived-not-labeled);
+  scope warning (transcript-only, don't infer audio/accent/noise/network/latency/overlap/naturalness);
+  tag headings → "What was good? / What went wrong? / Context present? — Select all that apply.";
+  coexistence hint; **mandatory review checkbox** ("I reviewed all three phenotype groups; zero tags
+  means none applied") — Save disabled until outcome+confidence+review all set; on reopen, labels
+  restore but checkbox resets (reconfirmation required, nothing lost). Keyboard Enter + save() guard
+  + double-submit guard all now also require `reviewed`.
+- `web/recorder/serve.py` — one line: `LABELS_CSV` honors `VOICEFORGE_LABELS_CSV` env (default path
+  UNCHANGED) so verification writes to a throwaway file, never the real CSV.
+- `.claude/launch.json` — added `booth-test` config (env-wrapped) for isolated browser testing.
+
+**Verified in a real browser (preview, test server on throwaway /tmp CSV), all 10 audit checks:**
+1 save disabled w/o outcome (stage-2 hidden) · 2 disabled w/o confidence · 3 disabled w/o review-confirm ·
+4 positive+negative selectable together (clear_and_concise + language_mismatch) · 5 zero tags saves
+after confirm · 6 mixed tags persist through CSV + fully restore on reopen, review resets · 7 forced
+500 shows retryable error + does NOT advance + persists nothing · 8 `unsure` saved → usable count
+held (2 usable / 3 total) · 9 blind API serves only language/ref/turns/workflow_type (+turn_id/speaker/
+text), no leaks · 10 real `eval/labels_spike.csv` ABSENT after testing (3 test rows went to /tmp).
+CSV format byte-shape unchanged (same 8 columns). Level 3 NOT hand-labeled (documented as deterministic
+derivation post-label).
+
+**Next (STOP — awaiting audit-master sign-off, then Spike labels):** on "go", start the real-CSV
+server (`booth` config) and Spike labels ≥40 at /label. Judge quarantine stays active until labels exist.

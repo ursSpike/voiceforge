@@ -59,6 +59,27 @@ Columns: `call_id, primary_label, confidence, positive_tags, negative_tags, cont
   calls are added before labeling.
 - Don't tune the sample after seeing labels; don't force class balance; label truthfully.
 
+## Booth-v2.1 — one-pass hierarchy clarification (Jun 12, audit-master spec)
+Wording/UX repair only — **no schema, allowlist, blindness, CSV-format, or quarantine change.**
+Annotation is **one pass per call, one save** — not a label-then-listen second pass.
+- **Level 1 — Outcome:** exactly one of `success/fail/unsure`. *Did the caller ultimately achieve the goal?*
+- **Level 2 — Phenotype primitives:** review **every** group, select all that apply. Positive and
+  negative tags may coexist (success-with-friction, fail-despite-good-handling); judge each independently.
+  "Optional" was reframed to **"select all that apply; zero is valid only after deliberate review."**
+- **Level 3 — Derived archetypes:** **NOT manually labeled.** VoiceForge derives them later,
+  reproducibly, from Level-1 outcome + Level-2 primitives + deterministic signals (e.g. brittle_success,
+  multilingual_failure, recovered_success, well_handled_workflow_failure). Hand-labeling Level 3 would
+  duplicate information and create contradictions — so the booth offers no Level-3 fields.
+- **Group headings** now read *"What was good? / What went wrong? / Context present? — Select all that apply."*
+- **Mandatory review checkbox** before Save: *"I reviewed all three phenotype groups; zero tags means none applied."*
+  Save stays disabled until **outcome + confidence + review-checkbox** are all set. On reopening a saved
+  call, every prior label is restored but the checkbox **resets → reconfirmation required** (no labels lost).
+- **Scope warning** (prominent): transcript-based pool — label only what the text supports; do **not**
+  infer audio quality, accent, noise, network, latency, overlap, or voice naturalness (those are measured, not labeled).
+- Verified in-browser (throwaway CSV, real `eval/labels_spike.csv` untouched): save-gating on each of the
+  three requirements, pos+neg coexistence, zero-tag save after confirm, mixed-tag persist+restore,
+  failed-save-no-advance, `unsure` excluded from usable count, blind API exposes only language/ref/turns/workflow_type.
+
 ## After labeling — small deterministic summary (extends `eval/kappa.py`)
 total labeled · usable binary · unsure count · success/fail distribution · kappa + CI + confusion
 (binary spine, vs judge once Batch 4 exists) · positive/negative/context tag frequencies · top

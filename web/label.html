@@ -58,14 +58,33 @@
   .stage2 { display: none; } .stage2.show { display: block; }
   kbd { font: 11px var(--mono); border: 1px solid var(--border); border-radius: 4px; padding: 1px 5px; color: var(--muted); }
   .done { text-align: center; padding: 40px 0; } .done h2 { color: var(--green); }
+  .howto { margin: 8px 0; padding: 11px 14px; border: 1px solid var(--border); background: var(--card);
+           border-radius: 10px; font-size: 12.5px; line-height: 1.55; }
+  .howto .lvl { margin: 4px 0; color: var(--muted); } .howto .lvl b { color: var(--text); }
+  .howto .co { color: var(--amber); }
+  .scopewarn { margin: 8px 0 4px; padding: 9px 14px; border: 1px solid #4a2a12; background: #1e1206;
+               border-radius: 10px; color: #f0a868; font-size: 12.5px; line-height: 1.5; }
+  .labq { font-size: 13px; font-weight: 600; color: var(--text); margin: 12px 0 4px; }
+  .grouphint { font-size: 11.5px; color: var(--muted); margin: 2px 0 7px; line-height: 1.5; }
+  .reviewconf { display: flex; align-items: flex-start; gap: 9px; margin: 13px 0 2px; padding: 10px 12px;
+                border: 1px solid var(--border); background: var(--card2); border-radius: 9px;
+                font-size: 12.5px; color: var(--text); cursor: pointer; line-height: 1.45; }
+  .reviewconf.on { border-color: var(--green); background: #0d2a20; }
+  .reviewconf input { margin-top: 1px; width: 15px; height: 15px; accent-color: var(--green); cursor: pointer; flex: none; }
 </style>
 </head>
 <body>
 <div class="wrap">
   <header><h1>Voice<b>Forge</b> — blind phenotype labeling</h1></header>
   <div class="blindbar">🔒 You see <b>only the raw conversation</b> — no scores, no failure flags, no call id,
-    no source. Stage 1 (success/fail) is the calibration spine. Stage 2 tags are optional, transcript-observable
-    only — <b>don't guess audio/latency/accent</b>; those are measured elsewhere. Label honestly; don't aim for any split.</div>
+    no source. Label honestly; don't aim for any split. One pass per call, one save.</div>
+  <div class="howto">
+    <div class="lvl"><b>Level 1 — Outcome.</b> Choose exactly one: <b>success</b>, <b>fail</b>, or <b>unsure</b>. Did the caller ultimately achieve their goal?</div>
+    <div class="lvl"><b>Level 2 — Phenotype primitives.</b> Review every group and select all tags that apply. Zero tags is valid <i>only after deliberate review</i>. <span class="co">Positive and negative tags may coexist — a call can succeed with friction or fail despite good handling. Judge each tag independently.</span></div>
+    <div class="lvl"><b>Level 3 — Derived archetypes.</b> Not labeled here. VoiceForge derives these later from your outcome + primitive tags + deterministic signals.</div>
+  </div>
+  <div class="scopewarn">⚠️ <b>Transcript-based pool.</b> Label only what the <b>text</b> supports. Do <b>not</b> infer audio quality,
+    accent, noise, network conditions, latency, overlap, or voice naturalness — those are measured elsewhere, not labeled here.</div>
   <div class="prog"><div class="bar"><i id="fill"></i></div><span class="progtext" id="progtext">…</span></div>
   <div id="card"></div>
 </div>
@@ -76,11 +95,12 @@ let CALLS = [], TAGS = { positive: [], negative: [], context: [] }, labeled = {}
 const TARGET = 40;
 let sel = null;
 
-function fresh() { return { primary: null, confidence: null, pos: new Set(), neg: new Set(), ctx: new Set(), note: "" }; }
+function fresh() { return { primary: null, confidence: null, pos: new Set(), neg: new Set(), ctx: new Set(), note: "", reviewed: false }; }
 function fromRow(r) {
+  // restore EVERY prior label, but reviewed:false on reopen -> reconfirmation required before re-save (no labels lost)
   return { primary: r.primary_label || null, confidence: r.confidence || null,
            pos: new Set(r.positive_tags || []), neg: new Set(r.negative_tags || []),
-           ctx: new Set(r.context_tags || []), note: r.note || "" };
+           ctx: new Set(r.context_tags || []), note: r.note || "", reviewed: false };
 }
 // only success/fail count toward the >=40 floor; unsure is NOT usable for calibration
 function binaryCount() { return Object.values(labeled).filter(r => r.primary_label === "success" || r.primary_label === "fail").length; }
@@ -133,23 +153,28 @@ function renderDock() {
       <div class="lab">your confidence (required)</div>
       <div class="row conf">${["high","medium","low"].map(c =>
         `<button class="${sel.confidence===c?"on":""}" data-c="${c}">${c}</button>`).join("")}</div>
-      <div class="lab">what was good? (optional)</div><div class="row">${chips(TAGS.positive,"pos",sel.pos)}</div>
-      <div class="lab">what went wrong? (optional)</div><div class="row">${chips(TAGS.negative,"neg",sel.neg)}</div>
-      <div class="lab">context (optional)</div><div class="row">${chips(TAGS.context,"ctx",sel.ctx)}</div>
-      <div class="lab">note (optional)</div><textarea id="note" placeholder="anything worth remembering…">${esc(sel.note)}</textarea>
-      <button class="save" id="savebtn" ${sel.confidence && !saving ? "" : "disabled"} onclick="save()">${saving ? "saving…" : "✓ Save & next →"}</button>
+      <div class="labq">What was good? Select all that apply.</div>
+      <div class="grouphint">Positive and negative tags may coexist — judge each independently.</div>
+      <div class="row">${chips(TAGS.positive,"pos",sel.pos)}</div>
+      <div class="labq">What went wrong? Select all that apply.</div><div class="row">${chips(TAGS.negative,"neg",sel.neg)}</div>
+      <div class="labq">Context present? Select all that apply.</div><div class="row">${chips(TAGS.context,"ctx",sel.ctx)}</div>
+      <div class="lab">note — only for something the tags don't capture</div><textarea id="note" placeholder="anything the taxonomy misses…">${esc(sel.note)}</textarea>
+      <label class="reviewconf ${sel.reviewed?"on":""}"><input type="checkbox" id="reviewchk" ${sel.reviewed?"checked":""}>
+        <span>I reviewed all three phenotype groups; zero tags means none applied. <span style="color:var(--muted)">(required)</span></span></label>
+      <button class="save" id="savebtn" ${sel.primary && sel.confidence && sel.reviewed && !saving ? "" : "disabled"} onclick="save()">${saving ? "saving…" : "✓ Save & next →"}</button>
     </div>`;
   $("dock").querySelectorAll("[data-p]").forEach(b => b.onclick = () => { sel.primary = b.dataset.p; renderDock(); });
   $("dock").querySelectorAll("[data-c]").forEach(b => b.onclick = () => { sel.confidence = b.dataset.c; renderDock(); });
   $("dock").querySelectorAll("[data-k]").forEach(b => b.onclick = () => {
     const s = sel[b.dataset.k]; s.has(b.dataset.t) ? s.delete(b.dataset.t) : s.add(b.dataset.t); b.classList.toggle("on"); });
+  const chk = $("reviewchk"); if (chk) chk.onchange = () => { sel.reviewed = chk.checked; renderDock(); };
   const ta = $("note"); if (ta) ta.oninput = () => sel.note = ta.value;
 }
 
 function showErr(msg) { const e = $("err"); if (e) { e.textContent = msg; e.style.display = "block"; } }
 
 async function save() {
-  if (saving || !sel.primary || !sel.confidence) return;   // guard double-submit / missing required
+  if (saving || !sel.primary || !sel.confidence || !sel.reviewed) return;   // guard double-submit / missing required / unconfirmed review
   saving = true; renderDock();
   const c = CALLS[cur];
   const payload = { ref: c.ref, primary_label: sel.primary, confidence: sel.confidence,
@@ -175,7 +200,7 @@ document.addEventListener("keydown", e => {
   if (cur >= CALLS.length || saving) return;
   if (e.key === "1" || e.key === "2" || e.key === "3") {
     sel.primary = { "1": "success", "2": "fail", "3": "unsure" }[e.key]; renderDock();
-  } else if (e.key === "Enter" && sel.primary && sel.confidence) { e.preventDefault(); save(); }
+  } else if (e.key === "Enter" && sel.primary && sel.confidence && sel.reviewed) { e.preventDefault(); save(); }
 });
 
 (async () => {
