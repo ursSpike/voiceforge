@@ -234,6 +234,15 @@ window.detail=null; render();
 """
 
 
+def active_css():
+    """Claude-design skin drop-in: if web/dashboard_skin.css exists it RE PLACES the built-in CSS
+    (same DOM contract — classes documented in the design prompt). Delete the file to revert."""
+    skin = ROOT / "web" / "dashboard_skin.css"
+    if skin.exists() and skin.read_text().strip():
+        return skin.read_text(), "skin: web/dashboard_skin.css"
+    return CSS, "skin: built-in"
+
+
 def render(data):
     jr = data["judge_run"]
     gate_note = ("labels complete — full per-call drill-down" if data["gate_open"] else
@@ -241,9 +250,10 @@ def render(data):
                  "per-call rows hidden to protect blindness")
     jr_note = (f"judge run: {jr['model']} · t={jr['temperature']} · {jr['n_calls']} calls · "
                f"{jr['failures']} failures" if jr else "judge: quarantined (no real-call output yet)")
+    css, _ = active_css()
     return f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1"><title>VoiceForge — eval lab</title>
-<style>{CSS}</style></head><body><div class="shell">
+<style>{css}</style></head><body><div class="shell">
 <nav><div class="logo">Voice<b>Forge</b></div><div class="tag">eval lab for voice agents</div>
 <a data-v="overview" onclick="nav('overview')">◈ Overview</a>
 <a data-v="calls" onclick="nav('calls')">☰ Calls</a>
@@ -262,9 +272,10 @@ def main():
     data = build()
     out = OUT / "dashboard.html"
     out.write_text(render(data))
+    _, skin = active_css()
     print(f"wrote out/dashboard.html — gate_open={data['gate_open']} "
           f"({data['val']['binary']}/{data['floor']} binary), rows embedded: {len(data['rows'])}, "
-          f"judge: {'present' if data['judge_run'] else 'pending'}")
+          f"judge: {'present' if data['judge_run'] else 'pending'} · {skin}")
 
 
 if __name__ == "__main__":
