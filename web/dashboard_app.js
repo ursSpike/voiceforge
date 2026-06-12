@@ -108,6 +108,10 @@ function calibrationBlock() {
       <div class="panel"><div class="kstats">
         <div class="kstat"><div class="kv2 num">${cal.kappa}</div><div class="kl">Cohen’s κ</div>
           <div class="kv">bootstrap 95% CI ${cal.ci95[0]}–${cal.ci95[1]}</div></div>
+        <div class="kstat"><div class="kv2 num">${cal.balanced_accuracy ?? "—"}</div><div class="kl">Balanced accuracy</div>
+          <div class="kv">Youden’s J ${cal.youden_j >= 0 ? "+" : ""}${cal.youden_j ?? "—"} · imbalance-aware (37/8)</div></div>
+        <div class="kstat"><div class="kv2 num">${cal.failure_recall ?? "—"}</div><div class="kl">Failure recall</div>
+          <div class="kv">precision ${cal.failure_precision ?? "—"} · specificity ${cal.specificity ?? "—"} · MCC ${cal.mcc ?? "—"}</div></div>
         <div class="kstat"><div class="kv2 num">${pct(cal.raw_agreement)}</div><div class="kl">Raw agreement</div>
           <div class="kv">n=${cal.n} blind binary labels</div></div>
       </div><p class="kv">Disagreements, where not to trust the judge:</p>

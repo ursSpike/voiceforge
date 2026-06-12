@@ -102,6 +102,13 @@
       "h_success|j_fail": 9,
       "h_success|j_success": 28
     },
+    "balanced_accuracy": 0.628,
+    "youden_j": 0.257,
+    "failure_recall": 0.5,
+    "failure_precision": 0.308,
+    "specificity": 0.757,
+    "f1": 0.381,
+    "mcc": 0.217,
     "disagreements": [
       "cmd_hi_0001",
       "cmd_hi_0006",
@@ -118,8 +125,30 @@
       "swz_MUL0035"
     ],
     "disagreements_code_switched": 9,
+    "slices": {
+      "hi_en": {
+        "n": 31,
+        "agree": 22,
+        "rate": 0.71
+      },
+      "english": {
+        "n": 13,
+        "agree": 9,
+        "rate": 0.692
+      },
+      "high_confidence": {
+        "n": 29,
+        "agree": 24,
+        "rate": 0.828
+      },
+      "medium_confidence": {
+        "n": 16,
+        "agree": 8,
+        "rate": 0.5
+      }
+    },
     "band": "slight",
-    "caption": "Slight agreement (Landis\u2013Koch); the 95% CI includes 0 \u2014 at n=45 with 82% success prevalence the prevalence paradox compresses \u03ba. This is the gap a calibration step exists to expose: 9 of 13 disagreements are code-switched (hi-en) calls, so the judge is least reliable exactly there. Measured, not assumed \u2014 a team trusting this judge uncalibrated would be wrong on 13/45 calls and never know."
+    "caption": "Slight agreement (Landis\u2013Koch); the 95% CI includes 0 \u2014 at n=45 with 82% success prevalence, the prevalence paradox compresses \u03ba. Balanced accuracy 0.63 (Youden's J +0.26) reports the same 45 calls without that imbalance penalty; failure recall 0.50 is the more actionable number for risk surfaces. The reliability axis is NOT language \u2014 hi-en 22/31=71% and English 9/13=69% are statistically indistinguishable on this sample. The defensible split is annotator confidence (high 24/29\u224883% vs medium 8/16=50%), which is known only post-annotation \u2014 so it supports a second-rater review queue, not an auto-router. Measured, not assumed \u2014 a team trusting this judge uncalibrated would be wrong on 13/45 calls and never know."
   },
   "metric_trap": {
     "n": 45,

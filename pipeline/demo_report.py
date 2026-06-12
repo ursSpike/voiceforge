@@ -104,16 +104,25 @@ def archetype(row):
     return "intent_or_slot_loss_failure"
 
 
-def kappa_block(labels, judge):
-    """Agreement vs judge binary — ONLY when both sides exist at floor. Returns None -> render pending."""
+def kappa_block(labels, judge, calls=None):
+    """Agreement vs judge binary — ONLY when both sides exist at floor. Returns None -> render pending.
+    Reports κ alongside imbalance-aware metrics (balanced accuracy, Youden's J, failure recall/precision/
+    specificity/F1/MCC) because the 37/8 prevalence in this slice makes raw accuracy misleading
+    (arXiv:2512.08121). κ, balanced accuracy, and the confusion matrix answer different questions —
+    they are NOT interchangeable, and no metric is swapped here to flatter the others.
+    Caption framing reflects the Jun-13 eval-research truth correction (commit 62ad3d4): hi-en
+    71.0% ≈ en 69.2% — code-switching is NOT the supported reliability axis on this sample."""
     if not judge:
         return None
     j = {cid: v.get("binary", {}).get("label") for cid, v in judge.get("calls", {}).items()}
-    pairs = [(r["primary_label"], j.get(r["call_id"])) for r in labels
-             if r["primary_label"] in ("success", "fail") and j.get(r["call_id"]) in ("success", "fail")]
-    if len(pairs) < FLOOR:
+    rows_by_id = {r["call_id"]: r for r in labels}
+    pairs_with_id = [(cid, rows_by_id[cid]["primary_label"], j[cid]) for cid in rows_by_id
+                     if rows_by_id[cid]["primary_label"] in ("success", "fail")
+                     and j.get(cid) in ("success", "fail")]
+    if len(pairs_with_id) < FLOOR:
         return None
-    n = len(pairs)
+    n = len(pairs_with_id)
+    pairs = [(h, g) for _, h, g in pairs_with_id]
     a = sum(1 for h, g in pairs if h == g)
     cm = Counter(pairs)  # (human, judge)
     ph_s = sum(1 for h, _ in pairs if h == "success") / n
@@ -121,7 +130,18 @@ def kappa_block(labels, judge):
     pe = ph_s * pj_s + (1 - ph_s) * (1 - pj_s)
     po = a / n
     k = (po - pe) / (1 - pe) if pe < 1 else 0.0
-    # deterministic bootstrap CI (seeded) — honest small-n interval
+    # confusion (fail = positive/risk class): TP human=fail judge=fail · FP h=succ j=fail · FN h=fail j=succ · TN h=succ j=succ
+    tp = cm[("fail", "fail")]; fp = cm[("success", "fail")]; fn = cm[("fail", "success")]; tn = cm[("success", "success")]
+    fail_recall = tp / (tp + fn) if (tp + fn) else 0.0       # sensitivity for fail
+    fail_precision = tp / (tp + fp) if (tp + fp) else 0.0
+    specificity = tn / (tn + fp) if (tn + fp) else 0.0
+    balanced_acc = (fail_recall + specificity) / 2
+    youden_j = fail_recall + specificity - 1
+    f1 = (2 * fail_precision * fail_recall / (fail_precision + fail_recall)) if (fail_precision + fail_recall) else 0.0
+    import math
+    mcc_denom = math.sqrt((tp + fp) * (tp + fn) * (tn + fp) * (tn + fn)) if all(x >= 0 for x in (tp, fp, fn, tn)) else 0
+    mcc = ((tp * tn - fp * fn) / mcc_denom) if mcc_denom else 0.0
+    # deterministic bootstrap CI on κ (seeded) — honest small-n interval
     import random
     rng = random.Random(13)
     ks = []
@@ -133,24 +153,50 @@ def kappa_block(labels, judge):
         pe_b = ph * pj + (1 - ph) * (1 - pj)
         ks.append((po_b - pe_b) / (1 - pe_b) if pe_b < 1 else 0.0)
     ks.sort()
-    disagree = [r["call_id"] for r in labels
-                if r["primary_label"] in ("success", "fail")
-                and j.get(r["call_id"]) in ("success", "fail")
-                and r["primary_label"] != j.get(r["call_id"])]
     ci_lo, ci_hi = round(ks[int(0.025 * len(ks))], 3), round(ks[int(0.975 * len(ks))], 3)
     band = ("poor" if k < 0 else "slight" if k < 0.21 else "fair" if k < 0.41 else
             "moderate" if k < 0.61 else "substantial" if k < 0.81 else "almost-perfect")
-    cs = sum(1 for cid in disagree if cid.startswith("cmd_"))
-    caption = (f"{band.capitalize()} agreement (Landis–Koch); the 95% CI "
-               f"{'includes 0' if ci_lo <= 0 <= ci_hi else 'is tight'} — at n={n} with "
-               f"{round(ph_s * 100)}% success prevalence the prevalence paradox compresses κ. This is the gap a "
-               f"calibration step exists to expose: {cs} of {len(disagree)} disagreements are code-switched "
-               f"(hi-en) calls, so the judge is least reliable exactly there. Measured, not assumed — a team "
-               f"trusting this judge uncalibrated would be wrong on {len(disagree)}/{n} calls and never know.")
+    disagree = [cid for cid, h, g in pairs_with_id if h != g]
+
+    # honest slice rates (the Jun-13 truth correction): language and human confidence
+    def rate(filter_fn):
+        sub = [(h, g) for cid, h, g in pairs_with_id if filter_fn(cid)]
+        return (len(sub), sum(1 for h, g in sub if h == g)) if sub else (0, 0)
+    n_hi, a_hi = rate(lambda c: c.startswith("cmd_") or c == "bolna_246cd9f3")   # hi-en calls (cmd_hi_* + bolna)
+    n_en, a_en = rate(lambda c: c.startswith("swz_"))                            # English controls
+    n_hi_conf, a_hi_conf = ([(c, rows_by_id[c]["confidence"]) for c, h, g in pairs_with_id if rows_by_id[c]["confidence"] == "high"]), \
+                            sum(1 for cid, h, g in pairs_with_id if rows_by_id[cid]["confidence"] == "high" and h == g)
+    n_md, a_md = sum(1 for cid, h, g in pairs_with_id if rows_by_id[cid]["confidence"] == "medium"), \
+                 sum(1 for cid, h, g in pairs_with_id if rows_by_id[cid]["confidence"] == "medium" and h == g)
+    n_hi_conf = sum(1 for cid, h, g in pairs_with_id if rows_by_id[cid]["confidence"] == "high")
+    slices = {"hi_en": {"n": n_hi, "agree": a_hi, "rate": round(a_hi / n_hi, 3) if n_hi else None},
+              "english": {"n": n_en, "agree": a_en, "rate": round(a_en / n_en, 3) if n_en else None},
+              "high_confidence": {"n": n_hi_conf, "agree": a_hi_conf,
+                                  "rate": round(a_hi_conf / n_hi_conf, 3) if n_hi_conf else None},
+              "medium_confidence": {"n": n_md, "agree": a_md,
+                                    "rate": round(a_md / n_md, 3) if n_md else None}}
+
+    caption = (
+        f"{band.capitalize()} agreement (Landis–Koch); the 95% CI "
+        f"{'includes 0' if ci_lo <= 0 <= ci_hi else 'is tight'} — at n={n} with "
+        f"{round(ph_s * 100)}% success prevalence, the prevalence paradox compresses κ. "
+        f"Balanced accuracy {balanced_acc:.2f} (Youden's J {youden_j:+.2f}) reports the same "
+        f"45 calls without that imbalance penalty; failure recall {fail_recall:.2f} is the more "
+        f"actionable number for risk surfaces. The reliability axis is NOT language — hi-en "
+        f"{a_hi}/{n_hi}={int(round(a_hi/n_hi*100)) if n_hi else 0}% and English "
+        f"{a_en}/{n_en}={int(round(a_en/n_en*100)) if n_en else 0}% are statistically indistinguishable on this sample. "
+        f"The defensible split is annotator confidence (high {a_hi_conf}/{n_hi_conf}≈"
+        f"{int(round(a_hi_conf/n_hi_conf*100)) if n_hi_conf else 0}% vs medium {a_md}/{n_md}={int(round(a_md/n_md*100)) if n_md else 0}%), "
+        f"which is known only post-annotation — so it supports a second-rater review queue, not an auto-router. "
+        f"Measured, not assumed — a team trusting this judge uncalibrated would be wrong on {len(disagree)}/{n} calls and never know.")
     return {"n": n, "raw_agreement": round(po, 3), "kappa": round(k, 3), "ci95": [ci_lo, ci_hi],
             "confusion": {f"h_{h}|j_{g}": cnt for (h, g), cnt in sorted(cm.items())},
+            "balanced_accuracy": round(balanced_acc, 3), "youden_j": round(youden_j, 3),
+            "failure_recall": round(fail_recall, 3), "failure_precision": round(fail_precision, 3),
+            "specificity": round(specificity, 3), "f1": round(f1, 3), "mcc": round(mcc, 3),
             "disagreements": disagree,
-            "disagreements_code_switched": cs,
+            "disagreements_code_switched": sum(1 for cid in disagree if cid.startswith("cmd_")),
+            "slices": slices,
             "band": band, "caption": caption}
 
 
@@ -354,6 +400,14 @@ def to_md(R):
     add("\n## 4 · Human ↔ judge calibration")
     if R["calibration"]:
         k = R["calibration"]
+        add(f"- imbalance-aware: balanced accuracy **{k['balanced_accuracy']}** · Youden's J **{k['youden_j']:+}** · "
+            f"failure recall **{k['failure_recall']}** · failure precision **{k['failure_precision']}** · "
+            f"specificity **{k['specificity']}** · MCC **{k['mcc']}**")
+        sl = k.get("slices") or {}
+        add(f"- slice rates (language NOT the axis): hi-en **{sl.get('hi_en',{}).get('agree','?')}/{sl.get('hi_en',{}).get('n','?')}** "
+            f"≈ English **{sl.get('english',{}).get('agree','?')}/{sl.get('english',{}).get('n','?')}**; the supported split is "
+            f"annotator confidence (high **{sl.get('high_confidence',{}).get('agree','?')}/{sl.get('high_confidence',{}).get('n','?')}** "
+            f"vs medium **{sl.get('medium_confidence',{}).get('agree','?')}/{sl.get('medium_confidence',{}).get('n','?')}**)")
         add(f"- n={k['n']} · raw agreement **{k['raw_agreement']}** · Cohen's κ **{k['kappa']}** "
             f"(bootstrap 95% CI {k['ci95'][0]}–{k['ci95'][1]})")
         add(f"- confusion: `{k['confusion']}` · disagreements ({len(k['disagreements'])}): {', '.join(k['disagreements']) or 'none'}")

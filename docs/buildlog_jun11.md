@@ -917,3 +917,21 @@ heuristic-disagreements, 107/183 timing — all agree across independent agents.
 **RECOMMENDED INTEGRATION (ONE, NOT applied):** patch pipeline/demo_report.py — fix the false code-switch caption + add
 balanced-accuracy/Youden/failure-recall beside κ; regenerate demo_report + dashboard ONLY after Codex audit (they're frozen
 this wave). reports/research_jun13/STATUS_REPORT.md has the exact next command. STOP for Codex audit.
+
+## TRUTH-CORRECTION INTEGRATION (Jun 13, Codex-approved order) — Codex pre-audit cleared paths 1+2+3
+**Production:** pipeline/demo_report.py `kappa_block` rewritten — caption now reflects the eval-research truth correction
+(commit 62ad3d4): "the reliability axis is NOT language — hi-en 71% ≈ English 69%, statistically indistinguishable on this
+sample; the defensible split is annotator confidence (high 83% vs medium 50%), known only post-annotation → second-rater
+review queue, not auto-router." Added imbalance-aware metrics beside κ (arXiv:2512.08121 paper-verified): balanced
+accuracy 0.628, Youden's J +0.257, failure recall 0.500, failure precision 0.308, specificity 0.757, F1 0.381, MCC 0.217 —
+all values exactly match the reliability agent's reproduction targets. Slice rates surface in both report (md) and dashboard
+(.kstat cards). κ unchanged (0.206); confusion matrix unchanged. Selftest 15/15 PASS.
+**Design bundle (Codex's flagged false claim):** voiceforge_design/app.js + design_data.js de-staled with the same new
+framing — "least reliable exactly there" removed. Caption now states language is not the supported axis + the confidence/
+review-queue framing + balanced-accuracy + Youden + failure-recall in the caption.
+**Design bundle UX honesty (Codex's flagged interaction):** the chip-click-doesn't-open bug WAS by design (sanitized
+handoff: only 5 row transcripts are bundled; non-bundled chips are rendered `disabled` with a tooltip). The visual cue was
+too subtle — added an "excluded" suffix tag + `aria-disabled=true` so it's unmistakable in any screenshot/automation.
+**Regenerated:** out/demo_report.{md,html,_data.json} + out/dashboard.html. DOM-verified: stale claim removed, all 4 .kstat
+cards (κ 0.206, balanced 0.628, failure recall 0.5, raw 71%), zero console errors, zero external refs (offline). Frozen
+artifacts: labels CSV/manifest/snapshot/judge_results/calls.json/analytics.json/rubric unchanged.

@@ -18,9 +18,11 @@
 - distribution: `{'success': 37, 'fail': 8, 'unsure': 1}`
 
 ## 4 · Human ↔ judge calibration
+- imbalance-aware: balanced accuracy **0.628** · Youden's J **+0.257** · failure recall **0.5** · failure precision **0.308** · specificity **0.757** · MCC **0.217**
+- slice rates (language NOT the axis): hi-en **22/31** ≈ English **9/13**; the supported split is annotator confidence (high **24/29** vs medium **8/16**)
 - n=45 · raw agreement **0.711** · Cohen's κ **0.206** (bootstrap 95% CI -0.108–0.499)
 - confusion: `{'h_fail|j_fail': 4, 'h_fail|j_success': 4, 'h_success|j_fail': 9, 'h_success|j_success': 28}` · disagreements (13): cmd_hi_0001, cmd_hi_0006, cmd_hi_0007, cmd_hi_0009, cmd_hi_0013, cmd_hi_0014, cmd_hi_0018, cmd_hi_0022, cmd_hi_0024, swz_MUL2483, swz_MUL0247, swz_MUL1560, swz_MUL0035
-- *Slight agreement (Landis–Koch); the 95% CI includes 0 — at n=45 with 82% success prevalence the prevalence paradox compresses κ. This is the gap a calibration step exists to expose: 9 of 13 disagreements are code-switched (hi-en) calls, so the judge is least reliable exactly there. Measured, not assumed — a team trusting this judge uncalibrated would be wrong on 13/45 calls and never know.*
+- *Slight agreement (Landis–Koch); the 95% CI includes 0 — at n=45 with 82% success prevalence, the prevalence paradox compresses κ. Balanced accuracy 0.63 (Youden's J +0.26) reports the same 45 calls without that imbalance penalty; failure recall 0.50 is the more actionable number for risk surfaces. The reliability axis is NOT language — hi-en 22/31=71% and English 9/13=69% are statistically indistinguishable on this sample. The defensible split is annotator confidence (high 24/29≈83% vs medium 8/16=50%), which is known only post-annotation — so it supports a second-rater review queue, not an auto-router. Measured, not assumed — a team trusting this judge uncalibrated would be wrong on 13/45 calls and never know.*
 
 ## 5 · Phenotype tags *( single-rater exploratory (n=1 annotator) — NOT calibrated )*
 - **positive**: `understood_user`×37, `adapted_language_well`×35, `user_satisfied`×34, `completed_or_clear_next_step`×31, `handled_confusion_well`×23, `easy_to_understand`×21
