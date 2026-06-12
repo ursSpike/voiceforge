@@ -326,9 +326,11 @@ STOP here per the leash.
 as "come back later / listen to audio later"). Wording + UX gate only — **no schema, allowlist,
 blindness, CSV-format, or judge-quarantine change.**
 
-**Changed (3 files, +46/-12):**
+**Changed (5 files, +97/-12 — 3 code/config + this buildlog + phenotype-plan; an earlier draft of this
+entry undercounted as "3 files / +46-12" by tallying only the code files):**
 - `web/label.html` — Level 1/2/3 explainer at top (outcome → primitives → derived-not-labeled);
-  scope warning (transcript-only, don't infer audio/accent/noise/network/latency/overlap/naturalness);
+  scope warning (transcript-only: don't infer audio/accent/noise/network/naturalness — *unavailable for
+  nearly all calls*; don't hand-label latency/overlap — only THOSE two are computed deterministically elsewhere);
   tag headings → "What was good? / What went wrong? / Context present? — Select all that apply.";
   coexistence hint; **mandatory review checkbox** ("I reviewed all three phenotype groups; zero tags
   means none applied") — Save disabled until outcome+confidence+review all set; on reopen, labels

@@ -74,8 +74,11 @@ Annotation is **one pass per call, one save** — not a label-then-listen second
 - **Mandatory review checkbox** before Save: *"I reviewed all three phenotype groups; zero tags means none applied."*
   Save stays disabled until **outcome + confidence + review-checkbox** are all set. On reopening a saved
   call, every prior label is restored but the checkbox **resets → reconfirmation required** (no labels lost).
-- **Scope warning** (prominent): transcript-based pool — label only what the text supports; do **not**
-  infer audio quality, accent, noise, network, latency, overlap, or voice naturalness (those are measured, not labeled).
+- **Scope warning** (prominent, honesty-corrected): *transcript-only view. Do not infer audio quality,
+  accent, noise, network conditions, or voice naturalness — **unavailable for nearly all current calls**.
+  Do not hand-label latency or overlap; where timestamp data permits, VoiceForge computes **those two**
+  deterministically elsewhere.* (Earlier wording wrongly implied ALL excluded signals are "measured
+  elsewhere" — only latency/overlap are; audio/accent/noise/network/naturalness are simply absent.)
 - Verified in-browser (throwaway CSV, real `eval/labels_spike.csv` untouched): save-gating on each of the
   three requirements, pos+neg coexistence, zero-tag save after confirm, mixed-tag persist+restore,
   failed-save-no-advance, `unsure` excluded from usable count, blind API exposes only language/ref/turns/workflow_type.
