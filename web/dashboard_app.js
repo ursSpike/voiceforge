@@ -94,6 +94,7 @@ function calibrationBlock() {
   return `<section class="section" id="calibration">
     <div class="section-head"><h2>Human ↔ judge calibration</h2>
       <span class="hint">The dedicated binary outcome judgment only.</span></div>
+    ${cal.caption ? `<p class="kappa-note reveal">${esc(cal.caption)}</p>` : ""}
     <div class="split">
       <div class="panel"><div class="cmx">
         <div></div><div class="ax">judge: success</div><div class="ax">judge: fail</div>
@@ -160,6 +161,24 @@ function overview() {
     </article>
   </section>` : "";
 
+  const T = R.metric_trap;
+  const metricTrap = T ? `<section class="section reveal" id="metric-trap">
+    <div class="section-head"><h2>The metric trap</h2>
+      <span class="hint">Does the completion heuristic agree with the blind human label?</span></div>
+    <article class="spotlight trap">
+      <div class="spot-grid">
+        <div>${prov("estimated", "Heuristic vs blind labels")}
+          <h3 class="spot-title">A success-rate dashboard is blind where it costs.</h3>
+          <div class="spot-stats">
+            <div class="spot-stat"><div class="v num">${T.agree}/${T.n}</div><div class="l">heuristic agrees with human</div></div>
+            <div class="spot-stat"><div class="v num">${T.missed_successes}</div><div class="l">real successes it missed</div></div>
+            <div class="spot-stat"><div class="v num">${T.false_passes}/${T.human_failures}</div><div class="l">real failures it passed</div></div>
+          </div></div>
+        <div class="spot-copy"><p class="action">${esc(T.caption)}</p></div>
+      </div>
+    </article>
+  </section>` : "";
+
   const cal = R.calibration;
   const metrics = [
     ["Human-confirmed success", pct(P.human_success_rate), `${P.human_successes || 0} success · ${P.human_failures || 0} fail`, "human", "Human-labeled", ""],
@@ -178,6 +197,7 @@ function overview() {
     <section class="hero reveal" id="thesis"><div class="eyebrow">Voice-agent evaluation · deterministic first · evidence on every judgment</div>
       <h1><span class="muted">Success rate tells you whether calls finished.</span>
       VoiceForge tells you how they finished, what failures cost, and what to fix first.</h1></section>
+    ${metricTrap}
     ${fixFirst}
     <section class="section"><div class="metrics">${metrics}</div></section>
     <section class="section reveal" id="matrix"><div class="section-head"><h2>Success × Friction</h2>

@@ -16,7 +16,7 @@
 
 ## 4 · Human ↔ judge calibration
 - n=45 · raw agreement **0.711** · Cohen's κ **0.206** (bootstrap 95% CI -0.108–0.499)
-- confusion: `{'h_fail|j_fail': 4, 'h_fail|j_success': 4, 'h_success|j_fail': 9, 'h_success|j_success': 28}` · disagreements: cmd_hi_0001, cmd_hi_0006, cmd_hi_0007, cmd_hi_0009, cmd_hi_0013, cmd_hi_0014
+- confusion: `{'h_fail|j_fail': 4, 'h_fail|j_success': 4, 'h_success|j_fail': 9, 'h_success|j_success': 28}` · disagreements: cmd_hi_0001, cmd_hi_0006, cmd_hi_0007, cmd_hi_0009, cmd_hi_0013, cmd_hi_0014, cmd_hi_0018, cmd_hi_0022, cmd_hi_0024, swz_MUL2483, swz_MUL0247, swz_MUL1560, swz_MUL0035
 
 ## 5 · Phenotype tags *( single-rater exploratory (n=1 annotator) — NOT calibrated )*
 - **positive**: `understood_user`×37, `adapted_language_well`×35, `user_satisfied`×34, `completed_or_clear_next_step`×31, `handled_confusion_well`×23, `easy_to_understand`×21

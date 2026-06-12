@@ -851,3 +851,17 @@ out/demo_report.{html,md,_data.json}, out/judge_results.json (canonical, no secr
 (audit trail), docs/design_integration_round_1.md. EXCLUDED per Codex: data/.judge_cache (270 entries; demo reads
 judge_results.json, self-contained; orphaned old-prompt uf/rq entries present — prune later if cache ever committed),
 TEST.txt/idea scratch, unrelated notebook edit.
+
+## CONTENT ADD: metric-trap signature stat + calibration honesty caption (Jun 12)
+Two artifact-traceable content items (independent of the Fable round-2 CSS):
+**1. Metric trap** — demo_report.py computes heuristic(task_completed)-vs-blind-human agreement over the 45 binary calls:
+**25/45 (56%)** agree; the heuristic MISSED 13 real successes and PASSED 7 of 8 real failures. Rendered as the signature
+spotlight block right under the thesis (`.spotlight.trap`, reuses styled component) — "A success-rate dashboard is blind
+where it costs." Pre-answers "why not just track success rate?".
+**2. Calibration caption** — kappa_block now emits a `caption` (+ band, full disagreements list, code-switched count):
+"Slight agreement (Landis–Koch); 95% CI includes 0 — prevalence paradox at 82% success; 9 of 13 disagreements are
+code-switched; measured not assumed — a team trusting this judge uncalibrated would be wrong on 13/45 and never know."
+Rendered as a caution-flagged `.kappa-note` above the confusion matrix; disagreements list expanded from 6 → all 13.
+Both verified in browser at 1440×900, 0 console errors; dashboard self-contained (0 external refs). demo_report selftest
+15/15 (fixtures lack outcome → metric_trap None, no crash). New classes (.kappa-note, .spotlight.trap) styled in current
+skin + added to the Fable round-2 class contract.

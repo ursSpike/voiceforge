@@ -116,3 +116,9 @@ td{padding:10px 9px;border-bottom:1px solid var(--line)}tr.row{cursor:pointer}tr
 @media(max-width:1180px){nav{padding:0 18px;gap:10px}.tag,.gatechip{display:none}nav a{padding:6px 9px;font-size:12px}.metrics,.quads{grid-template-columns:repeat(2,1fr)}.spot-grid,.split,.detail-grid{grid-template-columns:1fr}.hero{padding-top:8px}}
 @media(max-width:760px){body{padding-top:104px}nav{height:auto;min-height:96px;flex-wrap:wrap;align-content:center}.logo{width:100%}main{padding:24px 18px}.metrics,.quads{grid-template-columns:1fr}.bar{grid-template-columns:145px 1fr 28px}.spotlight{padding:22px}.hero h1{font-size:31px}}
 @media print{nav,.demo{display:none!important}body{padding-top:0}main{padding:0}.panel,.card,.spotlight,.matrix-card{box-shadow:none}}
+
+/* --- round-1.5 content additions (metric-trap + calibration caption); Fable round-2 may refine --- */
+.kappa-note { margin: 4px 0 18px; max-width: 72ch; font-size: 14px; line-height: 1.55;
+  color: var(--ink-2); border-left: 2px solid var(--caution); padding-left: 14px; }
+.spotlight.trap { border-color: var(--caution); }
+.spotlight.trap .spot-title { color: var(--ink); }

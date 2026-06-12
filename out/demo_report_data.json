@@ -108,8 +108,28 @@
       "cmd_hi_0007",
       "cmd_hi_0009",
       "cmd_hi_0013",
-      "cmd_hi_0014"
-    ]
+      "cmd_hi_0014",
+      "cmd_hi_0018",
+      "cmd_hi_0022",
+      "cmd_hi_0024",
+      "swz_MUL2483",
+      "swz_MUL0247",
+      "swz_MUL1560",
+      "swz_MUL0035"
+    ],
+    "disagreements_code_switched": 9,
+    "band": "slight",
+    "caption": "Slight agreement (Landis\u2013Koch); the 95% CI includes 0 \u2014 at n=45 with 82% success prevalence the prevalence paradox compresses \u03ba. This is the gap a calibration step exists to expose: 9 of 13 disagreements are code-switched (hi-en) calls, so the judge is least reliable exactly there. Measured, not assumed \u2014 a team trusting this judge uncalibrated would be wrong on 13/45 calls and never know."
+  },
+  "metric_trap": {
+    "n": 45,
+    "agree": 25,
+    "heuristic_agreement": 0.556,
+    "missed_successes": 13,
+    "false_passes": 7,
+    "human_failures": 8,
+    "caption": "The completion heuristic \u2014 the metric most voice-agent teams ship \u2014 agrees with blind human judgment on only 25/45 calls (56%). It missed 13 real successes and passed 7 of 8 real failures. A success-rate dashboard is blind exactly where it costs money.",
+    "provenance": "deterministic keyword heuristic (task_completed) vs single-rater blind labels"
   },
   "tags": {
     "positive": {

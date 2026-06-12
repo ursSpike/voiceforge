@@ -133,13 +133,25 @@ def kappa_block(labels, judge):
         pe_b = ph * pj + (1 - ph) * (1 - pj)
         ks.append((po_b - pe_b) / (1 - pe_b) if pe_b < 1 else 0.0)
     ks.sort()
-    return {"n": n, "raw_agreement": round(po, 3), "kappa": round(k, 3),
-            "ci95": [round(ks[int(0.025 * len(ks))], 3), round(ks[int(0.975 * len(ks))], 3)],
+    disagree = [r["call_id"] for r in labels
+                if r["primary_label"] in ("success", "fail")
+                and j.get(r["call_id"]) in ("success", "fail")
+                and r["primary_label"] != j.get(r["call_id"])]
+    ci_lo, ci_hi = round(ks[int(0.025 * len(ks))], 3), round(ks[int(0.975 * len(ks))], 3)
+    band = ("poor" if k < 0 else "slight" if k < 0.21 else "fair" if k < 0.41 else
+            "moderate" if k < 0.61 else "substantial" if k < 0.81 else "almost-perfect")
+    cs = sum(1 for cid in disagree if cid.startswith("cmd_"))
+    caption = (f"{band.capitalize()} agreement (Landis–Koch); the 95% CI "
+               f"{'includes 0' if ci_lo <= 0 <= ci_hi else 'is tight'} — at n={n} with "
+               f"{round(ph_s * 100)}% success prevalence the prevalence paradox compresses κ. This is the gap a "
+               f"calibration step exists to expose: {cs} of {len(disagree)} disagreements are code-switched "
+               f"(hi-en) calls, so the judge is least reliable exactly there. Measured, not assumed — a team "
+               f"trusting this judge uncalibrated would be wrong on {len(disagree)}/{n} calls and never know.")
+    return {"n": n, "raw_agreement": round(po, 3), "kappa": round(k, 3), "ci95": [ci_lo, ci_hi],
             "confusion": {f"h_{h}|j_{g}": cnt for (h, g), cnt in sorted(cm.items())},
-            "disagreements": [r["call_id"] for r in labels
-                              if r["primary_label"] in ("success", "fail")
-                              and j.get(r["call_id"]) in ("success", "fail")
-                              and r["primary_label"] != j.get(r["call_id"])][:6]}
+            "disagreements": disagree,
+            "disagreements_code_switched": cs,
+            "band": band, "caption": caption}
 
 
 def build(d):
@@ -160,6 +172,27 @@ def build(d):
 
     cal = kappa_block(labels, d["judge"])
     an = d["analytics"]
+
+    # THE METRIC TRAP: does the deterministic completion HEURISTIC (the metric most teams ship) agree
+    # with the blind human binary? Computed over binary-labeled calls only. No invented numbers.
+    mt = [(r["primary_label"], d["calls"].get(r["call_id"], {}).get("outcome", {}).get("task_completed"))
+          for r in binary]
+    mt = [(h, g) for h, g in mt if g is not None]
+    mt_n = len(mt)
+    mt_agree = sum(1 for h, g in mt if (h == "success") == bool(g))
+    mt_missed = sum(1 for h, g in mt if h == "success" and not g)   # heuristic said NOT completed
+    mt_falsepass = sum(1 for h, g in mt if h == "fail" and g)        # heuristic said completed
+    n_fail = sum(1 for h, _ in mt if h == "fail")
+    metric_trap = {
+        "n": mt_n, "agree": mt_agree,
+        "heuristic_agreement": round(mt_agree / mt_n, 3) if mt_n else None,
+        "missed_successes": mt_missed, "false_passes": mt_falsepass, "human_failures": n_fail,
+        "caption": (f"The completion heuristic — the metric most voice-agent teams ship — agrees with blind "
+                    f"human judgment on only {mt_agree}/{mt_n} calls ({round(mt_agree / mt_n * 100) if mt_n else 0}%). "
+                    f"It missed {mt_missed} real successes and passed {mt_falsepass} of {n_fail} real failures. "
+                    f"A success-rate dashboard is blind exactly where it costs money."),
+        "provenance": "deterministic keyword heuristic (task_completed) vs single-rater blind labels",
+    } if mt_n else None
 
     def est_cost(row):
         call = d["calls"].get(row["call_id"], {})
@@ -265,6 +298,7 @@ def build(d):
                           "Per-1,000 exposure is a modeled extrapolation from this slice, not observed savings.",
             },
             "calibration": cal,   # None => pending
+            "metric_trap": metric_trap,   # heuristic-vs-human agreement (the signature stat)
             "tags": {"positive": dict(pos_c.most_common()), "negative": dict(neg_c.most_common()),
                      "context": dict(ctx_c.most_common()),
                      "co_occurrence_top": [{"pair": list(p), "n": c} for p, c in co.most_common(8)],
