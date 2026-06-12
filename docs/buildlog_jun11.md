@@ -935,3 +935,16 @@ too subtle — added an "excluded" suffix tag + `aria-disabled=true` so it's unm
 **Regenerated:** out/demo_report.{md,html,_data.json} + out/dashboard.html. DOM-verified: stale claim removed, all 4 .kstat
 cards (κ 0.206, balanced 0.628, failure recall 0.5, raw 71%), zero console errors, zero external refs (offline). Frozen
 artifacts: labels CSV/manifest/snapshot/judge_results/calls.json/analytics.json/rubric unchanged.
+
+## DESIGN BUNDLE — drawer hardening (Jun 13, Codex flagged "drawer takes half the viewport")
+The bundle's right-side callsheet drawer had three failure modes that let it dominate the canvas:
+(1) width `min(1060px, 94vw)` ~ 94% of viewport, (2) `display:flex` even when off-canvas / `hidden` stripped,
+(3) no defensive CSS keeping it off-canvas when the `hidden` attribute is gone but `closing` class hasn't been added.
+**Three-layer fix:**
+- width budget: 720px / 60vw max (legit open is ≤60% of viewport, never half).
+- Belt-and-braces: `.callsheet:not(.cs-open)` → `translateX(102%)` + `pointer-events:none` → drawer stays off-canvas
+  even if `hidden` is stripped. `.callsheet[hidden]` → `display:none !important`.
+- JS state machine adds/removes `.cs-open` in `openCall`/`closeCall` to pair with the CSS safety.
+**Browser-verified at 1440×900 (4/4 probes):** initial hidden+zero-size · stuck-open simulation stays off-canvas (CSS
+safety works) · legit open renders at 720px = 50% (was 94%=1354px) · ESC closes. Zero console errors. .claude/launch.json
+gained a `design-bundle` static-server config for future verification.

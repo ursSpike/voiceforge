@@ -620,13 +620,18 @@ button { font: inherit; color: inherit; }
 
 .callsheet {
   position: fixed; top: 0; right: 0; bottom: 0; z-index: 61;
-  width: min(1060px, 94vw);
+  width: min(720px, 60vw);              /* never dominate the canvas (was 94vw — Codex flagged) */
+  max-width: 60vw;
   background: var(--paper);
   border-left: 1px solid var(--line);
   box-shadow: -30px 0 60px -30px rgba(64, 48, 22, .4);
   transform: translateX(0); transition: transform .32s cubic-bezier(.2,.7,.2,1);
   display: flex;
 }
+/* Defensive: if the host strips the `hidden` attribute, the drawer still stays off-canvas until
+   .cs-open is added by openCall(). Belt-and-braces against the "drawer stuck open" screenshot. */
+.callsheet:not(.cs-open):not([data-debug]) { transform: translateX(102%); pointer-events: none; }
+.callsheet[hidden] { display: none !important; }
 @media (prefers-reduced-motion: no-preference) {
   .callsheet.opening { transform: translateX(24px); }
 }

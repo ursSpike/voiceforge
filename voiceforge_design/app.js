@@ -599,6 +599,7 @@
       </div>`;
     scrim.hidden = false;
     sheet.hidden = false;
+    sheet.classList.add("cs-open");           // pairs with .callsheet:not(.cs-open) safety in CSS
     if (!reducedMotion()) {
       sheet.classList.add("closing");
       requestAnimationFrame(() => requestAnimationFrame(() => sheet.classList.remove("closing")));
@@ -612,7 +613,7 @@
     const finish = () => {
       sheet.hidden = true;
       scrim.hidden = true;
-      sheet.classList.remove("closing");
+      sheet.classList.remove("closing", "cs-open");
       scrim.classList.remove("closing");
       document.body.style.overflow = "";
       if (lastFocus && document.contains(lastFocus)) lastFocus.focus();
