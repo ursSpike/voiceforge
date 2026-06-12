@@ -34,99 +34,178 @@
     ]
   },
   "labels": {
-    "total": 2,
-    "binary": 2,
-    "unsure": 0,
+    "total": 46,
+    "binary": 45,
+    "unsure": 1,
     "floor": 40,
-    "floor_met": false,
+    "floor_met": true,
     "distribution": {
-      "success": 2
+      "success": 37,
+      "fail": 8,
+      "unsure": 1
     }
   },
-  "calibration": null,
+  "product": {
+    "human_success_rate": 0.822,
+    "human_successes": 37,
+    "human_failures": 8,
+    "cost_per_human_success_est": 0.0511,
+    "failed_call_spend_est": 0.265,
+    "brittle_success_spend_est": 0.185,
+    "friction_or_failure_spend_est": 0.7946,
+    "friction_or_failure_spend_share": 0.421,
+    "brittle_share_of_successes": 0.135,
+    "matrix": {
+      "n": 45,
+      "seamless_success": 25,
+      "recovered_success": 7,
+      "brittle_success": 5,
+      "failure": 8,
+      "unsure_excluded": 1
+    },
+    "fix_first": {
+      "phenotype_id": "poor_clarification_or_recovery",
+      "affected_calls": 11,
+      "estimated_spend_usd": 0.47,
+      "modeled_exposure_per_1k_usd": 10.44,
+      "evidence_call_ids": [
+        "cmd_hi_0000",
+        "cmd_hi_0001",
+        "cmd_hi_0011",
+        "cmd_hi_0015",
+        "cmd_hi_0017",
+        "cmd_hi_0024",
+        "cmd_hi_0028",
+        "cmd_hi_0029",
+        "cmd_hi_0030",
+        "swz_MUL0815",
+        "swz_MUL0035"
+      ],
+      "recommendation": "replace generic re-asks with a targeted clarifying question naming the unclear slot",
+      "expected_mechanism": "A targeted question names the unclear slot and lowers the caller's repair burden.",
+      "needs_human_review": true,
+      "provenance": "single-rater phenotype + estimated prototype cost"
+    },
+    "caveat": "Human labels are single-rater; costs are estimated prototype values. Per-1,000 exposure is a modeled extrapolation from this slice, not observed savings."
+  },
+  "calibration": {
+    "n": 45,
+    "raw_agreement": 0.711,
+    "kappa": 0.206,
+    "ci95": [
+      -0.108,
+      0.499
+    ],
+    "confusion": {
+      "h_fail|j_fail": 4,
+      "h_fail|j_success": 4,
+      "h_success|j_fail": 9,
+      "h_success|j_success": 28
+    },
+    "disagreements": [
+      "cmd_hi_0001",
+      "cmd_hi_0006",
+      "cmd_hi_0007",
+      "cmd_hi_0009",
+      "cmd_hi_0013",
+      "cmd_hi_0014"
+    ]
+  },
   "tags": {
     "positive": {
-      "user_satisfied": 2,
-      "understood_user": 2,
-      "completed_or_clear_next_step": 2,
-      "handled_confusion_well": 1
+      "understood_user": 37,
+      "adapted_language_well": 35,
+      "user_satisfied": 34,
+      "completed_or_clear_next_step": 31,
+      "handled_confusion_well": 23,
+      "easy_to_understand": 21
     },
     "negative": {
-      "wrong_language_or_tone": 2
+      "poor_clarification_or_recovery": 11,
+      "missing_or_wrong_information": 10,
+      "workflow_or_tool_failed": 10,
+      "repeated_or_stuck": 8,
+      "misunderstood_user": 6,
+      "wrong_language_or_tone": 4,
+      "hard_to_understand": 4,
+      "user_frustrated": 1
     },
     "context": {
-      "mixed_languages": 2
+      "multi_step_request": 42,
+      "mixed_languages": 40,
+      "user_unclear_or_hesitant": 8,
+      "transcript_unclear": 8
     },
     "co_occurrence_top": [
       {
         "pair": [
-          "completed_or_clear_next_step",
-          "mixed_languages"
+          "mixed_languages",
+          "multi_step_request"
         ],
-        "n": 2
+        "n": 38
       },
       {
         "pair": [
-          "completed_or_clear_next_step",
+          "multi_step_request",
           "understood_user"
         ],
-        "n": 2
+        "n": 34
       },
       {
         "pair": [
-          "completed_or_clear_next_step",
-          "user_satisfied"
+          "adapted_language_well",
+          "multi_step_request"
         ],
-        "n": 2
-      },
-      {
-        "pair": [
-          "completed_or_clear_next_step",
-          "wrong_language_or_tone"
-        ],
-        "n": 2
+        "n": 33
       },
       {
         "pair": [
           "mixed_languages",
           "understood_user"
         ],
-        "n": 2
+        "n": 32
       },
       {
         "pair": [
-          "mixed_languages",
+          "multi_step_request",
           "user_satisfied"
         ],
-        "n": 2
-      },
-      {
-        "pair": [
-          "mixed_languages",
-          "wrong_language_or_tone"
-        ],
-        "n": 2
+        "n": 32
       },
       {
         "pair": [
           "understood_user",
           "user_satisfied"
         ],
-        "n": 2
+        "n": 31
+      },
+      {
+        "pair": [
+          "adapted_language_well",
+          "mixed_languages"
+        ],
+        "n": 31
+      },
+      {
+        "pair": [
+          "mixed_languages",
+          "user_satisfied"
+        ],
+        "n": 30
       }
     ],
     "caveat": "single-rater exploratory (n=1 annotator) \u2014 NOT calibrated"
   },
   "archetypes": {
     "counts": {
-      "seamless_success": 0,
-      "brittle_success": 1,
-      "recovered_success": 1,
+      "seamless_success": 25,
+      "brittle_success": 5,
+      "recovered_success": 7,
       "language_mismatch_failure": 0,
-      "intent_or_slot_loss_failure": 0,
+      "intent_or_slot_loss_failure": 3,
       "repair_loop_failure": 0,
-      "workflow_failure": 0,
-      "ambiguous_or_unassessable": 0
+      "workflow_failure": 5,
+      "ambiguous_or_unassessable": 1
     },
     "derivation": "deterministic from Level-1 outcome + Level-2 tags (precedence: workflow > language > intent/slot > repair-loop); never hand-labeled"
   },
@@ -139,7 +218,7 @@
         "wrong_language_or_tone"
       ],
       "deterministic_failures": [],
-      "judge": "pending",
+      "judge": "success",
       "recommendation": "detect caller language/register in the first 2 turns and switch the response style"
     },
     {
@@ -153,8 +232,49 @@
         "barge_in",
         "latency_gap"
       ],
-      "judge": "pending",
+      "judge": "success",
       "recommendation": "detect caller language/register in the first 2 turns and switch the response style"
+    },
+    {
+      "call_id": "cmd_hi_0000",
+      "human": "fail/medium",
+      "archetype": "workflow_failure",
+      "tags": [
+        "missing_or_wrong_information",
+        "poor_clarification_or_recovery",
+        "workflow_or_tool_failed"
+      ],
+      "deterministic_failures": [],
+      "judge": "fail",
+      "recommendation": "require slot read-back before closing; re-ask for any unfilled required slot"
+    },
+    {
+      "call_id": "cmd_hi_0001",
+      "human": "fail/medium",
+      "archetype": "intent_or_slot_loss_failure",
+      "tags": [
+        "missing_or_wrong_information",
+        "repeated_or_stuck",
+        "poor_clarification_or_recovery"
+      ],
+      "deterministic_failures": [],
+      "judge": "success",
+      "recommendation": "require slot read-back before closing; re-ask for any unfilled required slot"
+    },
+    {
+      "call_id": "cmd_hi_0002",
+      "human": "success/high",
+      "archetype": "seamless_success",
+      "tags": [
+        "adapted_language_well",
+        "user_satisfied",
+        "handled_confusion_well",
+        "understood_user",
+        "completed_or_clear_next_step"
+      ],
+      "deterministic_failures": [],
+      "judge": "success",
+      "recommendation": null
     }
   ],
   "improvement_queue": [
@@ -175,7 +295,223 @@
         "wrong_language_or_tone"
       ],
       "recommendation": "detect caller language/register in the first 2 turns and switch the response style"
+    },
+    {
+      "call_id": "cmd_hi_0000",
+      "human": "fail/medium",
+      "archetype": "workflow_failure",
+      "evidence_tags": [
+        "missing_or_wrong_information",
+        "poor_clarification_or_recovery",
+        "workflow_or_tool_failed"
+      ],
+      "recommendation": "require slot read-back before closing; re-ask for any unfilled required slot"
+    },
+    {
+      "call_id": "cmd_hi_0001",
+      "human": "fail/medium",
+      "archetype": "intent_or_slot_loss_failure",
+      "evidence_tags": [
+        "missing_or_wrong_information",
+        "repeated_or_stuck",
+        "poor_clarification_or_recovery"
+      ],
+      "recommendation": "require slot read-back before closing; re-ask for any unfilled required slot"
+    },
+    {
+      "call_id": "cmd_hi_0004",
+      "human": "fail/medium",
+      "archetype": "workflow_failure",
+      "evidence_tags": [
+        "workflow_or_tool_failed",
+        "missing_or_wrong_information",
+        "misunderstood_user"
+      ],
+      "recommendation": "add a tool-failure fallback path (acknowledge, retry once, then offer human handoff)"
+    },
+    {
+      "call_id": "cmd_hi_0011",
+      "human": "success/high",
+      "archetype": "recovered_success",
+      "evidence_tags": [
+        "workflow_or_tool_failed",
+        "misunderstood_user",
+        "poor_clarification_or_recovery"
+      ],
+      "recommendation": "add a tool-failure fallback path (acknowledge, retry once, then offer human handoff)"
+    },
+    {
+      "call_id": "cmd_hi_0013",
+      "human": "success/medium",
+      "archetype": "brittle_success",
+      "evidence_tags": [
+        "missing_or_wrong_information",
+        "workflow_or_tool_failed"
+      ],
+      "recommendation": "require slot read-back before closing; re-ask for any unfilled required slot"
+    },
+    {
+      "call_id": "cmd_hi_0015",
+      "human": "fail/medium",
+      "archetype": "intent_or_slot_loss_failure",
+      "evidence_tags": [
+        "missing_or_wrong_information",
+        "repeated_or_stuck",
+        "poor_clarification_or_recovery",
+        "hard_to_understand"
+      ],
+      "recommendation": "require slot read-back before closing; re-ask for any unfilled required slot"
+    },
+    {
+      "call_id": "cmd_hi_0016",
+      "human": "success/high",
+      "archetype": "recovered_success",
+      "evidence_tags": [
+        "repeated_or_stuck",
+        "workflow_or_tool_failed"
+      ],
+      "recommendation": "cap repeats at 2, then rephrase with a concrete example instead of repeating verbatim"
+    },
+    {
+      "call_id": "cmd_hi_0017",
+      "human": "success/medium",
+      "archetype": "brittle_success",
+      "evidence_tags": [
+        "repeated_or_stuck",
+        "workflow_or_tool_failed",
+        "poor_clarification_or_recovery",
+        "misunderstood_user"
+      ],
+      "recommendation": "cap repeats at 2, then rephrase with a concrete example instead of repeating verbatim"
+    },
+    {
+      "call_id": "cmd_hi_0020",
+      "human": "success/medium",
+      "archetype": "recovered_success",
+      "evidence_tags": [
+        "missing_or_wrong_information",
+        "hard_to_understand"
+      ],
+      "recommendation": "require slot read-back before closing; re-ask for any unfilled required slot"
+    },
+    {
+      "call_id": "cmd_hi_0022",
+      "human": "fail/medium",
+      "archetype": "workflow_failure",
+      "evidence_tags": [
+        "missing_or_wrong_information",
+        "workflow_or_tool_failed",
+        "repeated_or_stuck",
+        "misunderstood_user"
+      ],
+      "recommendation": "require slot read-back before closing; re-ask for any unfilled required slot"
+    },
+    {
+      "call_id": "cmd_hi_0024",
+      "human": "fail/medium",
+      "archetype": "workflow_failure",
+      "evidence_tags": [
+        "workflow_or_tool_failed",
+        "poor_clarification_or_recovery",
+        "misunderstood_user"
+      ],
+      "recommendation": "add a tool-failure fallback path (acknowledge, retry once, then offer human handoff)"
+    },
+    {
+      "call_id": "cmd_hi_0028",
+      "human": "success/medium",
+      "archetype": "brittle_success",
+      "evidence_tags": [
+        "repeated_or_stuck",
+        "hard_to_understand",
+        "missing_or_wrong_information",
+        "poor_clarification_or_recovery"
+      ],
+      "recommendation": "cap repeats at 2, then rephrase with a concrete example instead of repeating verbatim"
+    },
+    {
+      "call_id": "cmd_hi_0029",
+      "human": "fail/high",
+      "archetype": "workflow_failure",
+      "evidence_tags": [
+        "poor_clarification_or_recovery",
+        "workflow_or_tool_failed",
+        "misunderstood_user",
+        "repeated_or_stuck",
+        "missing_or_wrong_information",
+        "user_frustrated"
+      ],
+      "recommendation": "replace generic re-asks with a targeted clarifying question naming the unclear slot"
+    },
+    {
+      "call_id": "cmd_hi_0030",
+      "human": "success/medium",
+      "archetype": "brittle_success",
+      "evidence_tags": [
+        "poor_clarification_or_recovery"
+      ],
+      "recommendation": "replace generic re-asks with a targeted clarifying question naming the unclear slot"
+    },
+    {
+      "call_id": "cmd_hi_0031",
+      "human": "success/medium",
+      "archetype": "recovered_success",
+      "evidence_tags": [
+        "missing_or_wrong_information",
+        "repeated_or_stuck",
+        "workflow_or_tool_failed"
+      ],
+      "recommendation": "require slot read-back before closing; re-ask for any unfilled required slot"
+    },
+    {
+      "call_id": "swz_MUL0815",
+      "human": "unsure/high",
+      "archetype": "ambiguous_or_unassessable",
+      "evidence_tags": [
+        "poor_clarification_or_recovery"
+      ],
+      "recommendation": "replace generic re-asks with a targeted clarifying question naming the unclear slot"
+    },
+    {
+      "call_id": "swz_MUL1560",
+      "human": "success/medium",
+      "archetype": "recovered_success",
+      "evidence_tags": [
+        "wrong_language_or_tone"
+      ],
+      "recommendation": "detect caller language/register in the first 2 turns and switch the response style"
+    },
+    {
+      "call_id": "swz_MUL0035",
+      "human": "success/medium",
+      "archetype": "recovered_success",
+      "evidence_tags": [
+        "wrong_language_or_tone",
+        "hard_to_understand",
+        "poor_clarification_or_recovery"
+      ],
+      "recommendation": "detect caller language/register in the first 2 turns and switch the response style"
     }
   ],
-  "judge_run": null
+  "judge_run": {
+    "mode": "full",
+    "status": "complete",
+    "model": "gemini-3.1-flash-lite",
+    "temperature": 0,
+    "rubric_hash": "c1cc81415e230e74",
+    "judge_prompt_hash": "079d57698a629192",
+    "labels_csv_sha256": "b3884f9ede7d753a18a5011801c25ddc930d1543e7858736ce4d08c328c25338",
+    "manifest_sha256": "aec4ba49000c9f4fdfa203cfca4bc787b71004abb47e4a7eff899175446cae33",
+    "n_calls": 46,
+    "expected_judgments": 276,
+    "validated_judgments": 276,
+    "cache_hits": 178,
+    "failures": 0,
+    "failed_calls": [],
+    "binary_rule": "dedicated outcome judgment per call (temperature 0, JSON, evidence-cited); label in {success,fail}; same question the blind annotator answered. NOT derived from the 5 semantic dims; kappa calibrates THIS judgment only \u2014 the semantic dims remain uncalibrated diagnostics.",
+    "started_at": "2026-06-12T22:22:37+05:30",
+    "checkpointed_at": "2026-06-12T22:35:52+05:30",
+    "finished_at": "2026-06-12T22:35:52+05:30",
+    "elapsed_s": 795.5
+  }
 }

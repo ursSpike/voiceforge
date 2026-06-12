@@ -51,6 +51,17 @@ RECOMMEND = {  # deterministic tag -> recommendation templates (marked template-
     "user_frustrated": "acknowledge frustration explicitly once, then shorten the path to the goal or escalate",
 }
 
+MECHANISM = {
+    "workflow_or_tool_failed": "A bounded retry and explicit fallback prevents a tool error from silently ending the workflow.",
+    "wrong_language_or_tone": "Earlier language and register adaptation reduces comprehension friction before it becomes a repair loop.",
+    "misunderstood_user": "Confirming the inferred intent before acting catches a wrong branch while recovery is still cheap.",
+    "missing_or_wrong_information": "A required-slot read-back catches omissions before the agent closes the call.",
+    "repeated_or_stuck": "A repeat cap forces a different repair strategy instead of replaying the same failed wording.",
+    "poor_clarification_or_recovery": "A targeted question names the unclear slot and lowers the caller's repair burden.",
+    "hard_to_understand": "One-action turns reduce cognitive load and make the next expected response explicit.",
+    "user_frustrated": "Acknowledging frustration and shortening the path reduces further repair turns and escalation risk.",
+}
+
 
 # ---------------------------------------------------------------- loading (every input optional)
 def load(paths):
@@ -150,6 +161,46 @@ def build(d):
     cal = kappa_block(labels, d["judge"])
     an = d["analytics"]
 
+    def est_cost(row):
+        call = d["calls"].get(row["call_id"], {})
+        return float((call.get("cost") or {}).get("est_cost_total") or 0.0)
+
+    # Product-facing metrics remain deterministic derivations of the frozen human labels and
+    # per-call prototype costs. They are not claims of observed savings or model lift.
+    success_rows = [r for r in binary if r["primary_label"] == "success"]
+    fail_rows = [r for r in binary if r["primary_label"] == "fail"]
+    seamless = arch.get("seamless_success", 0)
+    recovered = arch.get("recovered_success", 0)
+    brittle = arch.get("brittle_success", 0)
+    binary_spend = sum(est_cost(r) for r in binary)
+    failed_spend = sum(est_cost(r) for r in fail_rows)
+    brittle_spend = sum(est_cost(r) for r in labels if archetype(r) == "brittle_success")
+    friction_rows = [r for r in binary if r["primary_label"] == "fail" or tags_of(r)[1]]
+    friction_spend = sum(est_cost(r) for r in friction_rows)
+
+    tag_calls = {}
+    tag_cost = Counter()
+    for r in labels:
+        for tag in tags_of(r)[1]:
+            tag_calls.setdefault(tag, []).append(r["call_id"])
+            tag_cost[tag] += est_cost(r)
+    top_tag = max(tag_cost, key=lambda t: (tag_cost[t], len(tag_calls[t]), t)) if tag_cost else None
+    fix_first = None
+    if top_tag:
+        affected = tag_calls[top_tag]
+        modeled_per_1k = (tag_cost[top_tag] / len(binary) * 1000) if binary else None
+        fix_first = {
+            "phenotype_id": top_tag,
+            "affected_calls": len(affected),
+            "estimated_spend_usd": round(tag_cost[top_tag], 4),
+            "modeled_exposure_per_1k_usd": round(modeled_per_1k, 2) if modeled_per_1k is not None else None,
+            "evidence_call_ids": affected,
+            "recommendation": RECOMMEND.get(top_tag),
+            "expected_mechanism": MECHANISM.get(top_tag),
+            "needs_human_review": True,
+            "provenance": "single-rater phenotype + estimated prototype cost",
+        }
+
     # representative calls: deterministically pick the first label per archetype (manifest order)
     order = d["manifest"]["order"] if d["manifest"] else [r["call_id"] for r in labels]
     by_id = {r["call_id"]: r for r in labels}
@@ -191,6 +242,28 @@ def build(d):
             "labels": {"total": len(labels), "binary": len(binary), "unsure": len(unsure),
                        "floor": FLOOR, "floor_met": len(binary) >= FLOOR,
                        "distribution": dict(Counter(r["primary_label"] for r in labels))},
+            "product": {
+                "human_success_rate": round(len(success_rows) / len(binary), 3) if binary else None,
+                "human_successes": len(success_rows),
+                "human_failures": len(fail_rows),
+                "cost_per_human_success_est": round(binary_spend / len(success_rows), 4) if success_rows else None,
+                "failed_call_spend_est": round(failed_spend, 4),
+                "brittle_success_spend_est": round(brittle_spend, 4),
+                "friction_or_failure_spend_est": round(friction_spend, 4),
+                "friction_or_failure_spend_share": round(friction_spend / binary_spend, 3) if binary_spend else None,
+                "brittle_share_of_successes": round(brittle / len(success_rows), 3) if success_rows else None,
+                "matrix": {
+                    "n": len(binary),
+                    "seamless_success": seamless,
+                    "recovered_success": recovered,
+                    "brittle_success": brittle,
+                    "failure": len(fail_rows),
+                    "unsure_excluded": len(unsure),
+                },
+                "fix_first": fix_first,
+                "caveat": "Human labels are single-rater; costs are estimated prototype values. "
+                          "Per-1,000 exposure is a modeled extrapolation from this slice, not observed savings.",
+            },
             "calibration": cal,   # None => pending
             "tags": {"positive": dict(pos_c.most_common()), "negative": dict(neg_c.most_common()),
                      "context": dict(ctx_c.most_common()),

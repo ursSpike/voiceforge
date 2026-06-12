@@ -832,3 +832,22 @@ empty list." Validation NOT weakened (validate_dim unchanged — still requires 
 re-judged for all 46; binary outcomes + other dims stay cached, so CALIBRATION is unaffected by the re-judge.
 Re-run --full in progress (background). Preserved partials: out/judge_results_partial_run1.json. (Orphaned old-hash uf/rq
 cache entries to be pruned after completion.)
+
+## PHASE F→I — real calibration + dashboard integration committed (Jun 12, completing Codex's blocked write)
+**Phase F calibration (exact, from the COMPLETE 46/46 judge run):** n=45 paired (1 human-unsure excluded). Confusion
+human×judge: success/success 28, success/fail 9, fail/success 4, fail/fail 4. raw agreement 32/45=0.711, human prevalence
+0.822, judge prevalence 0.711, pe 0.636, **Cohen's κ=0.206**, bootstrap 95% CI [-0.108, 0.499] (seed 13). 13 disagreements,
+9 of them cmd_hi_* (judge weakest on code-switched calls). Honestly framed as a FINDING (low κ + prevalence paradox =
+exactly why you calibrate before trusting an LLM judge), not hidden. Archetypes (real): 25 seamless / 5 brittle / 7
+recovered success · 3 intent-slot / 5 workflow failure · 1 ambiguous.
+**Dashboard integration (Codex's Fable round-1, real artifacts only — fixture NEVER imported):** editorial SF/YC light
+UI, "What to fix first", Success×Friction matrix, evidence-linked transcript highlighting, calibration view (71.1%/κ0.206
+with CI + disagreement explorer), guided demo path, honest Bolna→Cartesia sponsor proof. dashboard.py inlines
+web/dashboard_app.js + web/dashboard_skin.css + embedded data → out/dashboard.html (432KB, ZERO external refs, offline).
+Regenerated from the FINAL judge_results (κ baked in). Browser re-verified at 1440×900: overview/calls render, metric-trap
+visible in the Calls table (human vs heuristic columns diverge), 0 console errors.
+**Committed:** dashboard.py, demo_report.py, web/dashboard_app.js, dashboard_skin.css, out/dashboard.html,
+out/demo_report.{html,md,_data.json}, out/judge_results.json (canonical, no secrets), out/judge_results_partial_run1.json
+(audit trail), docs/design_integration_round_1.md. EXCLUDED per Codex: data/.judge_cache (270 entries; demo reads
+judge_results.json, self-contained; orphaned old-prompt uf/rq entries present — prune later if cache ever committed),
+TEST.txt/idea scratch, unrelated notebook edit.

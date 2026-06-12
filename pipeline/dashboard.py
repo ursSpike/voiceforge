@@ -15,6 +15,7 @@ HONESTY + BLINDNESS:
 - Heuristic / estimated / uncalibrated / single-rater caveats are rendered, not footnoted away.
 """
 import html as H
+import csv
 import json
 import sys
 from pathlib import Path
@@ -33,6 +34,7 @@ def build():
     R = jload(OUT / "demo_report_data.json")
     calls = jload(OUT / "calls.json") or []
     judge = jload(OUT / "judge_results.json")
+    proof = jload(OUT / "bolna_cartesia_proof.json")
     val = jload(OUT / "label_validation.json") or {}
     if not (A and R):
         sys.exit("run pipeline/score.py and pipeline/demo_report.py first")
@@ -44,20 +46,28 @@ def build():
     rows = []
     if gate_open:
         jcalls = (judge or {}).get("calls", {})
+        with (ROOT / "eval" / "labels_spike.csv").open(newline="") as f:
+            human = {r["call_id"]: r for r in csv.DictReader(f)}
         for c in calls:
             man = c["call_id"] in set((R.get("manifest_total") and jload(ROOT / "eval" / "label_manifest.json")["order"]) or [])
+            hr = human.get(c["call_id"])
             rows.append({
                 "id": c["call_id"], "source": c["source"], "lang": c["language"],
                 "profile": c["stress_profile"], "wf": c["workflow_type"], "turns": len(c["turns"]),
                 "outcome": c["outcome"]["task_completed"], "overall": c["scorecard"]["overall"],
                 "dims": c["scorecard"]["dimensions"], "failures": c["failures"],
-                "transcript": [{"s": t["speaker"], "x": t["text"]} for t in c["turns"]],
+                "transcript": [{"id": t["turn_id"], "s": t["speaker"], "x": t["text"]} for t in c["turns"]],
                 "judge": jcalls.get(c["call_id"]), "in_manifest": man,
+                "human": ({"label": hr["primary_label"], "confidence": hr["confidence"],
+                           "positive": [x for x in hr["positive_tags"].split("|") if x],
+                           "negative": [x for x in hr["negative_tags"].split("|") if x],
+                           "context": [x for x in hr["context_tags"].split("|") if x]} if hr else None),
             })
 
     data = {"gate_open": gate_open, "floor": FLOOR, "val": {"binary": val.get("binary", 0),
             "unsure": val.get("unsure", 0)}, "analytics": A, "report": R,
-            "judge_run": (judge or {}).get("run"), "rows": rows, "fixture": False}
+            "judge_run": (judge or {}).get("run"), "sponsor_proof": proof,
+            "rows": rows, "fixture": False}
     return data
 
 
@@ -188,7 +198,7 @@ padding:12px 16px;margin:9px 0;font-size:13px;box-shadow:var(--glow)}
 .kstat .kn{font-size:10.5px;color:var(--faint)}
 """
 
-JS = """
+LEGACY_JS = """
 const D = window.__DATA__;
 const $ = s => document.querySelector(s);
 const fmt = x => x==null ? '—' : (typeof x==='number' ? (Number.isInteger(x)?x:x.toFixed(3)) : x);
@@ -330,6 +340,8 @@ function render(){
 window.detail=null; render();
 """
 
+JS = (ROOT / "web" / "dashboard_app.js").read_text()
+
 
 def active_css():
     """Claude-design skin drop-in: if web/dashboard_skin.css exists it RE PLACES the built-in CSS
@@ -342,25 +354,38 @@ def active_css():
 
 def render(data):
     jr = data["judge_run"]
-    gate_note = ("labels complete — full per-call drill-down" if data["gate_open"] else
-                 f"blind labeling in progress ({data['val']['binary']}/{data['floor']} binary) — "
-                 "per-call rows hidden to protect blindness")
-    jr_note = (f"judge run: {jr['model']} · t={jr['temperature']} · {jr['n_calls']} calls · "
-               f"{jr['failures']} failures" if jr else "judge: quarantined (no real-call output yet)")
+    gate_note = (f"{data['val']['binary']} blind binary labels · "
+                 f"{jr['status']} {jr['n_calls']}/46 judged" if jr else
+                 f"{data['val']['binary']} blind binary labels · judge pending")
     css, _ = active_css()
     return f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1"><title>VoiceForge — eval lab</title>
 <style>{css}</style></head><body><div class="shell">
-<nav><div class="logo">Voice<b>Forge</b></div><div class="tag">eval lab for voice agents</div>
-<a data-v="overview" onclick="nav('overview')">◈ Overview</a>
-<a data-v="calls" onclick="nav('calls')">☰ Calls</a>
-<a data-v="clusters" onclick="nav('clusters')">⌬ Failure clusters</a>
-<a data-v="queue" onclick="nav('queue')">↗ Improvement queue</a>
-<div class="gatechip">{H.escape(gate_note)}<br><br>{H.escape(jr_note)}</div></nav>
+<nav><div class="logo">Voice<b>Forge</b></div><div class="tag">Evaluation Lab</div>
+<a data-v="overview" onclick="nav('overview')">Overview</a>
+<a data-v="calls" onclick="nav('calls')">Calls</a>
+<a data-v="clusters" onclick="nav('clusters')">Failure Intelligence</a>
+<a data-v="queue" onclick="nav('queue')">Improvement Queue</a>
+<a data-v="method" onclick="nav('method')">Method</a>
+<button class="btn" onclick="toggleDemo()">Demo path</button>
+<div class="gatechip">{H.escape(gate_note)}</div></nav>
 <main><div id="main"></div>
 <div class="foot">every number traces to a committed artifact · heuristic = keyword task-completion ·
 estimated = public per-unit prices · κ calibrates the BINARY outcome judge only — the 5 semantic dims stay uncalibrated diagnostics · failure events ≠ failed calls ·
 single-rater tags are exploratory · generated offline, no network</div></main></div>
+<aside class="demo" id="demo-panel"><div class="demo-head"><h3 id="demo-current">Demo path</h3>
+<button class="btn" onclick="toggleDemo()">Close</button></div>
+<ol class="demo-steps">
+<li><button onclick="goDemo(0)">1. Overview</button></li>
+<li><button onclick="goDemo(1)">2. What to fix first</button></li>
+<li><button onclick="goDemo(2)">3. Success × Friction</button></li>
+<li><button onclick="goDemo(3)">4. Calibration</button></li>
+<li><button onclick="goDemo(4)">5. Call evidence</button></li>
+<li><button onclick="goDemo(5)">6. Improvement queue</button></li>
+<li><button onclick="goDemo(6)">7. Sponsor proof</button></li>
+</ol><div class="demo-nav"><button class="btn" onclick="goDemo(demoStep-1)">← Prev</button>
+<button class="btn primary" onclick="goDemo(demoStep+1)">Next →</button></div>
+<p class="kv">Guides attention only. It never hides caveats or changes data.</p></aside>
 <script>window.__DATA__ = {json.dumps(data)};</script>
 <script>{JS}</script></body></html>"""
 
