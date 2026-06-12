@@ -1,0 +1,181 @@
+{
+  "manifest_total": 46,
+  "corpus": {
+    "n_scored": 76,
+    "timing_coverage": {
+      "timed": 46,
+      "unmeasured": 30
+    },
+    "success_rate_heuristic": 0.566,
+    "cost_per_success_est": 0.1188,
+    "failure_event_clusters": [
+      {
+        "dimension": "latency_gap",
+        "count": 183,
+        "example_call_ids": [
+          "hero_001",
+          "swz_MUL0035",
+          "swz_MUL0056",
+          "swz_MUL0069",
+          "swz_MUL0106"
+        ]
+      },
+      {
+        "dimension": "barge_in",
+        "count": 107,
+        "example_call_ids": [
+          "hero_001",
+          "swz_MUL0035",
+          "swz_MUL0043",
+          "swz_MUL0056",
+          "swz_MUL0071"
+        ]
+      }
+    ]
+  },
+  "labels": {
+    "total": 2,
+    "binary": 2,
+    "unsure": 0,
+    "floor": 40,
+    "floor_met": false,
+    "distribution": {
+      "success": 2
+    }
+  },
+  "calibration": null,
+  "tags": {
+    "positive": {
+      "user_satisfied": 2,
+      "understood_user": 2,
+      "completed_or_clear_next_step": 2,
+      "handled_confusion_well": 1
+    },
+    "negative": {
+      "wrong_language_or_tone": 2
+    },
+    "context": {
+      "mixed_languages": 2
+    },
+    "co_occurrence_top": [
+      {
+        "pair": [
+          "completed_or_clear_next_step",
+          "mixed_languages"
+        ],
+        "n": 2
+      },
+      {
+        "pair": [
+          "completed_or_clear_next_step",
+          "understood_user"
+        ],
+        "n": 2
+      },
+      {
+        "pair": [
+          "completed_or_clear_next_step",
+          "user_satisfied"
+        ],
+        "n": 2
+      },
+      {
+        "pair": [
+          "completed_or_clear_next_step",
+          "wrong_language_or_tone"
+        ],
+        "n": 2
+      },
+      {
+        "pair": [
+          "mixed_languages",
+          "understood_user"
+        ],
+        "n": 2
+      },
+      {
+        "pair": [
+          "mixed_languages",
+          "user_satisfied"
+        ],
+        "n": 2
+      },
+      {
+        "pair": [
+          "mixed_languages",
+          "wrong_language_or_tone"
+        ],
+        "n": 2
+      },
+      {
+        "pair": [
+          "understood_user",
+          "user_satisfied"
+        ],
+        "n": 2
+      }
+    ],
+    "caveat": "single-rater exploratory (n=1 annotator) \u2014 NOT calibrated"
+  },
+  "archetypes": {
+    "counts": {
+      "seamless_success": 0,
+      "brittle_success": 1,
+      "recovered_success": 1,
+      "language_mismatch_failure": 0,
+      "intent_or_slot_loss_failure": 0,
+      "repair_loop_failure": 0,
+      "workflow_failure": 0,
+      "ambiguous_or_unassessable": 0
+    },
+    "derivation": "deterministic from Level-1 outcome + Level-2 tags (precedence: workflow > language > intent/slot > repair-loop); never hand-labeled"
+  },
+  "representatives": [
+    {
+      "call_id": "bolna_246cd9f3",
+      "human": "success/high",
+      "archetype": "recovered_success",
+      "tags": [
+        "wrong_language_or_tone"
+      ],
+      "deterministic_failures": [],
+      "judge": "pending",
+      "recommendation": "detect caller language/register in the first 2 turns and switch the response style"
+    },
+    {
+      "call_id": "hero_001",
+      "human": "success/high",
+      "archetype": "brittle_success",
+      "tags": [
+        "wrong_language_or_tone"
+      ],
+      "deterministic_failures": [
+        "barge_in",
+        "latency_gap"
+      ],
+      "judge": "pending",
+      "recommendation": "detect caller language/register in the first 2 turns and switch the response style"
+    }
+  ],
+  "improvement_queue": [
+    {
+      "call_id": "bolna_246cd9f3",
+      "human": "success/high",
+      "archetype": "recovered_success",
+      "evidence_tags": [
+        "wrong_language_or_tone"
+      ],
+      "recommendation": "detect caller language/register in the first 2 turns and switch the response style"
+    },
+    {
+      "call_id": "hero_001",
+      "human": "success/high",
+      "archetype": "brittle_success",
+      "evidence_tags": [
+        "wrong_language_or_tone"
+      ],
+      "recommendation": "detect caller language/register in the first 2 turns and switch the response style"
+    }
+  ],
+  "judge_run": null
+}

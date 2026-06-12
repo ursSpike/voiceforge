@@ -1,0 +1,76 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>VoiceForge — Evaluation Report</title>
+<style>
+ body{margin:0;background:#f5f6f8;color:#1a2330;font:15px/1.55 -apple-system,'Segoe UI',Inter,sans-serif}
+ .wrap{max-width:980px;margin:0 auto;padding:34px 26px 60px}
+ h1{font-size:26px;margin:0} h1 b{color:#16845f} .sub{color:#5b6878;margin:6px 0 24px;max-width:760px}
+ h2{font-size:15px;letter-spacing:.6px;text-transform:uppercase;color:#5b6878;margin:34px 0 12px}
+ .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+ .card{background:#fff;border:1px solid #e1e6ec;border-radius:12px;padding:14px 16px;box-shadow:0 6px 18px rgba(26,35,48,.05)}
+ .card .v{font-size:24px;font-weight:700} .card .l{font-size:12px;color:#5b6878;margin-top:2px}
+ .card .n{font-size:10.5px;color:#9aa4b1;margin-top:4px}
+ .pending{margin-top:12px;padding:11px 14px;border:1px solid #ead7b8;background:#fdf6e9;border-radius:10px;color:#8d5c10;font-size:13px}
+ .bar{display:flex;align-items:center;gap:8px;margin:5px 0;font-size:12.5px}
+ .bl{width:230px;color:#5b6878} .bf{height:12px;background:#c14d52;border-radius:6px;display:inline-block}
+ table{border-collapse:collapse;background:#fff;border:1px solid #e1e6ec;border-radius:10px;overflow:hidden}
+ td{padding:7px 16px;border-top:1px solid #eef1f5;font-size:13.5px}
+ .rep{background:#fff;border:1px solid #e1e6ec;border-radius:10px;padding:10px 14px;margin:8px 0;font-size:13.5px}
+ .rep .rec{color:#16845f;margin-top:4px}
+ .foot{margin-top:40px;font-size:11.5px;color:#9aa4b1;border-top:1px solid #e1e6ec;padding-top:14px}
+ code{background:#eef1f5;border-radius:4px;padding:1px 5px;font-size:12px}
+ details{margin-top:26px} pre{white-space:pre-wrap;font-size:12px;background:#fff;border:1px solid #e1e6ec;border-radius:10px;padding:16px}
+</style></head><body><div class="wrap">
+<h1>Voice<b>Forge</b> — evaluation report</h1>
+<div class="sub">Most voice-agent demos show a cherry-picked call. VoiceForge shows the <b>failure distribution</b> —
+deterministic signals → blind human labels → calibrated judge → call phenotypes → an improvement queue.</div>
+<div class="cards"><div class="card"><div class="v">76</div><div class="l">calls scored</div><div class="n">deterministic pipeline</div></div><div class="card"><div class="v">46 / 76</div><div class="l">timing observed</div><div class="n">text-only calls: timing honestly omitted</div></div><div class="card"><div class="v">0.566</div><div class="l">task success</div><div class="n">HEURISTIC keyword match</div></div><div class="card"><div class="v">$0.1188</div><div class="l">cost / success</div><div class="n">ESTIMATED, prototype</div></div><div class="card"><div class="v">2+0</div><div class="l">blind labels</div><div class="n">binary+unsure · floor 40</div></div><div class="card"><div class="v">pending</div><div class="l">Cohen&#x27;s κ</div><div class="n">gated until labels + judged run</div></div></div><div class="pending">Calibration pending — requires ≥40 blind binary labels and the quarantined judge run. Nothing is faked while it waits.</div>
+<h2>Failure phenotypes (negative tags · single-rater exploratory)</h2><div class="bar"><span class="bl">wrong_language_or_tone</span><span class="bf" style="width:260px"></span><b>2</b></div>
+<h2>Call archetypes (derived deterministically — never hand-labeled)</h2>
+<table><tr><td>brittle success</td><td>1</td></tr><tr><td>recovered success</td><td>1</td></tr></table>
+<h2>Representative calls (algorithmic per-archetype pick — no cherry-picking)</h2>
+<div class="rep"><code>bolna_246cd9f3</code> <b>success/high</b> <em>recovered success</em> · judge: pending<div class="rec">→ detect caller language/register in the first 2 turns and switch the response style</div></div><div class="rep"><code>hero_001</code> <b>success/high</b> <em>brittle success</em> · judge: pending<div class="rec">→ detect caller language/register in the first 2 turns and switch the response style</div></div>
+<details><summary>Full markdown report</summary><pre># VoiceForge — Evaluation Report
+
+&gt; Voice-agent demos stop when the call ends. **VoiceForge starts there**: deterministic signals → blind human labels → calibrated judge → call phenotypes → failure clusters → an improvement queue.
+
+## 1 · Corpus &amp; coverage
+- **76 calls scored** · timing observed on 46 · text-only (timing honestly omitted) on 30
+- task-success rate **0.566** *(heuristic keyword match — not gold)* · cost/successful call **$0.1188** *(estimated, prototype)*
+
+## 2 · Deterministic failure events *(signal hits — NOT failed calls)*
+- `latency_gap` × **183** (e.g. hero_001, swz_MUL0035, swz_MUL0056)
+- `barge_in` × **107** (e.g. hero_001, swz_MUL0035, swz_MUL0043)
+
+## 3 · Blind human labels
+- labeled **2** of 46 · usable binary **2** (floor ≥40: **not yet** — 38 to go) · unsure 0 (excluded from calibration)
+- distribution: `{&#x27;success&#x27;: 2}`
+
+## 4 · Human ↔ judge calibration
+**PENDING CALIBRATION** — requires ≥40 blind binary labels **and** a judged run (quarantined until labeling completes). No number is shown because none exists yet.
+
+## 5 · Phenotype tags *( single-rater exploratory (n=1 annotator) — NOT calibrated )*
+- **positive**: `user_satisfied`×2, `understood_user`×2, `completed_or_clear_next_step`×2, `handled_confusion_well`×1
+- **negative**: `wrong_language_or_tone`×2
+- **context**: `mixed_languages`×2
+- top co-occurring pairs: `completed_or_clear_next_step`+`mixed_languages` ×2, `completed_or_clear_next_step`+`understood_user` ×2, `completed_or_clear_next_step`+`user_satisfied` ×2, `completed_or_clear_next_step`+`wrong_language_or_tone` ×2, `mixed_languages`+`understood_user` ×2, `mixed_languages`+`user_satisfied` ×2, `mixed_languages`+`wrong_language_or_tone` ×2, `understood_user`+`user_satisfied` ×2
+
+## 6 · Call archetypes *(Level-3 — deterministic from Level-1 outcome + Level-2 tags (precedence: workflow &gt; language &gt; intent/slot &gt; repair-loop); never hand-labeled)*
+- **brittle success** × 1
+- **recovered success** × 1
+
+## 7 · Representative calls
+- `bolna_246cd9f3` · human **success/high** · judge pending · *recovered success* · tags [&#x27;wrong_language_or_tone&#x27;]
+  - → detect caller language/register in the first 2 turns and switch the response style *(template-derived from tags)*
+- `hero_001` · human **success/high** · judge pending · *brittle success* · tags [&#x27;wrong_language_or_tone&#x27;] · det. failures [&#x27;barge_in&#x27;, &#x27;latency_gap&#x27;]
+  - → detect caller language/register in the first 2 turns and switch the response style *(template-derived from tags)*
+
+## 8 · Improvement queue *(evidence-backed; recommendations template-derived from observed tags)*
+- `bolna_246cd9f3` (success/high, recovered success): detect caller language/register in the first 2 turns and switch the response style — evidence: [&#x27;wrong_language_or_tone&#x27;]
+- `hero_001` (success/high, brittle success): detect caller language/register in the first 2 turns and switch the response style — evidence: [&#x27;wrong_language_or_tone&#x27;]
+
+---
+*Every number above is computed from committed artifacts. Heuristic = keyword task-completion; estimated = public per-unit prices; uncalibrated = judge before kappa; pending = honestly absent.*
+</pre></details>
+<div class="foot">heuristic = keyword task-completion · estimated = public per-unit prices · uncalibrated = judge
+before kappa · pending = honestly absent · failure events ≠ failed calls · generated from committed artifacts only</div>
+</div></body></html>

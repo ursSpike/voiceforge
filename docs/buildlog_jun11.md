@@ -582,3 +582,19 @@ verified the reconstruction matched the frozen e6d2055 BEFORE writing, restored.
 Rule adopted: all label-CSV handling is BYTES-only.
 
 **Booth NOT restarted** (waits for Codex clearing Batch A). Manifest untouched. Next: Batch B (report engine, fixture-only).
+
+## BATCH B+C — Report engine (fixture-tested) + static demo shell (Jun 12 ~18:40)
+**`pipeline/demo_report.py`** → out/demo_report.md + .html (self-contained static page, no JS deps/no network — survives
+server death) + _data.json. Reads GENERATED artifacts only (analytics, calls, labels CSV, frozen manifest, and
+out/judge_results.json when Batch E produces it — contract documented in the module docstring). HONESTY ENFORCED:
+calibration (raw agreement/confusion/kappa+bootstrap CI) renders ONLY at ≥40 binary + judged run, else explicit
+"PENDING CALIBRATION"; tags labeled single-rater exploratory; archetypes DERIVED deterministically (documented precedence:
+workflow > language > intent/slot > repair-loop; success: seamless/brittle/recovered; unsure → ambiguous) never hand-labeled;
+"failure EVENTS not failed calls"; costs "estimated, prototype"; task completion "heuristic"; judge provenance carried.
+Representative calls = algorithmic first-per-archetype in manifest order (no cherry-picking); improvement queue =
+evidence-backed (negative tags → documented template recommendations, marked template-derived).
+**Fixture selftest 15/15**: no-labels → all pending/nothing invented · sub-floor → still pending, tags/archetypes correct ·
+floor+judge fixtures → agreement 0.9 exact, kappa inside its CI, html renders, byte-deterministic output.
+**Real render** = honest gated state (2 labels, calibration PENDING). CSV untouched (e6d2055).
+Batch C satisfied by the same artifact: light-theme single page in the demo presentation order (thesis/corpus →
+deterministic signals → calibration → phenotypes → clusters → representatives/queue), pending sections show gated state.
