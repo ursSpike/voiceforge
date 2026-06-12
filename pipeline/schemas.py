@@ -22,6 +22,25 @@ OUTDIR = ROOT / "schemas" / "json"
 
 _num01 = {"type": "number", "minimum": 0, "maximum": 1}
 
+# stress_profile vocabulary. 'unmeasured' = no clock (text-only source); the others imply a clock.
+_PROFILES = ["clean", "pause_heavy", "interruption", "ambiguous", "kb_gap", "unmeasured"]
+_TIMED_PROFILES = [p for p in _PROFILES if p != "unmeasured"]
+
+# The all-or-none TIMING INVARIANT, encoded in the schema (not just Python). A call is either:
+#   (a) fully timed   — every turn.start_ms is an integer AND stress_profile is a measured one, or
+#   (b) fully untimed — every turn.start_ms AND end_ms is null AND stress_profile == 'unmeasured'.
+# A mixed/partial clock matches NEITHER branch -> oneOf fails -> rejected. This also couples
+# timing<->profile both directions (all-null<->unmeasured), so a fake partial clock can never validate.
+_TIMING_INVARIANT = {
+    "oneOf": [
+        {"properties": {"stress_profile": {"enum": _TIMED_PROFILES},
+                        "turns": {"items": {"properties": {"start_ms": {"type": "integer"}}}}}},
+        {"properties": {"stress_profile": {"const": "unmeasured"},
+                        "turns": {"items": {"properties": {"start_ms": {"type": "null"},
+                                                           "end_ms": {"type": "null"}}}}}},
+    ],
+}
+
 # ---------------------------------------------------------------- call_log
 CALL_LOG = {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -36,7 +55,7 @@ CALL_LOG = {
         "language": {"type": "string"},
         # "unmeasured": timing was never observed (e.g. text-only translated corpora). NOT a stress
         # level — an honest "no clock" marker so timing dimensions are omitted, never faked.
-        "stress_profile": {"enum": ["clean", "pause_heavy", "interruption", "ambiguous", "kb_gap", "unmeasured"]},
+        "stress_profile": {"enum": _PROFILES},
         "workflow_type": {"type": "string"},
         "turns": {
             "type": "array", "minItems": 1,
@@ -57,6 +76,7 @@ CALL_LOG = {
         "audio_path": {"type": ["string", "null"]},
         "metadata": {"type": "object"},
     },
+    "allOf": [_TIMING_INVARIANT],   # all-or-none timing + timing<->profile coupling
 }
 
 # ---------------------------------------------------------------- task_outcome
@@ -180,17 +200,23 @@ CALL_RECORD = {
         "failures": {"type": "array", "items": _embed(FAILURE)},
         "signals": {"type": ["object", "null"]},         # raw signals.analyze() summary
     },
+    "allOf": [_TIMING_INVARIANT],   # the same all-or-none timing invariant holds on the merged record
 }
 
 # ---------------------------------------------------------------- analytics (summary + clusters)
 ANALYTICS = {
     "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "analytics.schema.json",
     "title": "analytics", "type": "object",
-    "required": ["n_calls", "success_rate", "failure_clusters"],
+    "required": ["n_calls", "success_rate", "failure_clusters", "timing_coverage"],
     "properties": {
         "n_calls": {"type": "integer"},
         "success_rate": _num01,
         "avg_overall": {"type": ["number", "null"]},
+        # coverage split so avg_overall (timed-only) is read in context; counts are non-negative ints
+        "timing_coverage": {"type": "object", "required": ["timed", "unmeasured"],
+                            "additionalProperties": False,
+                            "properties": {"timed": {"type": "integer", "minimum": 0},
+                                           "unmeasured": {"type": "integer", "minimum": 0}}},
         "cost_per_successful_call": {"type": ["number", "null"]},
         "by_stress_profile": {"type": "array"},
         "failure_clusters": {
@@ -329,6 +355,36 @@ def main():
         print("  nullable-timing self-test FAILED: string start_ms wrongly accepted"); bad += 1
     except jsonschema.ValidationError:
         print("nullable-timing contract self-test: null-timing record PASS, non-int start_ms correctly REJECTED")
+
+    # the JSON SCHEMA (not just Python) must reject a MIXED-timing call_log
+    mixed_log = {"call_id": "mx", "source": "bolna", "language": "en", "stress_profile": "clean",
+                 "workflow_type": "t",
+                 "turns": [{"turn_id": "t1", "speaker": "agent", "text": "a", "start_ms": 0, "end_ms": 1000},
+                           {"turn_id": "t2", "speaker": "user", "text": "b", "start_ms": None, "end_ms": None}]}
+    try:
+        validate(mixed_log, "call_log")
+        print("  timing-invariant self-test FAILED: mixed call_log wrongly accepted"); bad += 1
+    except jsonschema.ValidationError:
+        print("timing-invariant self-test: mixed call_log correctly REJECTED by schema")
+    # ...and an all-null call_log with a non-'unmeasured' profile must also be rejected (coupling)
+    try:
+        bad_couple = json.loads(json.dumps(mixed_log)); bad_couple["turns"][0]["start_ms"] = None; bad_couple["turns"][0]["end_ms"] = None
+        validate(bad_couple, "call_log")   # all-null but stress_profile 'clean'
+        print("  timing-invariant self-test FAILED: all-null + non-unmeasured profile wrongly accepted"); bad += 1
+    except jsonschema.ValidationError:
+        print("timing-invariant self-test: all-null + non-'unmeasured' profile correctly REJECTED")
+
+    # ANALYTICS must reject malformed timing_coverage (string / negative counts)
+    good_an = {"n_calls": 1, "success_rate": 1.0, "failure_clusters": [], "timing_coverage": {"timed": 1, "unmeasured": 0}}
+    validate(good_an, "analytics")
+    for label, cov in [("string count", {"timed": "x", "unmeasured": 0}), ("negative count", {"timed": -1, "unmeasured": 0}),
+                       ("missing field", {"timed": 1})]:
+        try:
+            validate({**good_an, "timing_coverage": cov}, "analytics")
+            print(f"  analytics self-test FAILED: {label} timing_coverage wrongly accepted"); bad += 1
+        except jsonschema.ValidationError:
+            pass
+    print("analytics self-test: malformed timing_coverage (string / negative / missing) correctly REJECTED")
     sys.exit(1 if bad else 0)
 
 

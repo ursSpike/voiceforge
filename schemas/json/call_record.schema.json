@@ -288,5 +288,52 @@
         "null"
       ]
     }
-  }
+  },
+  "allOf": [
+    {
+      "oneOf": [
+        {
+          "properties": {
+            "stress_profile": {
+              "enum": [
+                "clean",
+                "pause_heavy",
+                "interruption",
+                "ambiguous",
+                "kb_gap"
+              ]
+            },
+            "turns": {
+              "items": {
+                "properties": {
+                  "start_ms": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "stress_profile": {
+              "const": "unmeasured"
+            },
+            "turns": {
+              "items": {
+                "properties": {
+                  "start_ms": {
+                    "type": "null"
+                  },
+                  "end_ms": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
 }

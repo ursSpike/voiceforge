@@ -9,7 +9,9 @@ while timed calls are completely unaffected.
 Touches no files: builds synthetic calls in memory, runs build_record + signals.analyze, validates
 against the call_record schema, asserts the dimension set. Does NOT read or write data/normalized/.
 """
+import shutil
 import sys
+import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -108,6 +110,15 @@ def main():
         check(False, "normalize.validate_call should REJECT a mixed-timing call")
     except AssertionError:
         check(True, "normalize.validate_call rejects mixed timing")
+    # JSON Schema (constitution) must also reject it, and build_record must refuse to score it
+    try:
+        validate(mc, "call_log"); check(False, "JSON Schema should reject a mixed call_log")
+    except Exception:
+        check(True, "JSON Schema rejects mixed call_log")
+    try:
+        build_record(mc); check(False, "build_record should refuse a mixed call")
+    except Exception:
+        check(True, "build_record refuses a mixed call (never scores a fabricated record)")
     # and the profile coupling: all-null timing requires stress_profile 'unmeasured'
     try:
         bad_prof = untimed_call(); bad_prof["stress_profile"] = "clean"
@@ -125,17 +136,26 @@ def main():
     validate(A, "analytics")
     check(A["timing_coverage"] == {"timed": 1, "unmeasured": 1}, f"timing_coverage split (got {A.get('timing_coverage')})")
     check(A["avg_overall"] == recs[0]["scorecard"]["overall"], "avg_overall is over the timed call only")
+    # the analytics schema must require + type-check timing_coverage
+    for label, cov in [("string", {"timed": "x", "unmeasured": 0}), ("negative", {"timed": -1, "unmeasured": 0})]:
+        try:
+            validate({**A, "timing_coverage": cov}, "analytics"); check(False, f"analytics should reject {label} timing_coverage")
+        except Exception:
+            check(True, f"analytics rejects {label} timing_coverage")
 
     # 6) chart is null-safe: an unmeasured profile with 0 successes -> cost_per_successful_call null
     print("\n[6] chart null-safety (unmeasured profile, no successes -> null cost)")
     unm_prof = next(b for b in A["by_stress_profile"] if b["stress_profile"] == "unmeasured")
     check(unm_prof["cost_per_successful_call"] is None, "unmeasured profile cost_per_successful_call is null")
     check(chart._safe_max([None, 0.2]) == 0.2 and chart._safe_max([None]) == 1, "_safe_max ignores None")
+    tmp = Path(tempfile.mkdtemp(prefix="vf_chart_test_"))
     try:
-        chart.render(A, Path("/tmp/vf_chart_test"))
-        check(True, "chart.render() does not crash on a null cost_per_successful_call")
+        chart.render(A, tmp)
+        check((tmp / "business_value.png").exists(), "chart.render() renders without crashing on a null cost")
     except Exception as e:
         check(False, f"chart.render crashed: {e}")
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)   # auto-clean the temp dir
 
     print("\n" + ("NULLABLE-TIMING TEST PASSED ✓" if not FAILS else f"FAILED ({len(FAILS)} checks)"))
     sys.exit(1 if FAILS else 0)

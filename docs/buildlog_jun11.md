@@ -492,3 +492,22 @@ estimate (final from the adapter). **Proof real pool untouched:** pool 46/46 val
 `out/analytics.json` changes only by the additive `timing_coverage`; CSV SHA unchanged; normalized 46.
 
 **Next:** STOP for Codex re-audit. On clear → Phase B ingest + immutable `eval/label_manifest.json`. No ingest/booth restart until clear.
+
+## BATCH 2R · nullable-timing repair round 3 (Jun 12) — Codex 3 schema blockers
+Closed the gap between the Python enforcement and the SCHEMA CONSTITUTION. Still NO ingest, labels frozen, pool 46.
+
+**B1 — schema now encodes the timing/profile invariant.** `_TIMING_INVARIANT` (a `oneOf`) added to `call_log` AND `call_record`
+via `allOf`: branch (a) every `start_ms` integer + measured `stress_profile`; branch (b) every `start_ms`/`end_ms` null +
+`stress_profile=='unmeasured'`. A mixed/partial clock matches NEITHER → rejected by JSON Schema itself; also couples all-null↔unmeasured.
+**B2 — `build_record()` refuses mixed.** Raises `ValueError` on `timing_mode=='mixed'` before scoring; `score.py` main loop now
+builds inside the try so a bad call is counted, never crashes or silently scored. **B3 — `timing_coverage` defined + required in
+`ANALYTICS`** (`{timed,unmeasured}` non-negative ints, `additionalProperties:false`) — string/negative/missing counts now rejected.
+
+**Tests:** `schemas.py` self-tests gained mixed-`call_log` rejection, all-null+wrong-profile rejection, malformed-`timing_coverage`
+rejection (all fire). `test_nullable_timing.py` gained JSON-Schema mixed rejection + `build_record` refusal + analytics malformed-coverage
+rejection; chart test now uses an auto-cleaned `tempfile` dir. ALL PASS. Pool 46/46 still valid against the new invariant.
+**Real pool untouched:** `out/calls.json` + `out/analytics.json` BYTE-IDENTICAL; CSV SHA e6d2055 frozen; normalized 46.
+(Note re Codex warning: last round's `analytics.json` note text DID change alongside the added field — intentional, documents the
+timed-only `avg_overall` scope.)
+
+**Next:** STOP for Codex re-audit. On clear → Phase B ingest + immutable `eval/label_manifest.json`.

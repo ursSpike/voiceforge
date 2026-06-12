@@ -136,7 +136,9 @@ def build_failures(call, sig):
 
 # ---------------------------------------------------------------- assemble + validate one call_record
 def build_record(call):
-    from signals import analyze, load_rubric
+    from signals import analyze, load_rubric, timing_mode
+    if timing_mode(call["turns"]) == "mixed":
+        raise ValueError(f"{call.get('call_id')}: mixed timing (partial clock) — reject, never score a fabricated record")
     sig = analyze(call["turns"], load_rubric())
     outcome, frac, ncap, n = build_outcome(call)
     rec = {k: call[k] for k in ("call_id", "source", "language", "stress_profile", "workflow_type",
@@ -194,8 +196,8 @@ def main():
     records, bad = [], 0
     for p in sorted(NORM.glob("*.json")):
         call = json.loads(p.read_text())
-        rec = build_record(call)
         try:
+            rec = build_record(call)           # raises on mixed timing — caught + counted, never scored
             validate(rec, "call_record")
         except Exception as e:
             bad += 1

@@ -6,7 +6,8 @@
   "required": [
     "n_calls",
     "success_rate",
-    "failure_clusters"
+    "failure_clusters",
+    "timing_coverage"
   ],
   "properties": {
     "n_calls": {
@@ -22,6 +23,24 @@
         "number",
         "null"
       ]
+    },
+    "timing_coverage": {
+      "type": "object",
+      "required": [
+        "timed",
+        "unmeasured"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "timed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "unmeasured": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
     },
     "cost_per_successful_call": {
       "type": [
