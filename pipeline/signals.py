@@ -34,11 +34,24 @@ def load_rubric(path=None):
         return yaml.safe_load(f)
 
 
+def timing_mode(turns):
+    """Call-level timing invariant. 'timed' = every turn has an int start_ms; 'unmeasured' = every
+    turn's start_ms is null; 'mixed' = a partial clock — a CONTRACT VIOLATION, because bridging
+    across the untimed turns would manufacture false floor-transfer offsets (e.g. a fake t1->t3 gap)."""
+    flags = [t.get("start_ms") is not None for t in turns]
+    if flags and all(flags):
+        return "timed"
+    if not any(flags):
+        return "unmeasured"
+    return "mixed"
+
+
 def turn_metrics(turns):
     """Pairwise floor-transfer events between consecutive turns (sorted by start_ms).
-    Turns with no start_ms (timing unobserved, e.g. text-only sources) yield NO floor-transfer
-    events — overlap/gap are never inferred or faked. An all-untimed call gives [] (no timing dims)."""
-    turns = [t for t in turns if t.get("start_ms") is not None]
+    Computed ONLY for a fully-timed call. An unmeasured (all-null) OR mixed (partial) call yields []
+    — overlap/gap are never inferred across a missing clock, and non-adjacent turns are never joined."""
+    if timing_mode(turns) != "timed":
+        return []
     turns = sorted(turns, key=lambda t: t["start_ms"])
     out = []
     for a, b in zip(turns, turns[1:]):

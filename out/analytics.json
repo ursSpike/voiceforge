@@ -2,6 +2,10 @@
   "n_calls": 46,
   "success_rate": 0.37,
   "avg_overall": 0.711,
+  "timing_coverage": {
+    "timed": 46,
+    "unmeasured": 0
+  },
   "cost_per_successful_call": 0.2438,
   "by_stress_profile": [
     {
@@ -53,5 +57,5 @@
       ]
     }
   ],
-  "note": "deterministic eval only (judge dims add in Batch 4); costs estimated, prototype"
+  "note": "deterministic eval only (judge dims add in Batch 4); costs estimated, prototype. avg_overall is over TIMED calls only (consistent dim basis) \u2014 see timing_coverage."
 }

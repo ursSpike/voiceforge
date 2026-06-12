@@ -9,16 +9,16 @@ a domain or a provider.
 | field | type | notes |
 |---|---|---|
 | `call_id` | string | unique, stable; used to key caches and labels |
-| `source` | enum | `spokenwoz \| ami \| hero \| bolna` |
-| `language` | string | BCP-47-ish; `en` this sprint; code-switching noted as e.g. `te-en` |
-| `stress_profile` | enum | `clean \| pause_heavy \| interruption \| ambiguous \| kb_gap` |
+| `source` | enum | `spokenwoz \| ami \| hero \| bolna \| code_mixed_dialog` |
+| `language` | string | BCP-47-ish; `en` this sprint; code-switching noted as e.g. `te-en`, `hi-en` |
+| `stress_profile` | enum | `clean \| pause_heavy \| interruption \| ambiguous \| kb_gap \| unmeasured` (`unmeasured` = no clock; text-only source) |
 | `workflow_type` | string | free text, e.g. `appointment_booking`, `info_lookup` |
-| `turns` | array | see below; sorted by `start_ms` |
+| `turns` | array | see below; sorted by `start_ms` when timed |
 | `turns[].turn_id` | string | e.g. `t1`, `t2` — judge evidence references these |
 | `turns[].speaker` | enum | `user \| agent` |
 | `turns[].text` | string | transcript of the turn |
-| `turns[].start_ms` | int | onset, ms from call start (single clock per call) |
-| `turns[].end_ms` | int\|null | offset; `null` allowed → latency-only treatment, never fake overlap |
+| `turns[].start_ms` | int\|null | onset, ms from call start (single clock per call). `null` = timing unobserved (text-only source). **All-or-none per call**: every turn timed, or every turn `null` (`stress_profile: unmeasured`) — never mixed. Present-but-null, never a fabricated number. |
+| `turns[].end_ms` | int\|null | offset; `null` allowed → latency-only treatment (timed call) or no timing at all (unmeasured call); never fake overlap |
 | `audio_path` | string\|null | relative path to WAV/MP3 if audio exists |
 | `metadata` | object | source-specific extras (never read by core pipeline) |
 

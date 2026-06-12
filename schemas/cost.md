@@ -9,7 +9,7 @@ of it can drop the caveat.
 | field | type | notes |
 |---|---|---|
 | `call_id` | string | joins to call_log |
-| `duration_s` | float | last end_ms / 1000 |
+| `duration_s` | float\|null | last end_ms / 1000; `null` for an unmeasured (text-only, no-clock) call — never a fabricated 0 |
 | `turn_count` | int | total turns |
 | `est_llm_calls` | int | ≈ agent turns |
 | `est_cost_total` | float USD | turns × per-turn LLM/TTS/STT estimate |

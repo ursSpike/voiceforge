@@ -472,3 +472,23 @@ Telugu via the `te-en` hero call. Fixed the misaligned/missing turn-length cell 
 
 **Next:** STOP for Codex re-audit. On clear → Phase B: `code_mixed_dialog` ingest adapter + immutable `eval/label_manifest.json`
 (entries 1–2 = bolna/hero). No ingest / no booth restart until re-audit clears.
+
+## BATCH 2R · nullable-timing repair round 2 (Jun 12) — Codex 4 blockers
+Still NO ingest, labels frozen (SHA e6d2055), pool 46, booth down. All four fixed + tested.
+
+**B1 false-adjacency / partial-timing.** `signals.turn_metrics` previously filtered untimed turns then joined the
+remainder → a fake `t1→t3` gap across an untimed `t2`; `score.py` used `any(start_ms)` so a partial call wrongly got both
+timing dims. Fix: `signals.timing_mode()` (timed / unmeasured / mixed) is the single invariant; `turn_metrics` computes events
+ONLY for a fully-timed call (no join across gaps); `score.py` grants timing dims only when `timing_mode=='timed'`.
+**B2 boundary.** `normalize.validate_call` now accepts all-timed AND all-null calls, REJECTS mixed, and couples all-null ⇔
+`stress_profile:'unmeasured'`. **B3 docs.** `schemas/call_log.md` (source/profile/nullable start_ms + all-or-none) and
+`schemas/cost.md` (duration_s int|null) de-staled. **B4 analytics/chart.** `analytics` gains `timing_coverage{timed,unmeasured}`
+and `avg_overall` is over TIMED calls only (timed=3 dims vs unmeasured=task_completion only — never blended); `chart.py` is
+null-safe (`_safe_max` ignores null cost; unmeasured-no-success profile → "n/a" bar) and refactored importable.
+
+**Tests** (`pipeline/test_nullable_timing.py`, extended): untimed / timed / **mixed-rejected + no false adjacency** / profile
+coupling / coverage-aware analytics / chart null-cost render — all PASS. Warning fixed: Hindi ≤20 count marked a pre-adapter
+estimate (final from the adapter). **Proof real pool untouched:** pool 46/46 valid; `out/calls.json` + chart PNG BYTE-IDENTICAL;
+`out/analytics.json` changes only by the additive `timing_coverage`; CSV SHA unchanged; normalized 46.
+
+**Next:** STOP for Codex re-audit. On clear → Phase B ingest + immutable `eval/label_manifest.json`. No ingest/booth restart until clear.

@@ -15,9 +15,11 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "pipeline"))
 
-from schemas import validate                      # noqa: E402
-from signals import analyze, load_rubric          # noqa: E402
-from score import build_record, build_cost        # noqa: E402
+from schemas import validate                              # noqa: E402
+from signals import analyze, load_rubric, timing_mode, turn_metrics  # noqa: E402
+from score import build_record, build_analytics           # noqa: E402
+from normalize import validate_call                        # noqa: E402
+import chart                                                # noqa: E402
 
 FAILS = []
 
@@ -52,6 +54,16 @@ def timed_call():
     return c
 
 
+def mixed_call():
+    """t1 timed, t2 untimed, t3 timed — the partial clock Codex used to reproduce a false t1->t3 gap."""
+    c = untimed_call()
+    c["call_id"] = "m_test"; c["source"] = "bolna"; c["stress_profile"] = "clean"
+    c["turns"][0]["start_ms"], c["turns"][0]["end_ms"] = 0, 1500
+    c["turns"][1]["start_ms"], c["turns"][1]["end_ms"] = None, None
+    c["turns"][2]["start_ms"], c["turns"][2]["end_ms"] = 4000, 5500
+    return c
+
+
 def main():
     print("nullable-timing contract test")
 
@@ -83,6 +95,47 @@ def main():
     tdims = {d["name"] for d in trec["scorecard"]["dimensions"]}
     check(tdims == {"barge_in", "latency_gap", "task_completion"}, f"timed call keeps all 3 dims (got {sorted(tdims)})")
     check(trec["cost"]["duration_s"] is not None, "timed call has a real duration_s")
+
+    # 4) mixed timing: rejected at the boundary AND no false floor-transfer is manufactured
+    print("\n[4] mixed-timing call (t1 timed, t2 null, t3 timed)")
+    mc = mixed_call()
+    check(timing_mode(mc["turns"]) == "mixed", "timing_mode classifies it 'mixed'")
+    events = turn_metrics(mc["turns"])
+    check(events == [], "turn_metrics yields NO events (no fake t1->t3 join across the untimed turn)")
+    check(analyze(mc["turns"], load_rubric())["failures"] == [], "no fabricated timing failures")
+    try:
+        validate_call(mc)
+        check(False, "normalize.validate_call should REJECT a mixed-timing call")
+    except AssertionError:
+        check(True, "normalize.validate_call rejects mixed timing")
+    # and the profile coupling: all-null timing requires stress_profile 'unmeasured'
+    try:
+        bad_prof = untimed_call(); bad_prof["stress_profile"] = "clean"
+        validate_call(bad_prof)
+        check(False, "all-null timing with non-unmeasured profile should be REJECTED")
+    except AssertionError:
+        check(True, "all-null timing requires stress_profile 'unmeasured'")
+    check(validate_call(untimed_call()) is not None and validate_call(timed_call()) is not None,
+          "both all-null and all-timed calls pass the boundary validator")
+
+    # 5) analytics over a timed + untimed mix is coverage-aware (avg_overall over timed only)
+    print("\n[5] coverage-aware analytics (timed + untimed records)")
+    recs = [build_record(timed_call()), build_record(untimed_call())]
+    A = build_analytics(recs)
+    validate(A, "analytics")
+    check(A["timing_coverage"] == {"timed": 1, "unmeasured": 1}, f"timing_coverage split (got {A.get('timing_coverage')})")
+    check(A["avg_overall"] == recs[0]["scorecard"]["overall"], "avg_overall is over the timed call only")
+
+    # 6) chart is null-safe: an unmeasured profile with 0 successes -> cost_per_successful_call null
+    print("\n[6] chart null-safety (unmeasured profile, no successes -> null cost)")
+    unm_prof = next(b for b in A["by_stress_profile"] if b["stress_profile"] == "unmeasured")
+    check(unm_prof["cost_per_successful_call"] is None, "unmeasured profile cost_per_successful_call is null")
+    check(chart._safe_max([None, 0.2]) == 0.2 and chart._safe_max([None]) == 1, "_safe_max ignores None")
+    try:
+        chart.render(A, Path("/tmp/vf_chart_test"))
+        check(True, "chart.render() does not crash on a null cost_per_successful_call")
+    except Exception as e:
+        check(False, f"chart.render crashed: {e}")
 
     print("\n" + ("NULLABLE-TIMING TEST PASSED ✓" if not FAILS else f"FAILED ({len(FAILS)} checks)"))
     sys.exit(1 if FAILS else 0)

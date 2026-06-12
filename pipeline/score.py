@@ -76,10 +76,11 @@ def build_outcome(call):
 # ---------------------------------------------------------------- deterministic scorecard
 def deterministic_scorecard(call, sig, frac_captured, ncap, n_fields):
     dims = []
-    # Timing dims (barge_in, latency_gap) need an observed clock. Text-only sources (start_ms null)
-    # OMIT them entirely — never score a perfect 1.0 on timing that was never measured. task_completion
-    # is text-based and always present. `overall` re-normalizes over whatever dims are present.
-    timing_observed = any(t.get("start_ms") is not None for t in call["turns"])
+    # Timing dims (barge_in, latency_gap) need an observed clock for the WHOLE call. Only a fully-timed
+    # call earns them; an unmeasured or (defensively) a mixed call OMITS them entirely — never a faked
+    # perfect 1.0. task_completion is text-based and always present; `overall` re-normalizes over present dims.
+    from signals import timing_mode
+    timing_observed = timing_mode(call["turns"]) == "timed"
     if timing_observed:
         # barge_in: only AGENT-interrupts-user counts against the agent
         agent_bi = [b for b in sig["barge_ins"] if b.get("kind") == "agent_interrupts_user"]
@@ -150,9 +151,11 @@ def build_record(call):
 
 # ---------------------------------------------------------------- analytics + failure clusters
 def build_analytics(records):
+    from signals import timing_mode
     n = len(records)
     completed = [r for r in records if r["outcome"]["task_completed"]]
     total_cost = sum(r["cost"]["est_cost_total"] for r in records)
+    timed = [r for r in records if timing_mode(r["turns"]) == "timed"]
     clusters = {}
     for r in records:
         for f in r["failures"]:
@@ -173,11 +176,15 @@ def build_analytics(records):
     return {
         "n_calls": n,
         "success_rate": round(len(completed) / n, 3) if n else 0.0,
-        "avg_overall": round(sum(r["scorecard"]["overall"] for r in records) / n, 3) if n else None,
+        # avg_overall is over TIMED calls only: timed calls average barge_in+latency_gap+task_completion,
+        # unmeasured calls carry task_completion only — blending them would be apples-to-oranges.
+        "avg_overall": round(sum(r["scorecard"]["overall"] for r in timed) / len(timed), 3) if timed else None,
+        "timing_coverage": {"timed": len(timed), "unmeasured": n - len(timed)},
         "cost_per_successful_call": round(total_cost / len(completed), 4) if completed else None,
         "by_stress_profile": sorted(by_prof.values(), key=lambda b: -b["n"]),
         "failure_clusters": sorted(clusters.values(), key=lambda c: -c["count"]),
-        "note": "deterministic eval only (judge dims add in Batch 4); costs estimated, prototype",
+        "note": "deterministic eval only (judge dims add in Batch 4); costs estimated, prototype. "
+                "avg_overall is over TIMED calls only (consistent dim basis) — see timing_coverage.",
     }
 
 

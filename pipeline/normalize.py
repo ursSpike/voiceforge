@@ -34,17 +34,36 @@ LONG_PAUSE_MS = 1500
 
 
 def validate_call(call):
-    """Boundary validation — downstream stays assumption-free."""
+    """Boundary validation — downstream stays assumption-free. Enforces the all-or-none timing
+    invariant: every turn is timed (int start_ms) OR every turn is untimed (null) — never mixed,
+    which would let signals manufacture false floor-transfer offsets across the gaps."""
     for k in ("call_id", "source", "language", "stress_profile", "workflow_type", "turns"):
         assert k in call, f"missing field: {k}"
     turns = call["turns"]
     assert turns, "no turns"
+    flags = [t.get("start_ms") is not None for t in turns]
+    if all(flags):
+        mode = "timed"
+    elif not any(flags):
+        mode = "unmeasured"
+    else:
+        raise AssertionError(f"mixed timing: {sum(flags)}/{len(turns)} turns have start_ms — a call "
+                             "must be all-timed or all-null (partial clocks are rejected, never bridged)")
+    # timing <-> profile coupling: unmeasured timing iff stress_profile 'unmeasured'
+    if mode == "unmeasured":
+        assert call["stress_profile"] == "unmeasured", "all-null timing requires stress_profile 'unmeasured'"
+    else:
+        assert call["stress_profile"] != "unmeasured", "stress_profile 'unmeasured' requires all-null timing"
     last_start = -1
     for t in turns:
         assert t["speaker"] in ("user", "agent"), f"bad speaker: {t}"
-        assert isinstance(t["start_ms"], int) and t["start_ms"] >= last_start, f"unsorted: {t['turn_id']}"
-        assert t["end_ms"] is None or t["end_ms"] > t["start_ms"], f"end<=start: {t['turn_id']}"
-        last_start = t["start_ms"]
+        if mode == "timed":
+            assert isinstance(t["start_ms"], int) and t["start_ms"] >= last_start, f"unsorted: {t['turn_id']}"
+            assert t["end_ms"] is None or t["end_ms"] > t["start_ms"], f"end<=start: {t['turn_id']}"
+            last_start = t["start_ms"]
+        else:   # unmeasured: both ends null, never a fabricated number
+            assert t["start_ms"] is None and t.get("end_ms") is None, \
+                f"unmeasured call must have null start_ms AND end_ms: {t['turn_id']}"
     return call
 
 
