@@ -865,3 +865,19 @@ Rendered as a caution-flagged `.kappa-note` above the confusion matrix; disagree
 Both verified in browser at 1440×900, 0 console errors; dashboard self-contained (0 external refs). demo_report selftest
 15/15 (fixtures lack outcome → metric_trap None, no crash). New classes (.kappa-note, .spotlight.trap) styled in current
 skin + added to the Fable round-2 class contract.
+
+## FABLE ROUND-2 SKIN INTEGRATED (Jun 13 ~01:00) — refined surfaces + audited bridge
+Fable round-2 (dashboard_skin_round2.css, 450 lines) refined the KEY surfaces: serif-italic two-tone headline (deliberate
+"old way" voice, not disabled-gray), hero/spot-stat scale hierarchy, amber "METRIC TRAP" flag on .spotlight.trap (vs red
+fix-first vs blue calibration — three keyline meanings), blue "CALIBRATION NOTE" .kappa-note, semantic color unification,
+projector-safe ink #141d2e + solid panels, calm spacing scale, tabular-nums.
+**AUDIT before swap (full DOM-class coverage diff): round-2 omitted 35 of 83 DOM classes** — it assumed a TABLE confusion
+matrix (.matrix2 td) but ours is a CSS-grid (.cmx>.cell>.cv/.cl), and dropped the band (.seg), metric cards
+(.card/.metric/.label/.value/.detail/.prov), transcript (.msg/.bub), queue (.rec/.fix), calls table (.row/.search),
+sponsor (.sponsor-node), pipeline-flow (.flow). All 35 were styled by round-1 → ported as a COMPAT block (comma-groups
+trimmed so NO round-2-owned class — .panel/.spotlight/.split/.quads — is overridden). **Regression caught + fixed:** round-2's
+.bar base is a 10px clipped track (fill=<i>) incompatible with the real grid markup (.bar>.bl+.bar-track>.bf+<b>) → bars
+collapsed; added a .bar grid override. web/dashboard_skin.css = round-2 + 74 compat rules + bar override (~535 lines).
+**Browser-verified @1440×900:** matrix grid (agree=emerald-soft/disagree=red-soft), Success×Friction band+4 quads, metric
+cards (38px), phenotype(red)/archetype(blue) bars, pipeline strip, κ-note, Calls 76 rows+search, Queue 20 recs — all render,
+0 console errors, self-contained (0 external refs). Raw Fable artifact kept at repo root (dashboard_skin_round2.css) as provenance.
