@@ -30,6 +30,7 @@ sys.path.insert(0, str(ROOT / "pipeline"))
 
 CSV_PATH = ROOT / "eval" / "labels_spike.csv"
 MANIFEST = ROOT / "eval" / "label_manifest.json"
+SNAPSHOT = ROOT / "eval" / "label_snapshot.json"
 OUT = ROOT / "out" / "label_validation.json"
 
 EXPECTED_COLS = ["call_id", "primary_label", "confidence", "positive_tags",
@@ -37,10 +38,14 @@ EXPECTED_COLS = ["call_id", "primary_label", "confidence", "positive_tags",
 FROZEN_MANIFEST_SHA = "aec4ba49000c9f4fdfa203cfca4bc787b71004abb47e4a7eff899175446cae33"
 FLOOR = 40
 
-# the two annotations that pre-date the slice repair — must never drift
+# the two seed annotations (pre-date the slice repair) — full tag sets must never drift
 FROZEN_LABELS = {
-    "bolna_246cd9f3": {"primary_label": "success", "confidence": "high"},
-    "hero_001": {"primary_label": "success", "confidence": "high"},
+    "bolna_246cd9f3": {"primary_label": "success", "confidence": "high",
+                       "positive_tags": "handled_confusion_well|user_satisfied|understood_user|completed_or_clear_next_step",
+                       "negative_tags": "wrong_language_or_tone", "context_tags": "mixed_languages"},
+    "hero_001": {"primary_label": "success", "confidence": "high",
+                 "positive_tags": "understood_user|completed_or_clear_next_step|user_satisfied",
+                 "negative_tags": "wrong_language_or_tone", "context_tags": "mixed_languages"},
 }
 
 
@@ -108,13 +113,31 @@ def main():
     check(f"usable binary count (floor {FLOOR})", True,
           f"{len(binary)} binary + {len(unsure)} unsure of {man['total']} — "
           + ("FLOOR MET" if len(binary) >= FLOOR else f"{FLOOR - len(binary)} more needed"))
-    # 8 frozen first-two annotations preserved
+    # 8 frozen seed annotations preserved EXACTLY (outcome, confidence, all three tag columns)
     by_id = {r["call_id"]: r for r in rows}
     for cid, want in FROZEN_LABELS.items():
         r = by_id.get(cid)
         ok = r is not None and all(r[k] == v for k, v in want.items())
         check(f"frozen annotation preserved: {cid}", ok,
               f"{r['primary_label']}/{r['confidence']}" if r else "MISSING")
+
+    # 9 POST-FREEZE contract (active once eval/label_snapshot.json exists): byte-hash equality,
+    # complete coverage (every manifest call exactly once), and counts match the snapshot.
+    if SNAPSHOT.exists():
+        snap = json.loads(SNAPSHOT.read_text())
+        csv_sha = hashlib.sha256(raw_bytes).hexdigest()
+        check("SNAPSHOT: csv raw-byte hash matches frozen snapshot",
+              csv_sha == snap["labels_csv_sha256"],
+              csv_sha[:16] + (" == " if csv_sha == snap["labels_csv_sha256"] else " != ") + snap["labels_csv_sha256"][:16])
+        check("SNAPSHOT: manifest hash matches frozen snapshot",
+              man_sha == snap["manifest_sha256"], man_sha[:16])
+        missing = sorted(set(man["order"]) - set(ids))
+        check("SNAPSHOT: every manifest call labeled exactly once",
+              not missing and not dupes and len(ids) == man["total"],
+              f"missing: {missing[:4]}" if missing else f"{len(ids)}/{man['total']}")
+        check("SNAPSHOT: counts match frozen snapshot",
+              len(rows) == snap["rows"] and len(binary) == snap["binary"] and len(unsure) == snap["unsure"],
+              f"rows {len(rows)}/{snap['rows']} binary {len(binary)}/{snap['binary']} unsure {len(unsure)}/{snap['unsure']}")
 
     result = {"csv_present": True, "csv_sha256": hashlib.sha256(raw_bytes).hexdigest(),
               "manifest_sha256": man_sha, "rows": len(rows), "binary": len(binary),

@@ -683,3 +683,15 @@ matrix = elevated emerald gradient diagonal vs flat red disagreement, 44px mono 
 treatment; 2×2 layout asserted via cell coordinates (2 distinct cols × 2 distinct rows). REAL dashboard re-verified:
 no fixturemark, honesty banner intact, pipeline shows blind-labels as the one LIVE (glowing) stage, judge+calibration
 gated, 0 console errors. Both artifacts regenerated; root voiceforge-skin2.css kept as the unmodified fetched artifact.
+
+## PHASE E0 — HUMAN LABELS FROZEN (Jun 12 ~20:50) · post-label execution begins
+**Labeling COMPLETE: 46/46 (45 binary: 37 success / 8 fail · 1 unsure).** Booth STOPPED (port 7861 free — no further
+mutation possible). CSV verified byte-exact at SHA b3884f9ede7d753a18a5011801c25ddc930d1543e7858736ce4d08c328c25338
+(NOT rewritten/normalized — raw bytes as the booth wrote them). **eval/label_snapshot.json** = the freeze record
+(CSV SHA, manifest SHA aec4ba49, counts, frozen_at, status complete). **validate_labels.py strengthened:** post-freeze
+contract — raw-byte hash MUST equal the snapshot, manifest hash must match, every manifest call labeled exactly once,
+counts must match snapshot, seed rows now checked with FULL tag sets. 13/13 checks green; negative test: single mutated
+byte → exit 1 (gate closes); restored byte-exact. CSV + snapshot now TRACKED and committed (first time the labels enter
+git — deliberate: the artifact is final). Epistemic ruling adopted for E1+: kappa calibrates ONLY the dedicated binary
+outcome judge; the 5 semantic dims stay evidence-cited UNCALIBRATED diagnostics (no per-dim human gold) — wording sweep
+in E1.

@@ -1,0 +1,12 @@
+{
+  "labels_csv_sha256": "b3884f9ede7d753a18a5011801c25ddc930d1543e7858736ce4d08c328c25338",
+  "manifest_sha256": "aec4ba49000c9f4fdfa203cfca4bc787b71004abb47e4a7eff899175446cae33",
+  "rows": 46,
+  "binary": 45,
+  "success": 37,
+  "fail": 8,
+  "unsure": 1,
+  "frozen_at": "2026-06-12T20:50:59",
+  "annotation_status": "complete",
+  "note": "Blind labeling complete. This snapshot is the gate for all real-call judging; validate_labels.py enforces byte-equality against it. NEVER edit labels after this point."
+}

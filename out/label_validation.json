@@ -1,12 +1,12 @@
 {
   "csv_present": true,
-  "csv_sha256": "e6d205564e07906f7fc34ab29066d28ce2a47ca8eeba7036c22d47b6975b4eb0",
+  "csv_sha256": "5bee60b293863b185e5b5392ed495b3bf497dcba82ec36b5ef697b9987a953e6",
   "manifest_sha256": "aec4ba49000c9f4fdfa203cfca4bc787b71004abb47e4a7eff899175446cae33",
-  "rows": 2,
-  "binary": 2,
-  "unsure": 0,
+  "rows": 46,
+  "binary": 45,
+  "unsure": 1,
   "floor": 40,
-  "floor_met": false,
+  "floor_met": true,
   "checks": [
     {
       "check": "columns exact + ordered",
@@ -16,7 +16,7 @@
     {
       "check": "call_id unique (file holds last-label-wins state)",
       "ok": true,
-      "detail": "2 rows"
+      "detail": "46 rows"
     },
     {
       "check": "manifest SHA frozen",
@@ -26,7 +26,7 @@
     {
       "check": "every call_id in frozen manifest",
       "ok": true,
-      "detail": "2 ids"
+      "detail": "46 ids"
     },
     {
       "check": "enums + tag allowlists",
@@ -41,19 +41,42 @@
     {
       "check": "usable binary count (floor 40)",
       "ok": true,
-      "detail": "2 binary + 0 unsure of 46 \u2014 38 more needed"
+      "detail": "45 binary + 1 unsure of 46 \u2014 FLOOR MET"
     },
     {
       "check": "frozen annotation preserved: bolna_246cd9f3",
-      "ok": true,
-      "detail": "success/high"
+      "ok": false,
+      "detail": "fail/high"
     },
     {
       "check": "frozen annotation preserved: hero_001",
       "ok": true,
       "detail": "success/high"
+    },
+    {
+      "check": "SNAPSHOT: csv raw-byte hash matches frozen snapshot",
+      "ok": false,
+      "detail": "5bee60b293863b18 != b3884f9ede7d753a"
+    },
+    {
+      "check": "SNAPSHOT: manifest hash matches frozen snapshot",
+      "ok": true,
+      "detail": "aec4ba49000c9f4f"
+    },
+    {
+      "check": "SNAPSHOT: every manifest call labeled exactly once",
+      "ok": true,
+      "detail": "46/46"
+    },
+    {
+      "check": "SNAPSHOT: counts match frozen snapshot",
+      "ok": true,
+      "detail": "rows 46/46 binary 45/45 unsure 1/1"
     }
   ],
-  "problems": [],
-  "ok": true
+  "problems": [
+    "frozen annotation preserved: bolna_246cd9f3: fail/high",
+    "SNAPSHOT: csv raw-byte hash matches frozen snapshot: 5bee60b293863b18 != b3884f9ede7d753a"
+  ],
+  "ok": false
 }
