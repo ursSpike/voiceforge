@@ -787,3 +787,20 @@ SPEC.md + historical buildlogs left as historical record (not current-truth surf
 **PENDING (step 3, after judge run finishes):** write+run a one-shot sanitized Bolna-config fetch → out/bolna_cartesia_proof.json
 (agent_id, fetched_at, synthesizer_provider, cartesia_voice, model only; no prompts/creds/webhooks). preflight already wired to validate it.
 **STOP for audit.** No external Cartesia request made; no judge artifact changed.
+
+## BOLNA PROOF VALIDATOR HARDENING + warnings (Jun 12, post-label) — Codex repair before fetch
+**Blocker:** offline preflight accepted any JSON containing {"synthesizer_provider":"cartesia"} — too weak for sponsor
+evidence. **Fix:** pipeline/cache_bolna_cartesia_proof.py with strict validate_proof() — EXACT 5 keys (agent_id,
+fetched_at, synthesizer_provider, cartesia_voice, cartesia_model) and NOTHING else; agent_id must equal the configured
+VoiceForge agent; provider=='cartesia'; voice non-empty str; cartesia_model str-or-null; fetched_at timezone-aware.
+preflight offline now calls validate_proof (not a substring check). Validator selftest 9/9: valid + null-model accepted;
+forged provider-only, wrong agent, empty voice, naive timestamp, extra secret field, non-cartesia provider, missing key
+all REJECTED. Fetch script: ONE GET /v2/agent/{id} with BOLNA_API_KEY → writes ONLY the 5 sanitized fields atomically;
+refuses on any validation miss; model null disclosed not invented; never logs key/prompts/URLs/tools/full config.
+**Warnings fixed:** .env.example reworded (keys = ONLINE build/refresh; cached final demo needs NO keys) ·
+cartesia_tts_smoke print line de-staled (no longer says 'compare against current edge-tts hero agent' — cached hero is
+Cartesia). (DEFERRED to Phase K living-doc sweep: Jun-12-night submission claims in preflight/SUBMISSION-PLAN; old 46-call
+corpus in several docs.)
+**Judge run:** continued throughout (now 35/46, 4 failures — to diagnose at Phase F; cache-resume retries them); frozen
+CSV/manifest/snapshot/rubric/calls.json hashes UNCHANGED. **PENDING:** run the one authorized Bolna fetch AFTER the judge
+run completes, validate, commit, prove offline preflight passes. STOP for audit.

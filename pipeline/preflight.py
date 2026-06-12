@@ -162,10 +162,16 @@ PROOF = ROOT / "out" / "bolna_cartesia_proof.json"
 def cartesia_live():
     if OFFLINE:
         if PROOF.exists():
-            p = json.loads(PROOF.read_text())
-            ok = p.get("synthesizer_provider") == "cartesia"
+            sys.path.insert(0, str(ROOT / "pipeline"))
+            from cache_bolna_cartesia_proof import validate_proof
+            try:
+                p = json.loads(PROOF.read_text())
+            except Exception as e:
+                return check("rule: Bolna synthesizer = cartesia (cached proof)", "FAIL", f"unreadable: {e}")
+            ok, problem = validate_proof(p)   # strict: exact keys, agent_id, provider, voice, tz, model type
             return check("rule: Bolna synthesizer = cartesia (cached proof)", "PASS" if ok else "FAIL",
-                         f"{p.get('synthesizer_provider')}/{p.get('cartesia_voice')} · captured {p.get('fetched_at')}")
+                         f"{p.get('synthesizer_provider')}/{p.get('cartesia_voice')}/{p.get('cartesia_model')} · captured {p.get('fetched_at')}"
+                         if ok else problem)
         return check("rule: Bolna synthesizer = cartesia", "SKIP", "--offline (no cached proof yet)")
     load_env()
     key = os.environ.get("BOLNA_API_KEY")

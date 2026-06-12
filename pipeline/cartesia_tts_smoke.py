@@ -96,7 +96,7 @@ def main():
     print(f"\n✓ SYNTHESIS WORKS — Cartesia voice model verified end to end.")
     print(f"  wrote {OUT.relative_to(ROOT)} ({kb:.1f} KB wav)")
     print(f'  line: "{line}"')
-    print("\n  Listen, then compare against the current edge-tts en-IN hero agent (§7.E).")
+    print("\n  Optional reproduction sample — the cached hero agent audio is already Cartesia-voiced.")
 
 
 if __name__ == "__main__":
