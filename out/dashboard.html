@@ -482,36 +482,175 @@ tr.row { cursor: pointer; }
 /* key-value helper lines */
 .kv { font-size: 12.5px; color: var(--text-2); }
 .kv b { color: var(--text); }
+/* ============================================================
+   VoiceForge — additive components: pipeline · cmx · fixturemark
+   ============================================================ */
 
-/* ---- new components (pipeline strip · confusion matrix · κ stats · fixture watermark) ----
-   default styling in skin tokens; round-2 design pass may replace this block */
-.pipeline { display: flex; align-items: stretch; gap: 8px; flex-wrap: wrap; margin: 0 0 26px; }
-.stage { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md);
-  padding: 9px 13px; box-shadow: var(--sh-1); }
-.stage .st { font-size: 11.5px; font-weight: 650; }
-.stage .ss { font-family: var(--mono); font-size: 10.5px; color: var(--text-3); margin-top: 1px; }
-.stage.done { border-color: var(--em-line); background: linear-gradient(180deg, var(--surface), var(--em-tint)); }
-.stage.live { border-color: var(--em); box-shadow: 0 0 0 3px var(--em-tint), var(--sh-1); }
-.stage.gated { opacity: .55; border-style: dashed; }
-.flow { align-self: center; color: var(--text-3); font-size: 13px; }
-.fixturemark { background: oklch(0.30 0.09 25); color: #ffe1e1; border-radius: var(--r-md);
-  padding: 11px 16px; font: 650 12.5px var(--mono); margin: 0 0 18px; letter-spacing: .02em; }
-.cmx { display: grid; grid-template-columns: auto 1fr 1fr; gap: 10px; align-items: stretch; }
-.cmx .ax { font: 600 10.5px var(--mono); color: var(--text-3); align-self: center; text-align: center;
-  text-transform: uppercase; letter-spacing: .06em; }
-.cmx .ax.side { writing-mode: vertical-rl; transform: rotate(180deg); }
-.cmx .cell { border-radius: var(--r-md); padding: 16px 12px; text-align: center; border: 1px solid var(--line);
-  box-shadow: var(--sh-1); }
-.cmx .cell.agree { background: var(--em-tint); border-color: var(--em-line); }
-.cmx .cell.disagree { background: var(--red-tint); border-color: oklch(0.86 0.06 25); }
-.cmx .cv { font: 650 26px var(--mono); font-variant-numeric: tabular-nums; }
-.cmx .cell.agree .cv { color: var(--em-deep); }
-.cmx .cell.disagree .cv { color: oklch(0.46 0.13 25); }
-.cmx .cl { font-size: 10.5px; color: var(--text-3); margin-top: 3px; }
-.kstats { display: flex; gap: 26px; }
-.kstat .kv2 { font: 650 32px var(--mono); letter-spacing: -0.02em; color: var(--em-deep); }
-.kstat .kl { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; color: var(--text-3); }
-.kstat .kn { font-size: 11px; color: var(--text-3); margin-top: 2px; }
+/* ---------- pipeline strip ---------- */
+.pipeline {
+    display: flex;
+    align-items: stretch;
+    margin: 0 0 20px;
+    overflow-x: auto;
+    padding: 2px;
+  }
+  .stage {
+    flex: 1 1 0;
+    min-width: 96px;
+    padding: 9px 12px;
+    background: var(--surface);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--r-sm);
+    box-shadow: var(--sh-1);
+  }
+  .stage .st { font-size: 12.5px; font-weight: 600; line-height: 1.3; white-space: nowrap; }
+  .stage .ss {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    color: var(--text-3);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .flow {
+    flex: 0 1 26px;
+    min-width: 14px;
+    align-self: center;
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--line-strong);
+    background: linear-gradient(var(--line-strong), var(--line-strong)) center / 100% 1px no-repeat;
+    user-select: none;
+  }
+  .stage.done { background: var(--em-tint); border-color: var(--em-line); box-shadow: none; }
+  .stage.done .st { color: var(--em-deep); }
+  .stage.done .st::before { content: "✓ "; color: var(--em); font-weight: 700; }
+  .stage.done .ss { color: var(--em-deep); opacity: 0.7; }
+  .stage.live {
+    border: 1.5px solid var(--em);
+    box-shadow: 0 0 0 3px var(--em-tint), 0 0 12px oklch(0.64 0.14 163 / 0.30), var(--sh-2);
+    animation: vf-live-in 180ms ease-out 1;
+  }
+  .stage.live .st::before { content: "● "; color: var(--em); font-size: 9px; vertical-align: 1.5px; }
+  .stage.live .ss { color: var(--em-deep); }
+  @keyframes vf-live-in { from { box-shadow: 0 0 0 0 var(--em-tint); } }
+  .stage.gated {
+    background: transparent;
+    border: 1px dashed var(--line-strong);
+    box-shadow: none;
+  }
+  .stage.gated .st { color: var(--text-3); }
+  .stage.gated .st::after { content: " ⌀"; font-size: 11px; }
+  .stage.gated .ss { opacity: 0.6; }
+  
+  /* ---------- confusion matrix + kappa ---------- */
+  .cmx {
+    display: grid;
+    grid-template-columns: auto 1fr 1fr;
+    gap: 8px;
+    align-items: stretch;
+  }
+  .cmx .ax {
+    grid-column: 2 / 4;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-3);
+  }
+  .cmx .ax.side {
+    grid-column: 1;
+    grid-row: 2 / 4;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    text-align: center;
+  }
+  .cmx .cell {
+    padding: 20px 16px 16px;
+    text-align: center;
+    border-radius: var(--r-md);
+    border: 1px solid var(--line);
+    background: var(--surface-2);
+  }
+  .cmx .cv {
+    font-family: var(--mono);
+    font-size: 44px;
+    font-weight: 650;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    font-variant-numeric: tabular-nums;
+  }
+  .cmx .cl { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-3); margin-top: 6px; }
+  .cmx .cell.agree {
+    background: linear-gradient(180deg, var(--em-tint), oklch(0.94 0.04 163));
+    border-color: var(--em-line);
+    box-shadow: var(--sh-2);
+  }
+  .cmx .cell.agree .cv { color: var(--em-deep); }
+  .cmx .cell.agree .cl { color: var(--em-deep); opacity: 0.75; }
+  .cmx .cell.disagree { background: var(--red-tint); border-color: oklch(0.88 0.05 25); }
+  .cmx .cell.disagree .cv { color: oklch(0.50 0.14 25); }
+  
+  .kstats { display: grid; gap: 14px; align-content: center; }
+  .kstat { padding: 14px 18px; border-left: 2px solid var(--em-line); }
+  .kstat .kv2 {
+    font-family: var(--mono);
+    font-size: 46px;
+    font-weight: 650;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    color: var(--em-deep);
+    font-variant-numeric: tabular-nums;
+  }
+  .kstat .kl { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); margin-top: 2px; }
+  .kstat .kn { font-size: 12px; color: var(--text-3); margin-top: 6px; max-width: 36ch; text-wrap: pretty; }
+  
+  /* ---------- synthetic-fixture mark — never decorative ---------- */
+  .fixturemark {
+    display: block;
+    margin: 0 0 20px;
+    padding: 11px 16px 11px 14px;
+    font-family: var(--mono);
+    font-size: 12.5px;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: oklch(0.90 0.05 25);
+    background:
+      repeating-linear-gradient(-45deg, transparent 0 14px, oklch(0.58 0.14 25 / 0.07) 14px 28px),
+      linear-gradient(180deg, #1c0e12, var(--ink-950));
+    border: 1px solid oklch(0.45 0.13 25);
+    border-left: 4px solid oklch(0.58 0.14 25);
+    border-radius: var(--r-sm);
+    box-shadow: var(--sh-2);
+  }
+  .fixturemark::before {
+    content: "FAKE";
+    display: inline-block;
+    margin-right: 12px;
+    padding: 1px 7px;
+    border-radius: 4px;
+    background: oklch(0.58 0.14 25);
+    color: #fff;
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+  }
+  
+  /* ---------- 13" laptop ---------- */
+  @media (max-width: 1280px) {
+    .stage { min-width: 84px; padding: 8px 10px; }
+    .stage .ss { font-size: 10px; }
+    .cmx .cv { font-size: 36px; }
+    .kstat .kv2 { font-size: 38px; }
+  }
+  
+  
+/* ---- round-2 compat (Claude Code): the .cmx markup has TWO top axis labels + corner + TWO side
+   labels — reset the skin's single-axis grid placement so auto-placement lays out the 2x2 ---- */
+.cmx .ax { grid-column: auto; grid-row: auto; }
+.cmx .ax.corner { visibility: hidden; }
+.cmx .ax.side { grid-column: 1; grid-row: auto; }
 </style></head><body><div class="shell">
 <nav><div class="logo">Voice<b>Forge</b></div><div class="tag">eval lab for voice agents</div>
 <a data-v="overview" onclick="nav('overview')">◈ Overview</a>

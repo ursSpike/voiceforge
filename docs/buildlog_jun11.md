@@ -670,3 +670,16 @@ judge" framing; (3) fixture watermark component.
 **Browser-verified (fixture preview, 1280×800):** pipeline all-states render, matrix 22/2/2/15 with κ 0.79 / 90%,
 Calls table 6 rows, call detail = Hinglish transcript + deterministic scorecard + judge panel w/ uncalibrated chips,
 .who above bubbles, 0 console errors. Real dashboard regenerated too (still gated, still honest).
+
+## DESIGN ROUND 2 INTEGRATED (Jun 12 ~22:00) — pipeline · matrix · fixturemark skin
+Spike fetched voiceforge-skin2.css (163 lines, additive, reuses round-1 tokens). **DOM audit caught a real break before
+install:** the skin assumed ONE top axis label (grid-column 2/4) + ONE side label (grid-row 2/4); our .cmx markup has
+two of each + a corner cell — as-is, every label would stack. Fixed with a 3-line placement-reset compat block
+(.ax auto-placement, corner hidden). Also replaced my earlier default component block in web/dashboard_skin.css
+(round-2 supersedes it; built-in CSS in dashboard.py keeps the no-skin fallback).
+**Result, browser-verified at 1280×800:** fixturemark = hazard-striped ink banner w/ solid FAKE chip (unmissable in any
+screenshot); pipeline = connected diagram (hairline-track arrows, ✓ done states, .live single 180ms entrance glow);
+matrix = elevated emerald gradient diagonal vs flat red disagreement, 44px mono counts, κ/agreement stats w/ left-border
+treatment; 2×2 layout asserted via cell coordinates (2 distinct cols × 2 distinct rows). REAL dashboard re-verified:
+no fixturemark, honesty banner intact, pipeline shows blind-labels as the one LIVE (glowing) stage, judge+calibration
+gated, 0 console errors. Both artifacts regenerated; root voiceforge-skin2.css kept as the unmodified fetched artifact.
