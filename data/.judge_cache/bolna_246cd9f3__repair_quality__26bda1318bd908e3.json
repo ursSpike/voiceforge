@@ -1,0 +1,11 @@
+{
+  "name": "repair_quality",
+  "type": "judge",
+  "score": 1.0,
+  "reason": "The agent successfully parsed the partial location information provided in turn 6 and asked a targeted follow-up for the missing date and time in turn 7.",
+  "evidence_turn_ids": [
+    "t6",
+    "t7"
+  ],
+  "provenance": "uncalibrated"
+}

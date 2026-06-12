@@ -1,0 +1,15 @@
+{
+  "name": "user_frustration",
+  "type": "judge",
+  "score": 1.0,
+  "reason": "The user provides information cooperatively and does not exhibit any signs of frustration or engage in repair loops despite the agent's rigid questioning style.",
+  "evidence_turn_ids": [
+    "t2",
+    "t4",
+    "t6",
+    "t8",
+    "t10",
+    "t12"
+  ],
+  "provenance": "uncalibrated"
+}

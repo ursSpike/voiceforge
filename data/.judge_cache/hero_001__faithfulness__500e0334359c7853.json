@@ -1,0 +1,15 @@
+{
+  "name": "faithfulness",
+  "type": "judge",
+  "score": 1.0,
+  "reason": "The agent accurately captured the location, appliance issue, and appointment time provided by the user without introducing any unsupported information.",
+  "evidence_turn_ids": [
+    "t2",
+    "t4",
+    "t6",
+    "t8",
+    "t10",
+    "t11"
+  ],
+  "provenance": "uncalibrated"
+}

@@ -760,3 +760,11 @@ rubric.yaml judge.model gemini-2.5-flash → **gemini-3.1-flash-lite** (position
 judgments under free-tier RPD). Purged the 12 real 2.5-flash cache entries (model-keyed → would orphan; fixture kept) so the
 cache stays single-model. New rubric_hash c1cc81415e230e74. judge + judge_run selftests still PASS; dry-run GATE OPEN 276;
 frozen CSV/manifest/snapshot hashes UNCHANGED. NEXT: 2-call Lite canary --delay 7, then stop for audit before --full.
+
+## PHASE E2 — 3.1-flash-lite canary PASS (Jun 12 ~21:30)
+**gemini-3.1-flash-lite verified available + working.** 2-call canary --delay 7: status COMPLETE, 2/2 calls, 12/12 validated,
+0 cache hits (fresh), **0 failures, 0 429s**, 97.0s. rubric_hash c1cc81415e230e74. Evidence-IDs all valid; 5 dims
+uncalibrated; binary pending-calibration. Frozen hashes UNCHANGED (CSV b3884f9e…, manifest aec4ba49…, snapshot d592782a…);
+out/calls.json BYTE-IDENTICAL (444956c8…). 12 model-consistent Lite cache entries; fixture untouched.
+Quality consistent w/ flash: bolna all 1.0; hero language_match 0.2 / repair_quality 0.0 / faithfulness 1.0 (correctly
+flags the English-vs-Telugu mismatch + over-demand turn). Binary 2/2 success = human. STOP for fast audit before --full.

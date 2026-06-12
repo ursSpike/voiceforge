@@ -1,0 +1,13 @@
+{
+  "name": "faithfulness",
+  "type": "judge",
+  "score": 1.0,
+  "reason": "The agent accurately captured the location, date, and time provided by the user without introducing any external or hallucinated information.",
+  "evidence_turn_ids": [
+    "t6",
+    "t8",
+    "t9",
+    "t11"
+  ],
+  "provenance": "uncalibrated"
+}

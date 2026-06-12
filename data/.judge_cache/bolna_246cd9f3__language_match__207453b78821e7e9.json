@@ -1,0 +1,11 @@
+{
+  "name": "language_match",
+  "type": "judge",
+  "score": 1.0,
+  "reason": "The agent successfully processed the user's code-switched input containing Hindi script and English, maintaining a consistent and appropriate language flow throughout the interaction.",
+  "evidence_turn_ids": [
+    "t6",
+    "t7"
+  ],
+  "provenance": "uncalibrated"
+}

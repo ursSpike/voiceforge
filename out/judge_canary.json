@@ -1,0 +1,195 @@
+{
+  "run": {
+    "mode": "canary",
+    "status": "complete",
+    "model": "gemini-3.1-flash-lite",
+    "temperature": 0,
+    "rubric_hash": "c1cc81415e230e74",
+    "labels_csv_sha256": "b3884f9ede7d753a18a5011801c25ddc930d1543e7858736ce4d08c328c25338",
+    "manifest_sha256": "aec4ba49000c9f4fdfa203cfca4bc787b71004abb47e4a7eff899175446cae33",
+    "n_calls": 2,
+    "expected_judgments": 12,
+    "validated_judgments": 12,
+    "cache_hits": 0,
+    "failures": 0,
+    "failed_calls": [],
+    "binary_rule": "dedicated outcome judgment per call (temperature 0, JSON, evidence-cited); label in {success,fail}; same question the blind annotator answered. NOT derived from the 5 semantic dims; kappa calibrates THIS judgment only \u2014 the semantic dims remain uncalibrated diagnostics.",
+    "started_at": "2026-06-12T21:28:27+05:30",
+    "checkpointed_at": "2026-06-12T21:30:04+05:30",
+    "finished_at": "2026-06-12T21:30:04+05:30",
+    "elapsed_s": 97.0
+  },
+  "calls": {
+    "bolna_246cd9f3": {
+      "dims": [
+        {
+          "name": "language_match",
+          "type": "judge",
+          "score": 1.0,
+          "reason": "The agent successfully processed the user's code-switched input containing Hindi script and English, maintaining a consistent and appropriate language flow throughout the interaction.",
+          "evidence_turn_ids": [
+            "t6",
+            "t7"
+          ],
+          "provenance": "uncalibrated"
+        },
+        {
+          "name": "faithfulness",
+          "type": "judge",
+          "score": 1.0,
+          "reason": "The agent accurately captured the location, date, and time provided by the user without introducing any external or hallucinated information.",
+          "evidence_turn_ids": [
+            "t6",
+            "t8",
+            "t9",
+            "t11"
+          ],
+          "provenance": "uncalibrated"
+        },
+        {
+          "name": "repair_quality",
+          "type": "judge",
+          "score": 1.0,
+          "reason": "The agent successfully parsed the partial location information provided in turn 6 and asked a targeted follow-up for the missing date and time in turn 7.",
+          "evidence_turn_ids": [
+            "t6",
+            "t7"
+          ],
+          "provenance": "uncalibrated"
+        },
+        {
+          "name": "conciseness",
+          "type": "judge",
+          "score": 1.0,
+          "reason": "The agent provides necessary information without unnecessary filler or repetitive phrasing throughout the interaction.",
+          "evidence_turn_ids": [
+            "t1",
+            "t3",
+            "t5",
+            "t7",
+            "t9",
+            "t11",
+            "t13"
+          ],
+          "provenance": "uncalibrated"
+        },
+        {
+          "name": "user_frustration",
+          "type": "judge",
+          "score": 1.0,
+          "reason": "The user provided information clearly and the agent successfully processed the request without any repair loops or signs of irritation.",
+          "evidence_turn_ids": [
+            "t4",
+            "t6",
+            "t8",
+            "t10",
+            "t12"
+          ],
+          "provenance": "uncalibrated"
+        }
+      ],
+      "binary": {
+        "label": "success",
+        "reason": "The agent successfully captured the location, date, and time provided by the user and confirmed the appointment booking.",
+        "evidence_turn_ids": [
+          "t6",
+          "t8",
+          "t9",
+          "t11"
+        ],
+        "rule": "dedicated outcome judgment per call (temperature 0, JSON, evidence-cited); label in {success,fail}; same question the blind annotator answered. NOT derived from the 5 semantic dims; kappa calibrates THIS judgment only \u2014 the semantic dims remain uncalibrated diagnostics.",
+        "provenance": "pending calibration (binary)"
+      }
+    },
+    "hero_001": {
+      "dims": [
+        {
+          "name": "language_match",
+          "type": "judge",
+          "score": 0.2,
+          "reason": "The agent consistently ignores the user's code-switching into Telugu and English, responding exclusively in English despite the user's clear preference for a bilingual conversational style.",
+          "evidence_turn_ids": [
+            "t2",
+            "t3",
+            "t4",
+            "t5",
+            "t6",
+            "t7",
+            "t8"
+          ],
+          "provenance": "uncalibrated"
+        },
+        {
+          "name": "faithfulness",
+          "type": "judge",
+          "score": 1.0,
+          "reason": "The agent accurately captured the location, appliance issue, and appointment time provided by the user without introducing any unsupported information.",
+          "evidence_turn_ids": [
+            "t2",
+            "t4",
+            "t6",
+            "t8",
+            "t10",
+            "t11"
+          ],
+          "provenance": "uncalibrated"
+        },
+        {
+          "name": "repair_quality",
+          "type": "judge",
+          "score": 0.0,
+          "reason": "The agent ignored the user's incomplete address information in turn 4 and instead pivoted to a new topic without acknowledging the missing details or asking for the specific missing components.",
+          "evidence_turn_ids": [
+            "t3",
+            "t4",
+            "t5"
+          ],
+          "provenance": "uncalibrated"
+        },
+        {
+          "name": "conciseness",
+          "type": "judge",
+          "score": 1.0,
+          "reason": "The agent maintains a professional, direct tone throughout the interaction, avoiding unnecessary filler or repetitive explanations while efficiently gathering required information.",
+          "evidence_turn_ids": [
+            "t1",
+            "t3",
+            "t5",
+            "t7",
+            "t9",
+            "t11"
+          ],
+          "provenance": "uncalibrated"
+        },
+        {
+          "name": "user_frustration",
+          "type": "judge",
+          "score": 1.0,
+          "reason": "The user provides information cooperatively and does not exhibit any signs of frustration or engage in repair loops despite the agent's rigid questioning style.",
+          "evidence_turn_ids": [
+            "t2",
+            "t4",
+            "t6",
+            "t8",
+            "t10",
+            "t12"
+          ],
+          "provenance": "uncalibrated"
+        }
+      ],
+      "binary": {
+        "label": "success",
+        "reason": "The agent successfully collected all necessary information including the address, appliance issue, preferred time, and contact number to confirm the service booking.",
+        "evidence_turn_ids": [
+          "t3",
+          "t5",
+          "t7",
+          "t9",
+          "t11"
+        ],
+        "rule": "dedicated outcome judgment per call (temperature 0, JSON, evidence-cited); label in {success,fail}; same question the blind annotator answered. NOT derived from the 5 semantic dims; kappa calibrates THIS judgment only \u2014 the semantic dims remain uncalibrated diagnostics.",
+        "provenance": "pending calibration (binary)"
+      }
+    }
+  }
+}

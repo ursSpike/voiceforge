@@ -1,0 +1,12 @@
+{
+  "name": "repair_quality",
+  "type": "judge",
+  "score": 0.0,
+  "reason": "The agent ignored the user's incomplete address information in turn 4 and instead pivoted to a new topic without acknowledging the missing details or asking for the specific missing components.",
+  "evidence_turn_ids": [
+    "t3",
+    "t4",
+    "t5"
+  ],
+  "provenance": "uncalibrated"
+}

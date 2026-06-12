@@ -1,0 +1,15 @@
+{
+  "name": "conciseness",
+  "type": "judge",
+  "score": 1.0,
+  "reason": "The agent maintains a professional, direct tone throughout the interaction, avoiding unnecessary filler or repetitive explanations while efficiently gathering required information.",
+  "evidence_turn_ids": [
+    "t1",
+    "t3",
+    "t5",
+    "t7",
+    "t9",
+    "t11"
+  ],
+  "provenance": "uncalibrated"
+}

@@ -1,0 +1,16 @@
+{
+  "name": "language_match",
+  "type": "judge",
+  "score": 0.2,
+  "reason": "The agent consistently ignores the user's code-switching into Telugu and English, responding exclusively in English despite the user's clear preference for a bilingual conversational style.",
+  "evidence_turn_ids": [
+    "t2",
+    "t3",
+    "t4",
+    "t5",
+    "t6",
+    "t7",
+    "t8"
+  ],
+  "provenance": "uncalibrated"
+}

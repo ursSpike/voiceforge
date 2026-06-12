@@ -1,0 +1,16 @@
+{
+  "name": "conciseness",
+  "type": "judge",
+  "score": 1.0,
+  "reason": "The agent provides necessary information without unnecessary filler or repetitive phrasing throughout the interaction.",
+  "evidence_turn_ids": [
+    "t1",
+    "t3",
+    "t5",
+    "t7",
+    "t9",
+    "t11",
+    "t13"
+  ],
+  "provenance": "uncalibrated"
+}

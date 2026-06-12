@@ -1,0 +1,13 @@
+{
+  "label": "success",
+  "reason": "The agent successfully collected all necessary information including the address, appliance issue, preferred time, and contact number to confirm the service booking.",
+  "evidence_turn_ids": [
+    "t3",
+    "t5",
+    "t7",
+    "t9",
+    "t11"
+  ],
+  "rule": "dedicated outcome judgment per call (temperature 0, JSON, evidence-cited); label in {success,fail}; same question the blind annotator answered. NOT derived from the 5 semantic dims; kappa calibrates THIS judgment only \u2014 the semantic dims remain uncalibrated diagnostics.",
+  "provenance": "pending calibration (binary)"
+}

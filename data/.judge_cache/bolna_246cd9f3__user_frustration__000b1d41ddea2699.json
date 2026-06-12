@@ -1,0 +1,14 @@
+{
+  "name": "user_frustration",
+  "type": "judge",
+  "score": 1.0,
+  "reason": "The user provided information clearly and the agent successfully processed the request without any repair loops or signs of irritation.",
+  "evidence_turn_ids": [
+    "t4",
+    "t6",
+    "t8",
+    "t10",
+    "t12"
+  ],
+  "provenance": "uncalibrated"
+}
