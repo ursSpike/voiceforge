@@ -818,3 +818,17 @@ Sponsor chain now provable offline. Committed the artifact.
 empty evidence for absence-of-problem cases (4× user_frustration, 1× repair_quality). Did NOT weaken validation.
 Preserved out/judge_results_partial_run1.json. NEXT (Codex): cache-resume retry once unchanged; if repeats, strengthen
 the user_frustration (+ repair_quality) prompt to require citing representative turns even for "none", record prompt hash.
+
+## JUDGE FAILURE RECOVERY (Jun 12, post-run) — Codex steps 2-4
+**Step 2 (retry unchanged):** cache-resume re-run, prompt UNCHANGED → still 5 failures, SAME calls/dims → confirmed
+DETERMINISTIC (temp 0), not transient. **Step 4 (prompt-version provenance):** added `judge_prompt_hash` to the run
+manifest (sha of all dim prompts + outcome prompt) — a prompt change is now visible in the artifact. **Step 3 (strengthen,
+minimal):** the 5 failures are all "absence" dims where the model saw nothing to cite and returned []. Strengthened ONLY
+the two affected criteria in judge.py JUDGE_DIMS — user_frustration AND repair_quality (Codex named user_frustration; the
+5th failure was the identical mechanism on repair_quality, so the same minimal fix applies): "even when there is NO
+frustration / no repair needed, cite the representative caller turn(s)… ALWAYS cite at least one real turn_id, never an
+empty list." Validation NOT weakened (validate_dim unchanged — still requires ≥1 valid evidence id). The other 3 dims
+(language_match/faithfulness/conciseness) untouched — they never failed. Prompt change → new cache keys for those 2 dims →
+re-judged for all 46; binary outcomes + other dims stay cached, so CALIBRATION is unaffected by the re-judge.
+Re-run --full in progress (background). Preserved partials: out/judge_results_partial_run1.json. (Orphaned old-hash uf/rq
+cache entries to be pruned after completion.)

@@ -171,6 +171,11 @@ def run(client, order, csv_sha, man_sha, out_path, calls_dir=None, delay=0.0, mo
     validation (cache hits included) — NOT raw provider requests (retries are not counted)."""
     model, temperature = J.judge_config()
     rubric_hash = hashlib.sha256((ROOT / "rubric.yaml").read_bytes()).hexdigest()[:16]
+    # prompt-version hash: captures the EXACT prompt text (dim criteria + template + outcome prompt) that
+    # produced these judgments, so a prompt change is visible in the artifact (Codex). Cache keys already
+    # include the full prompt, so changing it re-judges; this records WHICH prompt version is in the file.
+    _ref = "||".join(J.build_prompt(d, J.FIXTURE) for d in J.JUDGE_DIMS) + OUTCOME_PROMPT
+    prompt_hash = hashlib.sha256(_ref.encode()).hexdigest()[:16]
     calls_dir = calls_dir or (ROOT / "data" / "normalized")
     started_at = _now()
     t0 = time.monotonic()
@@ -179,7 +184,8 @@ def run(client, order, csv_sha, man_sha, out_path, calls_dir=None, delay=0.0, mo
 
     def payload(status):
         return {"run": {"mode": mode, "status": status, "model": model, "temperature": temperature,
-                        "rubric_hash": rubric_hash, "labels_csv_sha256": csv_sha, "manifest_sha256": man_sha,
+                        "rubric_hash": rubric_hash, "judge_prompt_hash": prompt_hash,
+                        "labels_csv_sha256": csv_sha, "manifest_sha256": man_sha,
                         "n_calls": len(results), "expected_judgments": expected,
                         "validated_judgments": validated, "cache_hits": cache_hits,
                         "failures": len(failures), "failed_calls": failures,

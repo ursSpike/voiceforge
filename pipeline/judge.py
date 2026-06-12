@@ -68,10 +68,14 @@ JUDGE_DIMS = {
     "faithfulness": "Are the agent's statements grounded in what the caller actually said — no "
                     "hallucinated or unsupported claims/values? 1.0 = fully grounded, 0 = hallucinated.",
     "repair_quality": "When the caller is unclear/partial, does the agent acknowledge what it got and "
-                      "ask ONE targeted follow-up (1.0), or ignore / over-demand / derail (0)?",
+                      "ask ONE targeted follow-up (1.0), or ignore / over-demand / derail (0)? If NO "
+                      "clarification was needed, score 1.0 and cite the representative turn(s) showing the "
+                      "exchange was clear — ALWAYS cite at least one real turn_id, never an empty list.",
     "conciseness": "Is the agent unnecessarily verbose or unclear? 1.0 = concise and clear, 0 = rambling/padded.",
     "user_frustration": "Does the CALLER show frustration or fall into repair loops? 1.0 = no frustration "
-                        "(good), 0 = clear frustration / repeated repair.",
+                        "(good), 0 = clear frustration / repeated repair. Even when there is NO frustration, "
+                        "cite the representative caller turn(s) that show calm/satisfaction (e.g., a smooth "
+                        "confirmation or thanks) — ALWAYS cite at least one real turn_id, never an empty list.",
 }
 
 
