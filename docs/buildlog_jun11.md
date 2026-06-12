@@ -624,3 +624,23 @@ submission packaging); improvement queue includes unsure-outcome calls when they
 either way); missing-analytics path untested (renders PENDING by construction).
 **Integrity at verdict:** CSV e6d2055 ✓ · manifest aec4ba49 ✓ · judge cache fixture-only ✓ · all pushed.
 **Verdict: PASS — booth restart authorized (Batch A clear). Labeling opens; E-H stay gated on ≥40 binary labels.**
+
+## ALL-IN ROUND — Batch E machinery + glossy dashboard (Jun 12 ~20:15)
+Field re-read: 23 teams / 71 ppl incl Bolna+Cartesia founding/senior ML engineers → bar = research-grade product. Spike
+labels later tonight; gates all intact.
+**pipeline/judge_run.py (Batch E, BUILT + fixture-tested, NOT fired):** gated real-judge runner → out/judge_results.json.
+GATE: validate_labels exit 0 AND ≥40 binary, else refuses (verified: refuses at 2/40). Manifest calls ONLY. Per call:
+5 semantic dims (judge.py, validate-before-cache) + ONE dedicated binary outcome judgment (documented rule: same question
+the blind annotator answered, NOT derived from the dims; validate_binary mirrors validate_dim discipline; own cache).
+Run manifest snapshots model/temp/rubric_hash/labels-CSV-SHA/manifest-SHA/cache_hits/failures. Selftest (mock client,
+offline): outcome validation 4/4, 2-call run, hash snapshots, rerun = 12/12 cache hits 0 provider calls, invalid response →
+recorded failure not cached. Judge cache still fixture-only. Deterministic out/calls.json NEVER touched (judge output
+lives in its own artifact).
+**pipeline/dashboard.py → out/dashboard.html:** self-contained glossy product UI (no CDN/network/server) — dark sidebar
+nav, 4 views: Overview (headline cards, phenotype/archetype bars, deterministic events, calibration block when computed),
+Calls (filterable table → Call detail: transcript bubbles + deterministic scorecard + judge panel + failure events),
+Failure clusters (events vs archetypes + by-profile incl n/a cost), Improvement queue (evidence-backed cards).
+**BLINDNESS GUARD: while binary<40, per-call rows are NOT EMBEDDED AT ALL** (Calls view renders a gated notice) —
+prevents anchoring on heuristic outcomes mid-labeling; queue shows only already-labeled calls by construction.
+Verified in browser: gate notice, 6 cards, clusters/profile tables, kappa pending, 0 console errors. Regenerate after
+labels+judge → full drill-down.
