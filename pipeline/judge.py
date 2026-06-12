@@ -167,14 +167,19 @@ def _generate_json(client, model, temperature, prompt, attempts=3):
 
 def judge_dimension(client, call, dimension):
     """One judged dimension for one call. VALIDATES BEFORE CACHING (a bad response is never
-    persisted). Returns (validated_entry, from_cache). Cache key includes model AND temperature."""
+    persisted) AND RE-VALIDATES EVERY CACHE HIT against the current call — a corrupted/stale
+    entry is deleted and re-fetched live, never trusted. Returns (validated_entry, from_cache).
+    Cache key includes model AND temperature."""
     model, temperature = judge_config()
     prompt = build_prompt(dimension, call)
     CACHE_DIR.mkdir(parents=True, exist_ok=True)
     phash = hashlib.sha256(f"{model}|{temperature}|{prompt}".encode()).hexdigest()[:16]
     cpath = CACHE_DIR / f"{call['call_id']}__{dimension}__{phash}.json"
     if cpath.exists():
-        return json.loads(cpath.read_text()), True
+        try:
+            return validate_dim(json.loads(cpath.read_text()), dimension, call), True
+        except (ValueError, json.JSONDecodeError):
+            cpath.unlink()                          # corrupted cache entry -> refetch live
     parsed = _generate_json(client, model, temperature, prompt)
     entry = validate_dim(parsed, dimension, call)   # raises on invalid -> NOTHING cached
     cpath.write_text(json.dumps(entry, indent=2))

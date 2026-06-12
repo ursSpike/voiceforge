@@ -712,3 +712,23 @@ per-dimension gold and stay uncalibrated diagnostics. Fixed 8 sentences across j
 footer+html foot), dashboard.py foot, README_DEMO (architecture+limitations), demo_script (calibration section now
 explains the distinction OUT LOUD). Suites re-pass.
 **STOP for Codex audit. NO network call has been made. E2 (canary then full run) awaits explicit authorization.**
+
+## PHASE E1 REPAIR (Jun 12 ~21:30) — Codex 4 blockers + 4 warnings, NO network
+**B1:** c45a6c1 had committed a STALE out/label_validation.json (the mutation-negative-test's failing artifact — wrong
+hash, bolna shown fail/high, ok:false). Regenerated green (csv b3884f9e…, ok:true, binary 45) and committed. Lesson:
+negative tests that invoke the validator overwrite its artifact — always regenerate before commit.
+**B2 cache trust:** every cache hit is now RE-VALIDATED against the current call (judge.judge_dimension via validate_dim;
+judge_run.judge_outcome via validate_binary); corrupted/stale entries are DELETED and re-fetched live. Tested: tampered
+semantic entry (score 9.9) + malformed binary entry → both rejected+deleted+refetched, valid entry re-written to disk.
+**B3 paid-work default:** modes now a REQUIRED mutually-exclusive group (--selftest|--dry-run|--canary|--full); bare
+invocation prints help + exit 2; --canary --full together rejected. Full run requires explicit --full.
+**B4 interrupted honesty:** run() now ATOMICALLY CHECKPOINTS after EVERY call (status 'running', checkpointed_at,
+finished_at null) and only the final write marks complete|partial. Tested with a BaseException mid-call-2: on-disk
+checkpoint holds call 1, status running. CLI catches KeyboardInterrupt → resumable-exit message (130).
+**Warnings:** .gitattributes 'eval/labels_spike.csv -whitespace' (CSV bytes UNCHANGED — still b3884f9e…); --delay<0
+rejected; timestamps now timezone-aware (local offset); counters renamed expected_judgments/validated_judgments
+(= validated judgments incl cache hits, NOT raw provider requests/retries — documented).
+**Selftests:** judge.py PASS (revalidation preserves cache-hit semantics); judge_run.py 25/25 incl corrupted-cache,
+no-mode refusal, mutual exclusion, negative delay, interrupted checkpoint. Dry-run: GATE OPEN 46×6=276.
+Hashes: CSV b3884f9ede7d753a… · manifest aec4ba49000c9f4f… · snapshot d592782aafb61a44… · cache fixture_4a only.
+**STOP for Codex audit. Still no network call.**

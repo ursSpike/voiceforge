@@ -1,6 +1,6 @@
 {
   "csv_present": true,
-  "csv_sha256": "5bee60b293863b185e5b5392ed495b3bf497dcba82ec36b5ef697b9987a953e6",
+  "csv_sha256": "b3884f9ede7d753a18a5011801c25ddc930d1543e7858736ce4d08c328c25338",
   "manifest_sha256": "aec4ba49000c9f4fdfa203cfca4bc787b71004abb47e4a7eff899175446cae33",
   "rows": 46,
   "binary": 45,
@@ -45,8 +45,8 @@
     },
     {
       "check": "frozen annotation preserved: bolna_246cd9f3",
-      "ok": false,
-      "detail": "fail/high"
+      "ok": true,
+      "detail": "success/high"
     },
     {
       "check": "frozen annotation preserved: hero_001",
@@ -55,8 +55,8 @@
     },
     {
       "check": "SNAPSHOT: csv raw-byte hash matches frozen snapshot",
-      "ok": false,
-      "detail": "5bee60b293863b18 != b3884f9ede7d753a"
+      "ok": true,
+      "detail": "b3884f9ede7d753a == b3884f9ede7d753a"
     },
     {
       "check": "SNAPSHOT: manifest hash matches frozen snapshot",
@@ -74,9 +74,6 @@
       "detail": "rows 46/46 binary 45/45 unsure 1/1"
     }
   ],
-  "problems": [
-    "frozen annotation preserved: bolna_246cd9f3: fail/high",
-    "SNAPSHOT: csv raw-byte hash matches frozen snapshot: 5bee60b293863b18 != b3884f9ede7d753a"
-  ],
-  "ok": false
+  "problems": [],
+  "ok": true
 }

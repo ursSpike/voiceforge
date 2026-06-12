@@ -93,7 +93,11 @@ def judge_outcome(client, call):
     phash = hashlib.sha256(f"{model}|{temperature}|{prompt}".encode()).hexdigest()[:16]
     cpath = J.CACHE_DIR / f"{call['call_id']}__outcome_binary__{phash}.json"
     if cpath.exists():
-        return json.loads(cpath.read_text()), True
+        # re-validate every cache hit against the CURRENT call; corrupted -> delete + refetch
+        try:
+            return validate_binary(json.loads(cpath.read_text()), call), True
+        except (ValueError, json.JSONDecodeError):
+            cpath.unlink()
     parsed = J._generate_json(client, model, temperature, prompt)
     entry = validate_binary(parsed, call)            # raises on invalid -> nothing cached
     cpath.write_text(json.dumps(entry, indent=2))
@@ -136,14 +140,36 @@ def atomic_write(path, payload):
     os.replace(tmp, path)
 
 
+def _now():
+    """Timezone-aware local timestamp (ISO, with UTC offset)."""
+    return datetime.now().astimezone().isoformat(timespec="seconds")
+
+
 def run(client, order, csv_sha, man_sha, out_path, calls_dir=None, delay=0.0, mode="full"):
+    """Judge `order` (manifest calls only). ATOMICALLY CHECKPOINTS after EVERY call (success or
+    failure) with status='running', so an interrupted run leaves an honest partial artifact on
+    disk; final write marks complete|partial. `validated_judgments` counts judgments that passed
+    validation (cache hits included) — NOT raw provider requests (retries are not counted)."""
     model, temperature = J.judge_config()
     rubric_hash = hashlib.sha256((ROOT / "rubric.yaml").read_bytes()).hexdigest()[:16]
     calls_dir = calls_dir or (ROOT / "data" / "normalized")
-    started_at = datetime.now().isoformat(timespec="seconds")
+    started_at = _now()
     t0 = time.monotonic()
     expected = len(order) * 6
-    results, cache_hits, completed, failures = {}, 0, 0, []
+    results, cache_hits, validated, failures = {}, 0, 0, []
+
+    def payload(status):
+        return {"run": {"mode": mode, "status": status, "model": model, "temperature": temperature,
+                        "rubric_hash": rubric_hash, "labels_csv_sha256": csv_sha, "manifest_sha256": man_sha,
+                        "n_calls": len(results), "expected_judgments": expected,
+                        "validated_judgments": validated, "cache_hits": cache_hits,
+                        "failures": len(failures), "failed_calls": failures,
+                        "binary_rule": BINARY_RULE, "started_at": started_at,
+                        "checkpointed_at": _now(),
+                        "finished_at": _now() if status in ("complete", "partial") else None,
+                        "elapsed_s": round(time.monotonic() - t0, 1)},
+                "calls": results}
+
     for cid in order:                                  # MANIFEST CALLS ONLY (order is pre-vetted)
         call = json.loads((calls_dir / f"{cid}.json").read_text())
         entry = {"dims": [], "binary": None}
@@ -151,13 +177,13 @@ def run(client, order, csv_sha, man_sha, out_path, calls_dir=None, delay=0.0, mo
             for d in J.JUDGE_DIMS:
                 e, hit = J.judge_dimension(client, call, d)
                 cache_hits += hit
-                completed += 1
+                validated += 1
                 entry["dims"].append(e)
                 if not hit and delay:
                     time.sleep(delay)
             b, hit = judge_outcome(client, call)
             cache_hits += hit
-            completed += 1
+            validated += 1
             entry["binary"] = b
             results[cid] = entry
             print(f"  {cid}: 5 dims + outcome={b['label']} ✓", flush=True)
@@ -166,17 +192,10 @@ def run(client, order, csv_sha, man_sha, out_path, calls_dir=None, delay=0.0, mo
         except Exception as e:
             failures.append({"call_id": cid, "error": f"{type(e).__name__}: {e}"})
             print(f"  {cid}: FAILED — {type(e).__name__}: {e}", flush=True)
-    status = "complete" if (len(results) == len(order) and not failures) else "partial"
-    payload = {"run": {"mode": mode, "status": status, "model": model, "temperature": temperature,
-                       "rubric_hash": rubric_hash, "labels_csv_sha256": csv_sha, "manifest_sha256": man_sha,
-                       "n_calls": len(results), "expected_requests": expected, "completed_requests": completed,
-                       "cache_hits": cache_hits, "failures": len(failures), "failed_calls": failures,
-                       "binary_rule": BINARY_RULE, "started_at": started_at,
-                       "finished_at": datetime.now().isoformat(timespec="seconds"),
-                       "elapsed_s": round(time.monotonic() - t0, 1)},
-               "calls": results}
-    atomic_write(out_path, payload)
-    return payload
+        atomic_write(out_path, payload("running"))     # checkpoint after EVERY call
+    final = payload("complete" if (len(results) == len(order) and not failures) else "partial")
+    atomic_write(out_path, final)
+    return final
 
 
 # ---------------------------------------------------------------- offline selftest (mock client)
@@ -260,13 +279,29 @@ def selftest():
         client = J._MockClient([dim_json] * 5 + [out_json] + [dim_json] * 5 + [out_json])
         p = run(client, ["jrfx1", "jrfx2"], "csvX", "manX", td / "res.json", calls_dir=td, mode="selftest")
         check(p["run"]["status"] == "complete" and p["run"]["n_calls"] == 2, "clean run -> status complete")
-        check(p["run"]["expected_requests"] == 12 and p["run"]["completed_requests"] == 12, "request accounting 12/12")
-        check(p["run"]["started_at"] <= p["run"]["finished_at"] and "elapsed_s" in p["run"], "timestamps + elapsed recorded")
+        check(p["run"]["expected_judgments"] == 12 and p["run"]["validated_judgments"] == 12,
+              "judgment accounting 12/12 (validated, not provider requests)")
+        check(p["run"]["started_at"] <= p["run"]["finished_at"] and "elapsed_s" in p["run"]
+              and ("+" in p["run"]["started_at"] or "Z" in p["run"]["started_at"]),
+              "timezone-aware timestamps + elapsed recorded")
         check((td / "res.json").exists() and not (td / "res.tmp").exists(), "atomic write (no tmp left)")
         # rerun -> pure cache resume
         client2 = J._MockClient(["never"])
         p2 = run(client2, ["jrfx1", "jrfx2"], "csvX", "manX", td / "res2.json", calls_dir=td, mode="selftest")
         check(client2.models.calls == 0 and p2["run"]["cache_hits"] == 12, "resume from cache: 12/12 hits, 0 provider calls")
+        # CORRUPTED CACHE: tamper a semantic entry + a binary entry -> rejected, deleted, refetched
+        sem = next(J.CACHE_DIR.glob("jrfx1__language_match__*"))
+        good_sem = sem.read_text()
+        sem.write_text(json.dumps({"score": 9.9, "reason": "tampered", "evidence_turn_ids": ["t1"]}))
+        binc = next(J.CACHE_DIR.glob("jrfx1__outcome_binary__*"))
+        binc.write_text("{ not json")
+        client3 = J._MockClient([good_sem, json.dumps({"label": "fail", "reason": "no booking completed",
+                                                       "evidence_turn_ids": ["t3"]})])
+        p2b = run(client3, ["jrfx1"], "c", "m", td / "res2b.json", calls_dir=td, mode="selftest")
+        check(client3.models.calls == 2 and p2b["run"]["status"] == "complete"
+              and p2b["run"]["cache_hits"] == 4, "corrupted cache entries rejected+deleted+refetched (4 clean hits, 2 live)")
+        check(json.loads(next(J.CACHE_DIR.glob("jrfx1__language_match__*")).read_text())["score"] <= 1,
+              "tampered entry replaced by a valid one on disk")
         # canary separation: canary output must not touch the real path
         p3 = run(J._MockClient([dim_json] * 5 + [out_json]), ["jrfx1"], "c", "m", td / "canary.json",
                  calls_dir=td, mode="canary")
@@ -279,20 +314,69 @@ def selftest():
         check(p4["run"]["status"] == "partial" and p4["run"]["failures"] == 1
               and p4["run"]["failed_calls"][0]["call_id"] == "jrfx3", "failed call -> status partial, recorded honestly")
         check(not list(J.CACHE_DIR.glob("jrfx3__*")), "invalid response never cached")
+        # INTERRUPTED RUN: provider dies mid-call-2 -> checkpoint on disk holds call 1 with status 'running'.
+        # _Killer is a BaseException so run()'s per-call `except Exception` does NOT absorb it —
+        # it behaves like a real KeyboardInterrupt/kill, escaping the loop mid-call.
+        class _Killer(BaseException):
+            pass
+
+        class _DieAfter:
+            def __init__(self, script, die_at):
+                self.models = J._MockClient(script).models
+                self.models_die_at = die_at
+                orig = self.models.generate_content
+
+                def wrapper(**kw):
+                    if self.models.calls + 1 >= die_at:
+                        raise _Killer("simulated interruption")
+                    return orig(**kw)
+                self.models.generate_content = wrapper
         for f in J.CACHE_DIR.glob("jrfx*"):
             f.unlink()
+        # call 1 = 5 dims + outcome (requests 1-6, completes); dies on request 8 (mid call 2)
+        dying = _DieAfter([dim_json] * 5 + [out_json] + [dim_json] * 6, die_at=8)
+        try:
+            run(dying, ["jrfx1", "jrfx2"], "c", "m", td / "intr.json", calls_dir=td, mode="selftest")
+        except _Killer:
+            pass
+        # the per-call checkpoint after call 1 (and after the failed call 2 it never reached) is on disk
+        ck = json.loads((td / "intr.json").read_text())
+        check(ck["run"]["status"] == "running" and ck["run"]["n_calls"] == 1
+              and "jrfx1" in ck["calls"] and ck["run"]["finished_at"] is None,
+              "interrupted run -> on-disk checkpoint: status running, call 1 preserved, no finished_at")
+        for f in J.CACHE_DIR.glob("jrfx*"):
+            f.unlink()
+    # NO-MODE REFUSAL: bare invocation must print help and exit non-zero (never start paid work)
+    import subprocess
+    r = subprocess.run([sys.executable, str(ROOT / "pipeline" / "judge_run.py")], capture_output=True, text=True)
+    check(r.returncode == 2 and "--full" in r.stdout, "bare invocation -> help + exit 2 (no paid default)")
+    r2 = subprocess.run([sys.executable, str(ROOT / "pipeline" / "judge_run.py"), "--canary", "--full"],
+                        capture_output=True, text=True)
+    check(r2.returncode != 0, "mutually exclusive modes rejected (--canary --full)")
+    r3 = subprocess.run([sys.executable, str(ROOT / "pipeline" / "judge_run.py"), "--dry-run", "--delay", "-1"],
+                        capture_output=True, text=True)
+    check(r3.returncode != 0 and "delay" in r3.stderr, "negative --delay rejected")
     print("\n" + ("JUDGE-RUN E1 SELFTEST PASSED ✓ (offline; canonical files untouched; no network)"
                   if ok else "SELFTEST FAILED"))
     return 0 if ok else 1
 
 
 def main():
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--selftest", action="store_true")
-    ap.add_argument("--dry-run", action="store_true")
-    ap.add_argument("--canary", action="store_true", help="REAL: first 2 manifest calls -> out/judge_canary.json")
-    ap.add_argument("--delay", type=float, default=1.0, help="seconds between non-cached API requests")
+    ap = argparse.ArgumentParser(
+        description="Gated real judge run. Network modes (--canary/--full) cost Gemini quota and "
+                    "require the frozen-snapshot gate to be open. Paid work is NEVER the default.")
+    mode = ap.add_mutually_exclusive_group(required=True)
+    mode.add_argument("--selftest", action="store_true", help="offline mock-client tests (no network)")
+    mode.add_argument("--dry-run", action="store_true", help="show the gate + plan, call nothing")
+    mode.add_argument("--canary", action="store_true", help="REAL: first 2 manifest calls -> out/judge_canary.json")
+    mode.add_argument("--full", action="store_true", help="REAL: all manifest calls -> out/judge_results.json")
+    ap.add_argument("--delay", type=float, default=1.0, help="seconds between non-cached API requests (>=0)")
+    if len(sys.argv) == 1:                              # bare invocation must never start paid work
+        ap.print_help()
+        sys.exit(2)
     args = ap.parse_args()
+    if args.delay < 0:
+        ap.error("--delay must be >= 0")
     if args.selftest:
         sys.exit(selftest())
     if args.dry_run:
@@ -303,16 +387,22 @@ def main():
               f"({snap['binary']} binary: {snap['success']}s/{snap['fail']}f, {snap['unsure']} unsure)")
         return
     manifest, csv_sha, man_sha, snap = gate()
-    if args.canary:
-        order = manifest["order"][:2]
-        print(f"GATE OPEN — CANARY: {order} -> out/judge_canary.json")
-        payload = run(J.get_client(), order, csv_sha, man_sha, OUT_CANARY, delay=args.delay, mode="canary")
-    else:
-        print(f"GATE OPEN — judging all {manifest['total']} manifest calls (delay {args.delay}s)…")
-        payload = run(J.get_client(), manifest["order"], csv_sha, man_sha, OUT_REAL, delay=args.delay, mode="full")
+    try:
+        if args.canary:
+            order = manifest["order"][:2]
+            print(f"GATE OPEN — CANARY: {order} -> out/judge_canary.json")
+            payload = run(J.get_client(), order, csv_sha, man_sha, OUT_CANARY, delay=args.delay, mode="canary")
+        else:
+            print(f"GATE OPEN — judging all {manifest['total']} manifest calls (delay {args.delay}s)…")
+            payload = run(J.get_client(), manifest["order"], csv_sha, man_sha, OUT_REAL, delay=args.delay, mode="full")
+    except KeyboardInterrupt:
+        print("\nINTERRUPTED — last checkpoint is on disk with status 'running'; validated judgments "
+              "are cached, so re-running resumes from cache.", file=sys.stderr)
+        sys.exit(130)
     r = payload["run"]
-    print(f"\nstatus {r['status'].upper()} — {r['n_calls']} calls, {r['completed_requests']}/{r['expected_requests']} "
-          f"requests ({r['cache_hits']} cached), {r['failures']} failures, {r['elapsed_s']}s")
+    print(f"\nstatus {r['status'].upper()} — {r['n_calls']} calls, "
+          f"{r['validated_judgments']}/{r['expected_judgments']} validated judgments "
+          f"({r['cache_hits']} cached), {r['failures']} failures, {r['elapsed_s']}s")
     print("kappa calibrates the BINARY outcome judge only; the 5 semantic dims remain uncalibrated diagnostics.")
 
 
