@@ -2,10 +2,12 @@
 """Build eval/label_manifest.json — the IMMUTABLE blind-label order (Batch 2R Phase B).
 
 Deterministic + idempotent: same data/normalized/ -> byte-identical manifest. The booth (serve.py
-label_order) reads this file and fails on any duplicate or missing call. Composition (Option A, 40):
+label_order) reads this file and fails on any duplicate or missing call. Composition (Option A, 46 —
+6 SHORT Hinglish reserves added over English controls so a few honest `unsure`s still clear the
+>=40-binary calibration floor):
   1-2   frozen prefix  : the two already-labeled calls (bolna_246cd9f3, hero_001), in label order
-  3-26  code_mixed_dialog : 24 Hindi-English cmd_hi_* (sorted)
-  27-40 spokenwoz controls: the 14 SHORTEST swz_* by (turn_count, call_id)
+  3-32  code_mixed_dialog : 30 Hindi-English cmd_hi_* (sorted; each <=20 utterance turns)
+  33-46 spokenwoz controls: the 14 SHORTEST swz_* by (turn_count, call_id)
 
     .venv/bin/python pipeline/build_manifest.py
 """
@@ -18,7 +20,7 @@ NORM = ROOT / "data" / "normalized"
 MANIFEST = ROOT / "eval" / "label_manifest.json"
 
 FROZEN_PREFIX = ["bolna_246cd9f3", "hero_001"]   # the two already-labeled calls — never reordered
-N_CMD = 24
+N_CMD = 30          # 24 originals + 6 short Hinglish reserves (unsure-slack for the >=40 binary floor)
 N_CONTROLS = 14
 
 
@@ -69,7 +71,7 @@ def main():
     control_turns = {c: turn_count(c) for c in controls}
     print(f"wrote {MANIFEST.relative_to(ROOT)} — {len(order)} calls")
     print(f"  frozen prefix : {FROZEN_PREFIX}")
-    print(f"  cmd (24)      : {cmd[0]} … {cmd[-1]}")
+    print(f"  cmd ({N_CMD})      : {cmd[0]} … {cmd[-1]}")
     print(f"  controls (14) : shortest swz, turns {min(control_turns.values())}–{max(control_turns.values())}")
     print(f"                  {controls}")
 

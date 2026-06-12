@@ -10,7 +10,7 @@ is NOT stdlib-only anymore. Launch with `.venv/bin/python web/recorder/serve.py`
 Routes:
   GET  /                 booth UI
   GET  /label            blind-label booth v2 (web/label.html): transcript-only, binary + phenotype tags
-  GET  /label/calls      stratified, ref-keyed; strips call_id/source/stress_profile/all scores
+  GET  /label/calls      manifest-ordered, ref-keyed; strips call_id/source/stress_profile/all scores
   GET  /label/state      {"labeled": {ref: {primary_label, confidence, *_tags[], note}}} (full prior annotation, for revision)
   POST /label/save       JSON {ref, primary_label, confidence, positive_tags, negative_tags, context_tags, note}
   GET  /shot             money-shot page (web/shot.html): audio + clickable failure table
@@ -186,9 +186,9 @@ class Booth(BaseHTTPRequestHandler):
         if p == "/label":
             return self._send(200, (ROOT / "web" / "label.html").read_bytes(), "text/html; charset=utf-8")
         if p == "/label/calls":
-            # BLIND BY CONSTRUCTION: serve ONLY transcript-observable fields in a deterministic
-            # server-side stratified order, keyed by an opaque `ref`. call_id / source /
-            # stress_profile / any score are stripped — the annotator can't anchor to anything.
+            # BLIND BY CONSTRUCTION: serve ONLY transcript-observable fields in the immutable
+            # manifest order, keyed by an opaque `ref`. call_id / source / stress_profile / any
+            # score are stripped — the annotator can't anchor to anything.
             order = label_order()
             calls = [{"ref": i, "language": c["language"], "workflow_type": c["workflow_type"],
                       "turns": [{"turn_id": t["turn_id"], "speaker": t["speaker"], "text": t["text"]}

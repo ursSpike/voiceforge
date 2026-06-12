@@ -1,0 +1,114 @@
+{
+  "call_id": "cmd_hi_0029",
+  "source": "code_mixed_dialog",
+  "language": "hi-en",
+  "stress_profile": "unmeasured",
+  "workflow_type": "restaurant_reservation",
+  "turns": [
+    {
+      "turn_id": "t1",
+      "speaker": "agent",
+      "text": "Hello , Cambridge restaurant system mein aapka swagat hai . Aap pa sakte hai restaurant by area , price range ya food type . Aap ko kaise help kar sakta hu main ?",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "turn_id": "t2",
+      "speaker": "user",
+      "text": "venetian",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "turn_id": "t3",
+      "speaker": "agent",
+      "text": "Kya aap cheap , moderate , ya expensive price range mein kuchh pasand karenge ?",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "turn_id": "t4",
+      "speaker": "user",
+      "text": "center",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "turn_id": "t5",
+      "speaker": "agent",
+      "text": "Aap kaunse type ka food lene chahege ?",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "turn_id": "t6",
+      "speaker": "user",
+      "text": "vegetarian",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "turn_id": "t7",
+      "speaker": "agent",
+      "text": "Sorry , but town ke iss centre me koi bhi vegetarian restaurant nahi hai .",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "turn_id": "t8",
+      "speaker": "user",
+      "text": "phone number",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "turn_id": "t9",
+      "speaker": "agent",
+      "text": "dojo_noodle_bar ek achha restaurant hai nagar ke centre bhaag mein jo asian_oriental khana serve karta hai",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "turn_id": "t10",
+      "speaker": "user",
+      "text": "phone number",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "turn_id": "t11",
+      "speaker": "agent",
+      "text": "dojo_noodle_bar ka phone number hai dojo_noodle_bar_phone",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "turn_id": "t12",
+      "speaker": "user",
+      "text": "Thank you , good bye .",
+      "start_ms": null,
+      "end_ms": null
+    },
+    {
+      "turn_id": "t13",
+      "speaker": "agent",
+      "text": "Welcome , alvida",
+      "start_ms": null,
+      "end_ms": null
+    }
+  ],
+  "audio_path": null,
+  "metadata": {
+    "timing_observed": false,
+    "source_dataset": "Code-Mixed-Dialog",
+    "source_repo": "https://github.com/sumanbanerjee1/Code-Mixed-Dialog",
+    "source_commit": "9df1d4dc800548a883f8bc1a9ce4116c77aebc02",
+    "source_split": "dev",
+    "source_dialog_index": 29,
+    "license": "Apache-2.0 (repo LICENSE); CC BY 4.0 on the arXiv paper",
+    "translation_status": "translated (human, from English DSTC2)",
+    "domain": "DSTC2 restaurant reservation",
+    "utterance_turns": 13,
+    "selection_rule": "deterministic file-order; 4<=utterance_turns<=20; deduped by transcript"
+  }
+}

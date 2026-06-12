@@ -1,20 +1,20 @@
 {
-  "n_calls": 70,
-  "success_rate": 0.529,
+  "n_calls": 76,
+  "success_rate": 0.566,
   "avg_overall": 0.711,
   "timing_coverage": {
     "timed": 46,
-    "unmeasured": 24
+    "unmeasured": 30
   },
-  "cost_per_successful_call": 0.1315,
+  "cost_per_successful_call": 0.1188,
   "by_stress_profile": [
     {
       "stress_profile": "unmeasured",
-      "n": 24,
-      "n_completed": 20,
-      "cost": 0.7200000000000003,
-      "success_rate": 0.833,
-      "cost_per_successful_call": 0.036
+      "n": 30,
+      "n_completed": 26,
+      "cost": 0.9650000000000005,
+      "success_rate": 0.867,
+      "cost_per_successful_call": 0.0371
     },
     {
       "stress_profile": "interruption",

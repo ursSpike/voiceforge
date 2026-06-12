@@ -1,7 +1,7 @@
 # Batch 2R · Phase A — Source audit (calibration-slice repair)
 
-**Status:** **Phase B BUILT** — 24 Hindi-English ingested, immutable manifest written, booth wired to it. NO booth restart yet,
-labels frozen (`e6d2055…`), existing 46 outputs byte-identical. Awaiting Codex audit of the new pool + manifest before restart.
+**Status:** **Phase B BUILT (46-call manifest)** — 30 Hindi-English ingested, immutable manifest (SHA `aec4ba49…`) written, booth
+wired. NO booth restart yet, labels frozen (`e6d2055…`), existing scored records byte-identical. Awaiting Codex audit before restart.
 **Why this batch:** the current label pool is 44 monolingual-English SpokenWOZ calls (turn median ≈36, max 60) —
 long to label and mismatched with VoiceForge's multilingual thesis. Goal: a 40-call slice of SHORT, multilingual,
 goal-oriented calls.
@@ -125,10 +125,21 @@ timestamps. Designed, implemented, and tested a nullable-timing contract — **n
 frozen; 44 `swz_*` intact (none deleted). No judge calls. (Source fetch = one cached GitHub-raw text pull at the pinned SHA — not audio,
 not a provider/judge API.)
 
-**⚠️ For the audit — slack flag:** the slice is exactly 40 and the calibration floor is **≥40 binary** (unsure excluded), so any
-`unsure` drops below 40. Two options: (a) accept tight (label all 40, minimal unsure); (b) bump controls to 20 → **46** total for a
-6-label buffer (one-line change: `N_CONTROLS=20`). Recommend (b); deferring to your ruling rather than silently changing the composition.
+## Phase B repair — 46-call manifest + warning fixes (Codex round)
+- **Slack resolved (Codex ruling):** added **6 SHORT Hinglish reserves** (not longer English controls) → ingest **30** `cmd_hi_*`
+  (the first 24 byte-identical, 6 appended `cmd_hi_0026…0031`, all ≤20 turns, span now 7–19). Manifest = **2 frozen + 30 cmd + 14 swz = 46**,
+  so a few honest `unsure`s still clear the ≥40-binary floor while staying short + multilingual.
+- **Final manifest is FROZEN — SHA-256 `aec4ba49000c9f4fdfa203cfca4bc787b71004abb47e4a7eff899175446cae33`.** Idempotent (re-run → same bytes).
+- **Warnings fixed:** (1) `.gitattributes` `data/code_mixed_dialog/** -whitespace` so vendored data stays byte-faithful and passes
+  `git diff --check`; (2) cached the upstream **Apache-2.0 LICENSE** at `data/code_mixed_dialog/LICENSE`; (3) `serve.py` `/label/calls`
+  comments now say **manifest-ordered**, not "stratified".
+- **Worktree note:** confirmed my working tree is the canonical repo (`git toplevel = /Users/varsh/voiceforge`, git-dir `.git`) — the booth
+  will be launched from here so labels land in the canonical `eval/labels_spike.csv`.
+
+**Verification (46):** pool **76/76** call_log-valid; existing **70** per-call outputs byte-identical; `timing_coverage {timed:46,
+unmeasured:30}`; nullable suite PASS; manifest idempotent (SHA `aec4ba49…`), dup/missing rejected, resumes at ref 2 = `cmd_hi_0000`;
+CSV SHA `e6d2055…` frozen; 44 `swz_*` intact.
 
 ## Next step
-**STOP for Codex audit** of the new pool + manifest. On clear (and the slack ruling): restart the booth for blind labeling. No
-booth restart until then.
+**STOP for Codex audit** of the 46-call pool + frozen manifest. On clear: restart the booth from `/Users/varsh/voiceforge` for blind
+labeling (resumes at `cmd_hi_0000`). No booth restart until then.

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "total": 40,
+  "total": 46,
   "frozen_prefix": [
     "bolna_246cd9f3",
     "hero_001"
@@ -32,6 +32,12 @@
     "cmd_hi_0022",
     "cmd_hi_0024",
     "cmd_hi_0025",
+    "cmd_hi_0026",
+    "cmd_hi_0027",
+    "cmd_hi_0028",
+    "cmd_hi_0029",
+    "cmd_hi_0030",
+    "cmd_hi_0031",
     "swz_MUL2483",
     "swz_MUL2658",
     "swz_MUL0211",
@@ -49,7 +55,7 @@
   ],
   "composition": {
     "existing_labeled": 2,
-    "code_mixed_dialog_hi": 24,
+    "code_mixed_dialog_hi": 30,
     "spokenwoz_controls": 14
   },
   "selection_rules": {

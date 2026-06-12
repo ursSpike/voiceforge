@@ -547,3 +547,18 @@ analytics `timing_coverage{timed:46,unmeasured:24}`; nullable suite PASS; manife
 judge calls; source fetch was one cached GitHub-raw text pull at the pinned SHA.
 
 **Next:** STOP for Codex audit of the new pool + manifest (+ slack ruling). No booth restart until clear.
+
+## BATCH 2R · Phase B repair — 46-call manifest + warning fixes (Jun 12) — Codex slack ruling
+Codex chose 6 SHORT Hinglish reserves over longer English controls (those run 32–36 turns, off-thesis). Booth still NOT restarted.
+
+**Blocker (slack):** ingest --n 30 → 30 cmd_hi_* (first 24 BYTE-IDENTICAL, 6 appended cmd_hi_0026..0031, all ≤20 turns, span 7–19).
+build_manifest N_CMD=30 → eval/label_manifest.json = 2 frozen + 30 cmd + 14 swz = **46**; frozen prefix + first 24 cmd order preserved.
+**Manifest FROZEN, SHA-256 aec4ba49000c9f4fdfa203cfca4bc787b71004abb47e4a7eff899175446cae33** (idempotent).
+**Warnings:** (1) .gitattributes `data/code_mixed_dialog/** -whitespace` (git diff --check clean, data stays byte-faithful);
+(2) cached upstream Apache-2.0 LICENSE at data/code_mixed_dialog/LICENSE; (3) serve.py /label/calls comments → "manifest-ordered".
+Confirmed canonical repo (toplevel /Users/varsh/voiceforge), booth launches from here.
+
+**Verify:** pool 76/76 valid; existing 70 per-call outputs byte-identical; timing_coverage{timed:46,unmeasured:30}; nullable suite PASS;
+manifest idempotent + dup/missing rejected + resumes ref2=cmd_hi_0000; CSV e6d2055 frozen; 44 swz intact.
+
+**Next:** STOP for Codex audit of the 46-call pool + frozen manifest. On clear → restart booth from /Users/varsh/voiceforge.
