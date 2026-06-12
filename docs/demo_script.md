@@ -12,9 +12,11 @@ show a cherry-picked call. VoiceForge shows the failure distribution.**"
 ## 0:45–1:40 · Thesis + ingest
 "VoiceForge is the layer AFTER the call: an eval lab for voice agents. It eats call logs —
 provider-neutral — and turns them into measurements, calibrated judgments, and an improvement queue.
-In this corpus: a **real Bolna call** (Cartesia Devansh voice), 44 SpokenWOZ task calls, 30
-Hindi-English code-switched restaurant bookings, and one constructed hero call — **disclosed** as
-constructed. 76 calls, every artifact cached and reproducible offline."
+In this corpus: a **real Bolna execution** ingested straight from the Bolna API (it predates my
+Cartesia voice swap — the **live agent runs Cartesia Devansh today**, and the config proves it),
+44 SpokenWOZ task calls, 30 Hindi-English code-switched restaurant bookings, and one
+**Cartesia-voiced** constructed hero call — disclosed as constructed. 76 calls, every artifact
+cached and reproducible offline."
 
 ## 1:40–2:40 · Deterministic before semantic + blind labeling
 "Rule one: never ask an LLM something you can measure. Barge-ins and response latency come from
@@ -68,8 +70,8 @@ provider, measures what's measurable — barge-ins, latency, slots — determini
 LLM judge that is *calibrated against my own blind labels* (Cohen's kappa, confusion matrix, n≈40)
 instead of trusted blindly. Every call gets a phenotype — seamless, brittle, recovered, slot-loss,
 repair-loop, workflow failure — derived deterministically from labeled primitives. The output isn't
-a score, it's an improvement queue with evidence turns. Real Bolna call ingested, Cartesia-voiced,
-fully offline-reproducible. Pass/fail is one bit; failure has shapes."
+a score, it's an improvement queue with evidence turns. Real Bolna execution ingested; live Bolna
+agent Cartesia-voiced; fully offline-reproducible. Pass/fail is one bit; failure has shapes."
 
 ## Likely judge Q&A (answers grounded in artifacts)
 - **"Why trust an LLM judge?"** → I don't, until it earns it: blind labels first, kappa + CI + the
@@ -86,3 +88,10 @@ fully offline-reproducible. Pass/fail is one bit; failure has shapes."
   archetypes derived from labeled primitives → an evidence-backed improvement queue. Not a wrapper.
 - **"Couldn't a 4-person team build more?"** → More surface, sure. The thing that matters in eval is
   *trustworthiness per claim* — every number here traces to a committed artifact and an audit trail.
+- **"Where exactly are Bolna and Cartesia?"** → Three honest links: (1) a **real Bolna execution**
+  pulled from the Bolna API into the pipeline — timing reconstructed from the conversation trace, its
+  real provider cost used; it predates my voice swap, so I say that plainly. (2) The **live Bolna
+  agent is configured with Cartesia Devansh (sonic-3) today** — config shown on request. (3) The
+  **hero call is synthesized with that same Cartesia voice**. Bolna is the call layer VoiceForge
+  ingests from; Cartesia is the voice it evaluates; VoiceForge is the layer both are missing:
+  post-call quality with calibration.
