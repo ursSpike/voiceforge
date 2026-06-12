@@ -745,3 +745,18 @@ label_snapshot.json must each be tracked AND byte-identical to HEAD (unrelated d
 **Verified:** validator green incl new pinned check (out/label_validation.json regenerated + committed) · judge selftest
 PASS · judge_run selftest PASS (incl adversarial) · dry-run on real artifacts GATE OPEN 276 · git diff --check clean.
 **STOP. Still no Gemini call. Trust chain now: pinned code constant → audited snapshot bytes → CSV/manifest bytes → git HEAD.**
+
+## PHASE E2 — Flash canary + model switch to 3.1-flash-lite (Jun 12 ~21:20) · FIRST GEMINI SPEND
+**2.5-flash canary (12 judgments, preserved out/judge_canary_2_5_flash.json):** status complete, 2/2 calls, 12/12 validated,
+0 failures, evidence-IDs all valid, 5 dims uncalibrated + binary pending-calibration, out/calls.json BYTE-IDENTICAL
+(444956c8…). Binary agreement 2/2 vs human (both success). Quality real: bolna all 1.0; hero language_match 0.1 (English
+agent vs Telugu-mix → matches human wrong_language_or_tone tag), repair_quality 0.0 (the over-demand turn), user_frustration 0.9.
+**INCIDENT (production, disclosed):** first invocation (--delay 2.0) hit free-tier 5-RPM wall on gemini-2.5-flash — call 1
+done, call 2 → 429 RESOURCE_EXHAUSTED after retries → recorded PARTIAL + failure + on-disk checkpoint (E1 hardening fired
+in prod, first try). Waited 65s, re-ran --delay 13: bolna resumed from cache (6 hits, 0 re-spend), hero completed. Total 12
+live requests.
+**MODEL SWITCH (Codex ruling, image-sourced model IDs — past my Jan-2026 cutoff, canary verifies availability):**
+rubric.yaml judge.model gemini-2.5-flash → **gemini-3.1-flash-lite** (positioned for high-volume structured JSON; fits 276
+judgments under free-tier RPD). Purged the 12 real 2.5-flash cache entries (model-keyed → would orphan; fixture kept) so the
+cache stays single-model. New rubric_hash c1cc81415e230e74. judge + judge_run selftests still PASS; dry-run GATE OPEN 276;
+frozen CSV/manifest/snapshot hashes UNCHANGED. NEXT: 2-call Lite canary --delay 7, then stop for audit before --full.

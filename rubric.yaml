@@ -6,7 +6,7 @@ version: 0
 
 judge:
   provider: gemini          # AI Studio key; disclosed as the judge in the demo
-  model: gemini-2.5-flash
+  model: gemini-3.1-flash-lite
   temperature: 0
   # every judge dimension must return: {score, reason, evidence_turn_ids}
 
