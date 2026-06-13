@@ -674,7 +674,13 @@ function wireCallTrigger(){
           if(rf.ok){
             var df = await rf.json();
             renderLiveExecution(df);
-            show('Call '+esc(execId.slice(0,8))+'… loaded below. To run the full eval pipeline (deterministic signals + judge dims), pull the repo and run<br><code>python pipeline/ingest_live.py --execution '+esc(execId)+' &amp;&amp; python pipeline/judge_live.py</code>', "ok");
+            var nturns = (df.turns||[]).length;
+            if(nturns === 0){
+              show('Bolna still processing the call log — click <b>See call results</b> again in a few seconds.', "warn");
+            } else {
+              show('Loaded '+nturns+' turns. Transcript + extracted fields are below.', "ok");
+            }
+            go.disabled = false;
             return;
           }
           // Localhost fallback: full ingest+judge.
@@ -699,7 +705,8 @@ function wireCallTrigger(){
           go.disabled = false;
         }
       };
-      status.appendChild(go);
+      // Append the button as a SIBLING of status (status.innerHTML rewrites would otherwise destroy it).
+      if(status.parentNode) status.parentNode.appendChild(go);
     } catch(e){
       show("Live trigger backend not reachable on this host (static GitHub Pages).<br>" +
            "On stage Spike runs <code>serve_surface.py</code> locally — clone + run to try.", "warn");
