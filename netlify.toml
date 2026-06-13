@@ -1,14 +1,9 @@
-# Netlify deploy — publish straight from out/surface/.
-# The presentation files live at out/surface/{index.html,app.js,styles.css,design_data.js}.
-# The operator workspace lives at out/platform/{index.html,app.js,styles.css,platform_data.js}.
-# Build step copies out/platform/ into out/surface/platform/ so a single publish root works
-# for BOTH routes with proper relative asset paths.
+# Netlify deploy — publish out/surface/ which has platform/ copied in.
+# No build step (committed pre-assembled to avoid silent build-cmd failures).
 
 [build]
-  command = "rm -rf out/surface/platform && cp -R out/platform out/surface/platform && cp -f out/dashboard.html out/surface/dashboard.html 2>/dev/null || true"
   publish = "out/surface"
 
-# Friendly trailing-slash for /platform (so relative asset paths resolve).
 [[redirects]]
   from = "/platform"
   to = "/platform/"
@@ -19,9 +14,3 @@
   for = "/platform/platform_data.js"
   [headers.values]
     Cache-Control = "no-store"
-
-[[headers]]
-  for = "/*"
-  [headers.values]
-    X-Content-Type-Options = "nosniff"
-    Referrer-Policy = "no-referrer-when-downgrade"
