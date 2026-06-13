@@ -39,6 +39,17 @@
       ],
       "port": 7870,
       "autoPort": true
+    },
+    {
+      "name": "surface",
+      "runtimeExecutable": ".venv/bin/python",
+      "runtimeArgs": [
+        "pipeline/serve_surface.py",
+        "--port",
+        "7871"
+      ],
+      "port": 7871,
+      "autoPort": true
     }
   ]
 }

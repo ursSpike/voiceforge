@@ -25,7 +25,8 @@ Validity comes from the public-data calibration, not from this call. Disclosed o
 - Sources with single timestamps (no end times) get latency treatment only — we never fake overlap.
 - SpokenWOZ is protocol-collected: few genuine barge-ins. AMI *could* supply real overlap but is
   **not in the current pool** (roadmap); where overlap matters now it comes from the hero call. AMI is
-  meetings-domain, not task calls. Sample is **46 calls** (44 SpokenWOZ + hero + Bolna) — directional, not statistical.
+  meetings-domain, not task calls. Frozen labeled slice is **46 calls** (30 Hindi-English `cmd_hi_*` +
+  14 SpokenWOZ controls + hero + Bolna); full scored corpus **76** — directional, not statistical.
 
 ## Costs are estimates
 Cost-per-call and cost-per-successful-call use turn counts × public per-unit price estimates
@@ -36,12 +37,14 @@ If shown: one closed-loop replay (v1 flawed prompt → detected failures → v2 
 turns re-run → re-scored by the same pipeline). It demonstrates the loop's *shape*, not a
 statistically meaningful improvement. Production would need more logs, human review, offline training.
 
-## English-heavy sprint (not strictly English-only)
-The pool is English-HEAVY: the 44 SpokenWOZ calls are `en`, but **two calls are code-switching**
-— the hero call (`te-en`, Telugu-English) and the real Bolna call (`hi-en`, Hindi-English). So the
-sprint is not strictly English-only; `language` is a real schema field carrying those values, and
-`language_match` is a rubric dimension. Full multilingual coverage (IndicVoices et al.) is roadmap,
-not build — but the demo already touches code-switching on its two most important calls.
+## Multilingual: shipped, Hindi-English majority (updated Jun 13)
+The frozen labeled slice is **majority code-switched**: **30 of 46 calls are Hindi-English**
+(`cmd_hi_*`, Code-Mixed-Dialog, romanized Hinglish) plus the hero (`te-en`) and the real Bolna call
+(`hi-en`); the 14 SpokenWOZ calls are the English control arm. `language` is a real schema field and
+`language_match` a rubric dimension. The calibration's headline finding lives here: agreement on
+hi-en (71%) ≈ English (69%) — language is **not** the reliability axis on this sample (annotator
+confidence is). Broader Indic coverage (IndicVoices, real Tenglish audio) is roadmap; the
+single-rater pilot n is the real statistical limit, not language coverage.
 
 ## Licenses
 SpokenWOZ is CC BY-NC — fine for hackathon evaluation; flagged before any commercial use.

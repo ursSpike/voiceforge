@@ -1,5 +1,17 @@
 # Dataset card — public backbone (Batch 2)
 
+> **⚠️ PARTIALLY SUPERSEDED (Jun 13) — read this first.** This card was written before the Phase-B
+> Hindi-English ingestion. The current composition is authoritative in `eval/label_manifest.json`
+> (`composition`: existing_labeled 2 · code_mixed_dialog_hi 30 · spokenwoz_controls 14) and detailed in
+> [`docs/batch2R_source_audit.md`](batch2R_source_audit.md):
+> - **Frozen labeled / calibration slice = 46** = **30 Code-Mixed-Dialog Hindi-English** (`cmd_hi_*`,
+>   romanized Hinglish, translated DSTC2 restaurant booking, Apache-2.0) + **14 SpokenWOZ** English
+>   controls + **1 hero** (te-en, constructed) + **1 Bolna** (hi-en, real).
+> - **Full scored corpus = 76** = 44 SpokenWOZ + 30 cmd_hi + 1 Bolna + 1 hero.
+> - **Multilingual is SHIPPED, not roadmap** — the 30 Hindi-English calls ARE the calibration backbone
+>   (hi-en 71% ≈ English 69% is the headline truth-correction slice). The "it is English" line below is
+>   stale. The SpokenWOZ methodology below is still accurate for the SpokenWOZ portion.
+
 ## SpokenWOZ (the public eval backbone)
 - **Source:** SpokenWOZ, *A Large-Scale Speech-Text Benchmark for Spoken Task-Oriented Dialogue*
   (arXiv:2305.13040). Train+dev text split, `data/spokenwoz/data.json` (246MB, already on disk —
@@ -26,12 +38,14 @@ the 500-call dev list (filtered to 16–60 turns, ≤300s). Stratified across st
 blind-label set carries both pass- and fail-prone calls (prevalence trap, book 14):
 - interruption ≈20 · clean (laggy+quiet) ≈19 · pause_heavy 5 (only 5 qualifying — top-up filled the
   rest from interruption, deterministically).
-- **Total pool = 46** = 44 SpokenWOZ + 1 hero (constructed, te-en) + 1 real Bolna (hi-en).
+- 44 SpokenWOZ calls are scored into the **76-call corpus**; **14** of them are carried into the frozen
+  **46-call labeled slice** as English controls (see the manifest `composition` and the banner above).
 
 ### Honest caveats
 - SpokenWOZ is protocol-collected → **few genuine barge-ins**; it is **latency-rich**, not
   interruption-rich. The hero call supplies the engineered barge-in; AMI (roadmap) would add real overlap.
-- It is English. `language` stays a schema field; multilingual is roadmap.
+- *(This SpokenWOZ portion is English.)* The overall labeled slice is **majority Hindi-English** (30 of
+  46 are `cmd_hi_*`); SpokenWOZ supplies the English control arm. Multilingual is **shipped**, not roadmap.
 - Turn bounds are *synthesized* from word times — exact given the ASR word timestamps, but a
   reconstruction, not ground-truth diarization.
 

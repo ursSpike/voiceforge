@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VoiceForge — the evaluation lab after the call</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-ch="ch-thesis">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- Compact header: appears after the title moment scrolls past -->
+  <header class="topbar" id="topbar">
+    <a class="wordmark" href="#ch-thesis" data-jump="ch-thesis">
+      <span class="wm-mark" aria-hidden="true"><span class="wm-raw"></span><span class="wm-forged"></span></span>
+      <span class="wm-text">Voice<b>Forge</b></span>
+    </a>
+    <span class="topbar-chapter" id="topbar-chapter" aria-live="polite"></span>
+    <span class="gate-chip mono" id="gate-chip"></span>
+    <button class="btn demo-toggle" id="demo-toggle" aria-haspopup="dialog" aria-expanded="false">Demo path</button>
+  </header>
+
+  <!-- Chapter spine: persistent narrative position -->
+  <nav class="spine" id="spine" aria-label="Chapters"></nav>
+
+  <main id="main">
+    <section class="chapter ch-thesis" id="ch-thesis" data-screen-label="00 After the call" data-num="00" data-short="After the call" data-title="After the call">
+      <div class="ch-inner" data-mount="thesis"></div>
+    </section>
+
+    <section class="chapter sheet ch-measure" id="ch-measure" data-screen-label="01 Hear then measure" data-num="01" data-short="Measure" data-title="Hear, then measure">
+      <div class="ch-inner" data-mount="measure"></div>
+    </section>
+
+    <section class="chapter sheet ch-trap" id="ch-trap" data-screen-label="02 The metric trap" data-num="02" data-short="Metric trap" data-title="The metric trap">
+      <div class="ch-inner" data-mount="trap"></div>
+    </section>
+
+    <section class="chapter sheet ch-judge" id="ch-judge" data-screen-label="03 Calibrated judgment" data-num="03" data-short="Calibration" data-title="Calibrated judgment">
+      <div class="ch-inner" data-mount="judge"></div>
+    </section>
+
+    <section class="chapter sheet ch-friction" id="ch-friction" data-screen-label="04 Success x Friction" data-num="04" data-short="Friction" data-title="Success × Friction">
+      <div class="ch-inner" data-mount="friction"></div>
+    </section>
+
+    <section class="chapter sheet ch-evidence" id="ch-evidence" data-screen-label="05 Evidence explorer" data-num="05" data-short="Evidence" data-title="Evidence explorer">
+      <div class="ch-inner" data-mount="evidence"></div>
+    </section>
+
+    <section class="chapter sheet ch-action" id="ch-action" data-screen-label="06 What to fix first" data-num="06" data-short="Fix first" data-title="What to fix first">
+      <div class="ch-inner" data-mount="action"></div>
+    </section>
+
+    <section class="chapter sheet ch-proof" id="ch-proof" data-screen-label="07 Proof chain" data-num="07" data-short="Proof" data-title="Bolna × Cartesia proof" >
+      <div class="ch-inner" data-mount="proof"></div>
+    </section>
+
+    <section class="chapter sheet ch-method" id="ch-method" data-screen-label="08 Method and limits" data-num="08" data-short="Method" data-title="Method &amp; limits">
+      <div class="ch-inner" data-mount="method"></div>
+    </section>
+  </main>
+
+  <!-- Call evidence sheet: slides over the story, never loses scroll position -->
+  <div class="callsheet-scrim" id="callsheet-scrim" hidden></div>
+  <aside class="callsheet" id="callsheet" role="dialog" aria-modal="true" aria-labelledby="callsheet-title" hidden>
+    <div class="callsheet-frame" data-mount="callsheet"></div>
+  </aside>
+
+  <!-- Presenter demo path -->
+  <aside class="demopath" id="demopath" role="dialog" aria-label="Demo path" hidden>
+    <div class="demopath-frame" data-mount="demopath"></div>
+  </aside>
+
+  <noscript>
+    <p class="noscript-note">VoiceForge renders every number from the committed data artifact at load time, so JavaScript is required. No network access is used.</p>
+  </noscript>
+
+  <script src="design_data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

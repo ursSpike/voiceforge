@@ -34,10 +34,15 @@ Pre-departure timebox (07:17–~09:30 IST). Event 10:30. P0 fleet: script · bib
 ## ACTIVE LANES (coordinator updates)
 | lane | agent | output | status |
 |---|---|---|---|
-| script | demo_docs | docs/demo_docs.md | pending launch |
-| bible | project_bible | PROJECT_BIBLE.md | pending launch |
-| live-bridge | live_ingest | pipeline/ingest_live.py + live artifacts | pending launch |
-| routes | surface | / (presentation, real data) + /platform (operator + LIVE TODAY) | pending launch |
+| script | demo_docs | docs/demo_docs.md | ✅ DONE — 6:30, verified |
+| bible | project_bible | PROJECT_BIBLE.md | ✅ DONE — verified; caught 2 stale docs (fixed) |
+| live-bridge | live_ingest | pipeline/ingest_live.py + judge_live.py | ✅ DONE — selftests re-run 8/8+16/16, safe-refusal ✓, frozen sealed, no leak |
+| routes | surface | / + /platform | ✅ DONE — build_surface+serve_surface; browser-verified 76 calls, 0 console errs, 0 external refs, /platform LIVE-TODAY graceful |
+
+**P0 FLEET COMPLETE (07:55). Next: Spike reads demo_docs aloud once → leave for venue.**
+Stale-doc truth-pass landed: docs/dataset_card.md + docs/limitations.md corrected (were pre-Phase-B:
+claimed English-only / 46=44 SpokenWOZ; real = 30 Hindi-English + 14 SpokenWOZ + hero + Bolna).
+README's false DPO-shipped diagram still pending → submission agent's README rewrite (P2).
 
 ## TOP 3 NEXT ACTIONS
 1. Spike: confirm "go P0" → fleet launches in parallel.
