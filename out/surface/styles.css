@@ -289,10 +289,6 @@ button { font: inherit; color: inherit; }
 .hero-thesis .ht-muted { color: var(--ink-faint); }
 .hero-thesis .ht-ember { color: var(--ember-deep); font-style: italic; }
 
-.hero-who {
-  margin-top: clamp(10px, 1.8vh, 18px); font-size: 14px; color: var(--ink-soft);
-}
-.hero-who b { color: var(--ink); font-weight: 650; }
 .hero-sub {
   margin-top: clamp(10px, 1.8vh, 20px); max-width: 66ch;
   font-size: clamp(14px, 1.05vw, 18px); line-height: 1.55; color: var(--ink-soft);

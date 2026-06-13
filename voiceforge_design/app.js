@@ -57,7 +57,6 @@
         <span class="ht-muted">Success rate tells you whether calls finished.</span>
         <span class="ht-ember">VoiceForge tells you how.</span>
       </h1>
-      <p class="hero-who"><b>Saivarshith “Spike”</b> · CSE, IIT Kharagpur ’25 · SDE, Fujitsu Research · built solo.</p>
       <p class="hero-sub">
         It tells you how calls finished, what failures cost, and what to fix first —
         deterministic signals before semantic judgment, blind human labels before trust,
