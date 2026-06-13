@@ -3,6 +3,8 @@
 var D = window.__PLATFORM__ || {};
 var CALLS = D.calls || [];
 var LIVE = D.live || {live:false,calls:[]};
+var CLINIC = D.clinic || null;                    // sidecar: agent + KB + before-improvement metadata
+var BEFORE_ID = D.before_improvement_call_id || null;
 
 var state = { mode:"frozen", q:"", filters:{source:null,outcome:null,profile:null}, selected:null };
 
@@ -17,17 +19,25 @@ function normLive(c, i){
   var id = c.call_id || c.id || ("live_"+i);
   var oc = c.outcome;
   if(oc && typeof oc==="object") oc = oc.task_completed;
+  // The live call's turn list lives under `turns` (Bolna normalized shape) — fall back to transcript
+  // for older fixtures. Turn objects use {turn_id, speaker, text}.
+  var turnList = Array.isArray(c.turns) ? c.turns : (Array.isArray(c.transcript) ? c.transcript : []);
+  var turnCount = (typeof c.turns === "number") ? c.turns : turnList.length;
   return {
     id:id, source:c.source||c.provider||"live", lang:c.language||c.lang||"—",
     profile:c.stress_profile||c.profile||"—", wf:c.workflow_type||c.wf||"—",
-    turns:c.turns!=null?c.turns:(Array.isArray(c.transcript)?c.transcript.length:null),
+    turns:turnCount,
     outcome: oc===true?true:oc===false?false:null,
     overall:c.overall!=null?c.overall:null, in_manifest:false, live:true,
     archetype:c.archetype||null, recommendation:c.recommendation||null,
     human:c.human||null,
     dims:c.dims||c.deterministic||[], failures:c.failures||[],
-    transcript:(c.transcript||[]).map(function(t,j){
-      return {id:t.id||("t"+(j+1)), s:t.s||t.speaker||t.role||"agent", x:t.x||t.text||t.utterance||""};
+    transcript:turnList.map(function(t,j){
+      return {
+        id:t.id||t.turn_id||("t"+(j+1)),
+        s:t.s||t.speaker||t.role||"agent",
+        x:t.x||t.text||t.utterance||""
+      };
     }),
     judge:c.judge||{},
     provenance:"LIVE · UNCALIBRATED · source="+(c.source||c.provider||"live"),
@@ -92,6 +102,10 @@ function renderRail(){
     return;
   }
   if(state.mode==="live"){
+    if(CLINIC){
+      list.appendChild(clinicAgentCard());
+      list.appendChild(clinicKbCard());
+    }
     var hint=el("div","live-empty");
     hint.style.borderStyle="solid";
     hint.innerHTML='<h3>Live · uncalibrated</h3><p>These calls were ingested today. No human label or kappa applies yet — treat scores as diagnostic only.</p>';
@@ -105,13 +119,54 @@ function renderRail(){
     var card=el("div","call-card");
     if(state.selected===c.id) card.className="call-card sel";
     var live = c.live ? ' <span class="live-tag">LIVE</span>' : "";
+    var beforeBadge = (c.live && BEFORE_ID && c.id===BEFORE_ID)
+      ? ' <span class="before-tag" title="Defects in this call were repaired in the final agent — kept as the honest baseline.">BEFORE IMPROVEMENT</span>' : "";
     card.innerHTML =
-      '<div class="cid">'+outcomeDot(c)+esc(c.id)+live+'</div>'+
+      '<div class="cid">'+outcomeDot(c)+esc(c.id)+live+beforeBadge+'</div>'+
       '<div class="meta"><span>'+esc(c.lang)+'</span><span>'+esc(c.profile)+'</span><span>'+(c.turns!=null?c.turns+" turns":"")+'</span></div>'+
       (c.archetype?'<div class="ph">'+esc(c.archetype.replace(/_/g," "))+'</div>':'');
     card.onclick=function(){ state.selected=c.id; render(); };
     list.appendChild(card);
   });
+}
+
+/* ---------- clinic agent + KB cards (top of live rail when sidecar present) ---------- */
+function clinicAgentCard(){
+  var a = (CLINIC && CLINIC.agent) || {};
+  var s = (CLINIC && CLINIC.synthesizer) || {};
+  var voiceLabel = s.verified ? (s.label_when_verified || "Cartesia · Devansh · sonic-3 (verified)")
+                              : "Cartesia · provider unverified";
+  var voiceClass = s.verified ? "prov ok" : "prov uncal";
+  var langs = (a.languages || []).join(" + ") || "—";
+  var idShort = a.id ? (a.id.slice(0,8)+"…") : "—";
+  return htmlEl(
+    '<div class="cl-card cl-agent" title="'+esc(a.id||"")+'">'+
+      '<div class="cl-head"><span class="cl-kicker">Agent</span><span class="cl-prov uncal">LIVE · UNCALIBRATED</span></div>'+
+      '<div class="cl-title">'+esc(a.name||"Live agent")+'</div>'+
+      '<div class="cl-meta">'+
+        '<div><span class="cl-k">agent_id</span><span class="cl-v mono">'+esc(idShort)+'</span></div>'+
+        '<div><span class="cl-k">voice</span><span class="cl-v '+voiceClass+'">'+esc(voiceLabel)+'</span></div>'+
+        '<div><span class="cl-k">languages</span><span class="cl-v">'+esc(langs)+'</span></div>'+
+        '<div><span class="cl-k">status</span><span class="cl-v">'+esc(a.deployment_status||a.bolna_status||"—")+'</span></div>'+
+      '</div>'+
+    '</div>'
+  );
+}
+function clinicKbCard(){
+  var k = (CLINIC && CLINIC.knowledge_base) || {};
+  var idShort = k.vector_id ? (k.vector_id.slice(0,8)+"…") : "—";
+  var processed = k.status==="processed";
+  var attached = k.attached_to_llm===true;
+  return htmlEl(
+    '<div class="cl-card cl-kb">'+
+      '<div class="cl-head"><span class="cl-kicker">Knowledge base</span><span class="cl-prov '+(processed?'ok':'uncal')+'">'+esc((k.status||"unknown").toUpperCase())+'</span></div>'+
+      '<div class="cl-title">'+esc(k.scope||"Connected knowledge base")+'</div>'+
+      '<div class="cl-meta">'+
+        '<div><span class="cl-k">vector_id</span><span class="cl-v mono">'+esc(idShort)+'</span></div>'+
+        '<div><span class="cl-k">attached to LLM</span><span class="cl-v '+(attached?'prov ok':'prov uncal')+'">'+(attached?'yes':'no')+'</span></div>'+
+      '</div>'+
+    '</div>'
+  );
 }
 
 /* ---------- live empty state + command helper ---------- */
@@ -154,7 +209,11 @@ function aggregateView(){
   wrap.appendChild(d);
 
   if(live){
-    wrap.appendChild(htmlEl('<h1 class="view-title">Live Today</h1><p class="subtitle">Select a live call from the rail to open its full evidence view.</p>'));
+    var liveTitle = CLINIC ? "Live Clinic Agent" : "Live Today";
+    var liveSub = CLINIC
+      ? "Live calls from the Aarogya appointment agent. <b>LIVE · UNCALIBRATED</b> — no human label or κ applies. Frozen 46-call calibration stays separate as the methodology proof."
+      : "Select a live call from the rail to open its full evidence view.";
+    wrap.appendChild(htmlEl('<h1 class="view-title">'+liveTitle+'</h1><p class="subtitle">'+liveSub+'</p>'));
     if(!LIVE.live || liveCalls().length===0){
       wrap.appendChild(htmlEl('<div class="section"><h2>No live calls yet</h2><p class="caption" style="border:0;padding:0;margin:0">Use the execution-id helper in the left rail to generate the ingest command, then re-open Live Today.</p></div>'));
       return wrap;
@@ -391,6 +450,12 @@ function render(){
 }
 
 function init(){
+  if(CLINIC){
+    var ll = $("#mode-live-label"); if(ll) ll.textContent = "Live Clinic Agent";
+    // Open straight to the live lane when the clinic sidecar is present — this is the demo surface.
+    state.mode = "live";
+    if(BEFORE_ID) state.selected = BEFORE_ID;     // pre-open the before-improvement call
+  }
   $("#mode-frozen").onclick=function(){ state.mode="frozen"; state.selected=null; render(); };
   $("#mode-live").onclick=function(){ state.mode="live"; state.selected=null; render(); };
   $("#search").addEventListener("input", function(e){ state.q=e.target.value; renderRail(); });

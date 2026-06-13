@@ -17,7 +17,48 @@ touches frozen artifacts.
 > number not in a committed artifact. Live calls are a separate `LIVE · UNCALIBRATED` lane. When I type
 > `explain <topic>` spawn the explainer agent. Start by reading the files and telling me my current next action.
 
+## 🎯 RUBRIC REORIENTATION (Jun 13, from hackathon.md — OVERRIDES prior submission assumptions)
+**The deliverable is a WORKING BOLNA VOICE AGENT, scored + tested live. VoiceForge = the Scale-Up
+criterion + proof-of-quality, NOT the submission.** Schedule corrected: 10:30 build · **11:45 submission
+link · 2:00 PM HARD deadline** (submit: live agent link + problem statement + target metric + backup
+recording) · 2:45 Top-10 · 3:00–4:30 Sprint-2 · 4:40–6:30 **3-MIN demos** (Problem→Workflow→Live Agent→Impact).
+Rubric (5×20): Problem Applicability · Cartesia+Bolna Usage · Multilinguality · **Scale-Up (VoiceForge's win)** ·
+Agent Quality (judges CALL IT LIVE).
+
+**AGENT-FIRST priority (agent = 4 of 5 criteria; VoiceForge = the Impact/Scale-Up beat):**
+1. LOCK problem statement (4 Qs) — recommend **inbound restaurant table-booking agent, Hinglish** (matches
+   existing agent + cmd_hi data; metric = booking-completion rate, which VoiceForge measures).
+2. Credits: find Buddy, top up (mandatory).
+3. Build/polish the Bolna agent (7 steps): system prompt (identity/objective/paths/guardrails/exit) ·
+   Cartesia voice (deliberate) · multilingual (Hindi+English+Hinglish mid-call switch) · KB · guardrails.
+4. Test 5 scenarios (happy/confused/refusal/interruption/out-of-scope) — these ARE the live calls.
+5. Feed those calls → VoiceForge (ingest_live+judge_live) → /platform Live Today = the measured Impact.
+6. Submit by 2:00: agent link + problem + metric + backup recording (record early).
+**Discipline: AGENT first, VoiceForge second. Don't over-polish the eval lab — the live test scores the agent.**
+
 ## INBOX (Spike writes here — newest on top)
+- **[DONE] Final clinic agent created.** `Aarogya Clinic & Diagnostics — Aarav`,
+  agent ID `cb7dee37-fe1b-43fb-a669-4f56a46eeb46`, Bolna status `processed`.
+  Cartesia Devansh matches the male persona; Hindi + English/Hinglish; processed
+  knowledge base attached. Phone requires exactly 10 digits; home collection
+  requires an address.
+- **[DONE] First live call ingested.** Execution
+  `a0f508ad-c1af-4b1b-981e-bea87f4648df` exposed the original persona,
+  phone-length, and missing-address defects; all three are repaired in the final
+  agent. The call remains preserved as an honest before-improvement example.
+  Hindi+English/Hinglish, Cartesia Devansh on both language paths, 13 structured
+  appointment/safety fields. Open `docs/AGENT_READY.md`; next action is five
+  builder test calls, then ingest each execution into Live Today.
+- **[ACTIONED] Bolna API research (docs/BOLNA_API_NOTES.md).** ✅ ingest_live.fetch_raw MATCHES the real
+  API (GET /executions/{id} + /log, Bearer auth) — first real execution ID will just work. Outbound =
+  POST /call (agent_id + recipient_phone_number; vars in `user_data`). Fixed fetch_latest → real endpoint
+  GET /v2/agent/{id}/executions?page_size=1&page_number=1, agent id from $BOLNA_AGENT_ID; selftests green.
+  ⚠️ **HONESTY: Bolna gives NO interruption/barge-in field and NO per-turn timestamps** (transcript = flat
+  string; timing only reconstructable from /log event times). → For LIVE calls, VoiceForge scores task
+  outcome + judge dims + cost (+ reconstructed latency), **NOT barge-in**. Do NOT claim live barge-in
+  detection. The "interruption" test scenario = AGENT-recovery (Agent Quality), not a VoiceForge metric.
+  Cartesia stays proven from agent config (GET /v2/agent/{id}), not the call → synthesizer_verified=False.
+  (ingest_live.py + BOLNA_API_NOTES.md uncommitted — fold into the next natural push w/ first live call.)
 - **[ACTIONED ~08:55] Spike steer — problem-first cold open + Bolna/Cartesia multi-agent talking point.**
   Disposition: applied as DELIVERY layer in demo_docs.md (Slide 1 reworked to where-calls-fail → who-I-am →
   thesis; metric-trap Slide 2 is the "why"; multi-agent talking point added to Slide 7 + ROOM_PLAYBOOK).

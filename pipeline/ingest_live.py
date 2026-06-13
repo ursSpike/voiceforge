@@ -22,6 +22,7 @@ out/calls.json, out/analytics.json, out/demo_report_data.json, rubric.yaml is re
 """
 import argparse
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -84,19 +85,23 @@ def fetch_raw(execution_id):
 
 
 def fetch_latest():
-    """--latest: resolve the most-recent execution id, then fetch_raw it.
+    """--latest: resolve the most-recent execution id for the agent, then fetch_raw it.
 
-    TODO (on-site, Buddy-confirm): Bolna's "list executions" endpoint is NOT verified in this repo
-    (the cached proof only hit /v2/agent/<id> and /executions/<id>). Do NOT fabricate it. When the
-    Buddy confirms the real list endpoint + the field that holds the id, fill the two lines below
-    and delete this guard. Until then --latest refuses rather than guess."""
-    # AGENT_ID = "199b03e7-06c6-40e5-8741-37c5c9598061"  # the Cartesia agent (from the cached call)
-    # listing = _get_json(f"/agent/{AGENT_ID}/executions?limit=1")   # <-- CONFIRM path + query
-    # execution_id = listing["data"][0]["id"]                        # <-- CONFIRM id field
-    # return fetch_raw(execution_id)
-    sys.exit("--latest is a documented stub: the Bolna list-executions endpoint is unverified in "
-             "this repo. On-site, have the Buddy confirm the endpoint, fill fetch_latest(), then "
-             "run with the explicit id instead:  --execution <id>")
+    Endpoint verified against the Bolna docs (docs/BOLNA_API_NOTES.md):
+      GET /v2/agent/{agent_id}/executions?page_size=1&page_number=1  ->  data[0]["id"]
+    The agent id comes from $BOLNA_AGENT_ID — set it to TODAY's agent (not the old cached one).
+    CAVEAT: the ordering of data[] is undocumented; confirm with the Buddy that data[0] is the newest.
+    If unsure, just use  --execution <id>  with the id Bolna shows you (always unambiguous)."""
+    import os
+    agent_id = os.environ.get("BOLNA_AGENT_ID")
+    if not agent_id:
+        sys.exit("--latest needs $BOLNA_AGENT_ID set to today's agent id. "
+                 "Either `export BOLNA_AGENT_ID=<id>` or use the explicit `--execution <id>`.")
+    listing = _get_json(f"/v2/agent/{agent_id}/executions?page_size=1&page_number=1")
+    rows = listing.get("data") or []
+    if not rows:
+        sys.exit(f"no executions found for agent {agent_id} (make a call first, or use --execution <id>).")
+    return fetch_raw(rows[0]["id"])  # data[0] assumed newest — verify ordering with the Buddy
 
 
 def normalize_live(raw_payload, execution_id):
@@ -205,12 +210,14 @@ def selftest():
               and _no_cid(record["outcome"]) == _no_cid(prod_rec["outcome"]),
               "scorecard/signals/cost/outcome IDENTICAL to production build_record (modulo namespaced call_id)")
 
-        # --latest is an honest stub (refuses, never fabricates an endpoint)
+        # --latest needs $BOLNA_AGENT_ID; with it unset, it refuses cleanly (no network, no fabrication)
         import subprocess
+        env = {k: v for k, v in os.environ.items() if k != "BOLNA_AGENT_ID"}
         r = subprocess.run([sys.executable, str(ROOT / "pipeline" / "ingest_live.py"), "--latest"],
-                           capture_output=True, text=True)
-        check(r.returncode != 0 and "stub" in (r.stdout + r.stderr).lower(),
-              "--latest refuses (documented stub, no fabricated endpoint)")
+                           capture_output=True, text=True, env=env)
+        out = (r.stdout + r.stderr).lower()
+        check(r.returncode != 0 and "bolna_agent_id" in out and "execution" in out,
+              "--latest without $BOLNA_AGENT_ID refuses cleanly (points to --execution; no network)")
 
     after = {f: hashlib.sha256((ROOT / f).read_bytes()).hexdigest() for f in before}
     check(before == after, f"all {len(before)} frozen files byte-identical after selftest")
@@ -226,7 +233,7 @@ def main():
                     "Network modes (--execution/--latest) require BOLNA_API_KEY; --selftest is offline.")
     g = ap.add_mutually_exclusive_group(required=True)
     g.add_argument("--execution", metavar="ID", help="fetch + ingest this Bolna execution id")
-    g.add_argument("--latest", action="store_true", help="most-recent execution (documented stub — see fetch_latest)")
+    g.add_argument("--latest", action="store_true", help="most-recent execution for $BOLNA_AGENT_ID (verify ordering with Buddy)")
     g.add_argument("--selftest", action="store_true", help="OFFLINE replay of the cached payload (no network)")
     args = ap.parse_args()
 

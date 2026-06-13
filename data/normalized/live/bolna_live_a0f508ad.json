@@ -1,0 +1,164 @@
+{
+  "call_id": "bolna_live_a0f508ad",
+  "source": "bolna",
+  "language": "hi-en",
+  "stress_profile": "clean",
+  "workflow_type": "appointment_booking",
+  "turns": [
+    {
+      "turn_id": "t1",
+      "speaker": "user",
+      "text": "\u0939\u093e\u0902 \u092e\u0941\u091d\u0947 home sample \u0915\u093e test \u091a\u093e\u0939\u093f\u090f \u0925\u093e",
+      "start_ms": 0,
+      "end_ms": 15952
+    },
+    {
+      "turn_id": "t2",
+      "speaker": "agent",
+      "text": "Aapka naam kya hai?",
+      "start_ms": 17457,
+      "end_ms": 17583
+    },
+    {
+      "turn_id": "t3",
+      "speaker": "user",
+      "text": "\u092e\u0947\u0930\u093e \u0928\u093e\u092e \u0939\u0930\u094d\u0937\u093f\u0924 \u0939\u0948",
+      "start_ms": 17583,
+      "end_ms": 22943
+    },
+    {
+      "turn_id": "t4",
+      "speaker": "agent",
+      "text": "Harshit ji, aapka phone number kya hai?",
+      "start_ms": 23428,
+      "end_ms": 23558
+    },
+    {
+      "turn_id": "t5",
+      "speaker": "user",
+      "text": "\u092e\u0947\u0930\u093e phone number one two three four five nine eight",
+      "start_ms": 23558,
+      "end_ms": 35351
+    },
+    {
+      "turn_id": "t6",
+      "speaker": "agent",
+      "text": "Harshit ji, phone number confirm karna chahti hoon, kya yeh 1234598 hai? Agar poora number hai toh poora batayein.",
+      "start_ms": 36171,
+      "end_ms": 36310
+    },
+    {
+      "turn_id": "t7",
+      "speaker": "user",
+      "text": "seven double one",
+      "start_ms": 36310,
+      "end_ms": 38000
+    },
+    {
+      "turn_id": "t8",
+      "speaker": "agent",
+      "text": "Harshit ji, aapka phone number 12345987 711 hai kya?",
+      "start_ms": 38531,
+      "end_ms": 38643
+    },
+    {
+      "turn_id": "t9",
+      "speaker": "user",
+      "text": "\u0939\u093e\u0902 \u091c\u0940 \u0939\u094b \u0930\u0939\u0940 \u0939\u0948",
+      "start_ms": 38643,
+      "end_ms": 51147
+    },
+    {
+      "turn_id": "t10",
+      "speaker": "agent",
+      "text": "Home sample collection ke liye kaunsa test chahiye?",
+      "start_ms": 51685,
+      "end_ms": 51808
+    },
+    {
+      "turn_id": "t11",
+      "speaker": "user",
+      "text": "\u092e\u0941\u091d\u0947 blood test \u0914\u0930 urine test \u091a\u093e\u0939\u093f\u090f",
+      "start_ms": 51808,
+      "end_ms": 60991
+    },
+    {
+      "turn_id": "t12",
+      "speaker": "agent",
+      "text": "Harshit ji, aapke home sample collection ke liye blood test aur urine test chahiye. Aapka preferred date kya hai?",
+      "start_ms": 61659,
+      "end_ms": 61792
+    },
+    {
+      "turn_id": "t13",
+      "speaker": "user",
+      "text": "\u0939\u093e\u0902 \u091c\u0940 \u092e\u0947\u0930\u093e preferred date fifteenth \u091c\u0942\u0928 \u0939\u0948",
+      "start_ms": 61792,
+      "end_ms": 73543
+    },
+    {
+      "turn_id": "t14",
+      "speaker": "agent",
+      "text": "Harshit ji, aapka preferred date 15 June hai. Aapko kis time slot mein sample collection chahiye?",
+      "start_ms": 79553,
+      "end_ms": 79672
+    },
+    {
+      "turn_id": "t15",
+      "speaker": "user",
+      "text": "\u0936\u093e\u092e \u0915\u094b \u091b\u0939 \u092c\u091c\u0947 \u0939\u094b \u0938\u0915\u0924\u093e \u0939\u0948",
+      "start_ms": 79672,
+      "end_ms": 89545
+    },
+    {
+      "turn_id": "t16",
+      "speaker": "agent",
+      "text": "Harshit ji, aapka preferred time 6 baje shaam hai. Kya main aapke liye home sample collection appointment confirm kar doon? Naam: Harshit, Phone: 12345987711, Service: Blood test aur urine test, Date: 15 June, Time: 6 PM.",
+      "start_ms": 90924,
+      "end_ms": 91053
+    },
+    {
+      "turn_id": "t17",
+      "speaker": "user",
+      "text": "\u0920\u0940\u0915 \u0939\u0948 \u0915\u0930 \u0926\u0940\u091c\u093f\u090f",
+      "start_ms": 91053,
+      "end_ms": 110171
+    },
+    {
+      "turn_id": "t18",
+      "speaker": "agent",
+      "text": "Harshit ji, main aapka home sample collection appointment confirm nahi kar sakti, lekin aapke details record kar liye hain. Hamara clinic staff aapki request verify karke aapse sampark karega. Dhanyavaad!",
+      "start_ms": 111608,
+      "end_ms": 111757
+    },
+    {
+      "turn_id": "t19",
+      "speaker": "user",
+      "text": "\u0905\u091a\u094d\u091b\u093e \u0920\u0940\u0915 \u0939\u0948 \u091c\u0940 thank you",
+      "start_ms": 111757,
+      "end_ms": 124744
+    },
+    {
+      "turn_id": "t20",
+      "speaker": "agent",
+      "text": "Aapka swagat hai, Harshit ji! Aapka din shubh ho. Namaste!",
+      "start_ms": 125895,
+      "end_ms": 126011
+    }
+  ],
+  "audio_path": null,
+  "metadata": {
+    "provider": "vobiz",
+    "execution_id": "a0f508ad-c1af-4b1b-981e-bea87f4648df",
+    "agent_id": "31e8390e-c003-4947-a728-bd9dc974118c",
+    "total_cost_cents": 15.42,
+    "timing_source": "log component created_at diffs (SPEC \u00a77.G); overlap NOT computed (web-call)",
+    "note": "LIVE on-site call; UNCALIBRATED, not part of the frozen 46-call calibration set. Synthesizer provider UNVERIFIED \u2014 validate via pipeline/cache_bolna_cartesia_proof.py before claiming Cartesia."
+  },
+  "provenance": {
+    "slice": "live_today",
+    "calibrated": false,
+    "label": "LIVE \u00b7 UNCALIBRATED",
+    "synthesizer_verified": false
+  }
+}

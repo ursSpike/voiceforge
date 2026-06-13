@@ -1,0 +1,102 @@
+{
+  "run": {
+    "mode": "live",
+    "status": "complete",
+    "model": "gemini-3.1-flash-lite",
+    "temperature": 0,
+    "rubric_hash": "c1cc81415e230e74",
+    "judge_prompt_hash": "079d57698a629192",
+    "n_calls": 1,
+    "failures": 0,
+    "failed_calls": [],
+    "calibrated": false,
+    "binary_rule": "dedicated outcome judgment per call (temperature 0, JSON, evidence-cited); label in {success,fail}; same question the blind annotator answered. NOT derived from the 5 semantic dims; kappa calibrates THIS judgment only \u2014 the semantic dims remain uncalibrated diagnostics.",
+    "note": "uncalibrated \u2014 live calls have no human gold labels; no kappa is computed for this slice. Semantic dims are evidence-cited diagnostics only.",
+    "generated_at": "2026-06-13T12:34:31+05:30"
+  },
+  "calls": {
+    "bolna_live_a0f508ad": {
+      "dims": [
+        {
+          "name": "language_match",
+          "type": "judge",
+          "score": 1.0,
+          "reason": "The agent consistently uses Hinglish, mirroring the user's code-switching pattern throughout the conversation to ensure clear communication.",
+          "evidence_turn_ids": [
+            "t2",
+            "t4",
+            "t6",
+            "t8",
+            "t10",
+            "t12",
+            "t14",
+            "t16",
+            "t18",
+            "t20"
+          ],
+          "provenance": "uncalibrated"
+        },
+        {
+          "name": "faithfulness",
+          "type": "judge",
+          "score": 1.0,
+          "reason": "The agent accurately captured and repeated all user-provided information including name, phone number, tests, date, and time without any hallucinations.",
+          "evidence_turn_ids": [
+            "t2",
+            "t4",
+            "t6",
+            "t8",
+            "t10",
+            "t12",
+            "t14",
+            "t16"
+          ],
+          "provenance": "uncalibrated"
+        },
+        {
+          "name": "repair_quality",
+          "type": "judge",
+          "score": 1.0,
+          "reason": "The agent correctly identified that the user's initial phone number input was incomplete and asked a targeted follow-up to obtain the remaining digits.",
+          "evidence_turn_ids": [
+            "t5",
+            "t6"
+          ],
+          "provenance": "uncalibrated"
+        },
+        {
+          "name": "conciseness",
+          "type": "judge",
+          "score": 0.7,
+          "reason": "The agent is generally efficient, but turn 6 is unnecessarily wordy and confusing when asking for phone number confirmation.",
+          "evidence_turn_ids": [
+            "t6"
+          ],
+          "provenance": "uncalibrated"
+        },
+        {
+          "name": "user_frustration",
+          "type": "judge",
+          "score": 1.0,
+          "reason": "The user remained cooperative and calm throughout the interaction, successfully providing all necessary details without any signs of irritation or repair loops.",
+          "evidence_turn_ids": [
+            "t17",
+            "t19"
+          ],
+          "provenance": "uncalibrated"
+        }
+      ],
+      "binary": {
+        "label": "success",
+        "reason": "The agent successfully collected all necessary information for the home sample collection request and informed the user that the clinic staff would follow up to finalize the appointment.",
+        "evidence_turn_ids": [
+          "t16",
+          "t17",
+          "t18"
+        ],
+        "rule": "dedicated outcome judgment per call (temperature 0, JSON, evidence-cited); label in {success,fail}; same question the blind annotator answered. NOT derived from the 5 semantic dims; kappa calibrates THIS judgment only \u2014 the semantic dims remain uncalibrated diagnostics.",
+        "provenance": "pending calibration (binary)"
+      }
+    }
+  }
+}

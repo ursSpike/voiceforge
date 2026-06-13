@@ -1,0 +1,67 @@
+name: Deploy VoiceForge surfaces to GitHub Pages
+
+# Assembles a static _site/ from out/surface/ (root) + out/platform/ (subdir),
+# uploads it as the Pages artifact, then deploys. Triggered on push to main and
+# manually via workflow_dispatch (so Spike can re-deploy without a commit).
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  pages: write
+  id-token: write
+  contents: read
+
+# Allow only one concurrent Pages deployment. Don't cancel in-progress runs —
+# we want a deploy that's already publishing to finish cleanly.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Assemble _site/
+        run: |
+          set -euo pipefail
+          mkdir -p _site/platform
+          # Presentation at site root
+          if [ ! -f out/surface/index.html ]; then
+            echo "::error::out/surface/index.html missing — run pipeline/build_surface.py before pushing." >&2
+            exit 1
+          fi
+          cp -R out/surface/. _site/
+          # Operator platform under /platform/
+          if [ ! -f out/platform/index.html ]; then
+            echo "::error::out/platform/index.html missing — run pipeline/build_platform.py before pushing." >&2
+            exit 1
+          fi
+          cp -R out/platform/. _site/platform/
+          # .nojekyll so Pages serves files/dirs starting with _ verbatim.
+          touch _site/.nojekyll
+          echo "Assembled _site/:"
+          ls -la _site
+          echo "Assembled _site/platform/:"
+          ls -la _site/platform
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
