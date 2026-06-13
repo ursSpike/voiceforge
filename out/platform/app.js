@@ -172,13 +172,11 @@ function clinicKbCard(){
 
 /* ---------- live-call trigger card (operator-backend only — graceful on static Pages) ---------- */
 function clinicCallTriggerCard(){
-  var savedBackend = (function(){ try { return localStorage.getItem("vf_backend") || ""; } catch(e){ return ""; } })();
   var el = htmlEl(
     '<div class="cl-card cl-trigger">'+
       '<div class="cl-head"><span class="cl-kicker">Try the agent</span><span class="cl-prov uncal">LIVE</span></div>'+
       '<div class="cl-title">Outbound call to your phone</div>'+
       '<p class="cl-trigger-note">Enter your phone in E.164 (<code>+91…</code>). Bolna dials you; Aarav speaks.</p>'+
-      '<input class="cl-input" id="cl-backend" type="text" placeholder="backend URL (e.g. https://xxxx.lhr.life) — saved locally" value="'+esc(savedBackend)+'" autocomplete="off">'+
       '<input class="cl-input" id="cl-phone" type="tel" placeholder="+91 98765 43210" autocomplete="off">'+
       '<button class="cl-btn" id="cl-start">Start live call</button>'+
       '<div class="cl-status" id="cl-status" hidden></div>'+
@@ -199,20 +197,13 @@ function wireCallTrigger(){
     status.className = "cl-status " + (kind || "");
     status.innerHTML = html;
   }
-  var backendInput = document.getElementById("cl-backend");
-  function backendBase(){
-    var v = (backendInput && backendInput.value || "").trim().replace(/\/$/,"");
-    try { if(v) localStorage.setItem("vf_backend", v); } catch(e){}
-    return v || "";  // empty = same-origin (works on localhost serve_surface)
-  }
   btn.onclick = async function(){
     var phone = (input.value || "").trim();
     if(!phone){ show("Enter a phone number first.", "err"); return; }
-    var base = backendBase();
     btn.disabled = true;
     show("Starting call…", "info");
     try {
-      var r = await fetch(base + "/api/start_call", {
+      var r = await fetch("/api/start_call", {
         method: "POST", headers: {"Content-Type":"application/json"},
         body: JSON.stringify({phone: phone})
       });
@@ -231,7 +222,7 @@ function wireCallTrigger(){
         return;
       }
       var execId = data.execution_id;
-      show('Call queued · exec <span class="mono">'+esc(execId.slice(0,8))+'…</span> · your phone should ring shortly. After you hang up, click below.', "ok");
+      show('Call queued · exec <span class="mono">'+esc(execId)+'</span> · your phone should ring shortly. After you hang up, ingest the result below (works locally; on the deployed site it prints the command to run).', "ok");
       var go = document.createElement("button");
       go.className = "cl-btn cl-btn-secondary";
       go.textContent = "Ingest + judge this call";
@@ -239,10 +230,15 @@ function wireCallTrigger(){
         go.disabled = true;
         show("Ingesting + judging… (10–30s)", "info");
         try {
-          var r2 = await fetch(backendBase() + "/api/ingest_and_judge", {
+          var r2 = await fetch("/api/ingest_and_judge", {
             method: "POST", headers: {"Content-Type":"application/json"},
             body: JSON.stringify({execution_id: execId})
           });
+          if(r2.status === 404){
+            // Deployed (Netlify) — ingest needs Python; show the command instead.
+            show('Ingest runs locally. Paste in your terminal:<br><code>python pipeline/ingest_live.py --execution '+esc(execId)+' &amp;&amp; python pipeline/judge_live.py</code><br>Then refresh this page.', "warn");
+            return;
+          }
           var d2 = await r2.json();
           if(!r2.ok || !d2.ok){
             show("Pipeline failed: " + esc(d2.error || ("HTTP "+r2.status)) + ". Try again or run locally.", "err");

@@ -3,6 +3,7 @@
 
 [build]
   publish = "out/surface"
+  functions = "netlify/functions"
 
 [[redirects]]
   from = "/platform"
