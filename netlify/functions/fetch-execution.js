@@ -30,15 +30,21 @@ export default async (req) => {
     ]);
     const execution = exR.ok ? await exR.json() : { _error: `exec_${exR.status}` };
     const log = logR.ok ? await logR.json() : { _error: `log_${logR.status}` };
-    // Reconstruct ordered turns from /log component events (assistant/user) for inline display.
+    // Reconstruct ordered turns from /log component events.
+    // Real Bolna shape: data is a STRING; component=synthesizer (response) → agent spoken text;
+    // component=transcriber (response) → user spoken text. De-dup adjacent same-role same-text.
     const events = Array.isArray(log.data) ? log.data : [];
     const turns = [];
     for (const e of events) {
-      const role = e.component === "asr" || e.type === "user" ? "user"
-                 : e.component === "synthesizer" || e.type === "assistant" ? "agent"
-                 : null;
-      const text = (e.data && (e.data.text || e.data.transcript || e.data.content)) || "";
-      if (role && text) turns.push({ role, text, t: e.created_at });
+      const data = typeof e.data === "string" ? e.data.trim() : "";
+      if (!data) continue;
+      let role = null;
+      if (e.component === "synthesizer" && e.type === "response") role = "agent";
+      else if (e.component === "transcriber" && e.type === "response") role = "user";
+      else continue;
+      const last = turns[turns.length - 1];
+      if (last && last.role === role && last.text === data) continue;
+      turns.push({ role, text: data, t: e.created_at });
     }
     return new Response(JSON.stringify({
       execution_id: id,
