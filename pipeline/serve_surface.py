@@ -179,9 +179,11 @@ class Surface(BaseHTTPRequestHandler):
         # /platform/live MUST be checked before generic /platform/<asset>.
         if p == "/platform/live":
             return self._send(200, json.dumps(_read_live()), CTYPES[".json"])
-        if p == "/platform" or p == "/platform/":
-            # Prefer the real operator workspace; fall back to the audited
-            # dashboard+live-panel if the workspace hasn't been built yet.
+        if p == "/platform":
+            # Trailing slash matters: relative asset paths (platform_data.js etc.) resolve against
+            # the current URL's directory. Without the slash, the browser looks at the parent.
+            self.send_response(302); self.send_header("Location", "/platform/"); self.end_headers(); return
+        if p == "/platform/":
             if (PLATFORM / "index.html").is_file():
                 return self._send_platform_file("index.html")
             if DASHBOARD.exists():
