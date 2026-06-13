@@ -56,3 +56,18 @@ personal text in dpo_export.py history). IF submission requires a public repo:
 
 **Sequencing: TONIGHT after Batch 1 lands (~20 min of agent/automation work + Spike's privacy call).
 The hygiene script is also rerun as the last step before the 13:45 push.**
+
+## PLATINUM AMENDMENTS (from platinum.md)
+- **Push cadence simplified (Spike's call):** 3–4 natural pushes total during Sprint 1 — not timed
+  automation. Nothing auto-pushes: the ship script PROMPTS and Spike confirms. Suggested natural
+  moments: (1) morning arrival state, (2) first live calls ingested, (3) live calls judged + surface
+  updated, (4) 13:35-40 final pre-submission + tag `submission-jun13`.
+- **Judging freeze:** no pushes 1:45–2:45 PM (clone window). Sprint 2 resumes on the SAME repo
+  (1:45 is a snapshot, not a lock).
+- **REJECTED from platinum (with reasons recorded):** fresh-repo-at-10:30 + staged "reveal" pushes +
+  re-authoring AI-assisted core files to disguise provenance. Everyone had the 7-day window (goldmine's
+  own conclusion); our differentiator IS auditability — a repo born at 10:30 contradicts the thesis in
+  front of founding engineers; the existing transparent history reads senior. Keep the honest history.
+- **Attribution preference (Spike decides):** going FORWARD, commits can drop the AI co-author line via
+  a CLAUDE.md commit-guidelines preference — legitimate repo-owner choice, applied from the next commit
+  if Spike says yes. No history rewrite either way.
