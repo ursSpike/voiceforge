@@ -1,33 +1,27 @@
-# Netlify deploy — mirrors .github/workflows/pages.yml
-# Assembles out/surface/ → site root and out/platform/ → /platform/.
-# Static only; the live-call trigger backend lives on a tunneled localhost
-# (see docs/HOSTING.md). All built artifacts are committed; build just copies.
+# Netlify deploy — publish straight from out/surface/.
+# The presentation files live at out/surface/{index.html,app.js,styles.css,design_data.js}.
+# The operator workspace lives at out/platform/{index.html,app.js,styles.css,platform_data.js}.
+# Build step copies out/platform/ into out/surface/platform/ so a single publish root works
+# for BOTH routes with proper relative asset paths.
 
 [build]
-  command = "mkdir -p _site/platform && cp -R out/surface/. _site/ && cp -R out/platform/. _site/platform/ && touch _site/.nojekyll && cp -f out/dashboard.html _site/dashboard.html 2>/dev/null || true"
-  publish = "_site"
+  command = "rm -rf out/surface/platform && cp -R out/platform out/surface/platform && cp -f out/dashboard.html out/surface/dashboard.html 2>/dev/null || true"
+  publish = "out/surface"
 
-# Friendly trailing-slash for /platform — matches serve_surface.py's redirect.
+# Friendly trailing-slash for /platform (so relative asset paths resolve).
 [[redirects]]
   from = "/platform"
   to = "/platform/"
   status = 301
-
-# SPA-style fallback only for completely missing paths — keeps the index reachable.
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 404
-
-# CORS headers for any /api/* responses (Netlify is static here; this is a safety
-# header for future serverless functions / Netlify Edge).
-[[headers]]
-  for = "/*"
-  [headers.values]
-    X-Content-Type-Options = "nosniff"
-    Referrer-Policy = "no-referrer-when-downgrade"
+  force = true
 
 [[headers]]
   for = "/platform/platform_data.js"
   [headers.values]
     Cache-Control = "no-store"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "no-referrer-when-downgrade"
