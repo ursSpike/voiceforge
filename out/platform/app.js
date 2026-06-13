@@ -183,9 +183,14 @@ function clinicKbCard(){
 function clinicCallTriggerCard(){
   var el = htmlEl(
     '<div class="cl-card cl-trigger">'+
-      '<div class="cl-head"><span class="cl-kicker">Test the agent · LIVE</span></div>'+
-      '<div class="cl-title">Aarav books your clinic appointment</div>'+
-      '<p class="cl-trigger-note">Enter your phone with country code (<code>+91…</code>). The agent will call you in Hinglish — try booking a blood test, switching languages, or asking for medical advice (it must refuse safely).</p>'+
+      '<div class="cl-head"><span class="cl-kicker">Test the agent</span><span class="cl-prov uncal">LIVE</span></div>'+
+      '<div class="cl-title">Aarav · Aarogya Clinic appointment scheduler</div>'+
+      '<ol class="cl-steps">'+
+        '<li>Type your phone with <code>+91…</code> below.</li>'+
+        '<li>Tap <b>Call my phone</b> · your phone rings in ~10s.</li>'+
+        '<li>Try one: book a blood test · switch English↔Hindi mid-call · ask for medical advice (the agent must refuse and offer a consultation).</li>'+
+        '<li>Hang up. Open this call from the list to see transcript, extracted fields, signals, and judge evidence.</li>'+
+      '</ol>'+
       '<input class="cl-input" id="cl-phone" type="tel" placeholder="+91 98765 43210" autocomplete="off">'+
       '<button class="cl-btn" id="cl-start">Call my phone</button>'+
       '<div class="cl-status" id="cl-status" hidden></div>'+
