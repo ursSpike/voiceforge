@@ -8,7 +8,6 @@
   from = "/platform"
   to = "/platform/"
   status = 301
-  force = true
 
 [[headers]]
   for = "/platform/platform_data.js"
