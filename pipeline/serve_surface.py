@@ -203,6 +203,98 @@ class Surface(BaseHTTPRequestHandler):
             return self._send(204)
         return self._send(404, "not found")
 
+    # ---- POST: /api/start_call (proxy POST /call to Bolna) + /api/ingest_and_judge ----
+    def do_POST(self):
+        p = urlparse(self.path).path
+        if p == "/api/start_call":
+            return self._api_start_call()
+        if p == "/api/ingest_and_judge":
+            return self._api_ingest()
+        return self._send(404, json.dumps({"error": "not found"}), CTYPES[".json"])
+
+    def _read_body(self):
+        n = int(self.headers.get("Content-Length") or 0)
+        raw = self.rfile.read(n) if n else b""
+        try:
+            return json.loads(raw or b"{}")
+        except Exception:
+            return {}
+
+    def _api_start_call(self):
+        """POST /api/start_call {phone: '+91...'}.
+
+        Proxies to Bolna POST /call with the agent id from $BOLNA_AGENT_ID and the API key from
+        $BOLNA_API_KEY (env, never the browser). Returns {execution_id} or {error}.
+        Honest demo-safe: refuses if env is missing — does NOT fake anything.
+        """
+        import os
+        import urllib.error
+        import urllib.request
+
+        body = self._read_body()
+        phone = (body.get("phone") or "").strip()
+        if not phone:
+            return self._send(400, json.dumps({"error": "phone required"}), CTYPES[".json"])
+        key = os.environ.get("BOLNA_API_KEY")
+        agent_id = os.environ.get("BOLNA_AGENT_ID") or "cb7dee37-fe1b-43fb-a669-4f56a46eeb46"
+        if not key:
+            return self._send(503, json.dumps({"error": "BOLNA_API_KEY not set on this host — run locally"}), CTYPES[".json"])
+        payload = json.dumps({"agent_id": agent_id, "recipient_phone_number": phone}).encode()
+        req = urllib.request.Request(
+            "https://api.bolna.ai/call", data=payload, method="POST",
+            headers={"Authorization": f"Bearer {key}", "Content-Type": "application/json"},
+        )
+        try:
+            with urllib.request.urlopen(req, timeout=15) as r:
+                resp = json.loads(r.read().decode())
+            return self._send(200, json.dumps({
+                "execution_id": resp.get("execution_id"),
+                "status": resp.get("status"),
+                "message": resp.get("message"),
+            }), CTYPES[".json"])
+        except urllib.error.HTTPError as e:
+            return self._send(e.code, json.dumps({"error": f"bolna_http_{e.code}", "detail": e.read().decode("utf-8", "replace")[:300]}), CTYPES[".json"])
+        except Exception as e:
+            return self._send(502, json.dumps({"error": "bolna_request_failed", "detail": str(e)[:200]}), CTYPES[".json"])
+
+    def _api_ingest(self):
+        """POST /api/ingest_and_judge {execution_id}.
+
+        Runs `pipeline/ingest_live.py --execution <id>` then `pipeline/judge_live.py` then rebuilds
+        the operator surface so the new call appears in /platform. Returns success/error.
+        """
+        import os
+        import subprocess
+        body = self._read_body()
+        exec_id = (body.get("execution_id") or "").strip()
+        if not exec_id:
+            return self._send(400, json.dumps({"error": "execution_id required"}), CTYPES[".json"])
+        py = os.environ.get("PYTHON", str((SURFACE.parent.parent / ".venv" / "bin" / "python")))
+        if not Path(py).exists():
+            py = "python3"
+        env = os.environ.copy()
+        try:
+            r1 = subprocess.run([py, "pipeline/ingest_live.py", "--execution", exec_id],
+                                capture_output=True, text=True, env=env, timeout=60,
+                                cwd=str(SURFACE.parent.parent))
+            r2 = subprocess.run([py, "pipeline/judge_live.py"],
+                                capture_output=True, text=True, env=env, timeout=120,
+                                cwd=str(SURFACE.parent.parent))
+            r3 = subprocess.run([py, "pipeline/build_platform.py"],
+                                capture_output=True, text=True, env=env, timeout=30,
+                                cwd=str(SURFACE.parent.parent))
+            ok = (r1.returncode == 0 and r2.returncode == 0 and r3.returncode == 0)
+            return self._send(200 if ok else 500, json.dumps({
+                "ok": ok, "execution_id": exec_id,
+                "ingest_rc": r1.returncode, "judge_rc": r2.returncode, "build_rc": r3.returncode,
+                "ingest_tail": r1.stdout.splitlines()[-1:] + r1.stderr.splitlines()[-1:],
+                "judge_tail": r2.stdout.splitlines()[-1:] + r2.stderr.splitlines()[-1:],
+            }), CTYPES[".json"])
+        except subprocess.TimeoutExpired:
+            return self._send(504, json.dumps({"error": "ingest_or_judge_timeout"}), CTYPES[".json"])
+        except Exception as e:
+            return self._send(500, json.dumps({"error": "pipeline_failed", "detail": str(e)[:200]}), CTYPES[".json"])
+
     def log_message(self, *a):  # quiet
         pass
 

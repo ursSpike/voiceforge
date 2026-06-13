@@ -310,6 +310,21 @@ body{font-family:var(--sans);color:var(--ink);background:var(--paper)}
 .cl-card .cl-v.prov.ok{color:var(--ok)}
 .cl-card .cl-v.prov.uncal{color:var(--prov-uncal)}
 .before-tag{font-size:8.5px;font-weight:800;letter-spacing:.08em;color:#fff;background:var(--prov-uncal);padding:1px 5px;border-radius:4px;margin-left:4px}
+.cl-trigger{border-left:3px solid var(--bad)}
+.cl-trigger-note{margin:0 0 8px;font-size:11px;color:var(--ink-soft);line-height:1.4}
+.cl-trigger-note code{font-family:var(--mono);font-size:10.5px;background:var(--paper-deep);padding:1px 4px;border-radius:3px}
+.cl-input{width:100%;box-sizing:border-box;font:13px/1.4 var(--mono);padding:7px 9px;border:1px solid var(--line);border-radius:6px;margin-bottom:6px;background:var(--paper)}
+.cl-input:focus{outline:none;border-color:var(--bad)}
+.cl-btn{display:block;width:100%;box-sizing:border-box;font:13px/1 var(--sans);font-weight:700;padding:8px 12px;border:1px solid var(--bad);border-radius:6px;background:var(--bad);color:#fff;cursor:pointer}
+.cl-btn:disabled{opacity:.55;cursor:default}
+.cl-btn-secondary{margin-top:6px;background:var(--card);color:var(--ink);border-color:var(--line)}
+.cl-status{margin-top:8px;font-size:11.5px;line-height:1.45;padding:8px 10px;border-radius:6px;border:1px solid var(--line);background:var(--paper-deep);color:var(--ink-soft)}
+.cl-status.ok{border-color:var(--ok);background:var(--ok-soft);color:var(--ok)}
+.cl-status.warn{border-color:var(--prov-uncal);background:#FBF1DD;color:var(--prov-uncal)}
+.cl-status.err{border-color:var(--bad);background:var(--bad-soft);color:var(--bad)}
+.cl-status .mono{font-family:var(--mono);font-size:11px}
+.cl-status code{font-family:var(--mono);background:rgba(0,0,0,.04);padding:1px 4px;border-radius:3px}
+.cl-status a{color:inherit;text-decoration:underline}
 .live-empty{margin:8px;padding:14px;border:1px dashed var(--bad);border-radius:10px;background:var(--bad-soft)}
 .live-empty h3{margin:0 0 4px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--bad)}
 .live-empty p{margin:0 0 10px;font-size:12px;color:var(--ink-soft);line-height:1.5}
@@ -500,6 +515,7 @@ function renderRail(){
     if(CLINIC){
       list.appendChild(clinicAgentCard());
       list.appendChild(clinicKbCard());
+      list.appendChild(clinicCallTriggerCard());
     }
     var hint=el("div","live-empty");
     hint.style.borderStyle="solid";
@@ -562,6 +578,92 @@ function clinicKbCard(){
       '</div>'+
     '</div>'
   );
+}
+
+/* ---------- live-call trigger card (operator-backend only — graceful on static Pages) ---------- */
+function clinicCallTriggerCard(){
+  var el = htmlEl(
+    '<div class="cl-card cl-trigger">'+
+      '<div class="cl-head"><span class="cl-kicker">Try the agent</span><span class="cl-prov uncal">LIVE</span></div>'+
+      '<div class="cl-title">Outbound call to your phone</div>'+
+      '<p class="cl-trigger-note">Enter your phone in E.164 (<code>+91…</code>). Bolna dials you; Aarav speaks.</p>'+
+      '<input class="cl-input" id="cl-phone" type="tel" placeholder="+91 98765 43210" autocomplete="off">'+
+      '<button class="cl-btn" id="cl-start">Start live call</button>'+
+      '<div class="cl-status" id="cl-status" hidden></div>'+
+    '</div>'
+  );
+  // Wire the button after insertion (the htmlEl returns a node already; the listeners attach immediately).
+  setTimeout(function(){ wireCallTrigger(); }, 0);
+  return el;
+}
+
+function wireCallTrigger(){
+  var btn = document.getElementById("cl-start");
+  var input = document.getElementById("cl-phone");
+  var status = document.getElementById("cl-status");
+  if(!btn || !input || !status) return;
+  function show(html, kind){
+    status.hidden = false;
+    status.className = "cl-status " + (kind || "");
+    status.innerHTML = html;
+  }
+  btn.onclick = async function(){
+    var phone = (input.value || "").trim();
+    if(!phone){ show("Enter a phone number first.", "err"); return; }
+    btn.disabled = true;
+    show("Starting call…", "info");
+    try {
+      var r = await fetch("/api/start_call", {
+        method: "POST", headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({phone: phone})
+      });
+      if(r.status === 503){
+        show("Live trigger needs the operator backend (BOLNA_API_KEY). " +
+             "This static page only renders calls — to actually start one, run the local " +
+             "<code>pipeline/serve_surface.py</code> from the operator console. " +
+             "<a href=\"https://github.com/ursSpike/voiceforge#start-the-platform-locally\" target=\"_blank\">how</a>", "warn");
+        btn.disabled = false;
+        return;
+      }
+      var data = await r.json();
+      if(!r.ok || !data.execution_id){
+        show("Could not start: " + esc(data.error || ("HTTP "+r.status)) + (data.detail?" — "+esc(data.detail).slice(0,140):""), "err");
+        btn.disabled = false;
+        return;
+      }
+      var execId = data.execution_id;
+      show('Call queued · exec <span class="mono">'+esc(execId.slice(0,8))+'…</span> · your phone should ring shortly. After you hang up, click below.', "ok");
+      var go = document.createElement("button");
+      go.className = "cl-btn cl-btn-secondary";
+      go.textContent = "Ingest + judge this call";
+      go.onclick = async function(){
+        go.disabled = true;
+        show("Ingesting + judging… (10–30s)", "info");
+        try {
+          var r2 = await fetch("/api/ingest_and_judge", {
+            method: "POST", headers: {"Content-Type":"application/json"},
+            body: JSON.stringify({execution_id: execId})
+          });
+          var d2 = await r2.json();
+          if(!r2.ok || !d2.ok){
+            show("Pipeline failed: " + esc(d2.error || ("HTTP "+r2.status)) + ". Try again or run locally.", "err");
+            go.disabled = false;
+            return;
+          }
+          show("Done. Reloading workspace…", "ok");
+          setTimeout(function(){ location.reload(); }, 800);
+        } catch(e){
+          show("Pipeline failed: " + esc(String(e)).slice(0,140), "err");
+          go.disabled = false;
+        }
+      };
+      status.appendChild(go);
+    } catch(e){
+      show("Live trigger backend not reachable on this host (static GitHub Pages).<br>" +
+           "On stage Spike runs <code>serve_surface.py</code> locally — clone + run to try.", "warn");
+      btn.disabled = false;
+    }
+  };
 }
 
 /* ---------- live empty state + command helper ---------- */
