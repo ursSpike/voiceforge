@@ -92,7 +92,7 @@ Goal: did the agent COMPLETE the user's task this call (book an appointment, or 
 
 Reply ONLY with strict JSON:
 {"outcome":"success"|"fail","reason":"<one short sentence>","evidence_turn_ids":[<integers from transcript>]}`;
-        const gr = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${gkey}`, {
+        const gr = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${gkey}`, {
           method: "POST", headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             contents: [{ parts: [{ text: prompt }] }],
