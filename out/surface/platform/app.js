@@ -239,17 +239,28 @@ function wireCallTrigger(){
       show('Call queued · exec <span class="mono">'+esc(execId)+'</span> · your phone should ring shortly. After you hang up, ingest the result below (works locally; on the deployed site it prints the command to run).', "ok");
       var go = document.createElement("button");
       go.className = "cl-btn cl-btn-secondary";
-      go.textContent = "Ingest + judge this call";
+      go.textContent = "See call results";
       go.onclick = async function(){
         go.disabled = true;
-        show("Ingesting + judging… (10–30s)", "info");
+        show("Fetching call results…", "info");
         try {
+          // On Netlify (prod): fetch + render inline.
+          var rf = await fetch("/api/fetch_execution", {
+            method: "POST", headers: {"Content-Type":"application/json"},
+            body: JSON.stringify({execution_id: execId})
+          });
+          if(rf.ok){
+            var df = await rf.json();
+            renderLiveExecution(df);
+            show('Call '+esc(execId.slice(0,8))+'… loaded below. To run the full eval pipeline (deterministic signals + judge dims), pull the repo and run<br><code>python pipeline/ingest_live.py --execution '+esc(execId)+' &amp;&amp; python pipeline/judge_live.py</code>', "ok");
+            return;
+          }
+          // Localhost fallback: full ingest+judge.
           var r2 = await fetch("/api/ingest_and_judge", {
             method: "POST", headers: {"Content-Type":"application/json"},
             body: JSON.stringify({execution_id: execId})
           });
           if(r2.status === 404){
-            // Deployed (Netlify) — ingest needs Python; show the command instead.
             show('Ingest runs locally. Paste in your terminal:<br><code>python pipeline/ingest_live.py --execution '+esc(execId)+' &amp;&amp; python pipeline/judge_live.py</code><br>Then refresh this page.', "warn");
             return;
           }
@@ -262,7 +273,7 @@ function wireCallTrigger(){
           show("Done. Reloading workspace…", "ok");
           setTimeout(function(){ location.reload(); }, 800);
         } catch(e){
-          show("Pipeline failed: " + esc(String(e)).slice(0,140), "err");
+          show("Could not fetch results: " + esc(String(e)).slice(0,140), "err");
           go.disabled = false;
         }
       };
@@ -273,6 +284,52 @@ function wireCallTrigger(){
       btn.disabled = false;
     }
   };
+}
+
+/* ---------- inline render of a freshly-fetched live execution (no ingest pipeline needed) ---------- */
+function renderLiveExecution(d){
+  var main = document.getElementById("main");
+  if(!main) return;
+  var turns = (d.turns || []).map(function(t){
+    var who = t.role === "user" ? "user" : "agent";
+    var label = who === "user" ? "USER" : "AARAV";
+    return '<div class="turn '+who+'"><div class="who">'+label+'</div><div class="bubble">'+esc(t.text)+'</div></div>';
+  }).join("");
+  if(!turns){
+    turns = '<div class="placeholder">No turns in /log yet — Bolna may still be processing. Click <b>See call results</b> again in a few seconds.</div>';
+  }
+  var extracted = "";
+  if(d.extracted_data && typeof d.extracted_data === "object"){
+    var rows = [];
+    Object.keys(d.extracted_data).forEach(function(cat){
+      var fields = d.extracted_data[cat] || {};
+      Object.keys(fields).forEach(function(name){
+        var f = fields[name] || {};
+        var val = f.subjective || f.objective || "—";
+        var conf = f.confidence_label || (f.confidence != null ? Math.round(f.confidence*100)+"%" : "");
+        rows.push('<div class="ex-row"><div class="ex-k">'+esc(name)+'</div><div class="ex-v">'+esc(String(val))+'</div><div class="ex-c">'+esc(conf)+'</div></div>');
+      });
+    });
+    if(rows.length){
+      extracted = '<div class="section"><h2>Extracted fields <span class="cl-prov uncal">FROM BOLNA</span></h2><div class="ex-grid">'+rows.join("")+'</div></div>';
+    }
+  }
+  var cost = "";
+  if(d.cost_breakdown){
+    var c = d.cost_breakdown;
+    cost = '<div class="section"><h2>Cost breakdown</h2><pre class="json-mini">'+esc(JSON.stringify(c, null, 2)).slice(0,800)+'</pre></div>';
+  }
+  main.innerHTML =
+    '<div class="view-wrap">'+
+      '<h1 class="view-title">Your call '+esc(d.execution_id.slice(0,8))+'…</h1>'+
+      '<p class="subtitle">Live · transcript and Bolna extractions only. <b>LIVE · UNCALIBRATED</b>. Full deterministic + judge eval requires the local pipeline.</p>'+
+      '<div class="grid2">'+
+        '<div class="section"><h2>Transcript</h2><div class="transcript">'+turns+'</div></div>'+
+        '<div>'+extracted+cost+'</div>'+
+      '</div>'+
+    '</div>';
+  // scroll to it so the tester sees the result instantly
+  main.scrollIntoView({behavior:"smooth", block:"start"});
 }
 
 /* ---------- live empty state + command helper ---------- */

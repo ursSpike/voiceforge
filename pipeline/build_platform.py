@@ -330,6 +330,13 @@ body{font-family:var(--sans);color:var(--ink);background:var(--paper)}
 .cl-status .mono{font-family:var(--mono);font-size:11px}
 .cl-status code{font-family:var(--mono);background:rgba(0,0,0,.04);padding:1px 4px;border-radius:3px}
 .cl-status a{color:inherit;text-decoration:underline}
+.ex-grid{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.ex-row{display:grid;grid-template-columns:140px 1fr 70px;gap:10px;padding:8px 12px;border-top:1px solid var(--line-soft);font-size:12.5px}
+.ex-row:first-child{border-top:0}
+.ex-k{font-family:var(--mono);font-size:11px;color:var(--ink-soft);text-transform:lowercase}
+.ex-v{color:var(--ink);font-weight:500}
+.ex-c{font-family:var(--mono);font-size:10.5px;color:var(--prov-uncal);text-align:right}
+.json-mini{font-family:var(--mono);font-size:10.5px;background:var(--paper-deep);padding:10px;border-radius:6px;white-space:pre-wrap;max-height:240px;overflow:auto;color:var(--ink-soft)}
 .live-empty{margin:8px;padding:14px;border:1px dashed var(--bad);border-radius:10px;background:var(--bad-soft)}
 .live-empty h3{margin:0 0 4px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--bad)}
 .live-empty p{margin:0 0 10px;font-size:12px;color:var(--ink-soft);line-height:1.5}
@@ -654,17 +661,28 @@ function wireCallTrigger(){
       show('Call queued · exec <span class="mono">'+esc(execId)+'</span> · your phone should ring shortly. After you hang up, ingest the result below (works locally; on the deployed site it prints the command to run).', "ok");
       var go = document.createElement("button");
       go.className = "cl-btn cl-btn-secondary";
-      go.textContent = "Ingest + judge this call";
+      go.textContent = "See call results";
       go.onclick = async function(){
         go.disabled = true;
-        show("Ingesting + judging… (10–30s)", "info");
+        show("Fetching call results…", "info");
         try {
+          // On Netlify (prod): fetch + render inline.
+          var rf = await fetch("/api/fetch_execution", {
+            method: "POST", headers: {"Content-Type":"application/json"},
+            body: JSON.stringify({execution_id: execId})
+          });
+          if(rf.ok){
+            var df = await rf.json();
+            renderLiveExecution(df);
+            show('Call '+esc(execId.slice(0,8))+'… loaded below. To run the full eval pipeline (deterministic signals + judge dims), pull the repo and run<br><code>python pipeline/ingest_live.py --execution '+esc(execId)+' &amp;&amp; python pipeline/judge_live.py</code>', "ok");
+            return;
+          }
+          // Localhost fallback: full ingest+judge.
           var r2 = await fetch("/api/ingest_and_judge", {
             method: "POST", headers: {"Content-Type":"application/json"},
             body: JSON.stringify({execution_id: execId})
           });
           if(r2.status === 404){
-            // Deployed (Netlify) — ingest needs Python; show the command instead.
             show('Ingest runs locally. Paste in your terminal:<br><code>python pipeline/ingest_live.py --execution '+esc(execId)+' &amp;&amp; python pipeline/judge_live.py</code><br>Then refresh this page.', "warn");
             return;
           }
@@ -677,7 +695,7 @@ function wireCallTrigger(){
           show("Done. Reloading workspace…", "ok");
           setTimeout(function(){ location.reload(); }, 800);
         } catch(e){
-          show("Pipeline failed: " + esc(String(e)).slice(0,140), "err");
+          show("Could not fetch results: " + esc(String(e)).slice(0,140), "err");
           go.disabled = false;
         }
       };
@@ -688,6 +706,52 @@ function wireCallTrigger(){
       btn.disabled = false;
     }
   };
+}
+
+/* ---------- inline render of a freshly-fetched live execution (no ingest pipeline needed) ---------- */
+function renderLiveExecution(d){
+  var main = document.getElementById("main");
+  if(!main) return;
+  var turns = (d.turns || []).map(function(t){
+    var who = t.role === "user" ? "user" : "agent";
+    var label = who === "user" ? "USER" : "AARAV";
+    return '<div class="turn '+who+'"><div class="who">'+label+'</div><div class="bubble">'+esc(t.text)+'</div></div>';
+  }).join("");
+  if(!turns){
+    turns = '<div class="placeholder">No turns in /log yet — Bolna may still be processing. Click <b>See call results</b> again in a few seconds.</div>';
+  }
+  var extracted = "";
+  if(d.extracted_data && typeof d.extracted_data === "object"){
+    var rows = [];
+    Object.keys(d.extracted_data).forEach(function(cat){
+      var fields = d.extracted_data[cat] || {};
+      Object.keys(fields).forEach(function(name){
+        var f = fields[name] || {};
+        var val = f.subjective || f.objective || "—";
+        var conf = f.confidence_label || (f.confidence != null ? Math.round(f.confidence*100)+"%" : "");
+        rows.push('<div class="ex-row"><div class="ex-k">'+esc(name)+'</div><div class="ex-v">'+esc(String(val))+'</div><div class="ex-c">'+esc(conf)+'</div></div>');
+      });
+    });
+    if(rows.length){
+      extracted = '<div class="section"><h2>Extracted fields <span class="cl-prov uncal">FROM BOLNA</span></h2><div class="ex-grid">'+rows.join("")+'</div></div>';
+    }
+  }
+  var cost = "";
+  if(d.cost_breakdown){
+    var c = d.cost_breakdown;
+    cost = '<div class="section"><h2>Cost breakdown</h2><pre class="json-mini">'+esc(JSON.stringify(c, null, 2)).slice(0,800)+'</pre></div>';
+  }
+  main.innerHTML =
+    '<div class="view-wrap">'+
+      '<h1 class="view-title">Your call '+esc(d.execution_id.slice(0,8))+'…</h1>'+
+      '<p class="subtitle">Live · transcript and Bolna extractions only. <b>LIVE · UNCALIBRATED</b>. Full deterministic + judge eval requires the local pipeline.</p>'+
+      '<div class="grid2">'+
+        '<div class="section"><h2>Transcript</h2><div class="transcript">'+turns+'</div></div>'+
+        '<div>'+extracted+cost+'</div>'+
+      '</div>'+
+    '</div>';
+  // scroll to it so the tester sees the result instantly
+  main.scrollIntoView({behavior:"smooth", block:"start"});
 }
 
 /* ---------- live empty state + command helper ---------- */
