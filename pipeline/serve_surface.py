@@ -138,6 +138,10 @@ class Surface(BaseHTTPRequestHandler):
         self.send_header("Content-Type", ctype)
         self.send_header("Content-Length", str(len(body)))
         self.send_header("Cache-Control", "no-store")
+        # CORS — let the deployed GitHub Pages static page POST to a tunneled localhost backend.
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type")
         self.end_headers()
         try:
             self.wfile.write(body)
@@ -204,6 +208,9 @@ class Surface(BaseHTTPRequestHandler):
         if p == "/favicon.ico":
             return self._send(204)
         return self._send(404, "not found")
+
+    def do_OPTIONS(self):
+        return self._send(204)
 
     # ---- POST: /api/start_call (proxy POST /call to Bolna) + /api/ingest_and_judge ----
     def do_POST(self):
