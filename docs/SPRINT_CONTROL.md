@@ -1,0 +1,58 @@
+# SPRINT CONTROL — the adaptive coordinator file (Jun 13)
+
+**How this works:** Spike pastes ANYTHING new into the INBOX below (Buddy answers, schedule changes,
+judge gossip, an idea, a bug sighting) — telegraphic is fine. Every coordinator turn: read INBOX →
+classify each item NOW / NEXT / IGNORE → update the plan + agent lanes → verify outputs → clear the
+item into the LOG with its resolution. The coordinator NEVER pushes without Spike's confirm and NEVER
+touches frozen artifacts.
+
+## INBOX (Spike writes here — newest on top)
+- (empty)
+
+## CURRENT PHASE
+Pre-departure timebox (07:17–~09:30 IST). Event 10:30. P0 fleet: script · bible · live-bridge · routes.
+
+## PROTECTED INVARIANTS (no agent may violate)
+- Frozen: label manifest/CSV/snapshot · judge_results.json · calls.json · calibration numbers · rubric.
+- Live sprint calls = corpus-only, separate artifacts (`bolna_live_*`, out/live_*.json), always
+  labeled `LIVE · UNCALIBRATED`.
+- Honesty wording everywhere (estimated/heuristic/uncalibrated/measured-not-assumed).
+- No pushes 13:45–14:45 (judges clone). 3–4 confirmed pushes total. Secret-scan before every push.
+- Demo never requires network; `out/dashboard.html` is the always-working fallback.
+
+## ACTIVE LANES (coordinator updates)
+| lane | agent | output | status |
+|---|---|---|---|
+| script | demo_docs | docs/demo_docs.md | pending launch |
+| bible | project_bible | PROJECT_BIBLE.md | pending launch |
+| live-bridge | live_ingest | pipeline/ingest_live.py + live artifacts | pending launch |
+| routes | surface | / (presentation, real data) + /platform (operator + LIVE TODAY) | pending launch |
+
+## TOP 3 NEXT ACTIONS
+1. Spike: confirm "go P0" → fleet launches in parallel.
+2. Coordinator: verify each lane as it lands (QA agent on live-bridge code), commit honestly.
+3. 09:20 — Spike reads demo_docs.md aloud once; we trim overruns; leave.
+
+## BUDDY QUESTIONS (carry to venue — answers go in INBOX)
+1. Telemetry: does Bolna expose an explicit interruption token/timestamp? (gates the barge-in scenario)
+2. Webhook payloads enterprises watch for conversational friction? (roadmap slide + live-bridge v2)
+3. Cleanest WebSocket/transcript intercept without latency?
+4. Is private repo + collaborator access acceptable for submission? (privacy gate)
+5. Venue Wi-Fi / rate-limit quirks?
+
+## SUBMISSION SNAPSHOT (fill by 13:30)
+- Repo URL: github.com/ursSpike/voiceforge (private→decision pending Buddy answer)
+- 5-line description: (submission agent drafts)
+- Demo URL / loom: local server + fallback recording
+- Tag: `submission-jun13`
+
+## LOG (resolved items move here)
+- 07:17 verified GPT-treasure claims: clock real, audit.md tracked-but-deleted (restore in next commit),
+  README stale (DPO diagram false — truth-pass queued), ingest hardcoded (live-bridge lane created),
+  judge manifest-only by design (separate live judge path in live-bridge lane).
+
+## DEFERRED (good ideas, not today)
+- In-platform Bolna call origination/agent-config UI (Sprint-2+ only if Buddy confirms API; "too
+  far-fetched" — Spike's own read was right).
+- Claude-design round-3 refinement (only AFTER / + /platform run on real DOM; never another fixture).
+- Grounded-outcome P1 integration; second-rater run; DPO export.
