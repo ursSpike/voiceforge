@@ -1,0 +1,33 @@
+# Netlify deploy — mirrors .github/workflows/pages.yml
+# Assembles out/surface/ → site root and out/platform/ → /platform/.
+# Static only; the live-call trigger backend lives on a tunneled localhost
+# (see docs/HOSTING.md). All built artifacts are committed; build just copies.
+
+[build]
+  command = "mkdir -p _site/platform && cp -R out/surface/. _site/ && cp -R out/platform/. _site/platform/ && touch _site/.nojekyll && cp -f out/dashboard.html _site/dashboard.html 2>/dev/null || true"
+  publish = "_site"
+
+# Friendly trailing-slash for /platform — matches serve_surface.py's redirect.
+[[redirects]]
+  from = "/platform"
+  to = "/platform/"
+  status = 301
+
+# SPA-style fallback only for completely missing paths — keeps the index reachable.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 404
+
+# CORS headers for any /api/* responses (Netlify is static here; this is a safety
+# header for future serverless functions / Netlify Edge).
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "no-referrer-when-downgrade"
+
+[[headers]]
+  for = "/platform/platform_data.js"
+  [headers.values]
+    Cache-Control = "no-store"
