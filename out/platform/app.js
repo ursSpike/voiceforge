@@ -321,6 +321,38 @@ function renderLiveExecution(d){
       extracted = '<div class="section"><h2>Extracted fields <span class="cl-prov uncal">FROM BOLNA</span></h2><div class="ex-grid">'+rows.join("")+'</div></div>';
     }
   }
+  var signalsHtml = "";
+  if(d.signals){
+    var s = d.signals;
+    var lat = s.latency || {};
+    signalsHtml =
+      '<div class="section"><h2>Deterministic signals <span class="cl-prov ok">MEASURED</span></h2>'+
+        '<div class="ex-grid">'+
+          '<div class="ex-row"><div class="ex-k">turns</div><div class="ex-v">'+esc(s.n_turns)+'</div><div class="ex-c"></div></div>'+
+          '<div class="ex-row"><div class="ex-k">duration</div><div class="ex-v">'+(s.duration_s!=null?esc(s.duration_s)+' s':"—")+'</div><div class="ex-c"></div></div>'+
+          '<div class="ex-row"><div class="ex-k">median latency</div><div class="ex-v">'+(lat.median_ms!=null?esc(lat.median_ms)+' ms':"—")+'</div><div class="ex-c">'+esc(lat.n_gaps||0)+' gaps</div></div>'+
+          '<div class="ex-row"><div class="ex-k">p90 latency</div><div class="ex-v">'+(lat.p90_ms!=null?esc(lat.p90_ms)+' ms':"—")+'</div><div class="ex-c">'+esc(lat.n_over_800ms||0)+' over 800ms</div></div>'+
+          '<div class="ex-row"><div class="ex-k">barge-in</div><div class="ex-v unmeasured">not observed (Bolna /log has no overlap signal)</div><div class="ex-c"></div></div>'+
+        '</div>'+
+      '</div>';
+  }
+  var judgeHtml = "";
+  if(d.judge){
+    var j = d.judge;
+    if(j.outcome){
+      var verdict = j.outcome === "success" ? "ok" : "bad";
+      judgeHtml =
+        '<div class="section"><h2>Judge evidence <span class="cl-prov uncal">UNCALIBRATED</span></h2>'+
+          '<div class="rec"><div class="rh">OUTCOME</div><div class="rt"><span class="pill '+verdict+'">'+esc(j.outcome.toUpperCase())+'</span> '+esc(j.reason||"")+'</div>'+
+          (j.evidence_turn_ids && j.evidence_turn_ids.length ? '<div class="prov" style="margin-top:8px;border-top:0;padding-top:0">cited turns: '+esc(j.evidence_turn_ids.join(", "))+'</div>' : "")+
+          '<div class="prov" style="margin-top:6px;border-top:0;padding-top:0">'+esc(j.provenance||"uncalibrated · live")+'</div>'+
+          '</div>'+
+        '</div>';
+    } else {
+      var msg = j.skipped || j.pending || j.error || JSON.stringify(j).slice(0,140);
+      judgeHtml = '<div class="section"><h2>Judge evidence <span class="cl-prov uncal">UNCALIBRATED</span></h2><p class="caption" style="margin:0;border:0;padding:0">'+esc(msg)+'</p></div>';
+    }
+  }
   var cost = "";
   if(d.cost_breakdown){
     var c = d.cost_breakdown;
@@ -329,10 +361,10 @@ function renderLiveExecution(d){
   main.innerHTML =
     '<div class="view-wrap">'+
       '<h1 class="view-title">Your call '+esc(d.execution_id.slice(0,8))+'…</h1>'+
-      '<p class="subtitle">Live · transcript and Bolna extractions only. <b>LIVE · UNCALIBRATED</b>. Full deterministic + judge eval requires the local pipeline.</p>'+
+      '<p class="subtitle">Live · <b>LIVE · UNCALIBRATED</b>. Reconstructed from Bolna /log + Bolna extractions + a live Gemini judge — uncalibrated diagnostics only.</p>'+
       '<div class="grid2">'+
         '<div class="section"><h2>Transcript</h2><div class="transcript">'+turns+'</div></div>'+
-        '<div>'+extracted+cost+'</div>'+
+        '<div>'+signalsHtml+judgeHtml+extracted+cost+'</div>'+
       '</div>'+
     '</div>';
   // scroll to it so the tester sees the result instantly
