@@ -468,7 +468,70 @@ function normLive(c, i){
 }
 function liveCalls(){ return (LIVE.calls||[]).map(normLive); }
 
-function activeCalls(){ return state.mode==="live" ? liveCalls() : CALLS; }
+function updateSelectedHighlight(){
+  document.querySelectorAll(".call-card").forEach(function(el){
+    el.classList.toggle("sel", el.querySelector(".cid") && el.querySelector(".cid").textContent.indexOf(state.selected) >= 0);
+  });
+}
+
+/* Session calls — live executions fetched via /api/fetch_execution this browser session.
+   Persisted in localStorage so the demo can compare multiple calls and refresh-safely. */
+var SESSION_KEY = "vf_session_calls";
+function loadSession(){
+  try { return JSON.parse(localStorage.getItem(SESSION_KEY) || "[]"); }
+  catch(e) { return []; }
+}
+function saveSession(arr){
+  try { localStorage.setItem(SESSION_KEY, JSON.stringify(arr.slice(-30))); } catch(e){}
+}
+function pushSessionCall(d){
+  var arr = loadSession();
+  // upsert by execution_id
+  var idx = arr.findIndex(function(x){ return x.execution_id === d.execution_id; });
+  var entry = {
+    execution_id: d.execution_id,
+    turns: d.turns || [],
+    signals: d.signals || null,
+    judge: d.judge || null,
+    extracted_data: d.extracted_data || null,
+    cost_breakdown: d.cost_breakdown || null,
+    fetched_at: new Date().toISOString(),
+  };
+  if (idx >= 0) arr[idx] = entry; else arr.push(entry);
+  saveSession(arr);
+}
+function sessionCallsAsRail(){
+  return loadSession().map(function(e){
+    var j = e.judge || {};
+    var outcome = j.outcome === "success" ? true : j.outcome === "fail" ? false : null;
+    var lat = (e.signals && e.signals.latency) || {};
+    return {
+      id: "live_" + e.execution_id.slice(0,8),
+      _exec: e.execution_id,
+      source: "bolna_live", lang: "hi-en", profile: "clinic",
+      wf: "appointment_booking", turns: (e.signals && e.signals.n_turns) || e.turns.length,
+      outcome: outcome, overall: null, in_manifest: false, live: true,
+      archetype: outcome===false ? (j.reason ? "judge_flagged_failure" : null) : (lat.n_over_800ms > 0 ? "slow_response" : null),
+      recommendation: j.reason || null,
+      human: null, dims: [], failures: [],
+      transcript: e.turns.map(function(t,i){ return {id:"t"+(i+1), s:t.role==="user"?"user":"agent", x:t.text}; }),
+      judge: { binary: outcome!=null ? { label: outcome?"success":"fail", reason: j.reason||"", evidence_turn_ids: j.evidence_turn_ids||[] } : {} },
+      provenance: "LIVE · UNCALIBRATED · session=browser",
+      fix_first_evidence: false,
+      _session: true, _raw: e,
+    };
+  });
+}
+
+function activeCalls(){
+  if (state.mode !== "live") return CALLS;
+  // Combine: any pre-baked live_calls.json entries + this-session fetched executions.
+  var base = liveCalls();
+  var sess = sessionCallsAsRail();
+  // de-dup by execution prefix
+  var baseExecPrefixes = new Set(base.map(function(c){ return (c.id||"").replace("bolna_live_",""); }));
+  return base.concat(sess.filter(function(c){ return !baseExecPrefixes.has(c._exec.slice(0,8)); }));
+}
 
 /* ---------- filtering ---------- */
 function matches(c){
@@ -526,6 +589,8 @@ function renderRail(){
   if(state.mode==="live"){
     if(CLINIC){
       list.appendChild(clinicCallTriggerCard());      // tester's first action — pin to TOP
+      var metrics = sessionMetricsCard();
+      if(metrics) list.appendChild(metrics);
       list.appendChild(clinicAgentCard());
       list.appendChild(clinicKbCard());
     } else {
@@ -557,7 +622,11 @@ function renderRail(){
       '<div class="cid">'+outcomeDot(c)+esc(c.id)+live+beforeBadge+'</div>'+
       '<div class="meta"><span>'+esc(c.lang)+'</span><span>'+esc(c.profile)+'</span><span>'+(c.turns!=null?c.turns+" turns":"")+'</span></div>'+
       (c.archetype?'<div class="ph">'+esc(c.archetype.replace(/_/g," "))+'</div>':'');
-    card.onclick=function(){ state.selected=c.id; render(); };
+    card.onclick=function(){
+      // Session calls re-render via renderLiveExecution from cache (no network).
+      if(c._session && c._raw){ renderLiveExecution(c._raw); state.selected=c.id; updateSelectedHighlight(); return; }
+      state.selected=c.id; render();
+    };
     list.appendChild(card);
   });
 }
@@ -584,6 +653,44 @@ function clinicAgentCard(){
     '</div>'
   );
 }
+/* Session metrics — aggregates over calls fetched in this browser session. */
+function sessionMetricsCard(){
+  var sess = loadSession();
+  if(!sess.length) return null;
+  var n = sess.length;
+  var nSuccess = 0, nFail = 0, nUnknown = 0;
+  var latencies = [];
+  var totalTurns = 0, totalDur = 0, nDur = 0;
+  sess.forEach(function(e){
+    var j = e.judge || {};
+    if(j.outcome === "success") nSuccess++;
+    else if(j.outcome === "fail") nFail++;
+    else nUnknown++;
+    var lat = e.signals && e.signals.latency || {};
+    if(lat.median_ms != null) latencies.push(lat.median_ms);
+    if(e.signals && typeof e.signals.n_turns === "number") totalTurns += e.signals.n_turns;
+    if(e.signals && e.signals.duration_s != null){ totalDur += e.signals.duration_s; nDur++; }
+  });
+  var latLabel = latencies.length
+    ? Math.round(latencies.reduce(function(a,b){return a+b;},0) / latencies.length) + " ms"
+    : "—";
+  var avgTurns = n ? Math.round(totalTurns/n*10)/10 : 0;
+  var avgDur = nDur ? Math.round(totalDur/nDur*10)/10 + "s" : "—";
+  var rate = n ? Math.round(nSuccess/(nSuccess+nFail || 1)*100) : 0;
+  return htmlEl(
+    '<div class="cl-card cl-metrics">'+
+      '<div class="cl-head"><span class="cl-kicker">Your test session</span><span class="cl-prov uncal">UNCALIBRATED</span></div>'+
+      '<div class="cl-title">'+n+' call'+(n===1?"":"s")+' this session</div>'+
+      '<div class="cl-meta">'+
+        '<div><span class="cl-k">judge outcome</span><span class="cl-v"><span class="pill ok">'+nSuccess+' ok</span> <span class="pill bad">'+nFail+' fail</span>'+(nUnknown?' <span class="pill uncal">'+nUnknown+' pending</span>':"")+'</span></div>'+
+        '<div><span class="cl-k">avg latency</span><span class="cl-v">'+esc(latLabel)+'</span></div>'+
+        '<div><span class="cl-k">avg duration</span><span class="cl-v">'+esc(avgDur)+'</span></div>'+
+        '<div><span class="cl-k">avg turns</span><span class="cl-v">'+esc(avgTurns)+'</span></div>'+
+      '</div>'+
+    '</div>'
+  );
+}
+
 function clinicKbCard(){
   var k = (CLINIC && CLINIC.knowledge_base) || {};
   var idShort = k.vector_id ? (k.vector_id.slice(0,8)+"…") : "—";
@@ -678,7 +785,9 @@ function wireCallTrigger(){
             if(nturns === 0){
               show('Bolna still processing the call log — click <b>See call results</b> again in a few seconds.', "warn");
             } else {
-              show('Loaded '+nturns+' turns. Transcript + extracted fields are below.', "ok");
+              pushSessionCall(df);                // persist this fetch in the rail
+              show('Loaded '+nturns+' turns. Saved to <b>Session calls</b> in the rail.', "ok");
+              renderRail();                       // pull the new call into the list
             }
             go.disabled = false;
             return;
@@ -759,6 +868,7 @@ function renderLiveExecution(d){
       '</div>';
   }
   var judgeHtml = "";
+  var fixHtml = "";
   if(d.judge){
     var j = d.judge;
     if(j.outcome){
@@ -770,6 +880,23 @@ function renderLiveExecution(d){
           '<div class="prov" style="margin-top:6px;border-top:0;padding-top:0">'+esc(j.provenance||"uncalibrated · live")+'</div>'+
           '</div>'+
         '</div>';
+      // Auto-derived improvement recommendation — surfaced only for failures + slow-latency successes.
+      var rec = "";
+      var lat = (d.signals && d.signals.latency) || {};
+      if(j.outcome === "fail" && j.reason){
+        rec = '<b>The agent didn\'t complete the task.</b> ' + esc(j.reason) +
+              ' <br><i>Likely prompt fix:</i> tighten the conversation-path block for this branch; ensure the agent confirms partial info before changing topic.';
+      } else if(j.outcome === "success" && lat.n_over_800ms > 1){
+        rec = '<b>Task succeeded but with friction:</b> ' + esc(lat.n_over_800ms) + ' response gaps over 800ms (slow).'+
+              ' <br><i>Likely fix:</i> shorten system-prompt scaffolding, lower max-tokens cap, reduce KB top-k.';
+      } else if(j.outcome === "success") {
+        rec = 'Clean call. No prompt change recommended yet — re-test with a harder scenario (mid-call language switch, vague date, medical-advice probe).';
+      }
+      if(rec){
+        fixHtml = '<div class="section"><h2>Improvement recommendation <span class="cl-prov uncal">auto-derived</span></h2>'+
+                    '<div class="rec" style="border-color:var(--ember);background:var(--ember-soft)"><div class="rh">FIX FIRST</div><div class="rt">'+rec+'</div></div>'+
+                  '</div>';
+      }
     } else {
       var msg = j.skipped || j.pending || j.error || JSON.stringify(j).slice(0,140);
       judgeHtml = '<div class="section"><h2>Judge evidence <span class="cl-prov uncal">UNCALIBRATED</span></h2><p class="caption" style="margin:0;border:0;padding:0">'+esc(msg)+'</p></div>';
@@ -786,7 +913,7 @@ function renderLiveExecution(d){
       '<p class="subtitle">Live · <b>LIVE · UNCALIBRATED</b>. Reconstructed from Bolna /log + Bolna extractions + a live Gemini judge — uncalibrated diagnostics only.</p>'+
       '<div class="grid2">'+
         '<div class="section"><h2>Transcript</h2><div class="transcript">'+turns+'</div></div>'+
-        '<div>'+signalsHtml+judgeHtml+extracted+cost+'</div>'+
+        '<div>'+fixHtml+signalsHtml+judgeHtml+extracted+cost+'</div>'+
       '</div>'+
     '</div>';
   // scroll to it so the tester sees the result instantly
