@@ -102,7 +102,7 @@
     const tc = D.analytics.timing_coverage;
     const archTotal = Object.values(R.archetypes.counts).reduce((a, b) => a + b, 0);
     const stages = [
-      ["Ingest", `${D.analytics.n_calls} provider calls`],
+      ["Ingest", `${D.analytics.n_calls} calls ingested`],
       ["Normalize", "provider-neutral call schema"],
       ["Deterministic signals", `timing on ${tc.timed} · ${tc.unmeasured} unmeasured`],
       ["Blind labels", `${D.val.binary} binary · ${D.val.unsure} unsure`],

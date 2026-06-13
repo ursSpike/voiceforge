@@ -21352,5 +21352,5 @@ window.__DATA__ = {
   "fixture": false,
   "design_handoff": false,
   "real_surface": true,
-  "privacy_note": "Every aggregate and every transcript on this surface is real: all 76 scored calls are present, with the blind-labeled and judged slice carrying its full transcript, human label, deterministic scorecard, and evidence-cited judge output."
+  "privacy_note": "Every aggregate and transcript here is artifact-backed and non-fixture, with source provenance disclosed: all 76 scored calls are present (public SpokenWOZ + translated Code-Mixed-Dialog + one constructed hero + one real Bolna call), the blind-labeled and judged slice carrying its full transcript, human label, deterministic scorecard, and evidence-cited judge output."
 };

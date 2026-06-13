@@ -43,8 +43,8 @@ paste the execution ID. Don't batch the downloads — do it per call.
 
 ## Bolna Buddy — talk to them early (questions in SPRINT_CONTROL)
 Lead with the framing: *"I built the framework + eval pipeline + UI over the week; today I'm running
-live evals — fresh Cartesia-voiced Bolna calls with deliberate edge cases through the same calibrated
-pipeline."* Then ask Q1 (interruption telemetry — gates call #5), Q2 (webhook payloads), Q4 (private
+live evals — fresh Cartesia-voiced Bolna calls with deliberate edge cases through the same eval
+machinery, kept as a separate uncalibrated lane."* Then ask Q1 (interruption telemetry — gates call #5), Q2 (webhook payloads), Q4 (private
 repo + collaborator OK for submission?). Paste their answers into INBOX; I adapt the plan.
 
 ## Pushes during Sprint 1 (you confirm each — 3–4 total)

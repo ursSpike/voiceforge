@@ -9,7 +9,7 @@ Everyone had the 7 days → pre-built is the baseline; our transparent git histo
 ## The framing sentence (memorize — it's the honest meta)
 > "I engineered the framework, eval pipeline, and UI over the week. Today I'm running **live
 > evaluations**: fresh Cartesia-voiced Bolna calls with deliberate edge cases — interruptions,
-> code-switching, noise — pushed through the same calibrated pipeline, live."
+> code-switching, noise — pushed through the same eval machinery, as a separate uncalibrated lane, live."
 
 ## Deliverable A — PROJECT_BIBLE.md (built TONIGHT by an agent, read by Spike on the commute)
 One file = the entire project understood. Distinct from demo_docs.md (that's the *performance*; this

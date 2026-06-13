@@ -11,7 +11,9 @@ and turns them into:
   response-latency gaps) plus an LLM judge where every score carries a reason and evidence turns
 - **Failure timestamps** — the exact moment a call went wrong, measured, not vibe-scored
 - **Cost signals** — estimated cost per successful call, so failures show up in money
-- **(chosen, rejected) preference pairs** — every detected failure becomes a DPO-ready JSONL line
+- **Improvement queue** — every detected failure becomes an evidence-cited, ranked fix (the shipped
+  deliverable). *(Turning these into (chosen, rejected) DPO pairs is roadmap — `pipeline/dpo_export.py`
+  is a stub.)*
 
 The one-line thesis for engineers: **VoiceForge judges the conversation trace, not just the
 transcript** — language, timing, overlap, task outcome, cost, repair quality. Transcript-only
@@ -29,9 +31,10 @@ raw call (audio + log)
         ├─ pipeline/signals.py ──▶ deterministic dims: barge-in ms, latency gaps (FTO math)
         ├─ pipeline/judge.py ────▶ judged dims: {score, reason, evidence_turn_ids} (Gemini, cached)
         └─ pipeline/score.py ───▶ scorecard, weighted by rubric.yaml  ──▶ out/calls.json
-             ├─ pipeline/dpo_export.py ──▶ out/queue.jsonl (TRL) + out/queue_openai.jsonl
+             ├─ improvement queue ──▶ out/demo_report_data.json (evidence-cited ranked fixes — SHIPPED)
+             │     (pipeline/dpo_export.py → DPO JSONL is a roadmap stub, not wired)
              └─ pipeline/costs.py + crosscut.py ──▶ out/analytics.json
-                  └─ web/ — static dashboard, read-only over out/
+                  └─ web/ + pipeline/build_surface.py ──▶ out/dashboard.html, out/surface/ (read-only over out/)
 ```
 
 `rubric.yaml` is the single source of truth for dimensions, weights, and thresholds —
@@ -47,5 +50,8 @@ cp .env.example .env      # add your Gemini API key (aistudio.google.com/apikey)
 ```
 
 ## Roadmap (not in this sprint)
-Multilingual evals (IndicVoices et al.), live Bolna ingest adapter, second human rater,
-larger corpora, real billing-data costs. See [docs/later.md](docs/later.md).
+Broader Indic coverage (IndicVoices et al., real Tenglish audio), live-stream Bolna ingest via
+webhooks, second human rater, larger corpora, real billing-data costs, DPO-pair export.
+See [docs/later.md](docs/later.md).
+*(Already shipped, not roadmap: Hindi-English multilingual evals — 30 code-mixed calls are the
+calibration backbone — and an on-site live-call ingest bridge, `pipeline/ingest_live.py`.)*

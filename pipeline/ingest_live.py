@@ -6,7 +6,7 @@ production — ingest_bolna.reconstruct_turns/normalize + score.build_record —
 SEPARATE namespace so the frozen 46-call calibration experiment is never touched:
 
     data/provider_logs/bolna_live_<id>.json   raw payload  {"execution":…, "log":{"data":[…]}}
-    data/normalized/bolna_live_<id>.json       normalized call_log (call_id = bolna_live_<id[:8]>)
+    data/normalized/live/bolna_live_<id>.json  normalized call_log (call_id = bolna_live_<id[:8]>) — SUBDIR keeps it out of the frozen pipeline's top-level glob
     out/live_calls.json                         merged view (built by judge_live.py, not here)
 
 Provenance is stamped on every normalized live call: {"slice":"live_today","calibrated":false,
@@ -29,6 +29,10 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "pipeline"))
 RAW = ROOT / "data" / "provider_logs"
 NORM = ROOT / "data" / "normalized"
+# ISOLATION (audit blocker #1): live calls land in a SUBDIR so the production consumers that do a
+# top-level NORM.glob("*.json") — score.py, build_manifest.py, schemas.py, preflight.py — can never
+# pick them up. The glob is non-recursive, so data/normalized/live/ is invisible to the frozen pipeline.
+LIVE_NORM = NORM / "live"
 
 # production deterministic pieces, reused verbatim (no fork of the normalize / signals logic)
 import ingest_bolna as IB  # noqa: E402  (reconstruct_turns + normalize, the SAME as the cached path)
@@ -110,7 +114,7 @@ def live_call_id(execution_id):
     return f"bolna_live_{short}", short
 
 
-def ingest_one(raw_payload, execution_id, norm_dir=NORM, raw_dir=RAW, write_raw=True):
+def ingest_one(raw_payload, execution_id, norm_dir=LIVE_NORM, raw_dir=RAW, write_raw=True):
     """Raw -> cached raw file -> normalized+validated call_log with live provenance -> deterministic
     record. Returns (call_log, call_record). norm_dir/raw_dir are injectable so the selftest writes
     to a TEMP dir, never the real data/ tree."""
@@ -227,7 +231,7 @@ def main():
           f"cost {call['metadata']['total_cost_cents']}c  [{call['provenance']['label']}]")
     lat = record["signals"]["latency"]
     print(f"latency: median {lat['median_gap_ms']}ms p90 {lat['p90_gap_ms']}ms | barge-ins {record['signals']['n_barge_ins']}")
-    print("normalized -> data/normalized/bolna_live_<id>.json  (raw -> data/provider_logs/)")
+    print("normalized -> data/normalized/live/bolna_live_<id>.json  (raw -> data/provider_logs/)")
     print("next: python pipeline/judge_live.py   -> out/live_judge_results.json + out/live_calls.json")
 
 

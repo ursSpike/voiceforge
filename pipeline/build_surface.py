@@ -145,10 +145,11 @@ def build_data():
         "design_handoff": False,
         "real_surface": True,
         "privacy_note": (
-            "Every aggregate and every transcript on this surface is real: all "
-            f"{analytics['n_calls']} scored calls are present, with the blind-labeled and "
-            "judged slice carrying its full transcript, human label, deterministic scorecard, "
-            "and evidence-cited judge output."
+            "Every aggregate and transcript here is artifact-backed and non-fixture, with source "
+            f"provenance disclosed: all {analytics['n_calls']} scored calls are present "
+            "(public SpokenWOZ + translated Code-Mixed-Dialog + one constructed hero + one real Bolna "
+            "call), the blind-labeled and judged slice carrying its full transcript, human label, "
+            "deterministic scorecard, and evidence-cited judge output."
         ),
     }
     return data

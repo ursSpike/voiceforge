@@ -71,9 +71,11 @@ That's not an opinion. That's 45 calls, measured."
 "So how do you grade a call **without** lying to yourself? Two rules. [PAUSE]
 
 [SLOW — explain mode] **Rule one: never ask an AI something you can measure.**
-Barge-ins — the caller cutting the agent off. Latency gaps — dead air.
+Barge-ins — when either speaker talks over the other. Latency gaps — dead air.
 Those come from **timestamp math**, not opinion. Pure arithmetic.
-In this corpus: **183 latency gaps**, **107 barge-ins** — counted, not judged. [PAUSE]
+In this corpus: **183 latency gaps**, **107 barge-in events** — counted, not judged. [PAUSE]
+*(Say it right: barge-in = speech overlap in **either** direction, reconstructed from turn
+timestamps — not only the caller interrupting. If a judge probes, that precision wins points.)*
 
 **Rule two: the AI judge runs in quarantine, and only **after** humans set the bar — blind.**
 Five quality dimensions, temperature zero, every score must cite the turn it came from, and it's **validated before it's ever cached**. [PAUSE] [LOOK UP]
@@ -101,7 +103,7 @@ The caller **barged in**. There were **latency gaps** — measured, on the clock
 A pass/fail number calls this a win and moves on.
 **VoiceForge calls it brittle, shows you the friction, and keeps the receipt.**"
 
-> **WHAT THIS MEANS (for you):** `hero_001`. Human label success/high, judge says success, **but** it carries deterministic `barge_in` + `latency_gap` hits, so the system tags it **brittle_success**. This is your whole thesis in one call: "finished" and "went well" are different axes. You disclose it's constructed *every time* — that honesty is a feature, and it protects you (validity comes from the public-data calibration on Slide 5, not from this call). If asked "why a fake call?" — *"It demonstrates detection, not prevalence. Prevalence lives in the 46 real labeled calls."*
+> **WHAT THIS MEANS (for you):** `hero_001`. Human label success/high, judge says success, **but** it carries deterministic `barge_in` + `latency_gap` hits, so the system tags it **brittle_success**. This is your whole thesis in one call: "finished" and "went well" are different axes. You disclose it's constructed *every time* — that honesty is a feature, and it protects you (validity comes from the public-data calibration on Slide 5, not from this call). If asked "why a fake call?" — *"It demonstrates detection, not prevalence. Prevalence lives in the 46 blind-labeled calls."*
 
 ---
 
@@ -224,7 +226,7 @@ I'd love your questions."
 "It's a documented **keyword heuristic** — likely an undercount. The point isn't the absolute number, it's that it **disagrees with humans on 25 of 45 calls** and is blind on 7 of 8 failures."
 
 **6. "The hero call is constructed — doesn't that undercut you?"**
-"It's disclosed every time, and it demonstrates **detection, not prevalence**. Prevalence comes from the **46 real labeled calls**. The hero just makes 'brittle success' tangible in one listen."
+"It's disclosed every time, and it demonstrates **detection, not prevalence**. Prevalence comes from the **46 blind-labeled calls** (public + real, hero excluded from the prevalence claim). The hero just makes 'brittle success' tangible in one listen."
 
 **7. "Hindi data has no timestamps — did you fabricate the timing?"**
 "No — the schema enforces **all-or-none** timing. Those text-only calls carry an **`unmeasured`** profile and their timing dimensions are **omitted**, never faked. The schema *rejects* a partial clock."

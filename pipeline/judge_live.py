@@ -54,9 +54,10 @@ sys.path.insert(0, str(ROOT / "pipeline"))
 
 import judge as J            # noqa: E402  (5 semantic dims, validate-before-cache, retry policy)
 import judge_run as JR       # noqa: E402  (judge_outcome — binary outcome, same cache discipline)
-from ingest_live import LIVE_PROVENANCE  # noqa: E402  (the single source of the provenance tag)
+from ingest_live import LIVE_PROVENANCE, LIVE_NORM  # noqa: E402  (provenance tag + isolated live dir)
 
 NORM = ROOT / "data" / "normalized"
+LIVE = LIVE_NORM            # data/normalized/live/ — isolated from the frozen top-level glob (audit blocker #1)
 OUT_LIVE_JUDGE = ROOT / "out" / "live_judge_results.json"
 OUT_LIVE_CALLS = ROOT / "out" / "live_calls.json"
 LIVE_GLOB = "bolna_live_*.json"
@@ -75,10 +76,10 @@ def _atomic_write(path, payload):
     os.replace(tmp, path)
 
 
-def live_call_ids(norm_dir=NORM):
-    """The live_today slice ONLY — data/normalized/bolna_live_*.json. NEVER the manifest's 46 calls
-    (those are bolna_* / cmd_* / hero_* / swz_* — no bolna_live_ prefix), so this can never reach
-    into the calibration set."""
+def live_call_ids(norm_dir=LIVE):
+    """The live_today slice ONLY — data/normalized/live/bolna_live_*.json. Double isolation: a separate
+    SUBDIR (invisible to the frozen pipeline's top-level NORM.glob) AND the bolna_live_ prefix. The
+    manifest's 46 calls (bolna_*/cmd_*/hero_*/swz_*) can never be reached from here."""
     return sorted(p.stem for p in norm_dir.glob(LIVE_GLOB))
 
 
@@ -92,7 +93,7 @@ def judge_live_call(client, call):
     return {"dims": dims, "binary": binary}
 
 
-def run(client, call_ids, norm_dir=NORM, out_judge=OUT_LIVE_JUDGE, out_calls=OUT_LIVE_CALLS):
+def run(client, call_ids, norm_dir=LIVE, out_judge=OUT_LIVE_JUDGE, out_calls=OUT_LIVE_CALLS):
     """Judge the live slice -> live_judge_results.json + the merged live_calls.json. Per-call honesty:
     a call that fails to judge is recorded with its error and status goes 'partial'; the deterministic
     record is still emitted (the LIVE-TODAY surface degrades gracefully, never blanks)."""
@@ -166,10 +167,14 @@ def selftest():
         print(("  ok   " if c else "  FAIL ") + msg)
         ok = ok and c
 
-    # live slice filter never reaches into the manifest's 46 calls
-    real_ids = live_call_ids(NORM)
+    # live slice filter never reaches into the manifest's 46 calls; and the top-level NORM glob
+    # (what score.py/build_manifest/schemas/preflight use) must never see a live call.
+    real_ids = live_call_ids(LIVE)
     check(all(cid.startswith("bolna_live_") for cid in real_ids),
           f"live slice filter yields only bolna_live_* ids (found {len(real_ids)} on disk)")
+    top_level = {p.stem for p in NORM.glob("*.json")}
+    check(not any(s.startswith("bolna_live_") for s in top_level),
+          "ISOLATION: no bolna_live_* in top-level data/normalized/ (frozen pipeline can't see live calls)")
 
     frozen = ["eval/label_manifest.json", "eval/labels_spike.csv", "eval/label_snapshot.json",
               "out/judge_results.json", "out/calls.json", "out/analytics.json",
