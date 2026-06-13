@@ -513,14 +513,23 @@ function renderRail(){
   }
   if(state.mode==="live"){
     if(CLINIC){
+      list.appendChild(clinicCallTriggerCard());      // tester's first action — pin to TOP
       list.appendChild(clinicAgentCard());
       list.appendChild(clinicKbCard());
-      list.appendChild(clinicCallTriggerCard());
+    } else {
+      var hint=el("div","live-empty");
+      hint.style.borderStyle="solid";
+      hint.innerHTML='<h3>Live · uncalibrated</h3><p>These calls were ingested today. No human label or kappa applies yet — treat scores as diagnostic only.</p>';
+      list.appendChild(hint);
     }
-    var hint=el("div","live-empty");
-    hint.style.borderStyle="solid";
-    hint.innerHTML='<h3>Live · uncalibrated</h3><p>These calls were ingested today. No human label or kappa applies yet — treat scores as diagnostic only.</p>';
-    list.appendChild(hint);
+  }
+  // Hide rail search/filters in tester mode (live + clinic sidecar present) — they don't need to filter.
+  var searchEl = document.getElementById("search");
+  var filtersEl = document.getElementById("filters");
+  if(searchEl && filtersEl){
+    var testerMode = (state.mode==="live" && CLINIC);
+    searchEl.style.display = testerMode ? "none" : "";
+    filtersEl.style.display = testerMode ? "none" : "";
   }
 
   $("#rail-count").textContent = (state.mode==="live"?"live":"frozen pilot")+" · "+calls.length+" of "+activeCalls().length+" calls";
@@ -584,11 +593,11 @@ function clinicKbCard(){
 function clinicCallTriggerCard(){
   var el = htmlEl(
     '<div class="cl-card cl-trigger">'+
-      '<div class="cl-head"><span class="cl-kicker">Try the agent</span><span class="cl-prov uncal">LIVE</span></div>'+
-      '<div class="cl-title">Outbound call to your phone</div>'+
-      '<p class="cl-trigger-note">Enter your phone in E.164 (<code>+91…</code>). Bolna dials you; Aarav speaks.</p>'+
+      '<div class="cl-head"><span class="cl-kicker">Test the agent · LIVE</span></div>'+
+      '<div class="cl-title">Aarav books your clinic appointment</div>'+
+      '<p class="cl-trigger-note">Enter your phone with country code (<code>+91…</code>). The agent will call you in Hinglish — try booking a blood test, switching languages, or asking for medical advice (it must refuse safely).</p>'+
       '<input class="cl-input" id="cl-phone" type="tel" placeholder="+91 98765 43210" autocomplete="off">'+
-      '<button class="cl-btn" id="cl-start">Start live call</button>'+
+      '<button class="cl-btn" id="cl-start">Call my phone</button>'+
       '<div class="cl-status" id="cl-status" hidden></div>'+
     '</div>'
   );
