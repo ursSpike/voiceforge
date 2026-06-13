@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VoiceForge — Operator Workspace</title>
+<link rel="stylesheet" href="/platform/styles.css">
+</head>
+<body>
+<div id="app">
+  <aside id="rail" aria-label="Call directory">
+    <header class="rail-head">
+      <div class="brand"><span class="brand-dot"></span> VoiceForge <span class="brand-sub">operator</span></div>
+      <div class="mode-switch" role="tablist" aria-label="Data set">
+        <button id="mode-frozen" class="mode-btn active" role="tab" aria-selected="true">Frozen Pilot</button>
+        <button id="mode-live" class="mode-btn" role="tab" aria-selected="false">Live Today <span id="live-pip" class="live-pip" hidden></span></button>
+      </div>
+      <input id="search" class="search" type="search" placeholder="Search call id, language, workflow…" autocomplete="off">
+      <div id="filters" class="filters"></div>
+      <div id="rail-count" class="rail-count"></div>
+    </header>
+    <div id="rail-list" class="rail-list" role="listbox" aria-label="Calls"></div>
+  </aside>
+  <main id="main">
+    <div id="detail" class="detail"></div>
+  </main>
+</div>
+<script src="/platform/platform_data.js"></script>
+<script src="/platform/app.js"></script>
+</body>
+</html>

@@ -24,21 +24,21 @@
 
 > Spoken:
 
-"Hi everyone. [PAUSE] [LOOK UP]
-I'm **Saivarshith** — call me **Spike**.
-CSE from **IIT Kharagpur**, class of '25.
-I'm an SDE at **Fujitsu Research**.
-I built this **solo**. [PAUSE]
+"[LOOK UP] One question to open with. [PAUSE]
+Every voice agent in this room can tell you a call **ended**.
+**None** of them can tell you it went **well**. [PAUSE]
+A thousand calls finished today — how many actually **succeeded**?
+Most teams **can't answer that**. [PAUSE]
+*That* is where calls quietly fail — and it's where I live. [PAUSE]
 
-One line, and then I'll show you everything: [LOOK UP]
+I'm **Saivarshith** — call me **Spike**.
+CSE, **IIT Kharagpur** '25. SDE at **Fujitsu Research**. Built this **solo**. [PAUSE]
+
 [PUNCH] **Success rate tells you whether calls finished.**
 **VoiceForge tells you how they finished, what failures cost, and what to fix first.** [PAUSE]
-
-Every voice agent in this room can tell you a call **ended**.
-**None** of them can tell you it went **well**.
 That gap — [PAUSE] — that's the whole product."
 
-> **WHAT THIS MEANS (for you):** This is the spine. "Success rate" = the one number every team ships: did the call complete? Your claim is that that number is *blind to quality*. You are the layer that runs **after** the call and grades **how** it went. Say the one-liner exactly — it comes back at the close.
+> **WHAT THIS MEANS (for you):** This is the spine, now opened **problem-first** (Spike's steer): hook the room with the *failure* — "they finished, but did they go well?" — BEFORE you say your name. The flow is **where calls fail → who I am → here's the fix** ("that's where we come in" = the thesis). The metric-trap slide next is the **why** (the number is structurally blind). Say the one-liner exactly — it bookends the close. If the cold open feels too long, cut the "thousand calls" line and go straight from "go well" to your name.
 
 ---
 
@@ -175,6 +175,9 @@ The fix: **'replace generic re-asks with a targeted question that names the uncl
 **Three:** the hero call is voiced with that same Cartesia voice. [PAUSE]
 
 [SLOW — explain mode] So: **Bolna runs the calls. Cartesia gives them a voice. VoiceForge is the layer both are missing** — post-call quality, calibrated. [PAUSE] [LOOK UP]
+
+*(Optional talking point if the room is technical / asks about scale:)*
+"And this only gets **harder** as voice goes **multi-agent** — Bolna agents handing off to each other, an agent calling another agent. Every handoff is a new place to fail, and a transcript-only log can't see it. **Trace-level eval is built for exactly that future.**" [PAUSE]
 
 ⟨LIVE TODAY — fill in on-site if live calls happened:⟩
 *"And today, on the venue network, I ran ⟨N⟩ fresh calls through the live Cartesia-voiced agent — clean, code-switched, a repair loop — pushed through this same pipeline. Timestamps prove it's from today. These are **uncalibrated** — they don't touch the frozen calibration — they're a live slice, shown separately."*

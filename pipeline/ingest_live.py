@@ -39,7 +39,10 @@ import ingest_bolna as IB  # noqa: E402  (reconstruct_turns + normalize, the SAM
 
 BASE = "https://api.bolna.ai"   # SPEC §7.G / §10 cite-card: API host api.bolna.ai (matches bolna_smoke.py)
 
-LIVE_PROVENANCE = {"slice": "live_today", "calibrated": False, "label": "LIVE · UNCALIBRATED"}
+# synthesizer_verified defaults False (audit P0C edge 2): never infer Cartesia from liveness alone —
+# flip to True only after validating the fetched agent config via cache_bolna_cartesia_proof.py.
+LIVE_PROVENANCE = {"slice": "live_today", "calibrated": False, "label": "LIVE · UNCALIBRATED",
+                   "synthesizer_verified": False}
 
 
 def _load_env():
@@ -96,15 +99,21 @@ def fetch_latest():
              "run with the explicit id instead:  --execution <id>")
 
 
-def normalize_live(raw_payload):
-    """SAME deterministic normalize as production (ingest_bolna.normalize), then stamp live
-    provenance into metadata. call_id stays bolna_<id[:8]> from the shared normalizer; we DO NOT
-    rename it — isolation comes from the live_ file namespace + the provenance tag, so a live call
-    and the frozen calibration call can never collide on disk (bolna_live_* vs bolna_*)."""
+def normalize_live(raw_payload, execution_id):
+    """SAME deterministic normalize as production (ingest_bolna.normalize), then stamp live provenance
+    and a NAMESPACED internal call_id (audit P0C edge 1). The call_id is rewritten to
+    bolna_live_<id[:8]> — NOT left as bolna_<id[:8]> — so identity AND the judge-cache key (keyed on
+    call_id) can never collide with the frozen bolna_* calibration call; isolation no longer relies on
+    the filename/subdir alone. Synthesizer provider is NOT assumed Cartesia just because the call is
+    live (audit P0C edge 2): it is marked unverified until validated from the fetched agent config
+    (pipeline/cache_bolna_cartesia_proof.py)."""
+    cid, _short = live_call_id(execution_id)
     call = IB.normalize(raw_payload)                    # identical turn reconstruction + lang detection
-    call["provenance"] = dict(LIVE_PROVENANCE)
-    call["metadata"]["note"] = ("LIVE on-site call (Cartesia voice); UNCALIBRATED, not part of the "
-                                "frozen 46-call calibration set")
+    call["call_id"] = cid                               # namespaced identity (was bolna_<id[:8]>)
+    call["provenance"] = dict(LIVE_PROVENANCE)          # carries synthesizer_verified=False by default
+    call["metadata"]["note"] = ("LIVE on-site call; UNCALIBRATED, not part of the frozen 46-call "
+                                "calibration set. Synthesizer provider UNVERIFIED — validate via "
+                                "pipeline/cache_bolna_cartesia_proof.py before claiming Cartesia.")
     return call
 
 
@@ -126,7 +135,7 @@ def ingest_one(raw_payload, execution_id, norm_dir=LIVE_NORM, raw_dir=RAW, write
         raw_dir.mkdir(parents=True, exist_ok=True)
         (raw_dir / f"bolna_live_{short}.json").write_text(json.dumps(raw_payload, indent=2))
 
-    call = normalize_live(raw_payload)
+    call = normalize_live(raw_payload, execution_id)
     validate(call, "call_log")                          # constitution must hold BEFORE writing
 
     norm_dir.mkdir(parents=True, exist_ok=True)
@@ -180,7 +189,7 @@ def selftest():
               and call["provenance"]["calibrated"] is False
               and call["provenance"]["label"] == "LIVE · UNCALIBRATED",
               "live provenance stamped {slice:live_today, calibrated:false, LIVE · UNCALIBRATED}")
-        check(call["call_id"] == "bolna_246cd9f3", "call_id from the SHARED normalizer (bolna_<id[:8]>)")
+        check(call["call_id"] == "bolna_live_246cd9f3", "call_id namespaced bolna_live_<id[:8]> (no collision with frozen bolna_*)")
 
         # determinism: the live path's turns/scorecard/signals must MATCH production's cached output
         prod_norm = json.loads((NORM / "bolna_246cd9f3.json").read_text())
@@ -188,11 +197,13 @@ def selftest():
               and call["language"] == prod_norm["language"],
               "turns + language IDENTICAL to production normalize (same deterministic build)")
         prod_rec = json.loads((ROOT / "out" / "call_bolna_246cd9f3.json").read_text())
-        check(record["scorecard"] == prod_rec["scorecard"]
+        def _no_cid(d):  # scorecard/cost/outcome embed call_id; namespacing it is intentional — compare the MATH
+            return {k: v for k, v in d.items() if k != "call_id"} if isinstance(d, dict) else d
+        check(_no_cid(record["scorecard"]) == _no_cid(prod_rec["scorecard"])
               and record["signals"] == prod_rec["signals"]
-              and record["cost"] == prod_rec["cost"]
-              and record["outcome"] == prod_rec["outcome"],
-              "scorecard/signals/cost/outcome IDENTICAL to production build_record")
+              and _no_cid(record["cost"]) == _no_cid(prod_rec["cost"])
+              and _no_cid(record["outcome"]) == _no_cid(prod_rec["outcome"]),
+              "scorecard/signals/cost/outcome IDENTICAL to production build_record (modulo namespaced call_id)")
 
         # --latest is an honest stub (refuses, never fabricates an endpoint)
         import subprocess

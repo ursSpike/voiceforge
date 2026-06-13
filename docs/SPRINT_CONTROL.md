@@ -18,10 +18,18 @@ touches frozen artifacts.
 > `explain <topic>` spawn the explainer agent. Start by reading the files and telling me my current next action.
 
 ## INBOX (Spike writes here — newest on top)
-- (empty)
+- **[ACTIONED ~08:55] Spike steer — problem-first cold open + Bolna/Cartesia multi-agent talking point.**
+  Disposition: applied as DELIVERY layer in demo_docs.md (Slide 1 reworked to where-calls-fail → who-I-am →
+  thesis; metric-trap Slide 2 is the "why"; multi-agent talking point added to Slide 7 + ROOM_PLAYBOOK).
+  Kept as script framing, NOT new scenes, so it doesn't desync P0A's 8-scene build. OPTION (post-P0A,
+  clock permitting, only if it doesn't destabilize cleared `/`): sharpen scene-1/2 COPY to read explicitly
+  problem-first. Deferred to coordinator's integration pass.
 
 ## CURRENT PHASE
-Pre-departure timebox (07:17–~09:30 IST). Event 10:30. P0 fleet: script · bible · live-bridge · routes.
+FINAL UI REPAIR (post-Codex-audit) — P0A (`/` 8 scenes) + P0B (`/platform` operator) running; hard stop
+10:15. Venue check-in ~09:30; build sprint 10:30. P0C live-contract edges CLOSED (call_id namespaced,
+synthesizer provenance no longer inferred). `/` and `/platform` remain **IN PROGRESS** until measured
+viewport QA passes — `out/dashboard.html` is the cleared fallback meanwhile.
 
 ## PROTECTED INVARIANTS (no agent may violate)
 - Frozen: label manifest/CSV/snapshot · judge_results.json · calls.json · calibration numbers · rubric.
@@ -42,12 +50,15 @@ Pre-departure timebox (07:17–~09:30 IST). Event 10:30. P0 fleet: script · bib
 **P0 FLEET COMPLETE (07:55). Next: Spike reads demo_docs aloud once → leave for venue.**
 Stale-doc truth-pass landed: docs/dataset_card.md + docs/limitations.md corrected (were pre-Phase-B:
 claimed English-only / 46=44 SpokenWOZ; real = 30 Hindi-English + 14 SpokenWOZ + hero + Bolna).
-README's false DPO-shipped diagram still pending → submission agent's README rewrite (P2).
+README false-DPO truth-pass DONE (diagram now marks DPO a roadmap stub; multilingual/live-ingest shown
+as shipped). All six Codex truth-fixes landed.
 
 ## TOP 3 NEXT ACTIONS
-1. Spike: confirm "go P0" → fleet launches in parallel.
-2. Coordinator: verify each lane as it lands (QA agent on live-bridge code), commit honestly.
-3. 09:20 — Spike reads demo_docs.md aloud once; we trim overruns; leave.
+1. Coordinator: integrate P0A/P0B when they land; MEASURE every scene bbox at 1280×720/1440×900/1920×1080;
+   if `/platform` doesn't clear by 10:15, route it to `out/dashboard.html` fallback and report honestly.
+2. One final reviewed commit (incl. TODAY/ROOM_PLAYBOOK/PUSH_PROTOCOL) + QA report; do NOT push (Spike pushes).
+3. FIRST ON-SITE ENGINEERING GATE: one real execution-ID fetch with the Bolna Buddy before any live call
+   is trusted (verifies the unproven `--execution` endpoint). Record the answer in INBOX.
 
 ## BUDDY QUESTIONS (carry to venue — answers go in INBOX)
 1. Telemetry: does Bolna expose an explicit interruption token/timestamp? (gates the barge-in scenario)

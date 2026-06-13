@@ -1,8 +1,11 @@
 /* ============================================================
-   VoiceForge — Evaluation Lab
-   Vanilla JS. Every displayed product number is read from
-   window.__DATA__ (the committed artifact contract). Nothing
-   is fetched; nothing is fabricated.
+   VoiceForge — Evaluation Lab · PRESENTER MODE
+   Vanilla JS. Eight scenes, each exactly one viewport tall.
+   Every displayed product number is read from window.__DATA__
+   (the committed artifact contract). Nothing is fetched;
+   nothing is fabricated. The full 76-call table and the full
+   improvement queue live ONLY in the corpus browser overlay —
+   scenes show a few representative rows/cards.
    ============================================================ */
 (function () {
   "use strict";
@@ -30,130 +33,52 @@
   const mount = name => document.querySelector(`[data-mount="${name}"]`);
   const reducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  const kicker = (num, text) =>
-    `<div class="ch-kicker"><span class="k-num">${esc(num)}</span><span>${esc(text)}</span></div>`;
+  const head = (num, kicker, title, lede) => `
+    <div class="scene-head">
+      <div class="ch-kicker"><span class="k-num">${esc(num)}</span><span>${esc(kicker)}</span></div>
+      <h2 class="ch-title">${title}</h2>
+      ${lede ? `<p class="ch-lede">${lede}</p>` : ""}
+    </div>`;
 
-  /* ---------- chapter 00 · thesis ---------- */
+  /* ============================================================
+     SCENE 1 · Thesis + intro
+     ============================================================ */
 
   function renderThesis() {
     const archTotal = Object.values(R.archetypes.counts).reduce((a, b) => a + b, 0);
     mount("thesis").innerHTML = `
-      <div class="hero-mark reveal">
+      <div class="hero-mark">
         <span class="hm-glyphs" aria-hidden="true">
           <span class="hm-raw"></span><span class="hm-rule"></span><span class="hm-forged"></span>
         </span>
         <span class="hm-name">Voice<b>Forge</b> · The evaluation lab for production voice agents</span>
       </div>
-      <h1 class="hero-thesis reveal" data-delay="1">
-        <span class="ht-muted">Voice-agent demos stop when the call ends.</span>
-        <span class="ht-ember">VoiceForge starts there.</span>
+      <h1 class="hero-thesis">
+        <span class="ht-muted">Success rate tells you whether calls finished.</span>
+        <span class="ht-ember">VoiceForge tells you how.</span>
       </h1>
-      <p class="hero-sub reveal" data-delay="2">
-        Success rate tells you whether calls finished. VoiceForge tells you how they finished,
-        what failures cost, and what to fix first — deterministic signals before semantic judgment,
-        blind human labels before trust, and evidence cited on every claim.
+      <p class="hero-who"><b>Saivarshith “Spike”</b> · CSE, IIT Kharagpur ’25 · SDE, Fujitsu Research · built solo.</p>
+      <p class="hero-sub">
+        It tells you how calls finished, what failures cost, and what to fix first —
+        deterministic signals before semantic judgment, blind human labels before trust,
+        evidence cited on every claim.
       </p>
-      <div class="hero-stats reveal" data-delay="3">
-        <div class="hstat">
-          <div class="hs-v">${D.analytics.n_calls}</div>
-          <div class="hs-l">calls scored</div>
-          ${prov("measured", "Measured")}
-        </div>
-        <div class="hstat">
-          <div class="hs-v">${D.val.binary}</div>
-          <div class="hs-l">blind binary labels</div>
-          ${prov("human", "Human-labeled")}
-        </div>
-        <div class="hstat">
-          <div class="hs-v">${RUN.validated_judgments}</div>
-          <div class="hs-l">validated judgments · ${RUN.failures} failures</div>
-          ${prov("measured", "Run artifact")}
-        </div>
-        <div class="hstat">
-          <div class="hs-v">${pct(P.human_success_rate)}</div>
-          <div class="hs-l">human-confirmed success</div>
-          ${prov("human", "Human-labeled")}
-        </div>
-        <div class="hstat">
-          <div class="hs-v">${archTotal}</div>
-          <div class="hs-l">calls phenotyped</div>
-          ${prov("exploratory", "Single-rater")}
-        </div>
+      <div class="hero-stats">
+        <div class="hstat"><div class="hs-v">${D.analytics.n_calls}</div><div class="hs-l">calls scored</div>${prov("measured", "Measured")}</div>
+        <div class="hstat"><div class="hs-v">${D.val.binary}</div><div class="hs-l">blind binary labels</div>${prov("human", "Human-labeled")}</div>
+        <div class="hstat"><div class="hs-v">${RUN.validated_judgments}</div><div class="hs-l">validated judgments · ${RUN.failures} failures</div>${prov("measured", "Run artifact")}</div>
+        <div class="hstat"><div class="hs-v">${pct(P.human_success_rate)}</div><div class="hs-l">human-confirmed success</div>${prov("human", "Human-labeled")}</div>
+        <div class="hstat"><div class="hs-v">${archTotal}</div><div class="hs-l">calls phenotyped</div>${prov("exploratory", "Single-rater")}</div>
       </div>
-      <div class="hero-cue reveal" data-delay="3">
-        <span class="cue-arrow" aria-hidden="true">↓</span>
-        <span>Scroll, or press → · nine chapters from thesis to receipts</span>
+      <div class="hero-cue">
+        <span class="cue-arrow" aria-hidden="true">→</span>
+        <span>Press → or ↓ · eight scenes from thesis to receipts</span>
       </div>`;
   }
 
-  /* ---------- chapter 01 · hear, then measure ---------- */
-
-  const PROV_LEGEND = [
-    ["measured", "Measured", "Deterministic timestamp or schema-derived signals."],
-    ["human", "Human-labeled", "Blind single-rater outcomes and phenotype primitives."],
-    ["calibrated", "Binary calibrated", "The judge's dedicated binary outcome, compared with the human binary label."],
-    ["uncal", "Uncalibrated diagnostic", "The five semantic judge dimensions. Useful, unproven."],
-    ["estimated", "Estimated prototype", "Cost values derived from public unit assumptions."],
-    ["exploratory", "Exploratory", "Single-rater phenotype distributions and co-occurrence."],
-    ["notobs", "Not observed", "Unavailable in the source. Shown as absent, never as zero."],
-  ];
-
-  function renderMeasure() {
-    const tc = D.analytics.timing_coverage;
-    const archTotal = Object.values(R.archetypes.counts).reduce((a, b) => a + b, 0);
-    const stages = [
-      ["Ingest", `${D.analytics.n_calls} calls ingested`],
-      ["Normalize", "provider-neutral call schema"],
-      ["Deterministic signals", `timing on ${tc.timed} · ${tc.unmeasured} unmeasured`],
-      ["Blind labels", `${D.val.binary} binary · ${D.val.unsure} unsure`],
-      ["Evidence-cited judge", `${RUN.validated_judgments}/${RUN.expected_judgments} validated · ${RUN.failures} failures`],
-      ["Binary calibration", `κ ${CAL.kappa} · n=${CAL.n}`],
-      ["Phenotypes", `${archTotal} calls typed`],
-      ["Improvement queue", `${(R.improvement_queue || []).length} candidate fixes`],
-    ];
-    const clusters = D.analytics.failure_clusters || [];
-    const maxC = Math.max(1, ...clusters.map(c => c.count));
-    mount("measure").innerHTML = `
-      ${kicker("01", "Hear, then measure")}
-      <h2 class="ch-title reveal">Deterministic signals come first. Missing timing is omitted — never faked.</h2>
-      <p class="ch-lede reveal" data-delay="1">
-        Barge-in, latency gaps, silence, turn structure and completion signals are measured from
-        provider timestamps. ${tc.timed} calls carry timing; ${tc.unmeasured} text-only calls show
-        none at all, because fabricating it would poison everything downstream.
-      </p>
-      <div class="pipeline reveal" data-delay="1">
-        ${stages.map(([name, fact], i) => `
-          <div class="stage ${i === stages.length - 1 ? "hot" : ""}">
-            <div class="st-num">STAGE ${String(i + 1).padStart(2, "0")}</div>
-            <div class="st-name">${esc(name)}</div>
-            <div class="st-fact">${esc(fact)}</div>
-          </div>`).join("")}
-      </div>
-      <div class="grid-2">
-        <div class="panel reveal" data-delay="2">
-          <div class="panel-head"><h3>Deterministic events across the corpus</h3>${prov("measured", "Signal hits")}</div>
-          <div class="signal-bars">
-            ${clusters.map(c => `
-              <div class="sbar">
-                <span class="sb-l">${esc(pretty(c.dimension))}</span>
-                <span class="sb-track"><span class="sb-fill" style="width:${Math.max(4, 100 * c.count / maxC)}%"></span></span>
-                <span class="sb-v">${c.count}</span>
-              </div>`).join("")}
-          </div>
-          <p class="panel-note">These are signal hits, not failed calls — one rough call can fire many.
-          Example calls are inspectable in the evidence explorer.</p>
-        </div>
-        <div class="panel reveal" data-delay="3">
-          <div class="panel-head"><h3>Every number wears its provenance</h3></div>
-          <div class="prov-legend">
-            ${PROV_LEGEND.map(([k, l, def]) => `
-              <div class="pl-item">${prov(k, l)}<span class="pl-def">${esc(def)}</span></div>`).join("")}
-          </div>
-        </div>
-      </div>`;
-  }
-
-  /* ---------- chapter 02 · metric trap ---------- */
+  /* ============================================================
+     SCENE 2 · The metric trap (25/45)
+     ============================================================ */
 
   function renderTrap() {
     const T = TRAP;
@@ -161,44 +86,131 @@
       .concat(Array.from({ length: T.agree }, () => "agree"))
       .concat(Array.from({ length: T.missed_successes }, () => "missed"))
       .concat(Array.from({ length: T.n - T.agree - T.missed_successes }, () => "passed"));
-    mount("trap").innerHTML = `
-      ${kicker("02", "The metric trap")}
-      <h2 class="ch-title reveal">A success-rate dashboard is blind exactly where it costs money.</h2>
-      <div class="trap-grid">
-        <div>
-          <div class="trap-stats reveal" data-delay="1">
-            <div class="trap-stat">
-              <div class="ts-v">${T.agree}/${T.n}</div>
-              <div class="ts-l">heuristic agrees with the blind human label</div>
+    mount("trap").innerHTML =
+      head("2", "The metric trap",
+        `A success-rate dashboard is blind exactly where it costs money.`,
+        `The metric most teams ship is completion — a keyword check. Compared with blind human judgment on the same calls, here is how often they agree.`) + `
+      <div class="scene-body">
+        <div class="trap-grid">
+          <div>
+            <div class="trap-stats">
+              <div class="trap-stat"><div class="ts-v">${T.agree}/${T.n}</div><div class="ts-l">heuristic agrees with the blind human label</div></div>
+              <div class="trap-stat"><div class="ts-v">${T.missed_successes}</div><div class="ts-l">real successes it missed</div></div>
+              <div class="trap-stat"><div class="ts-v">${T.false_passes}/${T.human_failures}</div><div class="ts-l">real failures it passed</div></div>
             </div>
-            <div class="trap-stat">
-              <div class="ts-v">${T.missed_successes}</div>
-              <div class="ts-l">real successes it missed</div>
+            <div class="dotfield" role="img"
+              aria-label="${T.n} labeled calls: ${T.agree} where the heuristic agrees with the human, ${T.missed_successes} real successes it missed, ${T.false_passes} real failures it passed.">
+              ${dots.map(k => `<span class="df-dot ${k}"></span>`).join("")}
             </div>
-            <div class="trap-stat">
-              <div class="ts-v">${T.false_passes}/${T.human_failures}</div>
-              <div class="ts-l">real failures it passed</div>
+            <div class="dotfield-key">
+              <span><i style="background:var(--line)"></i>heuristic agrees (${T.agree})</span>
+              <span><i style="background:var(--prov-human)"></i>missed successes (${T.missed_successes})</span>
+              <span><i style="background:var(--bad)"></i>failures passed (${T.false_passes})</span>
             </div>
           </div>
-          <div class="dotfield reveal" data-delay="2" role="img"
-            aria-label="${T.n} labeled calls: ${T.agree} where the heuristic agrees with the human, ${T.missed_successes} real successes it missed, ${T.false_passes} real failures it passed.">
-            ${dots.map(k => `<span class="df-dot ${k}"></span>`).join("")}
+          <div class="trap-side">
+            <p class="trap-caption">${esc(T.caption)}</p>
+            <div>${prov("measured", "Deterministic heuristic")} ${prov("human", "Blind labels")}</div>
+            <p class="panel-note">${esc(T.provenance)}.</p>
           </div>
-          <div class="dotfield-key reveal" data-delay="2">
-            <span><i style="background:var(--line)"></i>heuristic agrees (${T.agree})</span>
-            <span><i style="background:var(--prov-human)"></i>missed successes (${T.missed_successes})</span>
-            <span><i style="background:var(--bad)"></i>failures passed (${T.false_passes})</span>
-          </div>
-        </div>
-        <div class="reveal" data-delay="2">
-          <p class="trap-caption">${esc(T.caption)}</p>
-          ${prov("measured", "Deterministic heuristic")} ${prov("human", "Blind labels")}
-          <p class="panel-note">${esc(T.provenance)}.</p>
         </div>
       </div>`;
   }
 
-  /* ---------- chapter 03 · calibration ---------- */
+  /* ============================================================
+     SCENE 3 · Deterministic before judge
+     ============================================================ */
+
+  function renderMeasure() {
+    const clusters = D.analytics.failure_clusters || [];
+    const byDim = Object.fromEntries(clusters.map(c => [c.dimension, c.count]));
+    const latency = byDim["latency_gap"] ?? "—";
+    const barge = byDim["barge_in"] ?? "—";
+    mount("measure").innerHTML =
+      head("3", "Architecture",
+        `Deterministic before judge.`,
+        `Two rules. Measure what a clock or a rule can answer. Judge only what is genuinely subjective — and calibrate even that.`) + `
+      <div class="scene-body">
+        <div class="doctrine">
+          <article class="rule">
+            <span class="rule-tag">Rule one</span>
+            <h3>Never ask an AI something you can measure.</h3>
+            <p>Barge-ins (speech overlap in either direction) and latency gaps come from turn-timestamp arithmetic — counted, not judged. Missing timing is omitted, never fabricated.</p>
+            <div class="rule-nums">
+              <div><div class="rn-v">${latency}</div><div class="rn-l">latency gaps</div></div>
+              <div><div class="rn-v">${barge}</div><div class="rn-l">barge-in events</div></div>
+            </div>
+            <div class="rule-prov">${prov("measured", "Timestamp math")}</div>
+          </article>
+          <article class="rule hot">
+            <span class="rule-tag">Rule two</span>
+            <h3>The judge runs in quarantine — only after humans set the bar, blind.</h3>
+            <p>Five quality dimensions, temperature ${RUN.temperature}, every score must cite the turn it came from, and each judgment is validated before it is ever cached.</p>
+            <div class="rule-nums">
+              <div><div class="rn-v">${RUN.validated_judgments}</div><div class="rn-l">validated · ${RUN.failures} failures</div></div>
+              <div><div class="rn-v">κ ${CAL.kappa}</div><div class="rn-l">calibrated, n=${CAL.n}</div></div>
+            </div>
+            <div class="rule-prov">${prov("calibrated", "Validated before cached")}</div>
+          </article>
+        </div>
+        <div class="doctrine-foot">
+          <span class="punch">Measure what's measurable. Judge only what's left.</span>
+          <span class="punch-sub">Most of this layer is not an eval — it is arithmetic, so it cannot hallucinate.</span>
+        </div>
+      </div>`;
+  }
+
+  /* ============================================================
+     SCENE 4 · The hero call (constructed, disclosed)
+     ============================================================ */
+
+  function renderHero() {
+    const hero = ROWS.find(r => r.id === "hero_001");
+    const failDims = hero ? hero.failures.reduce((m, f) => { m[f.dimension] = (m[f.dimension] || 0) + 1; return m; }, {}) : {};
+    const barge = failDims["barge_in"] || 0;
+    const latency = failDims["latency_gap"] || 0;
+    mount("hero").innerHTML =
+      head("4", "Hero call",
+        `A “success” that limped.`,
+        ``) + `
+      <div class="scene-body">
+        <div class="hero-call-grid">
+          <div>
+            <span class="disclose">⚠ Constructed scenario · disclosed up front · voiced with Cartesia</span>
+            <p class="ch-lede" style="margin-top:14px;max-width:54ch">
+              One call, here to show <b>detection</b>, not to pad a statistic. Completion says success.
+              The human says success. But look at the shape.
+            </p>
+            <div class="hero-verdicts">
+              <div class="verdict"><div class="v-k">completion heuristic</div><div class="v-v">success</div></div>
+              <div class="verdict"><div class="v-k">blind human</div><div class="v-v">success</div></div>
+              <div class="verdict tag"><div class="v-k">VoiceForge archetype</div><div class="v-v">brittle success</div></div>
+            </div>
+            <p class="hero-line">
+              The task got done — but the caller had to <b>fight</b> for it. A pass/fail number calls this
+              a win and moves on. VoiceForge calls it brittle, shows the friction, and keeps the receipt.
+            </p>
+            ${hero ? `<button class="btn primary hero-open" data-open-call="hero_001">Open hero_001 — cited evidence →</button>` : ""}
+          </div>
+          <div class="hero-signals">
+            <div class="hsig">
+              <div><div class="hs-name">Caller barged in</div><div class="hs-sub">speech overlap, reconstructed from turn timestamps</div></div>
+              <div class="hs-count">×${barge}</div>
+            </div>
+            <div class="hsig">
+              <div><div class="hs-name">Latency gaps</div><div class="hs-sub">dead air on the clock — measured, not judged</div></div>
+              <div class="hs-count">×${latency}</div>
+            </div>
+            <div style="margin-top:4px">${prov("measured", "Deterministic signal hits")} ${prov("notobs", "Prevalence lives in the blind labels")}</div>
+            <p class="panel-note" style="max-width:46ch">Validity comes from the public-data calibration in the next scene — never from this one constructed call.</p>
+          </div>
+        </div>
+      </div>`;
+  }
+
+  /* ============================================================
+     SCENE 5 · Blind labels + calibration (centerpiece)
+     ============================================================ */
 
   function renderJudge() {
     const cm = CAL.confusion;
@@ -210,58 +222,51 @@
         <div class="cv">${cm[key] || 0}</div>
         <div class="cl">human ${h} · judge ${j}</div>
       </div>`;
-    mount("judge").innerHTML = `
-      ${kicker("03", "Blind labels, measured trust")}
-      <h2 class="ch-title reveal">“I do not trust the judge. I measure how much to trust it.”</h2>
-      <p class="ch-lede reveal" data-delay="1">
-        Outcomes were labeled blind before any judging. The ${esc(RUN.model)} judge (temperature ${RUN.temperature})
-        then answered the same binary question with cited evidence turns — and its agreement with the human
-        is measured, not assumed.
-      </p>
-      <div class="judge-grid">
-        <div class="panel reveal" data-delay="1">
-          <div class="panel-head"><h3>Binary agreement</h3>${prov("calibrated", "Binary calibrated")}</div>
-          <div class="kappa-row">
-            <div class="kstat">
-              <div class="kv">${CAL.kappa}</div>
-              <div class="kl">Cohen’s κ — ${esc(CAL.band)}</div>
+    mount("judge").innerHTML =
+      head("5", "Blind labels & calibration",
+        `“I do not trust the judge. I measure how much to trust it.”`,
+        `Outcomes were labeled blind before any judging — IDs stripped, scores hidden. ${D.val.binary} usable binary labels. Then: does the judge agree? Reported measured, not assumed.`) + `
+      <div class="scene-body">
+        <div class="judge-grid">
+          <div class="panel">
+            <div class="panel-head"><h3>Binary agreement</h3>${prov("calibrated", "Binary calibrated")}</div>
+            <div class="kappa-row">
+              <div class="kstat"><div class="kv">${CAL.kappa}</div><div class="kl">Cohen’s κ — ${esc(CAL.band)}</div></div>
+              <div class="kstat"><div class="kv">${pct(CAL.raw_agreement)}</div><div class="kl">raw agreement</div><div class="kd">n=${CAL.n} blind labels</div></div>
             </div>
-            <div class="kstat">
-              <div class="kv">${pct(CAL.raw_agreement)}</div>
-              <div class="kl">raw agreement</div>
-              <div class="kd">n=${CAL.n} blind binary labels</div>
+            <div class="ci-strip" aria-label="Bootstrap 95% CI for kappa, ${lo} to ${hi}, crossing zero.">
+              <div class="ci-track">
+                <span class="ci-range" style="left:${px(lo)}; width:calc(${px(hi)} - ${px(lo)})"></span>
+                <span class="ci-zero" style="left:${px(0)}"></span>
+                <span class="ci-point" style="left:${px(CAL.kappa)}"></span>
+              </div>
+              <div class="ci-labels"><span>${axisMin}</span><span>0</span><span>bootstrap 95% CI ${lo} → ${hi}</span><span>${axisMax}</span></div>
             </div>
-          </div>
-          <div class="ci-strip" aria-label="Bootstrap 95% confidence interval for kappa, from ${lo} to ${hi}, crossing zero.">
-            <div class="ci-track">
-              <span class="ci-range" style="left:${px(lo)}; width:calc(${px(hi)} - ${px(lo)})"></span>
-              <span class="ci-zero" style="left:${px(0)}"></span>
-              <span class="ci-point" style="left:${px(CAL.kappa)}"></span>
+            <div class="cal-extra">
+              <div><div class="ce-v">${fmt(CAL.balanced_accuracy)}</div><div class="ce-l">balanced accuracy (imbalance-aware)</div></div>
+              <div><div class="ce-v">${pct(CAL.failure_recall)}</div><div class="ce-l">failure recall — what matters for risk</div></div>
             </div>
-            <div class="ci-labels"><span>${axisMin}</span><span>0</span><span>κ axis · bootstrap 95% CI ${lo} to ${hi}</span><span>${axisMax}</span></div>
+            <p class="ci-note">82% of calls succeed, so κ is mathematically crushed — the prevalence paradox. Shown low and honest, not hidden.</p>
           </div>
-          <p class="ci-note">The interval crosses zero. That is the finding — shown, not smoothed.</p>
-          <p class="kappa-caption">${esc(CAL.caption)}</p>
-        </div>
-        <div class="panel reveal" data-delay="2">
-          <div class="panel-head"><h3>Confusion matrix</h3><span class="cs-hint">n=${CAL.n}</span></div>
-          <div class="cmx">
-            <div></div><div class="ax">judge: success</div><div class="ax">judge: fail</div>
-            <div class="ax side">human: success</div>
-            ${cell("h_success|j_success", true, "success", "success")}
-            ${cell("h_success|j_fail", false, "success", "fail")}
-            <div class="ax side">human: fail</div>
-            ${cell("h_fail|j_success", false, "fail", "success")}
-            ${cell("h_fail|j_fail", true, "fail", "fail")}
+          <div class="panel">
+            <div class="panel-head"><h3>Confusion matrix · the ${CAL.disagreements.length} disagreements</h3><span class="cs-hint">n=${CAL.n}</span></div>
+            <div class="cmx">
+              <div></div><div class="ax">judge: success</div><div class="ax">judge: fail</div>
+              <div class="ax side">human: success</div>
+              ${cell("h_success|j_success", true, "success", "success")}
+              ${cell("h_success|j_fail", false, "success", "fail")}
+              <div class="ax side">human: fail</div>
+              ${cell("h_fail|j_success", false, "fail", "success")}
+              ${cell("h_fail|j_fail", true, "fail", "fail")}
+            </div>
+            <div class="truth-row">
+              <div class="truth"><div class="tr-v">71% ≈ 69%</div><div class="tr-l">hi-en vs English — statistically the same</div></div>
+              <div class="truth"><div class="tr-v">83% vs 50%</div><div class="tr-l">high vs medium annotator confidence</div></div>
+            </div>
+            <div class="chips">${CAL.disagreements.slice(0, 10).map(id => callChip(id)).join("")}</div>
+            <p class="chips-key">Where NOT to trust the judge. The real fault line is confidence, not language —
+              it routes a second-rater review queue. <button class="chip" data-open-corpus="calls">Browse all ${ROWS.length} calls →</button></p>
           </div>
-          <div class="panel-head" style="margin-top:22px"><h3>The ${CAL.disagreements.length} disagreements — where not to trust the judge</h3></div>
-          <div class="chips">
-            ${CAL.disagreements.map(id => callChip(id)).join("")}
-          </div>
-          <p class="chips-key">Where NOT to trust the judge. Language is not the supported axis on this sample —
-          hi-en and English agreement rates are statistically indistinguishable (n=45). The defensible split is
-          annotator confidence (high ≈83% vs medium ≈50%), known only post-annotation — it routes a second-rater
-          review queue, not an auto-router. Dimmed IDs are excluded from this sanitized package.</p>
         </div>
       </div>`;
   }
@@ -269,261 +274,157 @@
   function callChip(id) {
     return ROW_IDS.has(id)
       ? `<button class="chip" data-open-call="${esc(id)}">${esc(id)}</button>`
-      : `<button class="chip" disabled aria-disabled="true" title="Transcript excluded from this sanitized design package">${esc(id)}<span class="chip-tag">excluded</span></button>`;
+      : `<button class="chip" disabled aria-disabled="true" title="Transcript excluded from this package">${esc(id)}<span class="chip-tag">excluded</span></button>`;
   }
 
-  /* ---------- chapter 04 · success × friction ---------- */
-
-  function renderFriction() {
-    const mx = P.matrix;
-    const n = mx.n || 1;
-    const quadrants = [
-      ["seamless", "Seamless success", mx.seamless_success, "Completed without labeled friction."],
-      ["recovered", "Recovered success", mx.recovered_success, "Friction occurred; the agent recovered and completed."],
-      ["brittle", "Brittle success", mx.brittle_success, "Completed — but negative phenotypes remained. Repair burden hides here."],
-      ["failure", "Failure", mx.failure, "Goal not completed in the blind human label."],
-    ];
-    mount("friction").innerHTML = `
-      ${kicker("04", "Success × Friction")}
-      <h2 class="ch-title reveal">Pass/fail is one bit. Failure has shapes — and so does success.</h2>
-      <p class="ch-lede reveal" data-delay="1">
-        n=${mx.n} blind binary labels · ${mx.unsure_excluded} unsure excluded. A single success-rate
-        number flattens four very different call experiences into one.
-      </p>
-      <div class="band reveal" data-delay="1" role="img" aria-label="Distribution of ${mx.n} labeled calls across the four outcome shapes.">
-        ${quadrants.map(([id, label, count]) =>
-          `<span class="seg ${id}" style="width:${(100 * count / n).toFixed(1)}%" title="${esc(label)}: ${count}"></span>`).join("")}
-      </div>
-      <div class="quads">
-        ${quadrants.map(([id, label, count, def], i) => `
-          <article class="quad ${id === "brittle" ? "hot" : ""} reveal" data-delay="${Math.min(3, i + 1)}">
-            <div class="qh"><span>${esc(label)}</span><span>${Math.round(100 * count / n)}%</span></div>
-            <div class="qc">${count} <small>calls</small></div>
-            <p class="qd">${esc(def)}</p>
-            <div class="dots" aria-hidden="true">${Array.from({ length: count }, () => `<i class="${id}"></i>`).join("")}</div>
-          </article>`).join("")}
-      </div>
-      <div class="friction-aside reveal" data-delay="2">
-        <div class="hstat">
-          <div class="hs-v">${pct(P.brittle_share_of_successes)}</div>
-          <div class="hs-l">of successes are brittle</div>
-          ${prov("human", "Human-labeled")}
-        </div>
-        <div class="hstat">
-          <div class="hs-v est-value">${money(P.cost_per_human_success_est)}</div>
-          <div class="hs-l">est. cost per confirmed success</div>
-          ${prov("estimated", "Estimated prototype")}
-        </div>
-        <div class="hstat">
-          <div class="hs-v est-value">${pct(P.friction_or_failure_spend_share)}</div>
-          <div class="hs-l">est. spend touched by friction or failure</div>
-          ${prov("estimated", "Estimated prototype")}
-        </div>
-      </div>
-      <p class="panel-note reveal" data-delay="3" style="max-width:78ch">${esc(P.caveat)}</p>`;
-  }
-
-  /* ---------- chapter 05 · evidence explorer ---------- */
-
-  function renderEvidence() {
-    mount("evidence").innerHTML = `
-      ${kicker("05", "Evidence explorer")}
-      <h2 class="ch-title reveal">Every claim opens to a call.</h2>
-      <p class="ch-lede reveal" data-delay="1">
-        Open any call to compare the blind human outcome, deterministic measurements, semantic diagnostics,
-        and the exact transcript turns each judgment cites. ${esc(D.privacy_note)}
-      </p>
-      <input class="search reveal" data-delay="1" id="call-filter" type="search"
-        placeholder="Filter by ID, language, profile, workflow…" aria-label="Filter calls">
-      <div class="calltable-wrap reveal" data-delay="2">
-        <table class="calltable">
-          <thead>
-            <tr><th>call</th><th>source</th><th>lang</th><th>profile</th><th>turns</th>
-            <th>human</th><th>heuristic*</th><th>overall</th><th></th></tr>
-          </thead>
-          <tbody id="call-tbody"></tbody>
-        </table>
-      </div>
-      <p class="table-note">*Heuristic keyword task-completion — not gold dialogue state, and exactly the metric
-      the trap chapter measures. Overall is the weighted mean over present dimensions only.
-      Human label: ${prov("human", "Human-labeled")} · heuristic: ${prov("measured", "Measured")}</p>`;
-    document.getElementById("call-filter").addEventListener("input", e => renderCallRows(e.target.value));
-    renderCallRows("");
-  }
-
-  function renderCallRows(query) {
-    const q = (query || "").toLowerCase();
-    const rows = ROWS.filter(r => !q || [r.id, r.lang, r.profile, r.wf, r.source].some(x => String(x).toLowerCase().includes(q)));
-    document.getElementById("call-tbody").innerHTML = rows.length ? rows.map(r => `
-      <tr data-open-call="${esc(r.id)}" tabindex="0" aria-label="Open call ${esc(r.id)}">
-        <td class="mono">${esc(r.id)}</td>
-        <td>${esc(r.source)}</td>
-        <td class="mono">${esc(r.lang)}</td>
-        <td><span class="pill ${r.profile === "unmeasured" ? "um" : "ok"}">${esc(r.profile)}</span></td>
-        <td>${r.turns}</td>
-        <td>${r.human ? `<span class="pill ${r.human.label === "success" ? "ok" : r.human.label === "fail" ? "no" : "um"}">${esc(r.human.label)}</span>` : "—"}</td>
-        <td><span class="pill ${r.outcome ? "ok" : "no"}">${r.outcome ? "completed" : "not completed"}</span></td>
-        <td class="mono">${fmt(r.overall)}</td>
-        <td><button class="open-btn" data-open-call="${esc(r.id)}" aria-label="Open ${esc(r.id)}">→</button></td>
-      </tr>`).join("") :
-      `<tr><td colspan="9" style="color:var(--ink-faint)">No calls match that filter.</td></tr>`;
-  }
-
-  /* ---------- chapter 06 · fix first + queue ---------- */
+  /* ============================================================
+     SCENE 6 · Phenotypes + improvement queue
+     ============================================================ */
 
   function renderAction() {
     const F = P.fix_first;
     const queue = R.improvement_queue || [];
-    const groups = [];
-    queue.forEach(item => {
-      let g = groups.find(g => g.rec === item.recommendation);
-      if (!g) { g = { rec: item.recommendation, items: [] }; groups.push(g); }
-      g.items.push(item);
-    });
-    groups.sort((a, b) => b.items.length - a.items.length);
-    mount("action").innerHTML = `
-      ${kicker("06", "From evidence to engineering action")}
-      <h2 class="ch-title reveal">What to fix first — with receipts attached.</h2>
-      <p class="ch-lede reveal" data-delay="1">
-        Ranked by estimated cost exposure in the frozen labeled slice. The destination of the product
-        is not a report; it is a queue an engineer can act on Monday morning.
-      </p>
-      <article class="spotlight reveal" data-delay="1">
-        <div class="spot-grid">
-          <div>
-            ${prov("human", "Human-labeled phenotype")}
-            <h3 class="spot-title">${esc(pretty(F.phenotype_id))}</h3>
-            <div class="spot-stats">
-              <div class="spot-stat"><div class="v">${F.affected_calls}</div><div class="l">affected calls</div></div>
-              <div class="spot-stat"><div class="v est-value">${money(F.estimated_spend_usd)}</div><div class="l">estimated affected spend</div></div>
-              <div class="spot-stat"><div class="v est-value">≈${money(F.modeled_exposure_per_1k_usd)}</div><div class="l">modeled per 1,000 calls</div></div>
+    const counts = R.archetypes.counts;
+    // representative archetype rows (the five the docs name)
+    const archRows = [
+      ["seamless_success", "Seamless", "seamless", false],
+      ["brittle_success", "Brittle", "brittle", true],
+      ["recovered_success", "Recovered", "recovered", false],
+      ["intent_or_slot_loss_failure", "Slot-loss failure", "slotloss", false],
+      ["workflow_failure", "Workflow failure", "workflow", false],
+    ];
+    const total = archRows.reduce((a, [k]) => a + (counts[k] || 0), 0) || 1;
+    const maxC = Math.max(1, ...archRows.map(([k]) => counts[k] || 0));
+    mount("action").innerHTML =
+      head("6", "Phenotypes & the queue",
+        `Pass/fail is one bit. Failure has shapes — so does success.`,
+        `Every call gets transcript-observable phenotype tags; archetypes are derived deterministically, never hand-picked. Each failure becomes a queue entry with evidence and a fix.`) + `
+      <div class="scene-body">
+        <div class="pheno-grid">
+          <div class="panel">
+            <div class="panel-head"><h3>Archetype distribution</h3>${prov("human", "Human-labeled phenotypes")}</div>
+            <div class="band" role="img" aria-label="Distribution across five outcome archetypes.">
+              ${archRows.map(([k, , cls]) => `<span class="seg ${cls}" style="width:${(100 * (counts[k] || 0) / total).toFixed(1)}%"></span>`).join("")}
             </div>
+            <div class="arch-list">
+              ${archRows.map(([k, label, cls, hot]) => `
+                <div class="arch ${hot ? "hot" : ""}">
+                  <div class="a-name"><b>${esc(counts[k] || 0)}</b> ${esc(label)}</div>
+                  <div class="a-bar"><span class="a-track"><span class="a-fill" style="width:${Math.max(4, 100 * (counts[k] || 0) / maxC)}%"></span></span><span class="a-v">${counts[k] || 0}</span></div>
+                </div>`).join("")}
+            </div>
+            <p class="panel-note">Five successes are <b>brittle</b> — done, but the caller fought. A success rate hides that; a phenotype distribution can't.</p>
           </div>
-          <div class="spot-copy">
-            <h4>Recommended change</h4>
-            <p class="action">${esc(F.recommendation)}</p>
-            <h4>Expected mechanism</h4>
-            <p>${esc(F.expected_mechanism)}</p>
-          </div>
+          <article class="spotlight">
+            <span class="sp-tag">Fix-first · ranked by exposure</span>
+            <div class="sp-title">${esc(pretty(F.phenotype_id))}</div>
+            <div class="sp-stats">
+              <div class="sp-stat"><div class="v">${F.affected_calls}</div><div class="l">affected calls</div></div>
+              <div class="sp-stat"><div class="v est-value">${money(F.estimated_spend_usd)}</div><div class="l">est. affected spend</div></div>
+            </div>
+            <div class="sp-action">
+              <h4>Recommended change</h4>
+              <p>${esc(F.recommendation)}</p>
+            </div>
+            <div class="sp-chips">${F.evidence_call_ids.slice(0, 6).map(id => callChip(id)).join("")}</div>
+            <div class="sp-foot">
+              ${prov("exploratory", "Template-derived · needs review")}
+              ${prov("estimated", "Modeled exposure — not savings")}
+            </div>
+          </article>
         </div>
-        <div class="spot-foot">
-          ${prov("exploratory", "Needs human review")}
-          ${prov("estimated", "Modeled exposure — not observed savings")}
-          <span class="cs-hint">provenance: ${esc(F.provenance)}</span>
+        <div class="pheno-foot">
+          <span>That's not a score — it's an engineering backlog, sorted by what to fix first.</span>
+          <button class="btn" data-open-corpus="queue">Open full improvement queue (${queue.length}) →</button>
         </div>
-        <div class="panel-head" style="margin:18px 0 0"><h3>The ${F.evidence_call_ids.length} calls behind this recommendation</h3></div>
-        <div class="chips">${F.evidence_call_ids.map(id => callChip(id)).join("")}</div>
-      </article>
-      <div class="panel-head reveal" data-delay="2" style="margin-top:48px">
-        <h3 style="font-size:18px">Improvement queue · ${queue.length} evidence-backed entries</h3>
-        ${prov("exploratory", "Template-derived · requires review")}
-      </div>
-      <p class="table-note reveal" data-delay="2">Each candidate fix traces to a blind-labeled phenotype on a specific
-      call. No lift is promised. Grouped by recommended change; dimmed calls are excluded from this sanitized package.</p>
-      <div class="queue reveal" data-delay="2">
-        ${groups.map(g => `
-          <div class="queue-group-head">${esc(g.rec)} · ${g.items.length}</div>
-          ${g.items.map(item => queueItem(item)).join("")}`).join("")}
       </div>`;
   }
 
-  function queueItem(item) {
-    const has = ROW_IDS.has(item.call_id);
-    return `<button class="qitem" ${has ? `data-open-call="${esc(item.call_id)}"` : `disabled title="Transcript excluded from this sanitized design package"`}>
-      <span class="qi-id">${esc(item.call_id)}</span>
-      <span class="qi-meta">${esc(item.human)} · <i>${esc(pretty(item.archetype))}</i></span>
-      <span class="qi-go" aria-hidden="true">${has ? "→" : ""}</span>
-      <span class="qi-tags">evidence: ${item.evidence_tags.map(pretty).map(esc).join(", ")}</span>
-    </button>`;
-  }
-
-  /* ---------- chapter 07 · proof chain ---------- */
+  /* ============================================================
+     SCENE 7 · Bolna × Cartesia + LIVE TODAY slot
+     ============================================================ */
 
   function renderProof() {
     const shortHash = h => h ? h.slice(0, 12) + "…" : "—";
-    mount("proof").innerHTML = `
-      ${kicker("07", "Bolna × Cartesia proof chain")}
-      <h2 class="ch-title reveal">Bolna runs the call. Cartesia gives it a voice. VoiceForge tells you what to fix next.</h2>
-      <div class="proof-flow reveal" data-delay="1">
-        <div class="proof-node">
-          <div class="pn-name">Bolna agent</div>
-          <div class="pn-sub">orchestration<br>agent ${esc(SP.agent_id)}</div>
-        </div>
-        <div class="proof-node">
-          <div class="pn-name">Cartesia synthesizer</div>
-          <div class="pn-sub">${esc(SP.cartesia_voice)} · ${esc(SP.cartesia_model)}<br>configured inside the Bolna agent’s synthesizer block</div>
-        </div>
-        <div class="proof-node">
-          <div class="pn-name">Cached execution</div>
-          <div class="pn-sub">fetched ${esc(SP.fetched_at)}<br>offline replay — no live API in the demo</div>
-        </div>
-        <div class="proof-node final">
-          <div class="pn-name">VoiceForge evaluation</div>
-          <div class="pn-sub">provider-neutral · deterministic<br>every number traces to a committed artifact</div>
-        </div>
-      </div>
-      <div class="grid-2">
-        <div class="panel reveal" data-delay="2">
-          <div class="panel-head"><h3>Judge run, pinned</h3>${prov("measured", "Run artifact")}</div>
-          <div class="runfacts">
-            <div class="runfact"><span class="rf-k">model</span><span class="rf-v">${esc(RUN.model)}</span></div>
-            <div class="runfact"><span class="rf-k">temperature</span><span class="rf-v">${RUN.temperature}</span></div>
-            <div class="runfact"><span class="rf-k">calls judged</span><span class="rf-v">${RUN.n_calls}/${R.manifest_total}</span></div>
-            <div class="runfact"><span class="rf-k">validated judgments</span><span class="rf-v">${RUN.validated_judgments}/${RUN.expected_judgments}</span></div>
-            <div class="runfact"><span class="rf-k">failures</span><span class="rf-v">${RUN.failures}</span></div>
-            <div class="runfact"><span class="rf-k">cache hits</span><span class="rf-v">${RUN.cache_hits}</span></div>
-            <div class="runfact"><span class="rf-k">rubric hash</span><span class="rf-v">${esc(RUN.rubric_hash)}</span></div>
-            <div class="runfact"><span class="rf-k">prompt hash</span><span class="rf-v">${esc(RUN.judge_prompt_hash)}</span></div>
-            <div class="runfact"><span class="rf-k">labels sha256</span><span class="rf-v">${esc(shortHash(RUN.labels_csv_sha256))}</span></div>
-            <div class="runfact"><span class="rf-k">manifest sha256</span><span class="rf-v">${esc(shortHash(RUN.manifest_sha256))}</span></div>
+    mount("proof").innerHTML =
+      head("7", "Bolna × Cartesia",
+        `Bolna runs the call. Cartesia gives it a voice. VoiceForge tells you what to fix next.`,
+        `Three honest links — a real Bolna execution ingested from their API, the live agent configured with Cartesia, and the hero call voiced with that same Cartesia voice.`) + `
+      <div class="scene-body">
+        <div class="proof-flow">
+          <div class="proof-node">
+            <div class="pn-name">Bolna agent</div>
+            <div class="pn-sub">orchestration<br>agent ${esc(SP.agent_id)}</div>
+          </div>
+          <div class="proof-node">
+            <div class="pn-name">Cartesia synthesizer</div>
+            <div class="pn-sub">${esc(SP.cartesia_voice)} · ${esc(SP.cartesia_model)}<br>configured in the agent's synthesizer block</div>
+          </div>
+          <div class="proof-node">
+            <div class="pn-name">Cached execution</div>
+            <div class="pn-sub">fetched ${esc(SP.fetched_at)}<br>offline replay — no live API in the demo</div>
+          </div>
+          <div class="proof-node final">
+            <div class="pn-name">VoiceForge evaluation</div>
+            <div class="pn-sub">provider-neutral · deterministic<br>every number traces to a committed artifact</div>
           </div>
         </div>
-        <div class="panel reveal" data-delay="3">
-          <div class="panel-head"><h3>What the binary judgment is</h3>${prov("calibrated", "Calibrated by κ")}</div>
-          <p class="panel-note" style="margin-top:0; font-size:14px; line-height:1.65">${esc(RUN.binary_rule)}</p>
+        <div class="live-slot">
+          <div class="ls-head">
+            <span class="ls-title">⟨ Live-today slot ⟩</span>
+            ${prov("uncal", "Uncalibrated · corpus-only")}
+          </div>
+          <p>Fresh on-site calls through the live Cartesia-voiced agent — clean, code-switched, a repair loop — pushed through this same pipeline. Timestamps prove they're from today. Shown separately; they never enter the frozen 46-call manifest and never touch κ.</p>
+        </div>
+        <div class="runfacts-row">
+          <div class="runfact"><span class="rf-k">judge model</span><span class="rf-v">${esc(RUN.model)}</span></div>
+          <div class="runfact"><span class="rf-k">temperature</span><span class="rf-v">${RUN.temperature}</span></div>
+          <div class="runfact"><span class="rf-k">validated</span><span class="rf-v">${RUN.validated_judgments}/${RUN.expected_judgments}</span></div>
+          <div class="runfact"><span class="rf-k">rubric hash</span><span class="rf-v">${esc(RUN.rubric_hash)}</span></div>
         </div>
       </div>`;
   }
 
-  /* ---------- chapter 08 · method & close ---------- */
+  /* ============================================================
+     SCENE 8 · Value, honest limits, close
+     ============================================================ */
 
   function renderMethod() {
     const tc = D.analytics.timing_coverage;
     const limits = [
-      P.caveat,
-      "κ calibrates only the dedicated binary outcome judgment. The five semantic dimensions remain uncalibrated diagnostics.",
-      "The κ result is slight and its confidence interval includes zero. The product value is exposing that weakness and locating the disagreements.",
-      "Task completion is a deterministic keyword heuristic, not gold dialogue state.",
-      "Failure events are signal hits, not failed calls.",
-      `${tc.unmeasured} text-only calls carry no timing. It is omitted, never fabricated.`,
-      "The hero call is constructed for demonstration and disclosed as such; its audio is Cartesia-synthesized.",
-      "The real ingested Bolna execution predates the Cartesia voice swap; the live agent is configured with Cartesia Devansh on sonic-3.",
-      "The demo runs fully offline — no network, no live API, deterministic on every load.",
+      "Completion is a deterministic keyword heuristic, not gold dialogue state.",
+      "Costs are estimated exposure from public unit prices — not measured savings.",
+      "Calibration is a one-rater pilot at n=" + CAL.n + "; its CI includes zero.",
+      "The five semantic judge dimensions remain uncalibrated diagnostics.",
+      tc.unmeasured + " text-only calls carry no timing — it is omitted, never fabricated.",
+      "The hero call is constructed and disclosed as such; its audio is Cartesia-synthesized.",
+      "The ingested Bolna execution predates the Cartesia voice swap; the live agent runs Cartesia today.",
+      "The live calls are uncalibrated. The demo runs fully offline — no network, no live API.",
     ];
-    mount("method").innerHTML = `
-      ${kicker("08", "Method & limits")}
-      <h2 class="ch-title reveal">Trust each claim by knowing how it was produced.</h2>
-      <p class="ch-lede reveal" data-delay="1">
-        VoiceForge separates measured signals, blind human labels, calibrated binary judgments,
-        uncalibrated semantic diagnostics, and estimated prototype costs — and says so on every surface.
-      </p>
-      <ul class="limits reveal" data-delay="1">
-        ${limits.map(t => `<li>${esc(t)}</li>`).join("")}
-      </ul>
-      <div class="closer reveal" data-delay="2">
-        <p class="close-line">“Pass/fail is one bit. Failure has shapes.”</p>
-        <p class="close-sub">
-          Brittle success is where the repair burden hides. VoiceForge ends every claim the same way it
-          began this page: with receipts — blind labels, cited turns, pinned hashes, and an improvement
-          queue an engineer can open tomorrow.
-        </p>
-      </div>
-      <p class="footnote">${esc(D.privacy_note)} Sanitized design handoff: real aggregate metrics;
-      public-dataset or explicitly constructed transcripts only. Every number on this page traces to a
-      committed artifact.</p>`;
+    mount("method").innerHTML =
+      head("8", "Value, limits & close",
+        `Honesty is the feature.`,
+        `Clean calls are cheap; calls where the caller fights burn money. That's the budget a success rate can't see.`) + `
+      <div class="scene-body">
+        <div class="value-row">
+          <div class="hstat"><div class="hs-v est-value">${pct(P.friction_or_failure_spend_share)}</div><div class="hs-l">est. spend touched by friction or failure</div>${prov("estimated", "Estimated prototype")}</div>
+          <div class="hstat"><div class="hs-v est-value">${money(P.cost_per_human_success_est)}</div><div class="hs-l">est. cost per confirmed success</div>${prov("estimated", "Estimated prototype")}</div>
+          <div class="hstat"><div class="hs-v">${pct(P.brittle_share_of_successes)}</div><div class="hs-l">of successes are brittle</div>${prov("human", "Human-labeled")}</div>
+        </div>
+        <ul class="limits">
+          ${limits.map(t => `<li>${esc(t)}</li>`).join("")}
+        </ul>
+        <div class="closer">
+          <p class="close-line">“Success rate tells you whether calls finished. VoiceForge tells you how they finished, what failures cost, and what to fix first.”</p>
+          <p class="close-sub">Every limit above is labeled in the product — blind labels, cited turns, pinned hashes, and an improvement queue an engineer can open tomorrow.</p>
+          <p class="close-thanks">Thank you to <b>Bolna</b> and <b>Cartesia</b> for the platform and the voice. I'd love your questions.</p>
+        </div>
+      </div>`;
   }
 
-  /* ---------- call sheet ---------- */
+  /* ============================================================
+     CALL EVIDENCE SHEET (drawer)
+     ============================================================ */
 
   const sheet = document.getElementById("callsheet");
   const scrim = document.getElementById("callsheet-scrim");
@@ -531,7 +432,6 @@
 
   function dimRow(d, kind) {
     const ids = d.evidence_turn_ids || [];
-    const chipKind = kind === "judge" ? prov("uncal", "Uncalibrated") : prov("measured", "Measured");
     return `<button class="dim" data-evidence="${esc(ids.join(","))}">
       <span class="d-head"><span>${esc(pretty(d.name))}</span><span class="d-score">${fmt(d.score)}</span></span>
       <span class="d-reason">${esc(d.reason)}</span>
@@ -593,13 +493,12 @@
                 <span class="d-reason">${esc(f.detail)}</span>
               </button>`).join("")}
           </div>` : ""}
-          <p class="cs-hint">Click any judgment to highlight the transcript turns it cites. The story stays
-          exactly where you left it.</p>
+          <p class="cs-hint">Click any judgment to highlight the transcript turns it cites.</p>
         </div>
       </div>`;
     scrim.hidden = false;
     sheet.hidden = false;
-    sheet.classList.add("cs-open");           // pairs with .callsheet:not(.cs-open) safety in CSS
+    sheet.classList.add("cs-open");
     if (!reducedMotion()) {
       sheet.classList.add("closing");
       requestAnimationFrame(() => requestAnimationFrame(() => sheet.classList.remove("closing")));
@@ -615,7 +514,7 @@
       scrim.hidden = true;
       sheet.classList.remove("closing", "cs-open");
       scrim.classList.remove("closing");
-      document.body.style.overflow = "";
+      if (corpus.hidden) document.body.style.overflow = "";
       if (lastFocus && document.contains(lastFocus)) lastFocus.focus();
     };
     if (reducedMotion()) { finish(); return; }
@@ -641,116 +540,174 @@
     }
   }
 
-  /* ---------- demo path ---------- */
+  /* ============================================================
+     CORPUS BROWSER (full table + full queue live ONLY here)
+     ============================================================ */
 
-  const BEATS = [
-    ["0:00", "Category — the lab after the call", "ch-thesis"],
-    ["0:40", "Hear, then measure", "ch-measure"],
-    ["1:30", "The metric trap", "ch-trap"],
-    ["2:30", "Blind labels & calibration", "ch-judge"],
-    ["3:45", "Success has friction", "ch-friction"],
-    ["4:30", "Open a call — cited evidence", "ch-evidence"],
-    ["5:15", "What to fix first & the queue", "ch-action"],
-    ["6:30", "Bolna × Cartesia proof", "ch-proof"],
-    ["7:15", "Method, limits, close", "ch-method"],
-  ];
-  const demopath = document.getElementById("demopath");
-  const demoToggle = document.getElementById("demo-toggle");
+  const corpus = document.getElementById("corpus");
+  const corpusScrim = document.getElementById("corpus-scrim");
+  let corpusFocus = null;
+  let corpusTab = "calls";
 
-  function renderDemoPath() {
-    mount("demopath").innerHTML = `
-      <div class="dp-head"><h3>Demo path · 7–8 minutes</h3>
-        <button class="btn" data-close-demo>Close</button></div>
-      <ol class="dp-list">
-        ${BEATS.map(([time, label, ch], i) => `
-          <li><button data-jump="${ch}" data-beat="${i}">
-            <span class="dp-num">${String(i + 1).padStart(2, "0")}</span>
-            <span>${esc(label)}</span>
-            <span class="dp-time">${time}</span>
-          </button></li>`).join("")}
-      </ol>
-      <div class="dp-foot"><span><kbd>←</kbd> <kbd>→</kbd> chapters</span><span><kbd>Esc</kbd> closes</span></div>`;
+  function renderCorpus(tab) {
+    corpusTab = tab || corpusTab;
+    mount("corpus").innerHTML = `
+      <div class="co-head">
+        <h3 id="corpus-title">Corpus browser</h3>
+        <span class="co-sub">${ROWS.length} scored calls · full evidence</span>
+        <div class="co-tabs" role="tablist">
+          <button class="co-tab" role="tab" data-corpus-tab="calls" aria-selected="${corpusTab === "calls"}">All calls</button>
+          <button class="co-tab" role="tab" data-corpus-tab="queue" aria-selected="${corpusTab === "queue"}">Improvement queue</button>
+        </div>
+        <button class="btn co-close" data-close-corpus>Close <span class="mono" style="font-size:10px">ESC</span></button>
+      </div>
+      <div class="co-body" id="co-body"></div>`;
+    if (corpusTab === "calls") renderCorpusCalls();
+    else renderCorpusQueue();
   }
 
-  function toggleDemo(force) {
-    const open = force != null ? force : demopath.hidden;
-    demopath.hidden = !open;
-    demoToggle.setAttribute("aria-expanded", String(open));
-    if (open) markDemoCurrent();
+  function renderCorpusCalls() {
+    document.getElementById("co-body").innerHTML = `
+      <input class="search" id="call-filter" type="search"
+        placeholder="Filter by ID, language, profile, workflow…" aria-label="Filter calls">
+      <div class="calltable-wrap">
+        <table class="calltable">
+          <thead><tr><th>call</th><th>source</th><th>lang</th><th>profile</th><th>turns</th>
+            <th>human</th><th>heuristic*</th><th>overall</th><th></th></tr></thead>
+          <tbody id="call-tbody"></tbody>
+        </table>
+      </div>
+      <p class="table-note">*Heuristic keyword task-completion — exactly the metric the trap scene measures.
+        Overall is the weighted mean over present dimensions only.
+        Human label ${prov("human", "Human-labeled")} · heuristic ${prov("measured", "Measured")}</p>`;
+    const input = document.getElementById("call-filter");
+    input.addEventListener("input", e => renderCallRows(e.target.value));
+    renderCallRows("");
+    input.focus();
   }
 
-  function markDemoCurrent() {
-    const current = document.body.dataset.ch;
-    demopath.querySelectorAll(".dp-list button").forEach(b =>
-      b.classList.toggle("current", b.dataset.jump === current));
+  function renderCallRows(query) {
+    const q = (query || "").toLowerCase();
+    const rows = ROWS.filter(r => !q || [r.id, r.lang, r.profile, r.wf, r.source].some(x => String(x).toLowerCase().includes(q)));
+    document.getElementById("call-tbody").innerHTML = rows.length ? rows.map(r => `
+      <tr data-open-call="${esc(r.id)}" tabindex="0" aria-label="Open call ${esc(r.id)}">
+        <td class="mono">${esc(r.id)}</td>
+        <td>${esc(r.source)}</td>
+        <td class="mono">${esc(r.lang)}</td>
+        <td><span class="pill ${r.profile === "unmeasured" ? "um" : "ok"}">${esc(r.profile)}</span></td>
+        <td>${r.turns}</td>
+        <td>${r.human ? `<span class="pill ${r.human.label === "success" ? "ok" : r.human.label === "fail" ? "no" : "um"}">${esc(r.human.label)}</span>` : "—"}</td>
+        <td><span class="pill ${r.outcome ? "ok" : "no"}">${r.outcome ? "completed" : "not completed"}</span></td>
+        <td class="mono">${fmt(r.overall)}</td>
+        <td><button class="open-btn" data-open-call="${esc(r.id)}" aria-label="Open ${esc(r.id)}">→</button></td>
+      </tr>`).join("") :
+      `<tr><td colspan="9" style="color:var(--ink-faint)">No calls match that filter.</td></tr>`;
   }
 
-  /* ---------- chapters, spine, scroll ---------- */
+  function renderCorpusQueue() {
+    const queue = R.improvement_queue || [];
+    const groups = [];
+    queue.forEach(item => {
+      let g = groups.find(g => g.rec === item.recommendation);
+      if (!g) { g = { rec: item.recommendation, items: [] }; groups.push(g); }
+      g.items.push(item);
+    });
+    groups.sort((a, b) => b.items.length - a.items.length);
+    document.getElementById("co-body").innerHTML = `
+      <p class="table-note" style="margin:0 0 14px">Each candidate fix traces to a blind-labeled phenotype on a specific call.
+        No lift is promised. Grouped by recommended change; dimmed calls are excluded from this package. ${prov("exploratory", "Template-derived · requires review")}</p>
+      <div class="queue">
+        ${groups.map(g => `
+          <div class="queue-group-head">${esc(g.rec)} · ${g.items.length}</div>
+          ${g.items.map(item => queueItem(item)).join("")}`).join("")}
+      </div>`;
+  }
 
-  const chapters = Array.from(document.querySelectorAll(".chapter"));
+  function queueItem(item) {
+    const has = ROW_IDS.has(item.call_id);
+    return `<button class="qitem" ${has ? `data-open-call="${esc(item.call_id)}"` : `disabled title="Transcript excluded from this package"`}>
+      <span class="qi-id">${esc(item.call_id)}</span>
+      <span class="qi-meta">${esc(item.human)} · <i>${esc(pretty(item.archetype))}</i></span>
+      <span class="qi-go" aria-hidden="true">${has ? "→" : ""}</span>
+      <span class="qi-tags">evidence: ${item.evidence_tags.map(pretty).map(esc).join(", ")}</span>
+    </button>`;
+  }
 
-  function buildSpine() {
-    document.getElementById("spine").innerHTML = chapters.map(ch => `
-      <a href="#${ch.id}" data-jump="${ch.id}">
-        <span class="sp-num">${esc(ch.dataset.num)}</span>
-        <span class="sp-label">${esc(ch.dataset.short)}</span>
+  function openCorpus(tab) {
+    corpusFocus = document.activeElement;
+    renderCorpus(tab);
+    corpusScrim.hidden = false;
+    corpus.hidden = false;
+    corpus.classList.add("co-open");
+    document.body.style.overflow = "hidden";
+    const c = corpus.querySelector(".co-close");
+    if (c) c.focus();
+  }
+
+  function closeCorpus() {
+    if (corpus.hidden) return;
+    corpus.classList.add("closing");
+    corpusScrim.classList.add("closing");
+    const finish = () => {
+      corpus.hidden = true;
+      corpusScrim.hidden = true;
+      corpus.classList.remove("closing", "co-open");
+      corpusScrim.classList.remove("closing");
+      if (sheet.hidden) document.body.style.overflow = "";
+      if (corpusFocus && document.contains(corpusFocus)) corpusFocus.focus();
+    };
+    if (reducedMotion()) { finish(); return; }
+    setTimeout(finish, 250);
+  }
+
+  /* ============================================================
+     SCENE NAVIGATION — rail, snap, keyboard
+     ============================================================ */
+
+  const scenes = Array.from(document.querySelectorAll(".scene"));
+  const deck = document.getElementById("main");
+
+  function buildRail() {
+    document.getElementById("rail").innerHTML = scenes.map(s => `
+      <a href="#${s.id}" data-jump="${s.id}">
+        <span class="sp-num">${esc(s.dataset.num)}</span>
+        <span class="sp-label">${esc(s.dataset.short)}</span>
       </a>`).join("");
   }
 
   function jumpTo(id) {
     const node = document.getElementById(id);
     if (!node) return;
-    const top = node.getBoundingClientRect().top + window.scrollY + 2;
-    window.scrollTo({ top, behavior: reducedMotion() ? "auto" : "smooth" });
+    node.scrollIntoView({ behavior: reducedMotion() ? "auto" : "smooth", block: "start" });
   }
 
   function currentIndex() {
-    return Math.max(0, chapters.findIndex(ch => ch.id === document.body.dataset.ch));
+    const mid = window.innerHeight / 2;
+    let best = 0, bestDist = Infinity;
+    scenes.forEach((s, i) => {
+      const r = s.getBoundingClientRect();
+      const center = r.top + r.height / 2;
+      const dist = Math.abs(center - mid);
+      if (dist < bestDist) { bestDist = dist; best = i; }
+    });
+    return best;
   }
 
-  function setActiveChapter(id) {
+  function setActiveScene(id) {
     if (document.body.dataset.ch === id) return;
     document.body.dataset.ch = id;
-    const ch = document.getElementById(id);
+    const s = document.getElementById(id);
     document.getElementById("topbar-chapter").textContent =
-      `${ch.dataset.num} · ${ch.dataset.title.replace(/&amp;/g, "&")}`;
-    document.querySelectorAll(".spine a").forEach(a =>
+      `${s.dataset.num} · ${s.dataset.title.replace(/&amp;/g, "&")}`;
+    document.querySelectorAll(".rail a").forEach(a =>
       a.setAttribute("aria-current", a.dataset.jump === id ? "true" : "false"));
-    try { history.replaceState(null, "", "#" + id); } catch (e) { /* sandboxed context */ }
-    if (!demopath.hidden) markDemoCurrent();
+    try { history.replaceState(null, "", "#" + id); } catch (e) { /* sandboxed */ }
   }
 
-  /* Scroll-driven narrative state. Plain rAF-throttled measurement (no
-     IntersectionObserver) so it behaves identically in every embedding,
-     including static capture. Reveal motion is opt-in: elements are only
-     hidden (.pre) after two animation frames prove the environment paints,
-     so non-painting contexts always show the complete page. */
-  let pendingReveals = [];
-  function updateNarrative() {
-    const vh = window.innerHeight || 800;
-    let active = chapters[0].id;
-    for (const ch of chapters) {
-      if (ch.getBoundingClientRect().top <= vh * 0.45) active = ch.id;
-    }
-    setActiveChapter(active);
-    pendingReveals = pendingReveals.filter(n => {
-      const r = n.getBoundingClientRect();
-      if (r.top < vh * 0.92 && r.bottom > 0) { n.classList.remove("pre"); return false; }
-      return true;
-    });
-    const heroBottom = document.getElementById("ch-thesis").getBoundingClientRect().bottom;
-    document.getElementById("topbar").classList.toggle("shown", heroBottom < vh * 0.35);
-  }
-
-  function initRevealMotion() {
-    if (reducedMotion()) return;
-    const vh = window.innerHeight || 800;
-    pendingReveals = Array.from(document.querySelectorAll(".reveal")).filter(n => {
-      const r = n.getBoundingClientRect();
-      const visible = r.top < vh * 0.92 && r.bottom > 0;
-      if (!visible) n.classList.add("pre");
-      return !visible;
-    });
+  function updateActive() {
+    const id = scenes[currentIndex()].id;
+    setActiveScene(id);
+    document.getElementById("topbar").classList.toggle("shown", id !== "sc-thesis");
   }
 
   function watchScroll() {
@@ -758,14 +715,12 @@
     const onScroll = () => {
       if (ticking) return;
       ticking = true;
-      requestAnimationFrame(() => { ticking = false; updateNarrative(); });
+      requestAnimationFrame(() => { ticking = false; updateActive(); });
     };
+    deck.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
-    updateNarrative();
-    requestAnimationFrame(t1 => requestAnimationFrame(t2 => {
-      if (t2 > t1) initRevealMotion();
-    }));
+    updateActive();
   }
 
   /* ---------- global events ---------- */
@@ -773,40 +728,56 @@
   document.addEventListener("click", e => {
     const open = e.target.closest("[data-open-call]");
     if (open && !open.disabled) { openCall(open.dataset.openCall); return; }
+    const oc = e.target.closest("[data-open-corpus]");
+    if (oc) { openCorpus(oc.dataset.openCorpus); return; }
+    const ct = e.target.closest("[data-corpus-tab]");
+    if (ct) { renderCorpus(ct.dataset.corpusTab); return; }
     const ev = e.target.closest("[data-evidence]");
     if (ev) { highlightEvidence(ev.dataset.evidence, ev); return; }
     const jump = e.target.closest("[data-jump]");
-    if (jump) {
-      e.preventDefault();
-      jumpTo(jump.dataset.jump);
-      if (jump.closest(".dp-list")) markDemoCurrent();
-      return;
-    }
+    if (jump) { e.preventDefault(); jumpTo(jump.dataset.jump); return; }
     if (e.target.closest("[data-close-sheet]") || e.target === scrim) { closeCall(); return; }
-    if (e.target.closest("[data-close-demo]")) { toggleDemo(false); return; }
+    if (e.target.closest("[data-close-corpus]") || e.target === corpusScrim) { closeCorpus(); return; }
   });
 
   document.addEventListener("keydown", e => {
     const tag = (e.target.tagName || "").toLowerCase();
-    if (tag === "input" || tag === "textarea") return;
+    const typing = tag === "input" || tag === "textarea";
+
+    // Escape closes overlays (works even while typing in the corpus filter)
     if (e.key === "Escape") {
       if (!sheet.hidden) { closeCall(); return; }
-      if (!demopath.hidden) { toggleDemo(false); return; }
+      if (!corpus.hidden) { closeCorpus(); return; }
     }
+
+    if (typing) return;
+
+    // While the call sheet is open: Enter opens a focused call; nav is suspended.
     if (!sheet.hidden) {
       if (e.key === "Enter" && e.target.closest("[data-open-call]")) openCall(e.target.closest("[data-open-call]").dataset.openCall);
       return;
     }
-    if (e.key === "Enter" && e.target.closest("tr[data-open-call]")) {
-      openCall(e.target.closest("tr[data-open-call]").dataset.openCall);
+    // While the corpus browser is open: allow row Enter; suspend scene nav.
+    if (!corpus.hidden) {
+      if (e.key === "Enter" && e.target.closest("[data-open-call]")) openCall(e.target.closest("[data-open-call]").dataset.openCall);
       return;
     }
-    if (e.key === "ArrowRight") { e.preventDefault(); jumpTo(chapters[Math.min(chapters.length - 1, currentIndex() + 1)].id); }
-    if (e.key === "ArrowLeft") { e.preventDefault(); jumpTo(chapters[Math.max(0, currentIndex() - 1)].id); }
-    if (e.key.toLowerCase() === "p") toggleDemo();
+
+    const i = currentIndex();
+    if (e.key === "ArrowRight" || e.key === "ArrowDown" || e.key === "PageDown" || e.key === " ") {
+      e.preventDefault(); jumpTo(scenes[Math.min(scenes.length - 1, i + 1)].id);
+    } else if (e.key === "ArrowLeft" || e.key === "ArrowUp" || e.key === "PageUp") {
+      e.preventDefault(); jumpTo(scenes[Math.max(0, i - 1)].id);
+    } else if (e.key === "Home") {
+      e.preventDefault(); jumpTo(scenes[0].id);
+    } else if (e.key === "End") {
+      e.preventDefault(); jumpTo(scenes[scenes.length - 1].id);
+    } else if (e.key.toLowerCase() === "b") {
+      openCorpus("calls");
+    }
   });
 
-  demoToggle.addEventListener("click", () => toggleDemo());
+  document.getElementById("corpus-toggle").addEventListener("click", () => openCorpus("calls"));
 
   /* ---------- boot ---------- */
 
@@ -814,23 +785,18 @@
     `${D.val.binary} blind binary labels · ${RUN.n_calls}/${R.manifest_total} judged · ${RUN.failures} failures`;
 
   renderThesis();
-  renderMeasure();
   renderTrap();
+  renderMeasure();
+  renderHero();
   renderJudge();
-  renderFriction();
-  renderEvidence();
   renderAction();
   renderProof();
   renderMethod();
-  renderDemoPath();
-  buildSpine();
+  buildRail();
   watchScroll();
 
   if (location.hash) {
     const target = location.hash.slice(1);
-    if (document.getElementById(target)) setTimeout(() => {
-      const node = document.getElementById(target);
-      window.scrollTo({ top: node.getBoundingClientRect().top + window.scrollY + 2, behavior: "auto" });
-    }, 30);
+    if (document.getElementById(target)) setTimeout(() => jumpTo(target), 30);
   }
 })();

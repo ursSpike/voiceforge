@@ -9,10 +9,12 @@ Routes:
   GET /styles.css
   GET /design_data.js   the GENERATED real-data contract (run pipeline/build_surface.py first)
 
-  GET /platform         the audited operator dashboard (out/dashboard.html, untouched fallback)
-                        PLUS an injected "LIVE TODAY" panel. The panel reads out/live_calls.json
-                        if it exists (another agent builds it on-site); if absent it shows
-                        "No live calls yet — ingest on-site". /platform never blocks on that file.
+  GET /platform         the OPERATOR WORKSPACE (out/platform/, run pipeline/build_platform.py):
+                        fixed call-directory rail (search + filters), Frozen Pilot <-> Live Today
+                        switch, aggregate clusters + individual-call evidence views, live empty
+                        state w/ execution-id command helper. Falls back to the audited
+                        dashboard+live-panel only if out/platform/ is not built.
+  GET /platform/app.js, /platform/styles.css, /platform/platform_data.js  workspace assets.
   GET /platform/live    JSON: out/live_calls.json if present, else {"live": false, "calls": []}
   GET /dashboard.html   the raw audited dashboard, byte-identical, no injection (hard fallback)
 
@@ -33,6 +35,7 @@ from urllib.parse import urlparse
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "out"
 SURFACE = OUT / "surface"
+PLATFORM = OUT / "platform"
 DASHBOARD = OUT / "dashboard.html"
 LIVE_CALLS = OUT / "live_calls.json"
 
@@ -46,6 +49,9 @@ CTYPES = {
 
 # Static files served from out/surface/ for the "/" route.
 SURFACE_FILES = {"index.html", "app.js", "styles.css", "design_data.js"}
+
+# Static files served from out/platform/ for the operator "/platform" route.
+PLATFORM_FILES = {"index.html", "app.js", "styles.css", "platform_data.js"}
 
 
 def _read_live():
@@ -148,6 +154,16 @@ class Surface(BaseHTTPRequestHandler):
         ctype = CTYPES.get(f.suffix, "application/octet-stream")
         return self._send(200, f.read_bytes(), ctype)
 
+    def _send_platform_file(self, name):
+        f = PLATFORM / name
+        if not f.is_file():
+            return self._send(
+                404,
+                f"{name} not found in out/platform/. Run: python3 pipeline/build_platform.py",
+            )
+        ctype = CTYPES.get(f.suffix, "application/octet-stream")
+        return self._send(200, f.read_bytes(), ctype)
+
     def do_GET(self):
         p = urlparse(self.path).path
 
@@ -159,13 +175,23 @@ class Surface(BaseHTTPRequestHandler):
         if name in SURFACE_FILES:
             return self._send_surface_file(name)
 
-        # ---- route: /platform (dashboard + live today) ----
-        if p == "/platform" or p == "/platform/":
-            if not DASHBOARD.exists():
-                return self._send(404, "out/dashboard.html missing")
-            return self._send(200, _platform_html(), CTYPES[".html"])
+        # ---- route: /platform (operator workspace, out/platform/) ----
+        # /platform/live MUST be checked before generic /platform/<asset>.
         if p == "/platform/live":
             return self._send(200, json.dumps(_read_live()), CTYPES[".json"])
+        if p == "/platform" or p == "/platform/":
+            # Prefer the real operator workspace; fall back to the audited
+            # dashboard+live-panel if the workspace hasn't been built yet.
+            if (PLATFORM / "index.html").is_file():
+                return self._send_platform_file("index.html")
+            if DASHBOARD.exists():
+                return self._send(200, _platform_html(), CTYPES[".html"])
+            return self._send(404, "out/platform/ not built and out/dashboard.html missing")
+        # platform static assets: /platform/app.js, /platform/styles.css, /platform/platform_data.js
+        if p.startswith("/platform/"):
+            asset = p[len("/platform/"):]
+            if asset in PLATFORM_FILES:
+                return self._send_platform_file(asset)
 
         # ---- hard fallback: untouched audited dashboard ----
         if p == "/dashboard.html":
